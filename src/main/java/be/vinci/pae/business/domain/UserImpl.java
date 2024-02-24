@@ -1,4 +1,4 @@
-package be.vinci.pae.main.domain;
+package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

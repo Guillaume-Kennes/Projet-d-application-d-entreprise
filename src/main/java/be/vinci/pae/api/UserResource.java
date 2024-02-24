@@ -1,7 +1,8 @@
-package be.vinci.pae.main.api;
+package be.vinci.pae.api;
 
-import be.vinci.pae.main.domain.User;
-import be.vinci.pae.main.services.UserDataService;
+import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.dal.UserDAO;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
@@ -10,18 +11,21 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
+                        //JWT TOKENS ICI
 
 @Singleton
 @Path("/users")
 public class UserResource {
 
   @Inject
-  private UserDataService myUserDataService;
+  private UserUCC userUCC;
+
+
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public List<User> getAll() {
-    return myUserDataService.getAll();
+    return userUCC.getAll();
   }
 
 }

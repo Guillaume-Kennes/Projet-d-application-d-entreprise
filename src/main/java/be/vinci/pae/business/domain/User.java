@@ -1,9 +1,9 @@
-package be.vinci.pae.main.domain;
+package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as = UserImpl.class)
-public interface User {
+public interface User implements UserDTO {
 
   String getLogin();
 

@@ -1,13 +1,11 @@
-package be.vinci.pae.main.services;
+package be.vinci.pae.dal;
 
-import be.vinci.pae.main.domain.DomainFactory;
-import be.vinci.pae.main.domain.DomainFactoryImpl;
-import be.vinci.pae.main.domain.User;
-import be.vinci.pae.main.utils.Config;
-import com.auth0.jwt.JWT;
+import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.business.domain.DomainFactoryImpl;
+import be.vinci.pae.business.domain.User;
+import be.vinci.pae.utils.Config;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDataServiceImpl implements UserDataService {
+public class UserDAOImpl implements UserDAO {
 
   private static DomainFactory domainFactory = new DomainFactoryImpl();
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
@@ -30,7 +28,7 @@ public class UserDataServiceImpl implements UserDataService {
   private Connection connection;
   private PreparedStatement viewAllUsers;
 
-  public UserDataServiceImpl() {
+  public UserDAOImpl() {
     try {
       connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
       viewAllUsers = connection.prepareStatement("SELECT * FROM pae.utilisateurs");
