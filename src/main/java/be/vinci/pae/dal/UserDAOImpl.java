@@ -27,11 +27,13 @@ public class UserDAOImpl implements UserDAO {
 
   private Connection connection;
   private PreparedStatement viewAllUsers;
+  private PreparedStatement login;
 
   public UserDAOImpl() {
     try {
       connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
       viewAllUsers = connection.prepareStatement("SELECT * FROM pae.utilisateurs");
+      login = connection.prepareStatement("SELECT id, nom, prenom, email, telephone, date_inscription, role FROM pae.utilisateurs WHERE email = ?");
 
     } catch (SQLException e) {
       System.out.println("Impossible de joindre le server !");
