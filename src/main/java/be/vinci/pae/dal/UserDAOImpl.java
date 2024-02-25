@@ -45,7 +45,7 @@ public class UserDAOImpl implements UserDAO {
       while (resultSet.next()) {
 
         User user = domainFactory.getUser();
-        user.setLogin(resultSet.getString("email"));
+        user.setEmail(resultSet.getString("email"));
         usersList.add(user);
 
       }
