@@ -1,9 +1,20 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.domain.UserDTO;
 import java.util.List;
 
 public interface UserDAO {
 
-  List<User> getAll();
+  /**
+   * @param
+   * @return
+   */
+  UserDTO getUserByEmail(String email);
+
+  /**
+   *
+   * @return
+   */
+  List<UserDTO> getAllUsers();
 }
