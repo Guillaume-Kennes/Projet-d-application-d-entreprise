@@ -12,9 +12,12 @@ public interface UserDAO {
    */
   UserDTO getUserByEmail(String email);
 
+
+
+
   /**
-   *
+   * @param
    * @return
    */
-  List<UserDTO> getAllUsers();
+  UserDTO login(String email, String password);
 }

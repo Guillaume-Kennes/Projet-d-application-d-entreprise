@@ -1,9 +1,6 @@
 DROP SCHEMA IF EXISTS pae CASCADE;
 CREATE SCHEMA pae;
 
-DROP TYPE IF EXISTS roles;
-CREATE TYPE roles AS ENUM ('étudiant', 'prof', 'administrateur');
-
 CREATE TABLE pae.utilisateurs(
                                  id_utilisateur SERIAL PRIMARY KEY,
                                  email VARCHAR(30) NOT NULL,
@@ -12,7 +9,7 @@ CREATE TABLE pae.utilisateurs(
                                  prenom VARCHAR(50) NOT NULL,
                                  telephone CHAR(13),
                                  date_inscription DATE NOT NULL,
-                                 role roles NOT NULL
+                                 role NOT NULL IN ('étudiant', 'professeur', 'administratif');
 );
 
 

@@ -1,6 +1,7 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import jakarta.inject.Inject;
@@ -21,10 +22,9 @@ public class UserResource {
   private UserUCC userUCC;
 
 
-
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public List<User> getAll() {
+  public List<UserDTO> getAll() {
     return userUCC.getAll();
   }
 

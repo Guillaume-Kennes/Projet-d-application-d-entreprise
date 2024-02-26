@@ -3,6 +3,7 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.DomainFactoryImpl;
 import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,9 +18,8 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
-  private static DomainFactory domainFactory = new DomainFactoryImpl();
-  private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
-  private final ObjectMapper jsonMapper = new ObjectMapper();
+  //private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
+  //private final ObjectMapper jsonMapper = new ObjectMapper();
 
   String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbkawtar_dahman?user=kawtar_dahman";
   @Inject
@@ -41,20 +41,36 @@ public class UserDAOImpl implements UserDAO {
     }
   }
 
-  public List<User> getAll(){
-    List<User> usersList = new ArrayList<>();
-    try (ResultSet resultSet = viewAllUsers.executeQuery()) {
-      while (resultSet.next()) {
-
-        User user = domainFactory.getUser();
-        user.setEmail(resultSet.getString("email"));
-        usersList.add(user);
-
-      }
-    } catch (Exception e) {
-      System.exit(1);
-    }
-    return usersList;
+  /**
+   *
+   * @param email
+   * @return
+   */
+  public UserDTO getUserByEmail(String email){
+    return null;
   }
 
+
+
+  /**
+   *
+   *
+   * @param email
+   * @param password
+   *
+   * @return
+   */
+  public UserDTO login(String email, String password){
+    UserDTO userDTO = getUserByEmail(email);
+    try{
+      login.setString(1,"email");
+    }catch(SQLException e){
+      System.out.println("Connection failed.");
+      System.exit(1);
+    }try(ResultSet resultSet = login.executeQuery()){
+        if(resultSet.next()){
+
+        }
+    }
+  }
 }

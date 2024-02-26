@@ -1,5 +1,6 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.UserDAO;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -28,7 +29,7 @@ public class AuthsResource {
     String password = json.get("password").asText();
 
     // Try to login
-    ObjectNode publicUser = myUserDAO.login(login, password);
+    UserDTO publicUser = myUserDAO.login(login, password);
     if (publicUser == null) {
       throw new WebApplicationException("Login or password incorrect", Response.Status.UNAUTHORIZED);
     }
