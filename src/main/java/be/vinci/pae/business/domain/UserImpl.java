@@ -15,8 +15,7 @@ class UserImpl implements User {
   private String prenom;
 
   @Override
-<<<<<<< HEAD
-=======
+
   public String getEmail() {
     return email;
   }
@@ -27,7 +26,6 @@ class UserImpl implements User {
   }
 
   @Override
->>>>>>> 4811fccfeb4df4d53b959ce47e93a56ce551ec4f
   public int getId() {
     return id;
   }
@@ -37,16 +35,6 @@ class UserImpl implements User {
     this.id = id;
   }
 
-
-  @Override
-  public String getEmail() {
-    return email;
-  }
-
-  @Override
-  public void setEmail(String email) {
-    this.email = email;
-  }
 
   @Override
   public String getPassword() {
@@ -70,11 +58,7 @@ class UserImpl implements User {
 
   @Override
   public String toString() {
-<<<<<<< HEAD
-    return "{id:" + id + ", email:" + email + ", password:" + password + "}";
-=======
     return "{id:" + id + ", login:" + email + ", password:" + password + "}";
->>>>>>> 4811fccfeb4df4d53b959ce47e93a56ce551ec4f
   }
 
 }
