@@ -24,22 +24,6 @@ public class UserDAOImpl implements UserDAO {
   @Inject
   private DALServices dalServices;
 
-
-  public List<UserDTO> getAll(){
-    /**
-     String sql_query = "SELECT * FROM pae.utilisateurs";
-     List<UserDTO> usersList = new ArrayList<>();
-     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)) {
-     usersList.add(preparedStatement.)
-
-     } catch (Exception e) {
-     e.printStackTrace();
-     }
-     return usersList;
-     */
-    return null;
-  }
-
   public UserDTO getUserByEmail(String email){
 
     String sql_query = "SELECT * FROM pae.utilisateurs u WHERE u.email = ?";
@@ -47,12 +31,7 @@ public class UserDAOImpl implements UserDAO {
     try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)){
       preparedStatement.setString(1, email);
       ResultSet rs = preparedStatement.executeQuery();
-
       if(rs.next()){
-
-
-
-
 
 
         rs.close();

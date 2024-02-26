@@ -8,5 +8,4 @@ public interface UserDAO {
 
   UserDTO getUserByEmail(String email);
 
-  List<UserDTO> getAll();
 }

@@ -8,8 +8,7 @@ import org.mindrot.jbcrypt.BCrypt;
 class UserImpl implements User {
 
   private int id;
-
-  private String login;
+  private String email;
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 
   private String password;
@@ -18,13 +17,13 @@ class UserImpl implements User {
   private String prenom;
 
   @Override
-  public String getLogin() {
-    return login;
+  public String getEmail() {
+    return email;
   }
 
   @Override
-  public void setLogin(String login) {
-    this.login = login;
+  public void setEmail(String email) {
+    this.email = email;
   }
 
   @Override
@@ -59,7 +58,7 @@ class UserImpl implements User {
 
   @Override
   public String toString() {
-    return "{id:" + id + ", login:" + login + ", password:" + password + "}";
+    return "{id:" + id + ", login:" + email + ", password:" + password + "}";
   }
 
 }
