@@ -27,7 +27,7 @@ public class AuthsResource {
     String login = json.get("login").asText();
     String password = json.get("password").asText();
 
-    // Try to login
+    // Try to log in
     UserDTO publicUser = myUserUCC.login(login, password);
     if (publicUser == null) {
       throw new WebApplicationException("Login or password incorrect", Response.Status.UNAUTHORIZED);

@@ -11,8 +11,8 @@ class UserImpl implements User {
   private String email;
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
-  private String nom;
-  private String prenom;
+  private String lastName;
+  private String firstName;
 
   @Override
 
@@ -44,6 +44,26 @@ class UserImpl implements User {
   @Override
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  @Override
+  public String getLastName() {
+    return this.lastName;
+  }
+
+  @Override
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
+
+  @Override
+  public String getFirstName() {
+    return this.firstName;
+  }
+
+  @Override
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
   }
 
   @Override

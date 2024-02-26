@@ -1,28 +1,35 @@
 package be.vinci.pae.api;
-import be.vinci.pae.business.domain.User;
-import be.vinci.pae.business.ucc.UserUCC;
+
+import be.vinci.pae.api.filters.Authorize;
+import be.vinci.pae.business.domain.UserDTO;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import java.util.List;
+import org.apache.log4j.Logger;
+import org.glassfish.jersey.server.ContainerRequest;
 
-                        //JWT TOKENS ICI
+//JWT TOKENS ICI
 
 @Singleton
 @Path("/users")
 public class UserResource {
 
   @Inject
-  private UserUCC userUCC;
-
-
+  private Logger logger;
+  @Path("/me")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public List<User> getAll() {
-    return null;
+  @Authorize
+  public UserDTO getUserWithToken(@Context ContainerRequest request) {
+
+    UserDTO authenticatedUser = (UserDTO) request.getProperty("user");
+    logger.info("Token de " + authenticatedUser.getFirstName() + " " + authenticatedUser.getLastName());
+
+    return authenticatedUser;
   }
 
 }
