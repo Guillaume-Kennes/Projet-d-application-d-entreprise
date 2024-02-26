@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.business.domain.User;
 import java.util.List;
 
 public interface UserUCC {
@@ -16,8 +17,4 @@ public interface UserUCC {
   UserDTO login(String email, String password);
 
 
-  /**
-   * @return a list of all users
-   */
-  List<UserDTO> getAll();
 }

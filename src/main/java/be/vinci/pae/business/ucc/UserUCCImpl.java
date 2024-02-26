@@ -21,13 +21,5 @@ public class UserUCCImpl implements UserUCC {
     return null;
   }
 
-  /**
-   *
-   *
-   * @return a list of all users
-   */
-  public List<UserDTO> getAll(){
-    return userDAO.getAllUsers();
-  }
 
 }

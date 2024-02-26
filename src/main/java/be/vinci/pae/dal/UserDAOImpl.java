@@ -8,6 +8,7 @@ import be.vinci.pae.utils.Config;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,49 +29,43 @@ public class UserDAOImpl implements UserDAO {
   private Connection connection;
   private PreparedStatement viewAllUsers;
   private PreparedStatement login;
+  @Inject
+  private DALServices dalServices;
 
   public UserDAOImpl() {
     try {
       connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
       viewAllUsers = connection.prepareStatement("SELECT * FROM pae.utilisateurs");
-      login = connection.prepareStatement("SELECT id, nom, prenom, email, telephone, date_inscription, role FROM pae.utilisateurs WHERE email = ?");
-
     } catch (SQLException e) {
-      System.out.println("Impossible de joindre le server !");
+      System.out.println("Impossible de joindre le serveur !");
       System.exit(1);
     }
   }
 
-  /**
-   *
-   * @param email
-   * @return
-   */
-  public UserDTO getUserByEmail(String email){
-    return null;
-  }
 
+    /**
+     *
+     * @param email
+     * @return
+     */
+    public UserDTO getUserByEmail(String email){
 
+      String sql_query = "SELECT * FROM pae.utilisateurs u WHERE u.email = ?";
+      UserDTO user = myDomainFactory.getUser();
+      try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)){
+        preparedStatement.setString(1, email);
+        ResultSet rs = preparedStatement.executeQuery();
 
-  /**
-   *
-   *
-   * @param email
-   * @param password
-   *
-   * @return
-   */
-  public UserDTO login(String email, String password){
-    UserDTO userDTO = getUserByEmail(email);
-    try{
-      login.setString(1,"email");
-    }catch(SQLException e){
-      System.out.println("Connection failed.");
-      System.exit(1);
-    }try(ResultSet resultSet = login.executeQuery()){
-        if(resultSet.next()){
-
+        if(rs.next()){
+          rs.close();
+          preparedStatement.close();
+        } else {
+          System.out.println("Linfo n'a pas étét trouvé");
         }
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+      return user;
     }
+
   }
-}
