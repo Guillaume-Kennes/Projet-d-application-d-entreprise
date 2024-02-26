@@ -27,15 +27,12 @@ public class UserDAOImpl implements UserDAO {
   private DomainFactory myDomainFactory;
 
   private Connection connection;
-  private PreparedStatement viewAllUsers;
-  private PreparedStatement login;
   @Inject
   private DALServices dalServices;
 
   public UserDAOImpl() {
     try {
       connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
-      viewAllUsers = connection.prepareStatement("SELECT * FROM pae.utilisateurs");
     } catch (SQLException e) {
       System.out.println("Impossible de joindre le serveur !");
       System.exit(1);
