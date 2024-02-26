@@ -22,7 +22,6 @@ public class UserDAOImpl implements UserDAO {
   //private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   //private final ObjectMapper jsonMapper = new ObjectMapper();
 
-  String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbkawtar_dahman?user=kawtar_dahman";
   @Inject
   private DomainFactory myDomainFactory;
 
@@ -31,12 +30,6 @@ public class UserDAOImpl implements UserDAO {
   private DALServices dalServices;
 
   public UserDAOImpl() {
-    try {
-      connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
-    } catch (SQLException e) {
-      System.out.println("Impossible de joindre le serveur !");
-      System.exit(1);
-    }
   }
 
 
