@@ -3,10 +3,12 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.DomainFactoryImpl;
 import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,43 +18,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
-
-  private static DomainFactory domainFactory = new DomainFactoryImpl();
-  private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
-  private final ObjectMapper jsonMapper = new ObjectMapper();
-
-  String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbkawtar_dahman?user=kawtar_dahman";
   @Inject
   private DomainFactory myDomainFactory;
 
-  private Connection connection;
-  private PreparedStatement viewAllUsers;
+  @Inject
+  private DALServices dalServices;
 
-  public UserDAOImpl() {
-    try {
-      connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
-      viewAllUsers = connection.prepareStatement("SELECT * FROM pae.utilisateurs");
 
-    } catch (SQLException e) {
-      System.out.println("Impossible de joindre le server !");
-      System.exit(1);
-    }
+  public List<UserDTO> getAll(){
+    /**
+     String sql_query = "SELECT * FROM pae.utilisateurs";
+     List<UserDTO> usersList = new ArrayList<>();
+     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)) {
+     usersList.add(preparedStatement.)
+
+     } catch (Exception e) {
+     e.printStackTrace();
+     }
+     return usersList;
+     */
+    return null;
   }
 
-  public List<User> getAll(){
-    List<User> usersList = new ArrayList<>();
-    try (ResultSet resultSet = viewAllUsers.executeQuery()) {
-      while (resultSet.next()) {
+  public UserDTO getUserByEmail(String email){
 
-        User user = domainFactory.getUser();
-        user.setLogin(resultSet.getString("email"));
-        usersList.add(user);
+    String sql_query = "SELECT * FROM pae.utilisateurs u WHERE u.email = ?";
+    UserDTO user = myDomainFactory.getUser();
+    try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)){
+      preparedStatement.setString(1, email);
+      ResultSet rs = preparedStatement.executeQuery();
 
+      if(rs.next()){
+
+
+
+
+
+
+        rs.close();
+        preparedStatement.close();
+      } else {
+        System.out.println("Linfo n'a pas étét trouvé");
       }
-    } catch (Exception e) {
-      System.exit(1);
+
+
+    }catch (Exception e){
+      e.printStackTrace();
     }
-    return usersList;
+    return user;
   }
 
 }
