@@ -48,4 +48,12 @@ public interface UserDTO {
    */
   void setPassword(String password);
 
+  String getLastName();
+
+  void setLastName(String lastName);
+
+  String getFirstName();
+
+  void setFirstName(String firstName);
+
 }
