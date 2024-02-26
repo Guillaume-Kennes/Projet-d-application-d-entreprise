@@ -4,19 +4,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.mindrot.jbcrypt.BCrypt;
 
-@JsonInclude(JsonInclude.Include.NON_DEFAULT) // ignore all null fields in order to avoid sending props not linked to a JSON view
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 class UserImpl implements User {
 
   private int id;
   private String email;
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-
   private String password;
-
   private String nom;
   private String prenom;
 
   @Override
+
   public String getEmail() {
     return email;
   }
@@ -35,6 +34,7 @@ class UserImpl implements User {
   public void setId(int id) {
     this.id = id;
   }
+
 
   @Override
   public String getPassword() {

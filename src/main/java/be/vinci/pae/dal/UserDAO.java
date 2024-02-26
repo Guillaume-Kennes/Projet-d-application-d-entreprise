@@ -6,6 +6,11 @@ import java.util.List;
 
 public interface UserDAO {
 
+  /**
+   * @param
+   * @return
+   */
   UserDTO getUserByEmail(String email);
 
 }
+

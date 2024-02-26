@@ -18,30 +18,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
+
+  //private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
+  //private final ObjectMapper jsonMapper = new ObjectMapper();
+
+  String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbkawtar_dahman?user=kawtar_dahman";
   @Inject
   private DomainFactory myDomainFactory;
 
+  private Connection connection;
   @Inject
   private DALServices dalServices;
 
-  public UserDTO getUserByEmail(String email){
+  public UserDAOImpl() {
+    try {
+      connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
+    } catch (SQLException e) {
+      System.out.println("Impossible de joindre le serveur !");
+      System.exit(1);
+    }
+  }
+
+
+  /**
+   * @param email
+   * @return
+   */
+  public UserDTO getUserByEmail(String email) {
 
     String sql_query = "SELECT * FROM pae.utilisateurs u WHERE u.email = ?";
     UserDTO user = myDomainFactory.getUser();
-    try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)){
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)) {
       preparedStatement.setString(1, email);
       ResultSet rs = preparedStatement.executeQuery();
-      if(rs.next()){
 
-
+      if (rs.next()) {
         rs.close();
         preparedStatement.close();
       } else {
         System.out.println("Linfo n'a pas étét trouvé");
       }
-
-
-    }catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return user;

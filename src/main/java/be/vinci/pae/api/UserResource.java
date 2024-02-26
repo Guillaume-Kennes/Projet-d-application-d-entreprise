@@ -1,6 +1,7 @@
 package be.vinci.pae.api;
-
 import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.ucc.UserUCC;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
@@ -13,6 +14,10 @@ import java.util.List;
 @Singleton
 @Path("/users")
 public class UserResource {
+
+  @Inject
+  private UserUCC userUCC;
+
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)

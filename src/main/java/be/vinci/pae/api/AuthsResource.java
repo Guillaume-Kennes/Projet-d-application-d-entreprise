@@ -27,13 +27,12 @@ public class AuthsResource {
     String login = json.get("login").asText();
     String password = json.get("password").asText();
 
-    // Try to log
+    // Try to login
     UserDTO publicUser = myUserUCC.login(login, password);
     if (publicUser == null) {
       throw new WebApplicationException("Login or password incorrect", Response.Status.UNAUTHORIZED);
     }
     return publicUser;
-
   }
 
 }
