@@ -24,7 +24,7 @@ public class UserResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public List<UserDTO> getAll() {
+  public List<User> getAll() {
     return null;
   }
 

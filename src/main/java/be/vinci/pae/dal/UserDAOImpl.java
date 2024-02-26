@@ -43,29 +43,28 @@ public class UserDAOImpl implements UserDAO {
   }
 
 
-    /**
-     *
-     * @param email
-     * @return
-     */
-    public UserDTO getUserByEmail(String email){
+  /**
+   * @param email
+   * @return
+   */
+  public UserDTO getUserByEmail(String email) {
 
-      String sql_query = "SELECT * FROM pae.utilisateurs u WHERE u.email = ?";
-      UserDTO user = myDomainFactory.getUser();
-      try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)){
-        preparedStatement.setString(1, email);
-        ResultSet rs = preparedStatement.executeQuery();
+    String sql_query = "SELECT * FROM pae.utilisateurs u WHERE u.email = ?";
+    UserDTO user = myDomainFactory.getUser();
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)) {
+      preparedStatement.setString(1, email);
+      ResultSet rs = preparedStatement.executeQuery();
 
-        if(rs.next()){
-          rs.close();
-          preparedStatement.close();
-        } else {
-          System.out.println("Linfo n'a pas étét trouvé");
-        }
-      }catch (Exception e){
-        e.printStackTrace();
+      if (rs.next()) {
+        rs.close();
+        preparedStatement.close();
+      } else {
+        System.out.println("Linfo n'a pas étét trouvé");
       }
-      return user;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-
+    return user;
   }
+
+}

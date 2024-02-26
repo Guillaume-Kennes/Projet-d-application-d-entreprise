@@ -35,7 +35,6 @@ public class AuthsResource {
       throw new WebApplicationException("Login or password incorrect", Response.Status.UNAUTHORIZED);
     }
     return publicUser;
-
   }
 
 }
