@@ -2,6 +2,7 @@ package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -13,6 +14,20 @@ class UserImpl implements User {
   private String password;
   private String lastName;
   private String firstName;
+  private String phoneNumber;
+  private Date registrationDate;
+  private String role;
+
+
+  @Override
+  public int getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(int id) {
+    this.id = id;
+  }
 
   @Override
 
@@ -23,16 +38,6 @@ class UserImpl implements User {
   @Override
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  @Override
-  public int getId() {
-    return id;
-  }
-
-  @Override
-  public void setId(int id) {
-    this.id = id;
   }
 
 
@@ -64,6 +69,37 @@ class UserImpl implements User {
   @Override
   public void setFirstName(String firstName) {
     this.firstName = firstName;
+  }
+
+
+  @Override
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  @Override
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  @Override
+  public Date getRegistrationDate() {
+    return registrationDate;
+  }
+
+  @Override
+  public void setRegistrationDate(Date registrationDate) {
+    this.registrationDate = registrationDate;
+  }
+
+  @Override
+  public String getRole() {
+    return role;
+  }
+
+  @Override
+  public void setRole(String role) {
+    this.role = role;
   }
 
   @Override
