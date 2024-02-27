@@ -96,6 +96,7 @@ async function onLogin(e) {
   };
 
   const response = await fetch(`${process.env.API_BASE_URL}/auths/login`, options);
+  console.log("JE SUIS ICI !!!!!!!!!!!")
 
   if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
 
