@@ -1,9 +1,9 @@
 package be.vinci.pae.business.ucc;
 
+import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.UserDAO;
 import jakarta.inject.Inject;
-import java.util.List;
 
 public class UserUCCImpl implements UserUCC {
   @Inject
@@ -18,8 +18,12 @@ public class UserUCCImpl implements UserUCC {
    * @return
    */
   public UserDTO login(String email, String password){
-    return null;
+    User userFound = (User) userDAO.getUserByEmail(email);
+
+    if(userFound == null || !userFound.checkPassword(password)) {
+      throw new IllegalArgumentException("Incorrect Email or Password");
+    }
+
+    return userFound;
   }
-
-
 }
