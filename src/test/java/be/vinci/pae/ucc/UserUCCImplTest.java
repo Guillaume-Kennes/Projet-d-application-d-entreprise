@@ -1,4 +1,4 @@
-package be.vinci.pae;
+package be.vinci.pae.ucc;
 import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.ucc.UserUCCImpl;
 import be.vinci.pae.dal.UserDAO;
