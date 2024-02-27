@@ -40,4 +40,5 @@ public class UserUCCImplTest {
       userUCC.login("chuqi.chups@student.vinci.be", "wrongpassword");
     });
   }
+
 }

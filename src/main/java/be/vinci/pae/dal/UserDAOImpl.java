@@ -2,9 +2,9 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UserDTO;
 import jakarta.inject.Inject;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 
 
 public class UserDAOImpl implements UserDAO {
@@ -22,8 +22,8 @@ public class UserDAOImpl implements UserDAO {
 
 
   /**
-   * @param email
-   * @return
+   * @param email the user's email
+   * @return user the corresponding user
    */
   public UserDTO getUserByEmail(String email) {
 
@@ -58,12 +58,12 @@ public class UserDAOImpl implements UserDAO {
         user.setLastName(lastName);
         user.setFirstName(firstName);
         user.setPhoneNumber(phone);
-        user.setRegistration_date(registration_date);
+        user.setRegistration_date(LocalDate.parse(registration_date));
         user.setRole(role);
         rs.close();
         preparedStatement.close();
       } else {
-        System.out.println("L'info n'a pas été trouvé");
+        System.out.println("L'info n'a pas été trouvée");
       }
     } catch (Exception e) {
       e.printStackTrace();

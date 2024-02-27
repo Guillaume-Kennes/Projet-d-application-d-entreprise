@@ -11,6 +11,11 @@ public class DALServicesImpl implements DALServices {
   }
 
   @Override
+  /**
+   *
+   * @param sql the query
+   * @return stmt a prepared statement
+   */
   public PreparedStatement getPreparedStatement(String sql) {
     PreparedStatement stmt = null;
     String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbkawtar_dahman?user=kawtar_dahman";

@@ -11,7 +11,7 @@ public interface DALServices {
   /**
    *
    * @param sql query
-   * @return
+   * @return a prepared statement
    */
   PreparedStatement getPreparedStatement(String sql);
 }
