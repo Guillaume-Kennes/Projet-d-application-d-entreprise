@@ -10,7 +10,7 @@ class UserImpl implements User {
 
   private int id;
   private String email;
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
   private String lastName;
   private String firstName;
@@ -18,6 +18,8 @@ class UserImpl implements User {
   private Date registrationDate;
   private String role;
 
+  public UserImpl() {
+  }
 
   @Override
   public int getId() {

@@ -1,4 +1,10 @@
 @baseUrl = http://localhost:8080
 
-### Read all users
-GET {{baseUrl}}/users
+### Login an user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "login":"chuqi.chups@student.vinci.be",
+  "password":"Azertyui1_"
+}

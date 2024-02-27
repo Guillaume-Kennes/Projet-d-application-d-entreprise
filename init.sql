@@ -13,4 +13,4 @@ CREATE TABLE pae.users(
 );
 
 
-INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role) VALUES ('chuqi.chups@student.vinci.be', 'Azertyui1_', 'chuqi', 'chups', '04 666 666 66', CURRENT_DATE, 'étudiant');
+INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role) VALUES ('chuqi.chups@student.vinci.be', '$2a$10$3an9aQhFzbmHXVAqS4/o4OYicVWoR/OJBVOZ0052Fhm3T5ycz1MKu', 'chuqi', 'chups', '04 666 666 66', CURRENT_DATE, 'étudiant');

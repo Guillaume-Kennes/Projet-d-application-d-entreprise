@@ -19,18 +19,12 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
-  //private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
-  //private final ObjectMapper jsonMapper = new ObjectMapper();
 
   @Inject
   private DomainFactory myDomainFactory;
 
-  private Connection connection;
   @Inject
   private DALServices dalServices;
-
-  public UserDAOImpl() {
-  }
 
 
   /**
@@ -39,22 +33,44 @@ public class UserDAOImpl implements UserDAO {
    */
   public UserDTO getUserByEmail(String email) {
 
-    String sql_query = "SELECT * FROM pae.utilisateurs u WHERE u.email = ?";
-    UserDTO user = myDomainFactory.getUser();
-    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)) {
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.users u WHERE u.email = ?");
+    try {
       preparedStatement.setString(1, email);
-      ResultSet rs = preparedStatement.executeQuery();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
 
-      if (rs.next()) {
-        rs.close();
-        preparedStatement.close();
-      } else {
-        System.out.println("Linfo n'a pas étét trouvé");
+    UserDTO user = myDomainFactory.getUser();
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+
+      if (resultSet.next()) {
+        return userInfos(resultSet);
       }
+
     } catch (Exception e) {
-      e.printStackTrace();
+      System.out.println(e.getMessage());
+      System.exit(1);
+    } finally {
+      try {
+        preparedStatement.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
     }
     return user;
+  }
+
+  public UserDTO userInfos(ResultSet resultSet) throws SQLException {
+    UserDTO userDTO = myDomainFactory.getUser();
+
+    userDTO.setId(resultSet.getInt("id_user"));
+    userDTO.setLastName(resultSet.getString("last_name"));
+    userDTO.setFirstName(resultSet.getString("first_name"));
+    userDTO.setEmail(resultSet.getString("email"));
+    userDTO.setPassword(resultSet.getString("password"));
+
+    return userDTO;
   }
 
 }

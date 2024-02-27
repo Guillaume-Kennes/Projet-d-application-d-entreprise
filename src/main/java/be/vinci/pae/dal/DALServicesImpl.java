@@ -7,28 +7,25 @@ import java.sql.SQLException;
 
 public class DALServicesImpl implements DALServices {
 
-  public DALServicesImpl() {
-  }
+  String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbkawtar_dahman?user=kawtar_dahman";
+  private Connection connection;
 
-  @Override
-  public PreparedStatement getPreparedStatement(String sql) {
-    PreparedStatement stmt = null;
-    String url = "jdbc:postgresql://coursinfo.vinci.be:5432/dbkawtar_dahman?user=kawtar_dahman";
-    Connection connection = null;
-    try{
+  public DALServicesImpl() {
+    try {
       connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
     } catch (SQLException e){
-      e.printStackTrace();
+      System.out.println("Unable to connect to database" + e.getMessage());
     }
+  }
 
+  public Connection getConnection() { return this.connection;}
 
+  public PreparedStatement getPreparedStatement(String sql) {
     try {
-      stmt = connection.prepareStatement(sql);
-      return stmt;
-    } catch (SQLException e){
-      e.printStackTrace();
-      System.exit(1);
+      return this.connection.prepareStatement(sql);
+    } catch (SQLException e) {
+      System.out.println("Error while preparing the statement" + e.getMessage());
+      return null;
     }
-    return stmt;
   }
 }
