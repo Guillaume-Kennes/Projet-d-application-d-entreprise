@@ -1,43 +1,61 @@
-package be.vinci.pae;
-import be.vinci.pae.business.domain.User;
-import be.vinci.pae.business.ucc.UserUCCImpl;
-import be.vinci.pae.dal.UserDAO;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.dal.UserDAO;
+import jakarta.ws.rs.WebApplicationException;
+import org.glassfish.hk2.api.Factory;
+import org.glassfish.hk2.utilities.binding.AbstractBinder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+@DisplayName("UserUCCImpl Tests")
 public class UserUCCImplTest {
+
   private UserUCCImpl userUCC;
   private UserDAO userDAO;
-  private User user;
 
   @BeforeEach
-  public void setUp() {
-    userDAO = Mockito.mock(UserDAO.class);
-    user = Mockito.mock(User.class);
+  void setUp() {
+    userDAO = mock(UserDAO.class);
     userUCC = new UserUCCImpl();
+    userUCC.setUserDAO(userDAO);
   }
 
   @Test
-  public void testLoginSuccess() {
-    when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(user);
-    when(user.checkPassword("Azertyui1_")).thenReturn(true);
+  @DisplayName("Login with valid user")
+  void testLoginValidUser() {
+    // Arrange
+    String email = "test@example.com";
+    String password = "secret";
+    User user = new User();
+    user.setEmail(email);
+    user.setPassword(password);
 
-    User result = (User) userUCC.login("chuqi.chups@student.vinci.be", "Azertyui1_");
+    // Stub the behavior of getUserByEmail
+    when(userDAO.getUserByEmail(email)).thenReturn(user);
 
-    assertEquals(user, result);
+    // Act
+    UserDTO result = userUCC.login(email, password);
+
+    // Assert
+    assertNotNull(result);
+    assertEquals(email, result.getEmail());
   }
 
   @Test
-  public void testLoginFailure() {
-    when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(user);
-    when(user.checkPassword("wrongpassword")).thenReturn(false);
+  @DisplayName("Login with invalid user")
+  void testLoginInvalidUser() {
+    // Arrange
+    String email = "test@example.com";
+    String password = "wrongpassword";
 
-    assertThrows(IllegalArgumentException.class, () -> {
-      userUCC.login("chuqi.chups@student.vinci.be", "wrongpassword");
-    });
+    // Stub the behavior of getUserByEmail
+    when(userDAO.getUserByEmail(email)).thenReturn(null);
+
+    // Act and Assert
+    assertThrows(WebApplicationException.class, () -> userUCC.login(email, password));
   }
 }
