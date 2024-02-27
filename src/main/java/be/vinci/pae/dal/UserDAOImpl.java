@@ -1,21 +1,11 @@
 package be.vinci.pae.dal;
-
 import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.DomainFactoryImpl;
-import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
-import be.vinci.pae.utils.Config;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class UserDAOImpl implements UserDAO {
 
@@ -24,8 +14,6 @@ public class UserDAOImpl implements UserDAO {
 
   @Inject
   private DomainFactory myDomainFactory;
-
-  private Connection connection;
   @Inject
   private DALServices dalServices;
 
@@ -39,17 +27,43 @@ public class UserDAOImpl implements UserDAO {
    */
   public UserDTO getUserByEmail(String email) {
 
-    String sql_query = "SELECT * FROM pae.utilisateurs u WHERE u.email = ?";
+    String sql_query =
+    """
+    SELECT u.id_user,
+    u.email,
+    u.password,
+    u.last_name,
+    u.first_name,
+    u.phone_number,
+    u.registration_date,
+    u.role
+    FROM pae.users u WHERE u.email = ?
+    """;
     UserDTO user = myDomainFactory.getUser();
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(sql_query)) {
       preparedStatement.setString(1, email);
       ResultSet rs = preparedStatement.executeQuery();
-
       if (rs.next()) {
+        int id = rs.getInt("id_user");
+        String emailUser = rs.getString("email");
+        String password = rs.getString("password");
+        String lastName = rs.getString("last_name");
+        String firstName = rs.getString("first_name");
+        String phone = rs.getString("phone_number");
+        String registration_date = rs.getString("registration_date");
+        String role = rs.getString("role");
+        user.setId(id);
+        user.setEmail(emailUser);
+        user.setPassword(password);
+        user.setLastName(lastName);
+        user.setFirstName(firstName);
+        user.setPhoneNumber(phone);
+        user.setRegistration_date(registration_date);
+        user.setRole(role);
         rs.close();
         preparedStatement.close();
       } else {
-        System.out.println("Linfo n'a pas étét trouvé");
+        System.out.println("L'info n'a pas été trouvé");
       }
     } catch (Exception e) {
       e.printStackTrace();

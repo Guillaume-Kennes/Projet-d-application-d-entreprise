@@ -13,6 +13,9 @@ class UserImpl implements User {
   private String password;
   private String lastName;
   private String firstName;
+  private String phoneNumber;
+  private String registration_date;
+  private String role;
 
   @Override
 
@@ -81,4 +84,27 @@ class UserImpl implements User {
     return "{id:" + id + ", login:" + email + ", password:" + password + "}";
   }
 
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public String getRegistration_date() {
+    return registration_date;
+  }
+
+  public void setRegistration_date(String registration_date) {
+    this.registration_date = registration_date;
+  }
+
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+  }
 }

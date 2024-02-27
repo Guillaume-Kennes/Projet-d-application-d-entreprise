@@ -56,4 +56,11 @@ public interface UserDTO {
 
   void setFirstName(String firstName);
 
+  String getPhoneNumber();
+  void setPhoneNumber(String number);
+
+  String getRegistration_date();
+  void setRegistration_date(String date);
+  String getRole();
+  void setRole(String role);
 }
