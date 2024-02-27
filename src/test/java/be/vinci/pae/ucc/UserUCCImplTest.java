@@ -25,7 +25,7 @@ public class UserUCCImplTest {
   public void testLoginSuccess() {
     when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(user);
     when(user.checkPassword("Azertyui1_")).thenReturn(true);
-ç
+
     User result = (User) userUCC.login("chuqi.chups@student.vinci.be", "Azertyui1_");
 
     assertEquals(user, result);
