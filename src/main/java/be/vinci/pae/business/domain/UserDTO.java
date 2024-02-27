@@ -1,6 +1,7 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.LocalDate;
 
 @JsonDeserialize(as = UserImpl.class)
 public interface UserDTO {
@@ -48,19 +49,68 @@ public interface UserDTO {
    */
   void setPassword(String password);
 
+  /**
+   * Returns the user's last name
+   *
+   * @return the user's last name
+   */
   String getLastName();
 
+  /**
+   * Sets the user's last name
+   *
+   * @param lastName the user's last name to set
+   */
   void setLastName(String lastName);
 
+  /**
+   * Returns the user's first name
+   *
+   * @return the user's first name
+   */
   String getFirstName();
 
+  /**
+   * Sets the user's first name
+   *
+   * @param firstName the user's first name to set
+   */
   void setFirstName(String firstName);
 
   String getPhoneNumber();
+
+  /**
+   * Sets the user's number
+   *
+   * @param number the user's number to set
+   */
   void setPhoneNumber(String number);
 
-  String getRegistration_date();
-  void setRegistration_date(String date);
+  /**
+   * Returns the user's registration date
+   *
+   * @return the user's registration date
+   */
+  LocalDate getRegistration_date();
+
+  /**
+   * Sets the user's registration date
+   *
+   * @param date the user's registration date to set
+   */
+  void setRegistration_date(LocalDate date);
+
+  /**
+   * Returns the user's role
+   *
+   * @return the user's role
+   */
   String getRole();
+
+  /**
+   * Sets the user's role
+   *
+   * @param role the user's role to set
+   */
   void setRole(String role);
 }

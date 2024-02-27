@@ -2,6 +2,7 @@ package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDate;
 import org.mindrot.jbcrypt.BCrypt;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
@@ -14,13 +15,13 @@ class UserImpl implements User {
   private String lastName;
   private String firstName;
   private String phoneNumber;
-  private String registration_date;
+  private LocalDate registration_date;
   private String role;
 
   @Override
 
   public String getEmail() {
-    return email;
+    return this.email;
   }
 
   @Override
@@ -30,7 +31,7 @@ class UserImpl implements User {
 
   @Override
   public int getId() {
-    return id;
+    return this.id;
   }
 
   @Override
@@ -41,7 +42,7 @@ class UserImpl implements User {
 
   @Override
   public String getPassword() {
-    return password;
+    return this.password;
   }
 
   @Override
@@ -85,26 +86,28 @@ class UserImpl implements User {
   }
 
   public String getPhoneNumber() {
-    return phoneNumber;
+    return this.phoneNumber;
   }
 
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
 
-  public String getRegistration_date() {
-    return registration_date;
+  public LocalDate getRegistration_date() {
+    return this.registration_date;
   }
 
-  public void setRegistration_date(String registration_date) {
-    this.registration_date = registration_date;
+  public void setRegistration_date(LocalDate registrationDate) {
+    this.registration_date = registrationDate;
   }
 
   public String getRole() {
-    return role;
+    return this.role;
   }
 
   public void setRole(String role) {
+    if(!role.equals("professeur") && !role.equals("étudiant") && !role.equals("administratif"))
+      throw new IllegalArgumentException("Rôle non-autorisé");
     this.role = role;
   }
 }

@@ -58,4 +58,5 @@ public class UserUCCImplTest {
     // Act and Assert
     assertThrows(WebApplicationException.class, () -> userUCC.login(email, password));
   }
+
 }
