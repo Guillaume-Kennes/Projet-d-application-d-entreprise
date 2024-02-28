@@ -9,11 +9,15 @@ import java.util.List;
 public interface UserDAO {
 
   /**
-   * @param
-   * @return
+   * @param email the user's email
+   * @return the user corresponding to the given email
    */
   UserDTO getUserByEmail(String email) ;
 
+  /**
+   * @param resultSet the given resultSet
+   * @return the user corresponding to that result set
+   */
   UserDTO userInfos(ResultSet resultSet) throws SQLException;
 }
 

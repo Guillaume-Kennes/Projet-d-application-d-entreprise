@@ -20,6 +20,12 @@ public class UserResource {
 
   @Inject
   private Logger logger;
+
+  /**
+   * Get the information of the user of a given request, using the token
+   *
+   * @param request the request to be analysed
+   */
   @Path("/me")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
