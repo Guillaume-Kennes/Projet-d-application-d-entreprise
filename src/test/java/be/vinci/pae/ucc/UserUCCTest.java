@@ -48,12 +48,25 @@ public class UserUCCTest {
   }
 
   @Test
-  public void testLoginFailure() {
+  public void testLoginFailureForPassword() {
     userDTO.setEmail("chuqi.chups@student.vinci.be");
     userDTO.setPassword("$2a$10$jTSImXQiYMuPdgtrfA9t1u0lln65JDLUyzvir9t21uENvF0yIX.na");
 
     when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(userDTO);
     UserDTO result = userUCC.login("chuqi.chups@student.vinci.be", "123");
+
+    assertNotNull(result);
+    assertEquals(userDTO.getEmail(), result.getEmail());
+    assertEquals(userDTO.getPassword(), result.getPassword());
+  }
+
+  @Test
+  public void testLoginFailureForEmail(){
+    userDTO.setEmail("kawtar.d@student.vinci.be");
+    userDTO.setPassword("$2a$10$jTSImXQiYMuPdgtrfA9t1u0lln65JDLUyzvir9t21uENvF0yIX.na");
+
+    when(userDAO.getUserByEmail("kawtar.d@student.vinci.be")).thenReturn(userDTO);
+    UserDTO result = userUCC.login("kawtar.d@student.vinci.be", "123");
 
     assertNotNull(result);
     assertEquals(userDTO.getEmail(), result.getEmail());
