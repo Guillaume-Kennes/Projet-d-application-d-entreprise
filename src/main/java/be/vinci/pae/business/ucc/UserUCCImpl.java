@@ -5,9 +5,7 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.UserDAO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-import java.sql.SQLException;
 
 public class UserUCCImpl implements UserUCC {
   @Inject
