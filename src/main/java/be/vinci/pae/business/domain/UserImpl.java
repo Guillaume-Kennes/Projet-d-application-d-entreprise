@@ -1,7 +1,6 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
