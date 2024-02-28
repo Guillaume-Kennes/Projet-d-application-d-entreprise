@@ -58,7 +58,7 @@ function renderNavbar() {
               <a class="nav-link" href="#" data-uri="/logout">Logout</a>
             </li>    
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">${authenticatedUser?.username}</a>
+              <a class="nav-link disabled" href="#">${authenticatedUser?.email}</a>
             </li>           
           </ul>
         </div>

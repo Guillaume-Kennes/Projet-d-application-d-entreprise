@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { getRememberMe, setAuthenticatedUser, setRememberMe } from '../../utils/auths';
 import { clearPage, renderPageTitle } from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
@@ -14,52 +13,30 @@ function renderRegisterForm() {
   const main = document.querySelector('main');
   const form = document.createElement('form');
   form.className = 'p-5';
-  const mainFiller = `
-    <div class="container login-container" style="margin-top: 200px;">
-      <form id="loginForm">
-        <div class="col-lg-4 mx-auto">
-          <div class="form-group">
-            <input type="text" name="email" class="form-control mb-2" id="email" placeholder="Email address">
-          </div>
-        </div>
-        <div class="col-lg-4 mx-auto">
-          <div class="form-group">
-            <div class="input-group">
-              <input type="password" name="password" class="form-control mb-2" id="password" placeholder="Password" required>    
-              <button class="btn btn-outline-secondary mb-2" type="button" id="togglePasswordBtn">
-                Show/Hide
-              </button>
-            </div>
-          </div>
-          <div class="form-group form-check">
-            <input type="checkbox" class="form-check-input" id="rememberme" checked>
-            <label class="form-check-label" for="rememberme">Remember me</label>
-          </div>
-        </div>
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary btn-block btn-light myButton">Login</button>
-          <p>Not a member ? <a href="#" tagName="myButton" class="myButton" data-uri="/signup">Sign up</a></p>
-          <div id="errorContainer" class="text-danger"></div>
-        </div>
-      </form>
-    </div>
-  `;
-  main.innerHTML = mainFiller;
+  const email = document.createElement('input');
+  email.type = 'text';
+  email.id = 'email';
+  email.placeholder = 'email';
+  email.required = true;
+  email.className = 'form-control mb-3';
+  const password = document.createElement('input');
+  password.type = 'password';
+  password.id = 'password';
+  password.required = true;
+  password.placeholder = 'password';
+  password.className = 'form-control mb-3';
+  const submit = document.createElement('input');
+  submit.value = 'Login';
+  submit.type = 'submit';
+  submit.className = 'btn btn-info';
 
-  const togglePasswordVisibility = () => {
-    const passwordInput = document.getElementById('password');
-    
-    if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-    } else {
-      passwordInput.type = 'password';
-    }
-  };
+  const formCheckWrapper = document.createElement('div');
+  formCheckWrapper.className = 'mb-3 form-check';
 
-  const togglePasswordBtn = document.getElementById('togglePasswordBtn');
-  togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
-
-  const rememberme = document.getElementById('rememberme');
+  const rememberme = document.createElement('input');
+  rememberme.type = 'checkbox';
+  rememberme.className = 'form-check-input';
+  rememberme.id = 'rememberme';
   const remembered = getRememberMe();
   rememberme.checked = remembered;
   rememberme.addEventListener('click', onCheckboxClicked);
@@ -69,7 +46,13 @@ function renderRegisterForm() {
   checkLabel.className = 'form-check-label';
   checkLabel.textContent = 'Remember me';
 
- 
+  formCheckWrapper.appendChild(rememberme);
+  formCheckWrapper.appendChild(checkLabel);
+
+  form.appendChild(email);
+  form.appendChild(password);
+  form.appendChild(formCheckWrapper);
+  form.appendChild(submit);
   main.appendChild(form);
   form.addEventListener('submit', onLogin);
 }
@@ -81,13 +64,13 @@ function onCheckboxClicked(e) {
 async function onLogin(e) {
   e.preventDefault();
 
-  const username = document.querySelector('#username').value;
+  const email = document.querySelector('#email').value;
   const password = document.querySelector('#password').value;
 
   const options = {
     method: 'POST',
     body: JSON.stringify({
-      username,
+      email,
       password,
     }),
     headers: {
@@ -95,8 +78,8 @@ async function onLogin(e) {
     },
   };
 
-  const response = await fetch(`${process.env.API_BASE_URL}/auths/login`, options);
-  console.log("JE SUIS ICI !!!!!!!!!!!")
+  const response = await fetch(`/api/auths/login`, options);
+  console.log(response);
 
   if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
 

@@ -9,6 +9,7 @@
 import { usePathPrefix } from '../../utils/path-prefix';
 
 const Navigate = (toUri) => {
+  console.log("HEREEEE");
   const fromUri = window.location.pathname;
   if (fromUri === toUri) return;
 

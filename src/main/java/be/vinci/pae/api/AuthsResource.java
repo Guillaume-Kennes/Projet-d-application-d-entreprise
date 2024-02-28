@@ -31,10 +31,10 @@ public class AuthsResource {
   public UserDTO login(JsonNode json) {
     System.out.println("LOGIN");
     // Get and check credentials
-    if (!json.hasNonNull("login") || !json.hasNonNull("password")) {
+    if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
       throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
     }
-    String login = json.get("login").asText();
+    String login = json.get("email").asText();
     String password = json.get("password").asText();
 
     // Try to log in
