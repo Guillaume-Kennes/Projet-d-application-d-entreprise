@@ -52,7 +52,7 @@ public class AuthsResource {
     String token;
     try {
       token = JWT.create().withIssuer("auth0")
-          .withClaim("user", publicUser.getId()).sign(this.jwtAlgorithm);
+          .withClaim("user", publicUser.getEmail()).sign(this.jwtAlgorithm);
       System.out.println("Token: " + token);
 
     } catch (Exception e) {

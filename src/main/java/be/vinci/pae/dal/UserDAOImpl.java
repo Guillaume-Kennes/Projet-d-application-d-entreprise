@@ -18,8 +18,8 @@ public class UserDAOImpl implements UserDAO {
 
 
   /**
-   * @param email
-   * @return
+   * @param email the email of the user researched
+   * @return the user researched
    */
   public UserDTO getUserByEmail(String email) {
 
@@ -53,10 +53,6 @@ public class UserDAOImpl implements UserDAO {
 
   public UserDTO userInfos(ResultSet resultSet) throws SQLException {
     UserDTO userDTO = myDomainFactory.getUser();
-
-    userDTO.setId(resultSet.getInt("id_user"));
-    userDTO.setLastName(resultSet.getString("last_name"));
-    userDTO.setFirstName(resultSet.getString("first_name"));
     userDTO.setEmail(resultSet.getString("email"));
     userDTO.setPassword(resultSet.getString("password"));
 
