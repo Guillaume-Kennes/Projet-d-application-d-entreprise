@@ -18,10 +18,6 @@ public class DALServicesImpl implements DALServices {
     }
   }
 
-  public Connection getConnection() {
-    return this.connection;
-  }
-
   public PreparedStatement getPreparedStatement(String sql) {
     try {
       return this.connection.prepareStatement(sql);

@@ -13,9 +13,9 @@ public class UserUCCImpl implements UserUCC {
   private UserDAO userDAO;
 
   /**
-   * @param email
-   * @param password
-   * @return
+   * @param email    the email of the user
+   * @param password the password of the user
+   * @return the userFound
    */
   public UserDTO login(String email, String password) {
     User userFound = (User) userDAO.getUserByEmail(email);
