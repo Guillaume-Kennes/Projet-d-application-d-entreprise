@@ -33,7 +33,8 @@ public class UserResource {
   public UserDTO getUserWithToken(@Context ContainerRequest request) {
 
     UserDTO authenticatedUser = (UserDTO) request.getProperty("user");
-    logger.info("Token de " + authenticatedUser.getFirstName() + " " + authenticatedUser.getLastName());
+    logger.info("Token de " + authenticatedUser.getFirstName() + " "
+        + authenticatedUser.getLastName());
 
     return authenticatedUser;
   }

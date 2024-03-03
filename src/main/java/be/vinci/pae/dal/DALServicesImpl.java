@@ -13,12 +13,14 @@ public class DALServicesImpl implements DALServices {
   public DALServicesImpl() {
     try {
       connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
-    } catch (SQLException e){
+    } catch (SQLException e) {
       System.out.println("Unable to connect to database" + e.getMessage());
     }
   }
 
-  public Connection getConnection() { return this.connection;}
+  public Connection getConnection() {
+    return this.connection;
+  }
 
   public PreparedStatement getPreparedStatement(String sql) {
     try {

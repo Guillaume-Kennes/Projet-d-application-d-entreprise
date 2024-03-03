@@ -1,6 +1,10 @@
 package be.vinci.pae.ucc;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
+
 import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
@@ -9,12 +13,9 @@ import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class UserUCCTest {
+
   private UserUCC userUCC;
   private DomainFactory myDomainFactory;
   private UserDAO userDAO;
@@ -40,7 +41,6 @@ public class UserUCCTest {
 
     UserDTO result = userUCC.login("chuqi.chups@student.vinci.be", "Azertyui1_");
 
-
     assertNotNull(result);
     assertEquals(userDTO.getEmail(), result.getEmail());
     assertEquals(userDTO.getPassword(), result.getPassword());
@@ -61,7 +61,7 @@ public class UserUCCTest {
   }
 
   @Test
-  public void testLoginFailureForEmail(){
+  public void testLoginFailureForEmail() {
     userDTO.setEmail("kawtar.d@student.vinci.be");
     userDTO.setPassword("$2a$10$jTSImXQiYMuPdgtrfA9t1u0lln65JDLUyzvir9t21uENvF0yIX.na");
 

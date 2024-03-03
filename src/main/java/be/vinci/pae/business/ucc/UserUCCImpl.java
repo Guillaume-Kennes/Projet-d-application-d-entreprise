@@ -8,27 +8,26 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response.Status;
 
 public class UserUCCImpl implements UserUCC {
+
   @Inject
   private UserDAO userDAO;
 
   /**
-   *
-   *
    * @param email
    * @param password
-   *
    * @return
    */
   public UserDTO login(String email, String password) {
     User userFound = (User) userDAO.getUserByEmail(email);
-    System.out.println("USER "+ userFound);
+    System.out.println("USER " + userFound);
 
-    if(userFound == null ) {
+    if (userFound == null) {
       throw new WebApplicationException("Incorrect Email or Password", Status.UNAUTHORIZED);
     }
 
-    if(!userFound.checkPassword(password))
+    if (!userFound.checkPassword(password)) {
       throw new WebApplicationException("Incorrect Email or Password", Status.UNAUTHORIZED);
+    }
 
     return userFound;
   }

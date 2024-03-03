@@ -9,7 +9,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
@@ -19,6 +24,7 @@ import jakarta.ws.rs.core.Response.Status;
 @Singleton
 @Path("/auths")
 public class AuthsResource {
+
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
 
   @Inject
@@ -40,7 +46,7 @@ public class AuthsResource {
     // Try to log in
     UserDTO publicUser = myUserUCC.login(login, password);
     if (publicUser == null) {
-      throw new WebApplicationException("Login or password incorrect", Response.Status.UNAUTHORIZED);
+      throw new WebApplicationException("Login/password incorrect", Response.Status.UNAUTHORIZED);
     }
 
     String token;
