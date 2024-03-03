@@ -7,12 +7,11 @@ public interface UserUCC {
   /**
    * Returns the user's data if the login is successful
    *
-   * @param email the user's email
+   * @param email    the user's email
    * @param password the user's password
-   *
    * @return the user's data if the login is successful
    */
-  UserDTO login(String email, String password) ;
+  UserDTO login(String email, String password);
 
 
 }
