@@ -9,12 +9,5 @@ public interface User extends UserDTO {
    * @param password the password provided by the user when logging in
    */
   boolean checkPassword(String password);
-
-  /**
-   * Hashes the password provided by the user when they register
-   *
-   * @param password the password provided by the user when signing up
-   */
-  String hashPassword(String password);
 }
 
