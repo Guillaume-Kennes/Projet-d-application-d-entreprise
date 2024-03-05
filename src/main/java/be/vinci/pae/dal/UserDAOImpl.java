@@ -14,7 +14,7 @@ public class UserDAOImpl implements UserDAO {
   private DomainFactory myDomainFactory;
 
   @Inject
-  private DALServices dalServices;
+  private DALBackServices dalServices;
 
 
   /**
