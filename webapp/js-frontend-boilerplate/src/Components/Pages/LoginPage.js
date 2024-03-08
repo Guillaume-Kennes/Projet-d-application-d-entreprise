@@ -1,5 +1,10 @@
-import { getRememberMe, setAuthenticatedUser, setRememberMe } from '../../utils/auths';
-import { clearPage } from '../../utils/render';
+/* eslint-disable no-console */
+import {
+  getRememberMe,
+  setAuthenticatedUser,
+  setRememberMe
+} from '../../utils/auths';
+import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 
@@ -11,33 +16,62 @@ const LoginPage = () => {
 function renderLoginForm() {
   const main = document.querySelector('main');
   const form = document.createElement('form');
-  form.className = 'p-5';
+  form.id = 'loginForm'; // Add an ID for easier styling
+  form.className = 'container login-container'; // Set the form class to match the fixed HTML structure
+  form.style.marginTop = '100px'; // Set the top margin using inline styles
+
+  const colDiv1 = document.createElement('div');
+  colDiv1.className = 'col-lg-4 mx-auto';
+
+  const emailGroup = document.createElement('div');
+  emailGroup.className = 'form-group';
+
   const email = document.createElement('input');
   email.type = 'text';
+  email.name = 'email';
+  email.className = 'form-control mb-2';
   email.id = 'email';
   email.placeholder = 'Email';
   email.required = true;
-  email.className = 'form-control mb-3';
+
+  emailGroup.appendChild(email);
+  colDiv1.appendChild(emailGroup);
+
+  const passwordGroup = document.createElement('div');
+  passwordGroup.className = 'form-group';
+
+  const passwordInputDiv = document.createElement('div');
+  passwordInputDiv.className = 'input-group';
+
   const password = document.createElement('input');
   password.type = 'password';
+  password.name = 'password';
+  password.className = 'form-control mb-2';
   password.id = 'password';
-  password.required = true;
   password.placeholder = 'Mot de passe';
-  password.className = 'form-control mb-3';
-  const submit = document.createElement('input');
-  submit.value = 'Se connecter';
-  submit.type = 'submit';
-  submit.className = 'btn btn-info';
+  password.required = true;
 
-  const formCheckWrapper = document.createElement('div');
-  formCheckWrapper.className = 'mb-3 form-check';
+  const togglePasswordBtn = document.createElement('button');
+  togglePasswordBtn.type = 'button';
+  togglePasswordBtn.className = 'btn btn-outline-secondary mb-2';
+  togglePasswordBtn.id = 'togglePasswordBtn';
+  togglePasswordBtn.textContent = 'Afficher/Masquer';
+
+  passwordInputDiv.appendChild(password);
+  passwordInputDiv.appendChild(togglePasswordBtn);
+
+  passwordGroup.appendChild(passwordInputDiv);
+  colDiv1.appendChild(passwordGroup);
+
+  // Remember me checkbox
+  const remembermeGroup = document.createElement('div');
+  remembermeGroup.className = 'form-group form-check';
 
   const rememberme = document.createElement('input');
   rememberme.type = 'checkbox';
   rememberme.className = 'form-check-input';
   rememberme.id = 'rememberme';
-  const remembered = getRememberMe();
-  rememberme.checked = remembered;
+  rememberme.checked = getRememberMe();
   rememberme.addEventListener('click', onCheckboxClicked);
 
   const checkLabel = document.createElement('label');
@@ -45,16 +79,38 @@ function renderLoginForm() {
   checkLabel.className = 'form-check-label';
   checkLabel.textContent = 'Se souvenir de moi';
 
-  formCheckWrapper.appendChild(rememberme);
-  formCheckWrapper.appendChild(checkLabel);
+  remembermeGroup.appendChild(rememberme);
+  remembermeGroup.appendChild(checkLabel);
+  colDiv1.appendChild(remembermeGroup);
 
-  form.appendChild(email);
-  form.appendChild(password);
-  form.appendChild(formCheckWrapper);
-  form.appendChild(submit);
+  const textCenterDiv = document.createElement('div');
+  textCenterDiv.className = 'text-center';
+
+  const submit = document.createElement('button');
+  submit.type = 'submit';
+  submit.className = 'btn btn-primary btn-block btn-light myButton';
+  submit.textContent = 'Se connecter';
+
+  textCenterDiv.appendChild(submit);
+  form.appendChild(colDiv1);
+  form.appendChild(textCenterDiv);
+
   main.appendChild(form);
   form.addEventListener('submit', onLogin);
+
+  // Toggle password visibility
+  togglePasswordBtn.addEventListener('click', togglePasswordVisibility);
+
+  function togglePasswordVisibility() {
+    if (password.type === 'password') {
+      password.type = 'text';
+    } else {
+      password.type = 'password';
+    }
+  }
 }
+
+
 
 function onCheckboxClicked(e) {
   setRememberMe(e.target.checked);

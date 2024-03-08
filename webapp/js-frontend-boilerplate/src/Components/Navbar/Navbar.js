@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { Navbar as BootstrapNavbar } from 'bootstrap';
+// import { Navbar as BootstrapNavbar } from 'bootstrap'; unused import (for the moment)
 import { getAuthenticatedUser, isAuthenticated } from '../../utils/auths';
 
 const SITE_NAME = 'DevObs';
@@ -40,7 +40,7 @@ function renderNavbar() {
   const authenticatedUserNavbar = `
 <nav class="navbar navbar-expand-lg navbar-dark bg-info">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">DevObs</a>
+        <a class="navbar-brand" href="#">${SITE_NAME}</a>
         <button
           class="navbar-toggler"
           type="button"

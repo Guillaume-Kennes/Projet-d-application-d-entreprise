@@ -1,5 +1,10 @@
-import { getRememberMe, setAuthenticatedUser, setRememberMe } from '../../utils/auths';
-import { clearPage, renderPageTitle } from '../../utils/render';
+/* eslint-disable no-console */
+import {
+  getRememberMe,
+  setAuthenticatedUser,
+  setRememberMe
+} from '../../utils/auths';
+import {clearPage, renderPageTitle} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 
@@ -36,8 +41,7 @@ function renderRegisterForm() {
   rememberme.type = 'checkbox';
   rememberme.className = 'form-check-input';
   rememberme.id = 'rememberme';
-  const remembered = getRememberMe();
-  rememberme.checked = remembered;
+  rememberme.checked = getRememberMe();
   rememberme.addEventListener('click', onCheckboxClicked);
 
   const checkLabel = document.createElement('label');
