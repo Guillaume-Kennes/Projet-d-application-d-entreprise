@@ -9,6 +9,7 @@ class UserImpl implements User {
   private String email;
   //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
+  private int id;
 
   public UserImpl() {
   }
@@ -33,6 +34,16 @@ class UserImpl implements User {
   @Override
   public void setPassword(String password) {
     this.password = password;
+  }
+
+  @Override
+  public int getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(int id) {
+
   }
 
   @Override

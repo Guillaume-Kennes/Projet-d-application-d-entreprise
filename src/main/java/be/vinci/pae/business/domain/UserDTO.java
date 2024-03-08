@@ -32,4 +32,18 @@ public interface UserDTO {
    * @param password the user's password to set
    */
   void setPassword(String password);
+
+  /**
+   * Returns the user's id
+   *
+   * @return the user's id
+   */
+  int getId();
+
+  /**
+   * Sets the user's id
+   *
+   * @param id the user's id to set
+   */
+  void setId(int id);
 }
