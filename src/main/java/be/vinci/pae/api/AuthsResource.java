@@ -1,6 +1,7 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
+import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
@@ -68,5 +69,7 @@ public class AuthsResource {
     }
     return user;
   }
+
+
 
 }
