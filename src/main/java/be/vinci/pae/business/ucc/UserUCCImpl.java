@@ -23,14 +23,11 @@ public class UserUCCImpl implements UserUCC {
    */
   public UserDTO login(String email, String password) {
     User userFound = (User) userDAO.getUserByEmail(email);
-    System.out.println("USER "+ userFound);
 
-    if(userFound == null ) {
-      throw new WebApplicationException("Incorrect Email or Password", Status.UNAUTHORIZED);
+    if(userFound == null || !userFound.checkPassword(password)) {
+      throw new IllegalArgumentException("Incorrect Email or Password");
     }
 
-    if(!userFound.checkPassword(password))
-      throw new WebApplicationException("Incorrect Email or Password", Status.UNAUTHORIZED);
 
     return userFound;
   }

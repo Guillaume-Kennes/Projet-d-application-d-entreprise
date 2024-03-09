@@ -42,7 +42,6 @@ public class Main {
    */
   public static void main(String[] args) throws IOException {
     //System.out.println(BCrypt.hashpw("Azertyui1_", BCrypt.gensalt()));
-    //System.out.println(BCrypt.hashpw("123", BCrypt.gensalt()));
 
     final HttpServer server = startServer();
     System.out.println(String.format("Jersey app started with endpoints available at "
