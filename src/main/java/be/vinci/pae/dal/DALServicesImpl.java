@@ -14,7 +14,7 @@ public class DALServicesImpl implements DALServices {
     try {
       connection = DriverManager.getConnection(url, "kawtar_dahman", "Groupe06");
     } catch (SQLException e){
-      System.out.println("Unable to connect to database" + e.getMessage());
+      throw new RuntimeException("Unable to connect to database" + e.getMessage());
     }
   }
 
@@ -24,8 +24,7 @@ public class DALServicesImpl implements DALServices {
     try {
       return this.connection.prepareStatement(sql);
     } catch (SQLException e) {
-      System.out.println("Error while preparing the statement" + e.getMessage());
-      return null;
+      throw new RuntimeException("Unable to connect to database" + e.getMessage());
     }
   }
 }

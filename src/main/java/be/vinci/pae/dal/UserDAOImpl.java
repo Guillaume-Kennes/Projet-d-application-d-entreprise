@@ -61,15 +61,21 @@ public class UserDAOImpl implements UserDAO {
     return user;
   }
 
-  public UserDTO userInfos(ResultSet resultSet) throws SQLException {
+  public UserDTO userInfos(ResultSet resultSet){
     UserDTO userDTO = myDomainFactory.getUser();
 
-    userDTO.setId(resultSet.getInt("id_user"));
-    userDTO.setLastName(resultSet.getString("last_name"));
-    userDTO.setFirstName(resultSet.getString("first_name"));
-    userDTO.setEmail(resultSet.getString("email"));
-    userDTO.setPassword(resultSet.getString("password"));
-
+    try {
+      userDTO.setId(resultSet.getInt("id_user"));
+      userDTO.setLastName(resultSet.getString("last_name"));
+      userDTO.setFirstName(resultSet.getString("first_name"));
+      userDTO.setEmail(resultSet.getString("email"));
+      userDTO.setPassword(resultSet.getString("password"));
+      userDTO.setPhoneNumber(resultSet.getString("phone_number"));
+      userDTO.setRegistrationDate(resultSet.getString("registration_date"));
+      userDTO.setRole(resultSet.getString("role"));
+    }catch(SQLException e){ //DEMANDER AU PROF quelle exception
+      e.getMessage();
+    }
     return userDTO;
   }
 

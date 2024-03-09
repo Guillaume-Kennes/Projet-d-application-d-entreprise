@@ -14,7 +14,7 @@ public interface UserDAO {
    */
   UserDTO getUserByEmail(String email) ;
 
-  UserDTO userInfos(ResultSet resultSet) throws SQLException;
+  UserDTO userInfos(ResultSet resultSet);
 
   UserDTO getUserById(int id);
 }
