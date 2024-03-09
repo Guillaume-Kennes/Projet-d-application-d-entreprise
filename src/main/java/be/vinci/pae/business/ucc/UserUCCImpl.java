@@ -33,6 +33,11 @@ public class UserUCCImpl implements UserUCC {
   }
 
 
+  public UserDTO getUserById(int id){
+    return userDAO.getUserById(id);
+  }
+
+
 
 
 }

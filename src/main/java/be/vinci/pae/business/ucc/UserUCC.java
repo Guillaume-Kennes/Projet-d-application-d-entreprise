@@ -19,6 +19,5 @@ public interface UserUCC {
   UserDTO login(String email, String password) ;
 
 
-
-
+  UserDTO getUserById(int id);
 }

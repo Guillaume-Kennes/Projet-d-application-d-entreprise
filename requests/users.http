@@ -1,4 +1,4 @@
-@baseUrl = http://localhost:8080
+@baseUrl = http://localhost:3000
 
 ### Login an user
 POST {{baseUrl}}/auths/login
@@ -8,3 +8,6 @@ Content-Type: application/json
   "email":"chuqi.chups@student.vinci.be",
   "password":"Azertyui1_"
 }
+
+### Get an user by it's id
+GET {{baseUrl}}/users/1

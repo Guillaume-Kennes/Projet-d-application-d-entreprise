@@ -73,4 +73,19 @@ public class UserDAOImpl implements UserDAO {
     return userDTO;
   }
 
+  public UserDTO getUserById(int id) {
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.users u WHERE u.id_user = ?");
+    try {
+      preparedStatement.setInt(1, id);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          return userInfos(resultSet);
+        }
+      }
+    } catch (SQLException e) {
+      throw new IllegalArgumentException("User not found");
+    }
+    return null;
+  }
 }
