@@ -3,6 +3,7 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.UserDAO;
+import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
@@ -25,10 +26,8 @@ public class UserUCCImpl implements UserUCC {
     User userFound = (User) userDAO.getUserByEmail(email);
 
     if(userFound == null || !userFound.checkPassword(password)) {
-      throw new IllegalArgumentException("Incorrect Email or Password");
+      throw new UnauthorizedException("Incorrect Email or Password");
     }
-
-
     return userFound;
   }
 

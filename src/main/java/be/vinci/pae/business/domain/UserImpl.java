@@ -15,7 +15,7 @@ class UserImpl implements User {
   private String lastName;
   private String firstName;
   private String phoneNumber;
-  private Date registrationDate;
+  private String registrationDate;
   private String role;
 
   public UserImpl() {
@@ -85,12 +85,12 @@ class UserImpl implements User {
   }
 
   @Override
-  public Date getRegistrationDate() {
+  public String getRegistrationDate() {
     return registrationDate;
   }
 
   @Override
-  public void setRegistrationDate(Date registrationDate) {
+  public void setRegistrationDate(String registrationDate) {
     this.registrationDate = registrationDate;
   }
 

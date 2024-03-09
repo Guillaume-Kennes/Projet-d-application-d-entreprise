@@ -8,6 +8,8 @@ import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.*;
@@ -16,11 +18,14 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 @Singleton
 @Path("/auths")
 public class AuthsResource {
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
+  private ObjectMapper jsonMapper = new ObjectMapper();
 
   @Inject
   private UserUCC myUserUCC;
@@ -29,32 +34,26 @@ public class AuthsResource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO login(JsonNode json) {
-    System.out.println("LOGIN");
-    // Get and check credentials
+  public ObjectNode login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
       throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
     }
     String login = json.get("email").asText();
     String password = json.get("password").asText();
 
-    // Try to log in
     UserDTO publicUser = myUserUCC.login(login, password);
     if (publicUser == null) {
       throw new WebApplicationException("Login or password incorrect", Response.Status.UNAUTHORIZED);
     }
+    String token = createToken(publicUser);
+    return jsonMapper.createObjectNode().put("token", token).put("id", publicUser.getId()).put("email", publicUser.getEmail()).put("lastName", publicUser.getLastName()).put("firstName", publicUser.getFirstName()).put("phoneNumber", publicUser.getPhoneNumber()).put("registrationDate", publicUser.getRegistrationDate()).put("role", publicUser.getRole());
+  }
 
-    String token;
-    try {
-      token = JWT.create().withIssuer("auth0")
-          .withClaim("user", publicUser.getId()).sign(this.jwtAlgorithm);
-      System.out.println("Token: " + token);
-
-    } catch (Exception e) {
-      System.out.println("Failed to create a token");
-      return null;
-    }
-    return publicUser;
+  public String createToken(UserDTO userDTO){
+    Date dateOfExpiration = new Date(
+        System.currentTimeMillis()+ TimeUnit.HOURS.toMillis(48)
+    );
+    return JWT.create().withIssuer("auth0").withClaim("id", userDTO.getId()).withExpiresAt(dateOfExpiration).sign(jwtAlgorithm);
   }
 
   @GET
@@ -69,6 +68,7 @@ public class AuthsResource {
     }
     return user;
   }
+
 
 
 

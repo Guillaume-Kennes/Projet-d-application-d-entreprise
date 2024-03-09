@@ -3,6 +3,7 @@ package be.vinci.pae.api.filters;
 import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
+import be.vinci.pae.utils.exception.TokenDecodingException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;

@@ -95,14 +95,14 @@ public interface UserDTO {
    *
    * @return the user's registration date
    */
-  Date getRegistrationDate();
+  String getRegistrationDate();
 
   /**
    * Sets the user's registration date
    *
    * @param registrationDate the user's registration date to set
    */
-  void setRegistrationDate(Date registrationDate);
+  void setRegistrationDate(String registrationDate);
 
   /**
    * Returns the user's role
