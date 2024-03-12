@@ -33,7 +33,7 @@ public class AuthsResource {
 
   @Inject
   private UserUCC myUserUCC;
-  private TokenServices token;
+  //private TokenServices token;
 
 
   @POST
@@ -62,14 +62,14 @@ public class AuthsResource {
     return JWT.create().withIssuer("auth0").withClaim("id", userDTO.getId()).withExpiresAt(dateOfExpiration).sign(jwtAlgorithm);
   }
 
-  @GET
-  @Path("user")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
-  public int getUser(@Context ContainerRequestContext requestContext) {
-    UserDTO user = (UserDTO) requestContext.getProperty("user");
-    return token.createToken(user).get("id").asInt();
-  }
+//  @GET
+//  @Path("user")
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Authorize
+//  public int getUser(@Context ContainerRequestContext requestContext) {
+//    UserDTO user = (UserDTO) requestContext.getProperty("user");
+//    return token.createToken(user).get("id").asInt();
+//  }
 
 
 
