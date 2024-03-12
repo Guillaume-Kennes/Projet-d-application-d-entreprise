@@ -1,14 +1,11 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 class UserImpl implements User {
 
-  private int id;
   private String email;
   //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
@@ -17,18 +14,9 @@ class UserImpl implements User {
   private String phoneNumber;
   private String registrationDate;
   private String role;
+  private int id;
 
   public UserImpl() {
-  }
-
-  @Override
-  public int getId() {
-    return id;
-  }
-
-  @Override
-  public void setId(int id) {
-    this.id = id;
   }
 
   @Override
@@ -55,12 +43,12 @@ class UserImpl implements User {
 
   @Override
   public String getLastName() {
-    return this.lastName;
+    return lastName;
   }
 
   @Override
   public void setLastName(String lastName) {
-    this.lastName = lastName;
+
   }
 
   @Override
@@ -69,8 +57,8 @@ class UserImpl implements User {
   }
 
   @Override
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
+  public void setFirstName(String lastName) {
+    this.lastName = lastName;
   }
 
 
@@ -105,18 +93,25 @@ class UserImpl implements User {
   }
 
   @Override
+  public int getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(int id) {
+    this.id = id;
+
+  }
+
+
+  @Override
   public boolean checkPassword(String password) {
     return BCrypt.checkpw(password, this.password);
   }
 
   @Override
-  public String hashPassword(String password) {
-    return BCrypt.hashpw(password, BCrypt.gensalt());
-  }
-
-  @Override
   public String toString() {
-    return "{id:" + id + ", login:" + email + ", password:" + password + "}";
+    return "{login:" + email + ", password:" + password + "}";
   }
 
 }

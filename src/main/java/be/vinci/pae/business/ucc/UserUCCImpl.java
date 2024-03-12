@@ -6,16 +6,14 @@ import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
-import java.sql.SQLException;
 
 public class UserUCCImpl implements UserUCC {
+
   @Inject
   private UserDAO userDAO;
 
-  /**
-   * Returns the user's data if the login is successful
+  /** Returns the user's data if the login is successful
    *
    * @param email the user's email
    * @param password the user's password

@@ -1,21 +1,11 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.DomainFactoryImpl;
-import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
-import be.vinci.pae.utils.Config;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -24,12 +14,12 @@ public class UserDAOImpl implements UserDAO {
   private DomainFactory myDomainFactory;
 
   @Inject
-  private DALServices dalServices;
+  private DALBackServices dalServices;
 
 
   /**
-   * @param email
-   * @return
+   * @param email the email of the user researched
+   * @return the user researched
    */
   public UserDTO getUserByEmail(String email) {
 
@@ -76,6 +66,7 @@ public class UserDAOImpl implements UserDAO {
     }catch(SQLException e){ //DEMANDER AU PROF quelle exception
       e.getMessage();
     }
+
     return userDTO;
   }
 

@@ -1,24 +1,9 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.util.Date;
 
 @JsonDeserialize(as = UserImpl.class)
 public interface UserDTO {
-
-  /**
-   * Returns the user's id
-   *
-   * @return the user's id
-   */
-  int getId();
-
-  /**
-   * Sets the user's id
-   *
-   * @param id the user's id to set
-   */
-  void setId(int id);
 
   /**
    * Returns the user's email
@@ -48,6 +33,7 @@ public interface UserDTO {
    */
   void setPassword(String password);
 
+
   /**
    * Returns the user's last name
    *
@@ -56,9 +42,9 @@ public interface UserDTO {
   String getLastName();
 
   /**
-   * Sets the user's last name
+   * Sets the user's lastname
    *
-   * @param lastName the user's last name to set
+   * @param lastName the user's lastname to set
    */
   void setLastName(String lastName);
 
@@ -117,4 +103,14 @@ public interface UserDTO {
    * @param role the user's role to set
    */
   void setRole(String role);
+
+  /**
+   * Returns the user's id
+   *
+   * @return the user's id
+   */
+  int getId();
+
+
+  void setId(int id);
 }

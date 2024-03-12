@@ -1,7 +1,6 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
-import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
@@ -12,14 +11,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 
 @Singleton
 @Path("/auths")
@@ -29,6 +33,8 @@ public class AuthsResource {
 
   @Inject
   private UserUCC myUserUCC;
+  private TokenServices token;
+
 
   @POST
   @Path("login")
@@ -60,13 +66,9 @@ public class AuthsResource {
   @Path("user")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public UserDTO getUser(@Context ContainerRequestContext requestContext) {
+  public int getUser(@Context ContainerRequestContext requestContext) {
     UserDTO user = (UserDTO) requestContext.getProperty("user");
-
-    if (user == null) {
-      throw new WebApplicationException("user", Status.UNAUTHORIZED);
-    }
-    return user;
+    return token.createToken(user).get("id").asInt();
   }
 
 

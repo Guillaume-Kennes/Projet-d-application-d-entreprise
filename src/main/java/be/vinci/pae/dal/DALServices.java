@@ -1,17 +1,13 @@
 package be.vinci.pae.dal;
 
-import java.sql.PreparedStatement;
+import java.sql.Connection;
 
-
-/**
- *
- */
 public interface DALServices {
 
-  /**
-   *
-   * @param sql query
-   * @return a prepared statement
-   */
-  PreparedStatement getPreparedStatement(String sql);
+  Connection start();
+
+  void commit(Connection connection);
+
+  void rollBack(Connection connection);
+
 }
