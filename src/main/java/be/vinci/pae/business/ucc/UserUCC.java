@@ -19,5 +19,12 @@ public interface UserUCC {
   UserDTO login(String email, String password) ;
 
 
+  /**
+   * Returns the user corresponding to the id
+   *
+   * @param id the user's id
+   *
+   * @return the user corresponding to the id
+   */
   UserDTO getUserById(int id);
 }

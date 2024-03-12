@@ -15,13 +15,14 @@ public class UserUCCImpl implements UserUCC {
   private UserDAO userDAO;
 
   /**
+   * Returns the user's data if the login is successful
    *
+   * @param email the user's email
+   * @param password the user's password
    *
-   * @param email
-   * @param password
-   *
-   * @return
+   * @return the user's data if the login is successful
    */
+
   public UserDTO login(String email, String password) {
     User userFound = (User) userDAO.getUserByEmail(email);
 
@@ -32,6 +33,13 @@ public class UserUCCImpl implements UserUCC {
   }
 
 
+  /**
+   * Returns the user corresponding to the id
+   *
+   * @param id the user's id
+   *
+   * @return the user corresponding to the id
+   */
   public UserDTO getUserById(int id){
     return userDAO.getUserById(id);
   }
