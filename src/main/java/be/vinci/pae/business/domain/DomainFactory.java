@@ -1,7 +1,7 @@
 package be.vinci.pae.business.domain;
 
 /**
- * Generates an object
+ * Generates an object.
  */
 public interface DomainFactory {
 
