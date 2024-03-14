@@ -1,7 +1,9 @@
 package be.vinci.pae.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.DomainFactory;
@@ -55,9 +57,9 @@ public class UserUCCTest {
     when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(userDTO);
     UserDTO result = userUCC.login("chuqi.chups@student.vinci.be", "123");
 
-    assertNotNull(result);
+    assertNull(result);
     assertEquals(userDTO.getEmail(), result.getEmail());
-    assertEquals(userDTO.getPassword(), result.getPassword());
+    assertNotEquals(userDTO.getPassword(), result.getPassword());
   }
 
   @Test
@@ -68,8 +70,18 @@ public class UserUCCTest {
     when(userDAO.getUserByEmail("kawtar.d@student.vinci.be")).thenReturn(userDTO);
     UserDTO result = userUCC.login("kawtar.d@student.vinci.be", "123");
 
-    assertNotNull(result);
-    assertEquals(userDTO.getEmail(), result.getEmail());
+    assertNull(result);
+    assertNotEquals(userDTO.getEmail(), result.getEmail());
     assertEquals(userDTO.getPassword(), result.getPassword());
+  }
+
+  @Test
+  public void testGetUserById(){
+    userDTO.setId(1);
+
+    when(userDAO.getUserById(1)).thenReturn(userDTO);
+    UserDTO result = userUCC.getUserById(1);
+    assertNotNull(result);
+    assertEquals(userDTO.getId(), result.getId());
   }
 }
