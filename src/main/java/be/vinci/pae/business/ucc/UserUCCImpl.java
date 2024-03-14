@@ -22,9 +22,9 @@ public class UserUCCImpl implements UserUCC {
    */
 
   public UserDTO login(String email, String password) {
+
     User userFound = (User) userDAO.getUserByEmail(email);
-    var isPasswordOk = userFound.checkPassword(password);
-    if(userFound == null || !isPasswordOk) {
+    if(userFound == null || !userFound.checkPassword(password)) {
       throw new UnauthorizedException("Incorrect Email or Password");
     }
     return userFound;

@@ -64,6 +64,7 @@ public class UserUCCTest {
   @Test
   public void testLoginFailureForEmail() {
     assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
+    assertThrows(UnauthorizedException.class, ()-> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
   }
 
   @Test
