@@ -2,6 +2,9 @@ package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.UserDTO;
 
+/**
+ * Represents a User Use Case Controller (UCC) with methods related to user operations.
+ */
 public interface UserUCC {
 
   /**

@@ -9,6 +9,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
 
+/**
+ * Implementation of the DALServices interface.
+ * Manages database connections and provides methods for database operations.
+ */
 public class DALServicesImpl implements DALBackServices, DALServices {
 
   private ThreadLocal<Connection> connections;

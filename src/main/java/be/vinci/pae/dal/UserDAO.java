@@ -3,6 +3,10 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.UserDTO;
 import java.sql.ResultSet;
 
+/**
+ * Represents a Data Access Object (DAO) for managing user-related data.
+ * Provides methods to retrieve user information based on email or ID.
+ */
 public interface UserDAO {
 
   /**

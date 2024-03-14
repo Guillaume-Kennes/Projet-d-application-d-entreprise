@@ -12,14 +12,14 @@ import jakarta.ws.rs.ext.Provider;
 @Provider
 public class WebExceptionMapper implements ExceptionMapper<Throwable> {
 
-/**
- * Maps a Throwable to a Response object.
- *
- * @param exception The Throwable to map.
- *
- * @return A Response object representing the mapped exception.
- */
-@Override
+  /**
+   * Maps a Throwable to a Response object.
+   *
+   * @param exception The Throwable to map.
+   *
+   * @return A Response object representing the mapped exception.
+   */
+  @Override
   public Response toResponse(Throwable exception) {
     exception.printStackTrace();
     if (exception instanceof WebApplicationException) {

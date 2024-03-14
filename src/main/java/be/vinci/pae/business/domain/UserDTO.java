@@ -2,6 +2,10 @@ package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/**
+ * Represents a user data transfer object (DTO) with various properties.
+ * This interface defines methods for accessing and modifying user-related information.
+ */
 @JsonDeserialize(as = UserImpl.class)
 public interface UserDTO {
 

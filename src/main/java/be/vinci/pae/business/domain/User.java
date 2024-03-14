@@ -1,6 +1,10 @@
 package be.vinci.pae.business.domain;
 
 
+/**
+ * Represents a user with various properties.
+ * Extends the UserDTO interface.
+ */
 public interface User extends UserDTO {
 
   /**

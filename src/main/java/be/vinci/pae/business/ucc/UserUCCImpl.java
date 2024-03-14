@@ -6,6 +6,10 @@ import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
 
+/**
+ * Implementation of the UserUCC interface.
+ * Provides methods related to user operations.
+ */
 public class UserUCCImpl implements UserUCC {
 
   @Inject
@@ -39,8 +43,5 @@ public class UserUCCImpl implements UserUCC {
   public UserDTO getUserById(int id) {
     return userDAO.getUserById(id);
   }
-
-
-
 
 }

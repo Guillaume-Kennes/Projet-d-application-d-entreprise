@@ -7,6 +7,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Implementation of the UserDAO interface.
+ * Provides methods for retrieving user-related data from the database.
+ */
 public class UserDAOImpl implements UserDAO {
 
 
