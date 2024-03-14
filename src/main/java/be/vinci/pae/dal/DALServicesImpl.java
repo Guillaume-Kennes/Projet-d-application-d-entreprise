@@ -3,11 +3,11 @@ package be.vinci.pae.dal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import org.apache.commons.dbcp2.BasicDataSource;
 import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 public class DALServicesImpl implements DALBackServices, DALServices {
 /*
