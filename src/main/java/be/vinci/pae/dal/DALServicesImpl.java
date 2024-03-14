@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.utils.exception.UnauthorizedException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,7 +51,11 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   public PreparedStatement getPreparedStatement(String sql) {
     try {
-      return this.connections.get().prepareStatement(sql);
+      Connection connection = connections.get();
+      if(connection == null) {
+        throw new UnauthorizedException("No connection to the database");
+      }
+      return connection.prepareStatement(sql);
     } catch (SQLException e) {
       throw new RuntimeException("Unable to connect to database" + e.getMessage());
     }
