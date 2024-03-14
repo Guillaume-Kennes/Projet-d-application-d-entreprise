@@ -12,9 +12,17 @@ public interface TokenServices {
    * create token method.
    *
    * @param user the user
+   *
    * @return the object node
    */
   ObjectNode createToken(UserDTO user);
 
+  /**
+   * Retrieves the user ID associated with the provided token.
+   *
+   * @param token the authentication token
+   *
+   * @return the user ID corresponding to the token
+   */
   int getUserId(String token);
 }
