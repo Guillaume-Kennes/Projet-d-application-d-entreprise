@@ -39,7 +39,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionPool = new BasicDataSource();
     connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
     connectionPool.setUsername(properties.getProperty("DatabaseUser"));
-    connectionPool.setPassword(properties.getProperty("JWATSecret"));
+    connectionPool.setPassword(properties.getProperty("JWTSecret"));
 
     connections.set(start());
   }
