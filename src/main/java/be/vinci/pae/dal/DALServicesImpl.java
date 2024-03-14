@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class DALServicesImpl implements DALBackServices, DALServices {
-
+/*
 <<<<<<< HEAD
 
   private Connection connection;
@@ -23,12 +23,12 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       throw new RuntimeException("Unable to connect to database" + e.getMessage());
     }
   }
-=======
+=======*/
   private ThreadLocal<Connection> connections;
   private BasicDataSource connectionPool;
 
   public DALServicesImpl() {
->>>>>>> e72932560d3b7411c173a0c523f7189bc60001a6
+//>>>>>>> e72932560d3b7411c173a0c523f7189bc60001a6
 
     Properties properties = new Properties();
     try (InputStream input = new FileInputStream("dev.properties")) {
