@@ -37,9 +37,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionPool = new BasicDataSource();
     connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
     connectionPool.setUsername(properties.getProperty("DatabaseUser"));
-    connectionPool.setPassword(properties.getProperty("JWATSecret"));
-
-    connections.set(start());
+    connectionPool.setPassword(properties.getProperty("JWTSecret"));
+    connectionPool.setDriverClassName("org.postgresql.Driver");
   }
 
   /**
@@ -70,13 +69,22 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public Connection start() {
-    try {
-      Connection connection = connectionPool.getConnection();
-      connection.setAutoCommit(false);
-      return connection;
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    if(connections.get() == null){
+      try {
+        connections.set(connectionPool.getConnection());
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+      try{
+        connections.get().setAutoCommit(false);
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    } else {
+      throw new RuntimeException("Connection already in use");
     }
+
+    return connections.get();
   }
 
   /**
