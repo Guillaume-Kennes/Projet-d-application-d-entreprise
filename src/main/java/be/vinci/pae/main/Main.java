@@ -13,8 +13,6 @@ import org.glassfish.jersey.server.ResourceConfig;
  * Main class.
  */
 public class Main {
-
-  // Base URI the Grizzly HTTP server will listen on
   public static final String BASE_URI = Config.getProperty("BaseUri");
 
 
