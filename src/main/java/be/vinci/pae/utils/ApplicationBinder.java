@@ -12,9 +12,16 @@ import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
+/**
+ * Provider class for binding application components using HK2.
+ * This class extends AbstractBinder to configure dependency injections for various components.
+ */
 @Provider
 public class ApplicationBinder extends AbstractBinder {
 
+  /**
+   * Configures the binding of components.
+   */
   @Override
   protected void configure() {
     bind(DomainFactoryImpl.class).to(DomainFactory.class).in(Singleton.class);

@@ -1,8 +1,6 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.utils.Config;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -12,18 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class DALServicesImpl implements DALBackServices, DALServices {
-
-  private Connection connection;
-
-//  public DALServicesImpl() {
-//    try {
-//      connection = DriverManager.getConnection(Config.getProperty("DatabaseFilePath"),
-//      Config.getProperty("DatabaseUser"),
-//      Config.getProperty("DatabasePassword"));
-//    } catch (SQLException e){
-//      throw new RuntimeException("Unable to connect to database" + e.getMessage());
-//    }
-//    }
   private ThreadLocal<Connection> connections;
   private BasicDataSource connectionPool;
 
@@ -37,7 +23,6 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     }
 
     connections = new ThreadLocal<>();
-
     connectionPool = new BasicDataSource();
     connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
     connectionPool.setUsername(properties.getProperty("DatabaseUser"));
@@ -46,6 +31,13 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connections.set(start());
   }
 
+  /**
+   * Retrieves a prepared statement for the given SQL query.
+   *
+   * @param sql The SQL query.
+   * @return A prepared statement.
+   * @throws RuntimeException If unable to connect to the database.
+   */
   public PreparedStatement getPreparedStatement(String sql) {
     try {
       return this.connections.get().prepareStatement(sql);
@@ -54,6 +46,12 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     }
   }
 
+  /**
+   * Establishes a database connection.
+   *
+   * @return A database connection.
+   * @throws RuntimeException If connection fails.
+   */
   @Override
   public Connection start() {
     try {
@@ -63,6 +61,12 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     }
   }
 
+  /**
+   * Commits a transaction and closes the connection.
+   *
+   * @param connection The database connection.
+   */
+
   @Override
   public void commit(Connection connection) {
     try {
@@ -71,6 +75,12 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       throw new RuntimeException(e);
     }
   }
+
+  /**
+   * Rolls back a transaction and closes the connection.
+   *
+   * @param connection The database connection.
+   */
 
   @Override
   public void rollBack(Connection connection) {

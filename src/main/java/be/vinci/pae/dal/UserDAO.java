@@ -2,7 +2,6 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.UserDTO;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public interface UserDAO {
 

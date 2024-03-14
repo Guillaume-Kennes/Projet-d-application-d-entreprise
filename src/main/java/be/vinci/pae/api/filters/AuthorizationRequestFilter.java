@@ -16,6 +16,10 @@ import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
 import java.io.IOException;
 
+/**
+ * Request filter for handling authorization checks.
+ * This filter checks for the presence of a JWT token in the request header and verifies its validity.
+ */
 @Singleton
 @Provider
 @Authorize
@@ -26,6 +30,11 @@ public class AuthorizationRequestFilter {
   @Inject
   private UserUCC userUCC;
 
+  /**
+   * Filters incoming requests to verify authorization.
+   * @param requestContext The request context to filter.
+   * @throws IOException if an I/O error occurs while processing the request.
+   */
   public void filter(ContainerRequestContext requestContext) throws IOException {
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {

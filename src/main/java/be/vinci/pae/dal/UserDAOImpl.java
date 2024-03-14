@@ -53,6 +53,11 @@ public class UserDAOImpl implements UserDAO {
     return user;
   }
 
+  /**
+   * Method to retrieve user information from a ResultSet and map it to a UserDTO object.
+   * @param resultSet The ResultSet containing user information.
+   * @return A UserDTO object populated with user information from the ResultSet.
+   */
   public UserDTO userInfos(ResultSet resultSet) {
     UserDTO userDTO = myDomainFactory.getUser();
 
@@ -72,6 +77,12 @@ public class UserDAOImpl implements UserDAO {
     return userDTO;
   }
 
+  /**
+   * Method to retrieve a user by their ID.
+   * @param id The ID of the user to retrieve.
+   * @return A UserDTO object representing the user with the specified ID, or null if not found.
+   * @throws IllegalArgumentException if the user is not found in the database.
+   */
   public UserDTO getUserById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.users u WHERE u.id_user = ?");

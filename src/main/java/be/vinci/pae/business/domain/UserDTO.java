@@ -112,5 +112,10 @@ public interface UserDTO {
   int getId();
 
 
+  /**
+   * Sets the ID for an object.
+   *
+   * @param id The unique identifier to set.
+   */
   void setId(int id);
 }

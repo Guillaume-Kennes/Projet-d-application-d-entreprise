@@ -18,6 +18,9 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test class for UserUCC.
+ */
 public class UserUCCTest {
 
   private UserUCC userUCC;
@@ -26,6 +29,9 @@ public class UserUCCTest {
   private UserDTO userDTO;
 
 
+  /**
+   * Method executed before each test.
+   */
   @BeforeEach
   public void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new AppBinderTest());
@@ -36,6 +42,9 @@ public class UserUCCTest {
     userDTO = myDomainFactory.getUser();
   }
 
+  /**
+   * Test for successful login.
+   */
   @Test
   public void testLoginSuccess() {
     userDTO.setEmail("chuqi.chups@student.vinci.be");
@@ -51,6 +60,9 @@ public class UserUCCTest {
 
   }
 
+  /**
+   * Test for login failure due to incorrect password.
+   */
   @Test
   public void testLoginFailureForPassword() {
     userDTO.setEmail("chuqi.chups@student.vinci.be");
@@ -59,18 +71,24 @@ public class UserUCCTest {
     when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(userDTO);
 
     assertThrows(UnauthorizedException.class,
-        ()-> userUCC.login("chuqi.chups@student.vinci.be", "12ksdjkglkjglkjwlkmjgmj3"));
+        () -> userUCC.login("chuqi.chups@student.vinci.be", "12ksdjkglkjglkjwlkmjgmj3"));
   }
 
+  /**
+   * Test for login failure due to incorrect email.
+   */
   @Test
   public void testLoginFailureForEmail() {
     assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
     assertThrows(UnauthorizedException.class,
-        ()-> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
+        () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
   }
 
+  /**
+   * Test for retrieving a user by their ID.
+   */
   @Test
-  public void testGetUserById(){
+  public void testGetUserById() {
     userDTO.setId(1);
 
     when(userDAO.getUserById(1)).thenReturn(userDTO);
