@@ -41,8 +41,9 @@ public class UserResource {
   @Produces(MediaType.APPLICATION_JSON)
   public UserDTO getUserById(@PathParam("id") int id) {
     UserDTO user = myUserUcc.getUserById(id);
-    if (user == null)
+    if (user == null) {
       throw new IllegalArgumentException("User not found");
+    }
     return user;
   }
 
