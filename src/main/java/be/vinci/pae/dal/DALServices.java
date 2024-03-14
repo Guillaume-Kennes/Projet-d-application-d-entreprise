@@ -1,0 +1,27 @@
+package be.vinci.pae.dal;
+
+import java.sql.Connection;
+
+/**
+ * Interface defining Data Access Layer (DAL) services.
+ * These services provide methods for managing database transactions.
+ */
+public interface DALServices {
+
+  /**
+   * Start a database connection.
+   *
+   * @return The started database connection.
+   */
+  Connection start();
+
+  /**
+   * Commit a database transaction.
+   */
+  void commit();
+
+  /**
+   * Roll back a database transaction.
+   */
+  void rollBack();
+}
