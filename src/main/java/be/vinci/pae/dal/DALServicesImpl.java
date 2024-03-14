@@ -17,11 +17,13 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
 //  public DALServicesImpl() {
 //    try {
-//      connection = DriverManager.getConnection(Config.getProperty("DatabaseFilePath"), Config.getProperty("DatabaseUser"), Config.getProperty("DatabasePassword"));
+//      connection = DriverManager.getConnection(Config.getProperty("DatabaseFilePath"),
+//      Config.getProperty("DatabaseUser"),
+//      Config.getProperty("DatabasePassword"));
 //    } catch (SQLException e){
 //      throw new RuntimeException("Unable to connect to database" + e.getMessage());
 //    }
-//  }
+//    }
   private ThreadLocal<Connection> connections;
   private BasicDataSource connectionPool;
 

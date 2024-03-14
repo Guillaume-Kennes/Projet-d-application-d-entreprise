@@ -53,7 +53,7 @@ public class UserDAOImpl implements UserDAO {
     return user;
   }
 
-  public UserDTO userInfos(ResultSet resultSet){
+  public UserDTO userInfos(ResultSet resultSet) {
     UserDTO userDTO = myDomainFactory.getUser();
 
     try {
@@ -65,7 +65,7 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setPhoneNumber(resultSet.getString("phone_number"));
       userDTO.setRegistrationDate(resultSet.getString("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
-    }catch(SQLException e){ //DEMANDER AU PROF quelle exception
+    } catch (SQLException e) { //DEMANDER AU PROF quelle exception
       e.getMessage();
     }
 
