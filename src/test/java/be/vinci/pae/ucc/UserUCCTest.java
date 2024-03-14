@@ -58,18 +58,18 @@ public class UserUCCTest {
     when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(userDTO);
 
     assertThrows(UnauthorizedException.class,
-        ()-> userUCC.login("chuqi.chups@student.vinci.be", "12ksdjkglkjglkjwlkmjgmj3"));
+        () -> userUCC.login("chuqi.chups@student.vinci.be", "12ksdjkglkjglkjwlkmjgmj3"));
   }
 
   @Test
   public void testLoginFailureForEmail() {
     assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
     assertThrows(UnauthorizedException.class,
-        ()-> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
+        () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
   }
 
   @Test
-  public void testGetUserById(){
+  public void testGetUserById() {
     userDTO.setId(1);
 
     when(userDAO.getUserById(1)).thenReturn(userDTO);
