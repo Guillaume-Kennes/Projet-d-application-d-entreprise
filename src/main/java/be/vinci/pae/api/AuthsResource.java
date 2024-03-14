@@ -1,6 +1,5 @@
 package be.vinci.pae.api;
 
-import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
@@ -12,13 +11,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.container.ContainerRequestContext;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.Date;
@@ -33,7 +29,7 @@ public class AuthsResource {
 
   @Inject
   private UserUCC myUserUCC;
-  private TokenServices token;
+  //private TokenServices token;
 
 
   @POST
@@ -49,27 +45,38 @@ public class AuthsResource {
 
     UserDTO publicUser = myUserUCC.login(login, password);
     if (publicUser == null) {
-      throw new WebApplicationException("Login or password incorrect", Response.Status.UNAUTHORIZED);
+      throw new WebApplicationException("Login or password incorrect",
+          Response.Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
-    return jsonMapper.createObjectNode().put("token", token).put("id", publicUser.getId()).put("email", publicUser.getEmail()).put("lastName", publicUser.getLastName()).put("firstName", publicUser.getFirstName()).put("phoneNumber", publicUser.getPhoneNumber()).put("registrationDate", publicUser.getRegistrationDate()).put("role", publicUser.getRole());
+    return jsonMapper.createObjectNode().put("token", token)
+        .put("id", publicUser.getId())
+        .put("email", publicUser.getEmail())
+        .put("lastName", publicUser.getLastName())
+        .put("firstName", publicUser.getFirstName())
+        .put("phoneNumber", publicUser.getPhoneNumber())
+        .put("registrationDate", publicUser.getRegistrationDate())
+        .put("role", publicUser.getRole());
   }
 
-  public String createToken(UserDTO userDTO){
+  public String createToken(UserDTO userDTO) {
     Date dateOfExpiration = new Date(
-        System.currentTimeMillis()+ TimeUnit.HOURS.toMillis(48)
+        System.currentTimeMillis() + TimeUnit.HOURS.toMillis(48)
     );
-    return JWT.create().withIssuer("auth0").withClaim("id", userDTO.getId()).withExpiresAt(dateOfExpiration).sign(jwtAlgorithm);
+    return JWT.create().withIssuer("auth0")
+        .withClaim("id", userDTO.getId())
+        .withExpiresAt(dateOfExpiration)
+        .sign(jwtAlgorithm);
   }
 
-  @GET
-  @Path("user")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
-  public int getUser(@Context ContainerRequestContext requestContext) {
-    UserDTO user = (UserDTO) requestContext.getProperty("user");
-    return token.createToken(user).get("id").asInt();
-  }
+//  @GET
+//  @Path("user")
+//  @Produces(MediaType.APPLICATION_JSON)
+//  @Authorize
+//  public int getUser(@Context ContainerRequestContext requestContext) {
+//    UserDTO user = (UserDTO) requestContext.getProperty("user");
+//    return token.createToken(user).get("id").asInt();
+//    }
 
 
 
