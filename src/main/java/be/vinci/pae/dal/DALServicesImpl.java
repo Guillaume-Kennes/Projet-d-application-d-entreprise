@@ -1,19 +1,24 @@
 package be.vinci.pae.dal;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import org.apache.commons.dbcp2.BasicDataSource;
-import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Properties;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 public class DALServicesImpl implements DALBackServices, DALServices {
 
   private ThreadLocal<Connection> connections;
   private BasicDataSource connectionPool;
 
+  /**
+   * Constructs a new instance of DALServicesImpl.
+   * Initializes the database connection pool
+   * and loads database properties from a properties file.
+   */
   public DALServicesImpl() {
 
     Properties properties = new Properties();

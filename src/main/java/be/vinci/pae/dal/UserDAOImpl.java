@@ -23,7 +23,7 @@ public class UserDAOImpl implements UserDAO {
    *
    * @param email The email address of the user to retrieve.
    *
-   * @return A UserDTO object representing the user with the specified email address, or null if not found.
+   * @return a user with the specified email address, or null if not found.
    *
    * @throws RuntimeException if an SQL exception occurs while accessing the database.
    */

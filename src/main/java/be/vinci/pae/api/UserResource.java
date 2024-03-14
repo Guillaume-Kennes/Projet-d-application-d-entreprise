@@ -10,12 +10,25 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * Resource class for handling user-related endpoints.
+ * This class provides endpoints for retrieving user information.
+ */
 @Singleton
 @Path("/users")
 public class UserResource {
   @Inject
   private UserUCC myUserUcc;
 
+  /**
+   * Retrieves a user by their ID.
+   *
+   * @param id The ID of the user to retrieve.
+   *
+   * @return A UserDTO object representing the user with the specified ID.
+   *
+   * @throws IllegalArgumentException if the user with the specified ID is not found.
+   */
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)

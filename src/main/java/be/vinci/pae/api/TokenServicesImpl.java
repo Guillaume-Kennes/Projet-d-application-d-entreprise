@@ -24,6 +24,7 @@ public class TokenServicesImpl implements TokenServices {
    * create token method.
    *
    * @param user the user
+   *
    * @return the object node
    */
   @Override
@@ -48,6 +49,13 @@ public class TokenServicesImpl implements TokenServices {
     }
   }
 
+  /**
+   * Retrieves the user ID from a JWT token.
+   *
+   * @param token The JWT token from which to retrieve the user ID.
+   *
+   * @return The user ID extracted from the token, or -1 if the token is null or invalid.
+   */
   public int getUserId(String token) {
     if (token == null) {
       return -1;

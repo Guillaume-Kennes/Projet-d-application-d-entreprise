@@ -10,25 +10,25 @@ import jakarta.ws.rs.ext.Provider;
  * This class implements ExceptionMapper to provide custom handling for Throwable instances.
  */
 @Provider
-  public class WebExceptionMapper implements ExceptionMapper<Throwable> {
+public class WebExceptionMapper implements ExceptionMapper<Throwable> {
 
-  /**
-   * Maps a Throwable to a Response object.
-   *
-   * @param exception The Throwable to map.
-   *
-   * @return A Response object representing the mapped exception.
-   */
-  @Override
-    public Response toResponse(Throwable exception) {
-      exception.printStackTrace();
-      if (exception instanceof WebApplicationException) {
-        return Response.status(((WebApplicationException) exception).getResponse().getStatus())
-            .entity(exception.getMessage())
-            .build();
-      }
-      return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+/**
+ * Maps a Throwable to a Response object.
+ *
+ * @param exception The Throwable to map.
+ *
+ * @return A Response object representing the mapped exception.
+ */
+@Override
+  public Response toResponse(Throwable exception) {
+    exception.printStackTrace();
+    if (exception instanceof WebApplicationException) {
+      return Response.status(((WebApplicationException) exception).getResponse().getStatus())
           .entity(exception.getMessage())
           .build();
     }
+    return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+        .entity(exception.getMessage())
+        .build();
   }
+}

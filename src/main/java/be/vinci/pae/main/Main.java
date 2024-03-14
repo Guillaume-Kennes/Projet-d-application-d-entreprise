@@ -28,16 +28,16 @@ public class Main {
     final ResourceConfig rc = new ResourceConfig().packages("be.vinci.pae.api")
         .register(ApplicationBinder.class)
         .register(WebExceptionMapper.class);
-
-
     return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
   }
 
+
   /**
-   * Main method.
+   * Main method to start the Jersey application server.
    *
-   * @param args
-   * @throws IOException
+   * @param args Command-line arguments (not used in this method).
+   *
+   * @throws IOException if an I/O error occurs while starting the server.
    */
   public static void main(String[] args) throws IOException {
     //System.out.println(BCrypt.hashpw("Azertyui1_", BCrypt.gensalt()));
