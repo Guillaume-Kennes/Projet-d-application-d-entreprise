@@ -35,7 +35,9 @@ public class UserDAOImpl implements UserDAO {
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
       if (resultSet.next()) {
-        return userInfos(resultSet);
+        user = userInfos(resultSet);
+      } else {
+        user = null;
       }
 
     } catch (Exception e) {

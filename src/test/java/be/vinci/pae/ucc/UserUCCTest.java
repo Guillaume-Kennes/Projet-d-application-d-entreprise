@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.DomainFactory;
@@ -11,6 +12,7 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.AppBinderTest;
+import be.vinci.pae.utils.exception.UnauthorizedException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,24 +57,13 @@ public class UserUCCTest {
     userDTO.setPassword("$2a$10$jTSImXQiYMuPdgtrfA9t1u0lln65JDLUyzvir9t21uENvF0yIX.na");
 
     when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(userDTO);
-    UserDTO result = userUCC.login("chuqi.chups@student.vinci.be", "123");
 
-    assertNull(result);
-    assertEquals(userDTO.getEmail(), result.getEmail());
-    assertNotEquals(userDTO.getPassword(), result.getPassword());
+    assertThrows(UnauthorizedException.class, ()-> userUCC.login("chuqi.chups@student.vinci.be", "12ksdjkglkjglkjwlkmjgmj3"));
   }
 
   @Test
   public void testLoginFailureForEmail() {
-    userDTO.setEmail("kawtar.d@student.vinci.be");
-    userDTO.setPassword("$2a$10$jTSImXQiYMuPdgtrfA9t1u0lln65JDLUyzvir9t21uENvF0yIX.na");
-
-    when(userDAO.getUserByEmail("kawtar.d@student.vinci.be")).thenReturn(userDTO);
-    UserDTO result = userUCC.login("kawtar.d@student.vinci.be", "123");
-
-    assertNull(result);
-    assertNotEquals(userDTO.getEmail(), result.getEmail());
-    assertEquals(userDTO.getPassword(), result.getPassword());
+    assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
   }
 
   @Test
