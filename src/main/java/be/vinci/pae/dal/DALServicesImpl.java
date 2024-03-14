@@ -60,12 +60,15 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * Establishes a database connection.
    *
    * @return A database connection.
+   *
    * @throws RuntimeException If connection fails.
    */
   @Override
   public Connection start() {
     try {
-      return connectionPool.getConnection();
+      Connection connection = connectionPool.getConnection();
+      connection.setAutoCommit(false);
+      return connection;
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -73,14 +76,16 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
   /**
    * Commits a transaction and closes the connection.
-   *
-   * @param connection The database connection.
    */
-
   @Override
-  public void commit(Connection connection) {
+  public void commit() {
+    if(connections.get() == null) {
+      return;
+    }
     try {
-      connection.close();
+      connections.get().commit();
+      connections.get().close();
+      connections.remove();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
@@ -88,14 +93,16 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
   /**
    * Rolls back a transaction and closes the connection.
-   *
-   * @param connection The database connection.
    */
-
   @Override
-  public void rollBack(Connection connection) {
+  public void rollBack() {
+    if(connections.get() == null) {
+      return;
+    }
     try {
-      connection.close();
+      connections.get().rollback();
+      connections.get().close();
+      connections.remove();
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
