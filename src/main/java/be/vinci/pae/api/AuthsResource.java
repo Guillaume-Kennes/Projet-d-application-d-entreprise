@@ -31,7 +31,10 @@ public class AuthsResource {
   private UserUCC myUserUCC;
   //private TokenServices token;
 
-
+  /**
+   * @param json the user information as a JsonNode
+   * @return an ObjectNode with the token information
+   */
   @POST
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
@@ -59,6 +62,10 @@ public class AuthsResource {
         .put("role", publicUser.getRole());
   }
 
+  /**
+   * @param userDTO the user for whom the token must be created
+   * @return the token as a String
+   */
   public String createToken(UserDTO userDTO) {
     Date dateOfExpiration = new Date(
         System.currentTimeMillis() + TimeUnit.HOURS.toMillis(48)

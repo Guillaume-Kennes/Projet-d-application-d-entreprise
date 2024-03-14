@@ -1,6 +1,5 @@
 package be.vinci.pae.api;
 
-
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import jakarta.inject.Inject;
@@ -16,13 +15,15 @@ import jakarta.ws.rs.core.MediaType;
 public class UserResource {
   @Inject
   private UserUCC myUserUcc;
+
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public UserDTO getUserById(@PathParam("id") int id) {
     UserDTO user = myUserUcc.getUserById(id);
-    if (user == null)
+    if (user == null) {
       throw new IllegalArgumentException("User not found");
+    }
     return user;
   }
 

@@ -5,15 +5,21 @@ import java.sql.ResultSet;
 
 public interface UserDAO {
 
-  /** Returns the user corresponding to the given email
+  /**
+   * Returns the user corresponding to the given email
+   *
    * @param email the user's email
+   *
    * @return the user corresponding to the given email
    */
   UserDTO getUserByEmail(String email);
 
 
   /**
+   * Returns the information of a user
+   *
    * @param resultSet the given resultSet
+   *
    * @return the user corresponding to that result set
    */
   UserDTO userInfos(ResultSet resultSet);

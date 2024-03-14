@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class DALServicesImpl implements DALBackServices, DALServices {
+
   private ThreadLocal<Connection> connections;
   private BasicDataSource connectionPool;
 
@@ -26,7 +27,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionPool = new BasicDataSource();
     connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
     connectionPool.setUsername(properties.getProperty("DatabaseUser"));
-    connectionPool.setPassword(properties.getProperty("JWTSecret"));
+    connectionPool.setPassword(properties.getProperty("JWATSecret"));
 
     connections.set(start());
   }
