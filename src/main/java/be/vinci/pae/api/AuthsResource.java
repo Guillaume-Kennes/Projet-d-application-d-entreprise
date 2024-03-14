@@ -83,7 +83,7 @@ public class AuthsResource {
 //  public int getUser(@Context ContainerRequestContext requestContext) {
 //    UserDTO user = (UserDTO) requestContext.getProperty("user");
 //    return token.createToken(user).get("id").asInt();
-//    }
+//}
 
 
 

@@ -10,24 +10,11 @@ import java.io.InputStream;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 public class DALServicesImpl implements DALBackServices, DALServices {
-/*
-<<<<<<< HEAD
 
-  private Connection connection;
-
-  public DALServicesImpl() {
-    try {
-      connection = DriverManager.getConnection(Config.getProperty("DatabaseFilePath"), Config.getProperty("DatabaseUser"), Config.getProperty("DatabasePassword"));
-    } catch (SQLException e){
-      throw new RuntimeException("Unable to connect to database" + e.getMessage());
-    }
-  }
-=======*/
   private ThreadLocal<Connection> connections;
   private BasicDataSource connectionPool;
 
   public DALServicesImpl() {
-//>>>>>>> e72932560d3b7411c173a0c523f7189bc60001a6
 
     Properties properties = new Properties();
     try (InputStream input = new FileInputStream("dev.properties")) {

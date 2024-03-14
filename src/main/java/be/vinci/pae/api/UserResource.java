@@ -20,22 +20,6 @@ public class UserResource {
   @Inject
   private UserUCC myUserUcc;
 
-//  @Inject
-//  private Logger logger;
-//
-//  @Path("/me")
-//  @GET
-//  @Produces(MediaType.APPLICATION_JSON)
-//  @Authorize
-//  public UserDTO getUserWithToken(@Context ContainerRequest request) {
-//
-//    UserDTO authenticatedUser = (UserDTO) request.getProperty("user");
-//    logger.info("Token de " + authenticatedUser.getFirstName()
-//    + " " + authenticatedUser.getLastName());
-//
-//    return authenticatedUser;
-//  }
-
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
