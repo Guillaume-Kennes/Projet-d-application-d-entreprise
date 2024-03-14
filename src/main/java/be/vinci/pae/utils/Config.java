@@ -10,7 +10,8 @@ import java.util.Properties;
 
 /**
  * Utility class for loading and accessing configuration properties.
- * This class provides methods to load properties from a file and retrieve them as strings, integers, or booleans.
+ * This class provides methods to load properties from
+ * a file and retrieve them as strings, integers, or booleans.
  */
 public class Config {
 
@@ -22,7 +23,9 @@ public class Config {
 
   /**
    * Loads properties from a specified file.
+   *
    * @param file The name of the file containing the properties.
+   *
    * @throws WebApplicationException if an error occurs while loading the properties.
    */
   public static void load(String file) {
@@ -38,7 +41,9 @@ public class Config {
 
   /**
    * Retrieves a string property by its key.
+   *
    * @param key The key of the property to retrieve.
+   *
    * @return The value of the property as a string.
    */
   public static String getProperty(String key) {
@@ -47,7 +52,9 @@ public class Config {
 
   /**
    * Retrieves an integer property by its key.
+   *
    * @param key The key of the property to retrieve.
+   *
    * @return The value of the property as an integer.
    */
   public static Integer getIntProperty(String key) {
@@ -56,7 +63,9 @@ public class Config {
 
   /**
    * Retrieves a boolean property by its key.
+   *
    * @param key The key of the property to retrieve.
+   *
    * @return The value of the property as a boolean.
    */
   public static boolean getBoolProperty(String key) {

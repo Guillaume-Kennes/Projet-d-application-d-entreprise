@@ -19,6 +19,7 @@ public class UserDAOImpl implements UserDAO {
 
   /**
    * @param email the email of the user researched
+   *
    * @return the user researched
    */
   public UserDTO getUserByEmail(String email) {
@@ -55,7 +56,9 @@ public class UserDAOImpl implements UserDAO {
 
   /**
    * Method to retrieve user information from a ResultSet and map it to a UserDTO object.
+   *
    * @param resultSet The ResultSet containing user information.
+   *
    * @return A UserDTO object populated with user information from the ResultSet.
    */
   public UserDTO userInfos(ResultSet resultSet) {
@@ -79,8 +82,11 @@ public class UserDAOImpl implements UserDAO {
 
   /**
    * Method to retrieve a user by their ID.
+   *
    * @param id The ID of the user to retrieve.
+   *
    * @return A UserDTO object representing the user with the specified ID, or null if not found.
+   *
    * @throws IllegalArgumentException if the user is not found in the database.
    */
   public UserDTO getUserById(int id) {

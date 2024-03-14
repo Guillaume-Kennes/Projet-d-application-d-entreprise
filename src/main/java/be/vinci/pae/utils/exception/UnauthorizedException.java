@@ -6,7 +6,8 @@ import jakarta.ws.rs.core.Response.Status;
 
 /**
  * Exception class representing an unauthorized access error.
- * This exception extends WebApplicationException to provide custom handling for unauthorized access situations.
+ * This exception extends WebApplicationException
+ * to provide custom handling for unauthorized access situations.
  */
 public class UnauthorizedException extends WebApplicationException {
 
@@ -19,6 +20,7 @@ public class UnauthorizedException extends WebApplicationException {
 
   /**
    * Constructs an UnauthorizedException with a custom message and status code 401 (Unauthorized).
+   *
    * @param message The custom message to include in the exception.
    */
   public UnauthorizedException(String message) {

@@ -14,7 +14,9 @@ import jakarta.ws.rs.ext.Provider;
 
   /**
    * Maps a Throwable to a Response object.
+   *
    * @param exception The Throwable to map.
+   *
    * @return A Response object representing the mapped exception.
    */
   @Override

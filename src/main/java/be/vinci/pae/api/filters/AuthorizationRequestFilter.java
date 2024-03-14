@@ -18,7 +18,8 @@ import java.io.IOException;
 
 /**
  * Request filter for handling authorization checks.
- * This filter checks for the presence of a JWT token in the request header and verifies its validity.
+ * This filter checks for the presence of a JWT token
+ * in the request header and verifies its validity.
  */
 @Singleton
 @Provider

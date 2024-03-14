@@ -28,6 +28,7 @@ class UserImpl implements User {
 
   /**
    * Get the email of the user.
+   *
    * @return The email of the user.
    */
   @Override
@@ -37,6 +38,7 @@ class UserImpl implements User {
 
   /**
    * Set the email of the user.
+   *
    * @param email The email to set.
    */
   @Override
@@ -46,6 +48,7 @@ class UserImpl implements User {
 
   /**
    * Get the password of the user.
+   *
    * @return The password of the user.
    */
   @Override
@@ -55,6 +58,7 @@ class UserImpl implements User {
 
   /**
    * Set the password of the user.
+   *
    * @param password The password to set.
    */
   @Override
@@ -64,6 +68,7 @@ class UserImpl implements User {
 
   /**
    * Get the last name of the user.
+   *
    * @return The last name of the user.
    */
   @Override
@@ -73,6 +78,7 @@ class UserImpl implements User {
 
   /**
    * Set the last name of the user.
+   *
    * @param lastName The last name to set.
    */
   @Override
@@ -82,6 +88,7 @@ class UserImpl implements User {
 
   /**
    * Get the first name of the user.
+   *
    * @return The first name of the user.
    */
   @Override
@@ -91,6 +98,7 @@ class UserImpl implements User {
 
   /**
    * Set the first name of the user.
+   *
    * @param firstName The first name to set.
    */
   @Override
@@ -100,6 +108,7 @@ class UserImpl implements User {
 
   /**
    * Get the phone number of the user.
+   *
    * @return The phone number of the user.
    */
   @Override
@@ -109,6 +118,7 @@ class UserImpl implements User {
 
   /**
    * Set the phone number of the user.
+   *
    * @param phoneNumber The phone number to set.
    */
   @Override
@@ -118,6 +128,7 @@ class UserImpl implements User {
 
   /**
    * Get the registration date of the user.
+   *
    * @return The registration date of the user.
    */
   @Override
@@ -127,6 +138,7 @@ class UserImpl implements User {
 
   /**
    * Set the registration date of the user.
+   *
    * @param registrationDate The registration date to set.
    */
   @Override
@@ -136,6 +148,7 @@ class UserImpl implements User {
 
   /**
    * Get the role of the user.
+   *
    * @return The role of the user.
    */
   @Override
@@ -145,6 +158,7 @@ class UserImpl implements User {
 
   /**
    * Set the role of the user.
+   *
    * @param role The role to set.
    */
   @Override
@@ -154,6 +168,7 @@ class UserImpl implements User {
 
   /**
    * Get the ID of the user.
+   *
    * @return The ID of the user.
    */
   @Override
@@ -163,6 +178,7 @@ class UserImpl implements User {
 
   /**
    * Set the ID of the user.
+   *
    * @param id The ID to set.
    */
   @Override
@@ -172,7 +188,9 @@ class UserImpl implements User {
 
   /**
    * Check if the provided password matches the user's password.
+   *
    * @param password The password to check.
+   *
    * @return True if the password matches, false otherwise.
    */
   @Override
@@ -182,6 +200,7 @@ class UserImpl implements User {
 
   /**
    * Get a string representation of the UserImpl object.
+   *
    * @return A string representation of the UserImpl object.
    */
   @Override
