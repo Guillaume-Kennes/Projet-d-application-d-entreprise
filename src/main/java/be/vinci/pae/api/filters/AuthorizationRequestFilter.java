@@ -33,7 +33,9 @@ public class AuthorizationRequestFilter {
 
   /**
    * Filters incoming requests to verify authorization.
+   *
    * @param requestContext The request context to filter.
+   *
    * @throws IOException if an I/O error occurs while processing the request.
    */
   public void filter(ContainerRequestContext requestContext) throws IOException {

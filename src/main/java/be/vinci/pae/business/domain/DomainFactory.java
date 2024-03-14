@@ -3,7 +3,7 @@ package be.vinci.pae.business.domain;
 public interface DomainFactory {
 
   /**
-   * Gets a user
+   * Gets a user.
    *
    * @return a user
    */

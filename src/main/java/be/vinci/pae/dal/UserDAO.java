@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 public interface UserDAO {
 
   /**
-   * Returns the user corresponding to the given email
+   * Returns the user corresponding to the given email.
    *
    * @param email the user's email
    *
@@ -16,7 +16,7 @@ public interface UserDAO {
 
 
   /**
-   * Returns the information of a user
+   * Returns the information of a user.
    *
    * @param resultSet the given resultSet
    *
@@ -27,7 +27,7 @@ public interface UserDAO {
 
 
   /**
-   * Returns the user corresponding to the id
+   * Returns the user corresponding to the id.
    *
    * @param id the user's id
    *

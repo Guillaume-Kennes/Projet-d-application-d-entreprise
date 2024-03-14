@@ -17,10 +17,15 @@ public class UserDAOImpl implements UserDAO {
   private DALBackServices dalServices;
 
 
+
   /**
-   * @param email the email of the user researched
+   * Retrieves a user by their email address from the database.
    *
-   * @return the user researched
+   * @param email The email address of the user to retrieve.
+   *
+   * @return A UserDTO object representing the user with the specified email address, or null if not found.
+   *
+   * @throws RuntimeException if an SQL exception occurs while accessing the database.
    */
   public UserDTO getUserByEmail(String email) {
 

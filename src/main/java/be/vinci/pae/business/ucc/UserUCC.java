@@ -5,7 +5,7 @@ import be.vinci.pae.business.domain.UserDTO;
 public interface UserUCC {
 
   /**
-   * Returns the user's data if the login is successful
+   * Returns the user's data if the login is successful.
    *
    * @param email    the user's email
    * @param password the user's password
@@ -15,7 +15,7 @@ public interface UserUCC {
 
 
   /**
-   * Returns the user corresponding to the id
+   * Returns the user corresponding to the id.
    *
    * @param id the user's id
    *

@@ -11,7 +11,7 @@ public class UserUCCImpl implements UserUCC {
   @Inject
   private UserDAO userDAO;
 
-  /** Returns the user's data if the login is successful
+  /** Returns the user's data if the login is successful.
    *
    * @param email the user's email
    * @param password the user's password
@@ -30,7 +30,7 @@ public class UserUCCImpl implements UserUCC {
 
 
   /**
-   * Returns the user corresponding to the id
+   * Returns the user corresponding to the id.
    *
    * @param id the user's id
    *
