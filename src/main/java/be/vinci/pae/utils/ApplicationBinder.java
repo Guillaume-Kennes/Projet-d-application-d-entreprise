@@ -5,6 +5,7 @@ import be.vinci.pae.business.domain.DomainFactoryImpl;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.business.ucc.UserUCCImpl;
 import be.vinci.pae.dal.DALBackServices;
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.DALServicesImpl;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.dal.UserDAOImpl;
@@ -26,7 +27,7 @@ public class ApplicationBinder extends AbstractBinder {
   protected void configure() {
     bind(DomainFactoryImpl.class).to(DomainFactory.class).in(Singleton.class);
     bind(UserDAOImpl.class).to(UserDAO.class).in(Singleton.class);
-    bind(DALServicesImpl.class).to(DALBackServices.class).in(Singleton.class);
+    bind(DALServicesImpl.class).to(DALBackServices.class).to(DALServices.class).in(Singleton.class);
     bind(UserUCCImpl.class).to(UserUCC.class).in(Singleton.class);
   }
 }

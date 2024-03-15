@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.utils.exception.UnauthorizedException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +20,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   private BasicDataSource connectionPool;
 
   /**
-   * Constructs a new instance of DALServicesImpl.
-   * Initializes the database connection pool
-   * and loads database properties from a properties file.
+   * Constructs a new instance of DALServicesImpl. Initializes the database connection pool and
+   * loads database properties from a properties file.
    */
   public DALServicesImpl() {
 
@@ -36,9 +36,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionPool = new BasicDataSource();
     connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
     connectionPool.setUsername(properties.getProperty("DatabaseUser"));
-    connectionPool.setPassword(properties.getProperty("JWATSecret"));
-
-    connections.set(start());
+    connectionPool.setPassword(properties.getProperty("JWTSecret"));
+    connectionPool.setDriverClassName("org.postgresql.Driver");
   }
 
   /**
@@ -50,7 +49,11 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   public PreparedStatement getPreparedStatement(String sql) {
     try {
-      return this.connections.get().prepareStatement(sql);
+      Connection connection = start();
+      if (connection == null) {
+        throw new UnauthorizedException("No connection to the database");
+      }
+      return connection.prepareStatement(sql);
     } catch (SQLException e) {
       throw new RuntimeException("Unable to connect to database" + e.getMessage());
     }
@@ -60,18 +63,26 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * Establishes a database connection.
    *
    * @return A database connection.
-   *
    * @throws RuntimeException If connection fails.
    */
   @Override
   public Connection start() {
-    try {
-      Connection connection = connectionPool.getConnection();
-      connection.setAutoCommit(false);
-      return connection;
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    if (connections.get() == null) {
+      try {
+        connections.set(connectionPool.getConnection());
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+      try {
+        connections.get().setAutoCommit(false);
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    } else {
+      throw new RuntimeException("Already a connection");
     }
+
+    return connections.get();
   }
 
   /**
@@ -79,15 +90,18 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public void commit() {
-    if(connections.get() == null) {
-      return;
-    }
     try {
       connections.get().commit();
-      connections.get().close();
-      connections.remove();
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    } finally {
+      try {
+        connections.get().close();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      } finally {
+        connections.remove();
+      }
     }
   }
 
@@ -96,15 +110,19 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public void rollBack() {
-    if(connections.get() == null) {
-      return;
-    }
     try {
       connections.get().rollback();
-      connections.get().close();
-      connections.remove();
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    } finally {
+      try {
+        connections.get().close();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      } finally {
+        connections.remove();
+      }
     }
   }
+
 }
