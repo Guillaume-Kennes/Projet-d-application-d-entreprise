@@ -20,9 +20,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   private BasicDataSource connectionPool;
 
   /**
-   * Constructs a new instance of DALServicesImpl.
-   * Initializes the database connection pool
-   * and loads database properties from a properties file.
+   * Constructs a new instance of DALServicesImpl. Initializes the database connection pool and
+   * loads database properties from a properties file.
    */
   public DALServicesImpl() {
 
@@ -50,8 +49,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   public PreparedStatement getPreparedStatement(String sql) {
     try {
-      Connection connection = connections.get();
-      if(connection == null) {
+      Connection connection = start();
+      if (connection == null) {
         throw new UnauthorizedException("No connection to the database");
       }
       return connection.prepareStatement(sql);
@@ -64,24 +63,23 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * Establishes a database connection.
    *
    * @return A database connection.
-   *
    * @throws RuntimeException If connection fails.
    */
   @Override
   public Connection start() {
-    if(connections.get() == null){
+    if (connections.get() == null) {
       try {
         connections.set(connectionPool.getConnection());
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
-      try{
+      try {
         connections.get().setAutoCommit(false);
       } catch (SQLException e) {
         throw new RuntimeException(e);
       }
     } else {
-      throw new RuntimeException("Connection already in use");
+      throw new RuntimeException("Already a connection");
     }
 
     return connections.get();
@@ -92,15 +90,18 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public void commit() {
-    if(connections.get() == null) {
-      return;
-    }
     try {
       connections.get().commit();
-      connections.get().close();
-      connections.remove();
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    } finally {
+      try {
+        connections.get().close();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      } finally {
+        connections.remove();
+      }
     }
   }
 
@@ -109,15 +110,19 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public void rollBack() {
-    if(connections.get() == null) {
-      return;
-    }
     try {
       connections.get().rollback();
-      connections.get().close();
-      connections.remove();
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    } finally {
+      try {
+        connections.get().close();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      } finally {
+        connections.remove();
+      }
     }
   }
+
 }
