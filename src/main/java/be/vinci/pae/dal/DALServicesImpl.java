@@ -11,8 +11,8 @@ import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
- * Implementation of the DALServices interface.
- * Manages database connections and provides methods for database operations.
+ * Implementation of the DALServices interface. Manages database connections and provides methods
+ * for database operations.
  */
 public class DALServicesImpl implements DALBackServices, DALServices {
 
@@ -36,7 +36,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionPool = new BasicDataSource();
     connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
     connectionPool.setUsername(properties.getProperty("DatabaseUser"));
-    connectionPool.setPassword(properties.getProperty("JWTSecret"));
+    connectionPool.setPassword(properties.getProperty("DatabasePassword"));
     connectionPool.setDriverClassName("org.postgresql.Driver");
   }
 
