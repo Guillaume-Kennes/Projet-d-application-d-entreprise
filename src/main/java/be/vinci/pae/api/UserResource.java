@@ -9,6 +9,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Resource class for handling user-related endpoints.
@@ -39,5 +40,12 @@ public class UserResource {
     }
     return user;
   }
+
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<UserDTO> getAllUsers(){
+   return myUserUcc.getAllUsers();
+  }
+
 
 }

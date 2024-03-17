@@ -5,6 +5,7 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
+import java.util.List;
 
 /**
  * Implementation of the UserUCC interface.
@@ -42,6 +43,17 @@ public class UserUCCImpl implements UserUCC {
    */
   public UserDTO getUserById(int id) {
     return userDAO.getUserById(id);
+  }
+
+
+  /**
+   * Returns the list of all users available in the system.
+   *
+   * @return A list containing UserDTO objects representing all users.
+   * If no users are found, the list will be empty.
+   */
+  public List<UserDTO> getAllUsers(){
+    return userDAO.getAllUsers();
   }
 
 }

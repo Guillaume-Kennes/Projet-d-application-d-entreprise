@@ -1,11 +1,14 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the UserDAO interface.
@@ -112,5 +115,21 @@ public class UserDAOImpl implements UserDAO {
       throw new IllegalArgumentException("User not found");
     }
     return null;
+  }
+
+  public List<UserDTO> getAllUsers(){
+    List<UserDTO> usersList = new ArrayList<>();
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.users");
+    try(ResultSet resultSet = preparedStatement.executeQuery()){
+      while(resultSet.next()) {
+        UserDTO userDTO = myDomainFactory.getUser();
+        userDTO.setEmail(resultSet.getString("email"));
+        usersList.add(userDTO);
+      }
+    }catch(Exception e){
+      System.exit(1);
+    }
+    return usersList;
   }
 }

@@ -11,3 +11,7 @@ Content-Type: application/json
 
 ### Get an user by it's id
 GET {{baseUrl}}/users/1
+
+
+### Get all users
+GET {{baseUrl}}/users
