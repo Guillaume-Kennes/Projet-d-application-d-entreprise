@@ -38,6 +38,5 @@ public interface UserDAO {
    * @return the user corresponding to the id
    */
   UserDTO getUserById(int id);
-
 }
 

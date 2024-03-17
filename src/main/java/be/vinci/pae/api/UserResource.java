@@ -2,6 +2,8 @@ package be.vinci.pae.api;
 
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.GET;
@@ -17,6 +19,8 @@ import jakarta.ws.rs.core.MediaType;
 @Singleton
 @Path("/users")
 public class UserResource {
+
+  private ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private UserUCC myUserUcc;
 
@@ -32,12 +36,16 @@ public class UserResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO getUserById(@PathParam("id") int id) {
+  public ObjectNode getUserById(@PathParam("id") int id) {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
       throw new IllegalArgumentException("User not found");
     }
-    return user;
+    return jsonMapper.createObjectNode().put("userInfo", user.toString())
+        .put("email", user.getEmail())
+        .put("lastName", user.getLastName())
+        .put("firstName", user.getFirstName())
+        .put("phoneNumber", user.getPhoneNumber());
   }
 
 }
