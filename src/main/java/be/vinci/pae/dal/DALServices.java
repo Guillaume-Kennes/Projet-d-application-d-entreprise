@@ -17,15 +17,11 @@ public interface DALServices {
 
   /**
    * Commit a database transaction.
-   *
-   * @param connection The database connection to commit the transaction on.
    */
-  void commit(Connection connection);
+  void commit();
 
   /**
    * Roll back a database transaction.
-   *
-   * @param connection The database connection to roll back the transaction on.
    */
-  void rollBack(Connection connection);
+  void rollBack();
 }

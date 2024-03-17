@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.utils.exception.UnauthorizedException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +20,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   private BasicDataSource connectionPool;
 
   /**
-   * Constructs a new instance of DALServicesImpl.
-   * Initializes the database connection pool
-   * and loads database properties from a properties file.
+   * Constructs a new instance of DALServicesImpl. Initializes the database connection pool and
+   * loads database properties from a properties file.
    */
   public DALServicesImpl() {
 
@@ -39,10 +39,12 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionPool.setPassword(properties.getProperty("JWTSecret"));
 
     connections.set(start());
+
+    connectionPool.setDriverClassName("org.postgresql.Driver");
   }
 
   /**
-   * Retrieves a prepare><<d statement for the given SQL query.
+   * Retrieves prepare ><<d statement for the given SQL query.
    *  4567890O°_
    * @param sql The SQL query.
    * @return A prepared statement.
@@ -50,7 +52,11 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   public PreparedStatement getPreparedStatement(String sql) {
     try {
-      return this.connections.get().prepareStatement(sql);
+      Connection connection = start();
+      if (connection == null) {
+        throw new UnauthorizedException("No connection to the database");
+      }
+      return connection.prepareStatement(sql);
     } catch (SQLException e) {
       throw new RuntimeException("Unable to connect to database" + e.getMessage());
     }
@@ -64,40 +70,62 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public Connection start() {
-    try {
-      return connectionPool.getConnection();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
+    if (connections.get() == null) {
+      try {
+        connections.set(connectionPool.getConnection());
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+      try {
+        connections.get().setAutoCommit(false);
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      }
+    } else {
+      throw new RuntimeException("Already a connection");
     }
+
+    return connections.get();
   }
 
   /**
    * Commits a transaction and closes the connection.
-   *
-   * @param connection The database connection.
    */
-
   @Override
-  public void commit(Connection connection) {
+  public void commit() {
     try {
-      connection.close();
+      connections.get().commit();
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    } finally {
+      try {
+        connections.get().close();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      } finally {
+        connections.remove();
+      }
     }
   }
 
   /**
    * Rolls back a transaction and closes the connection.
-   *
-   * @param connection The database connection.
    */
-
   @Override
-  public void rollBack(Connection connection) {
+  public void rollBack() {
     try {
-      connection.close();
+      connections.get().rollback();
     } catch (SQLException e) {
       throw new RuntimeException(e);
+    } finally {
+      try {
+        connections.get().close();
+      } catch (SQLException e) {
+        throw new RuntimeException(e);
+      } finally {
+        connections.remove();
+      }
     }
   }
+
 }
