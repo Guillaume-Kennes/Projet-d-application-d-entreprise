@@ -36,14 +36,14 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionPool = new BasicDataSource();
     connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
     connectionPool.setUsername(properties.getProperty("DatabaseUser"));
-    connectionPool.setPassword(properties.getProperty("JWATSecret"));
+    connectionPool.setPassword(properties.getProperty("JWTSecret"));
 
     connections.set(start());
   }
 
   /**
-   * Retrieves a prepared statement for the given SQL query.
-   *
+   * Retrieves a prepare><<d statement for the given SQL query.
+   *  4567890O°_
    * @param sql The SQL query.
    * @return A prepared statement.
    * @throws RuntimeException If unable to connect to the database.
