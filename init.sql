@@ -17,6 +17,7 @@ CREATE TABLE pae.entreprises(
     trade_name VARCHAR(30) NOT NULL,
     designation VARCHAR(60),
     adress VARCHAR(50) NOT NULL,
+    city VARCHAR(60) NOT NULL,
     means_of_communication VARCHAR(50) NOT NULL,
     is_black_listed boolean NOT NULL,
     motivation_black_list VARCHAR(200)
@@ -64,14 +65,14 @@ CREATE TABLE pae.internships(
     Niboo		                0487 02 79 13	Boulevard du Souverain, 24	    1170 Watermael-Boisfort
     Sopra Steria		        02 566 66 66	Avenue Arnaud Fraiteur, 15/23	1050 Bruxelles
   */
-INSERT INTO pae.entreprises (trade_name, designation, adress, means_of_communication, is_black_listed, motivation_black_list)
-VALUES ('Assyst Europe', null, 'Avenue du Japon, 1/B9', '02.609.25.00', false, null);
-INSERT INTO pae.entreprises (trade_name, designation, adress, means_of_communication, is_black_listed, motivation_black_list)
-VALUES ('LetsBuild', null, 'Chaussée de Bruxelles, 135A', '014 54 67 54', false, null);
-INSERT INTO pae.entreprises (trade_name, designation, adress, means_of_communication, is_black_listed, motivation_black_list)
-VALUES ('Niboo', null, 'Chaussée de Bruxelles, 135A', '014 54 67 54', false, null);
-INSERT INTO pae.entreprises (trade_name, designation, adress, means_of_communication, is_black_listed, motivation_black_list)
-VALUES ('Sopra Steria', null, 'Avenue Arnaud Fraiteur, 15/23', '02 566 66 66', false, null);
+INSERT INTO pae.entreprises (trade_name, designation, adress, city, means_of_communication, is_black_listed, motivation_black_list)
+VALUES ('Assyst Europe', null, 'Avenue du Japon, 1/B9', '1420 Braine-l Alleud', '02.609.25.00', false, null);
+INSERT INTO pae.entreprises (trade_name, designation, adress, city, means_of_communication, is_black_listed, motivation_black_list)
+VALUES ('LetsBuild', null, 'Chaussée de Bruxelles, 135A', '1310 La Hulpe', '014 54 67 54', false, null);
+INSERT INTO pae.entreprises (trade_name, designation, adress, city, means_of_communication, is_black_listed, motivation_black_list)
+VALUES ('Niboo', null, 'Chaussée de Bruxelles, 135A', '1170 Watermael-Boisfort', '014 54 67 54', false, null);
+INSERT INTO pae.entreprises (trade_name, designation, adress, city, means_of_communication, is_black_listed, motivation_black_list)
+VALUES ('Sopra Steria', null, 'Avenue Arnaud Fraiteur, 15/23', '1050 Bruxelles', '02 566 66 66', false, null);
 
 
 /*RESPONSABLE
