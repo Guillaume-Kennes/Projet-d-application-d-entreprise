@@ -1,35 +1,39 @@
-const jwt = require('jsonwebtoken');
-
+/* eslint-disable no-console */
 function getToken(){
   const token = localStorage.getItem('token');
   if(!token){
     return null;
   }
+  console.log(token);
   return token;
 }
 
 function getUserInfoFromToken() {
-  const token = getToken();
+  const tokenString = getToken();
 
-  // Decode the token
-  try {
-    const decodedToken = jwt.decode(token);
-
-    const userInfo = {
-      id: decodedToken.id,
-      email: decodedToken.email,
-      lastName: decodedToken.lastName,
-      firstName: decodedToken.firstName,
-      phoneNumber: decodedToken.phoneNumber,
-      registrationDate: decodedToken.registrationDate,
-      role: decodedToken.role
-    };
-
-    return userInfo;
-  } catch (error) {
-    console.error('Error decoding token:', error);
+  if (!tokenString) {
     return null;
   }
+
+  let token;
+  try {
+    token = JSON.parse(tokenString);
+  } catch (error) {
+    console.error('Error parsing token:', error);
+    return null;
+  }
+
+  const userInfo = {
+    id: token.id || null,
+    email: token.email || null,
+    lastName: token.lastName || null,
+    firstName: token.firstName || null,
+    phoneNumber: token.phoneNumber || null,
+    registrationDate: token.registrationDate || null,
+    role: token.role || null
+  };
+
+  return userInfo;
 }
 
 export { getToken, getUserInfoFromToken };

@@ -1,6 +1,5 @@
 import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
-import Navigate from '../Router/Navigate';
 import {getToken, getUserInfoFromToken} from "../../utils/user";
 
 const ProfilePage = async () => {
@@ -15,7 +14,7 @@ function renderProfilePage(user) {
   const main = document.querySelector('main');
 
   main.innerHTML =
-      <div class="container">
+      `<div class="container">
         <div class="row">
           <div class="col-md-5 bg-secondary rounded mt-3 ms-3">
             <div class="d-flex justify-content-between align-items-center">
@@ -32,7 +31,7 @@ function renderProfilePage(user) {
             <p id="phoneNumber">${user.phoneNumber}</p>
           </div>
         </div>
-      </div>;
+      </div>`;
 }
 
 async function getValues() {
