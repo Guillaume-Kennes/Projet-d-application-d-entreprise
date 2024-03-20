@@ -3,6 +3,7 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UserDTO;
 import jakarta.inject.Inject;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,7 +81,7 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setEmail(resultSet.getString("email"));
       userDTO.setPassword(resultSet.getString("password"));
       userDTO.setPhoneNumber(resultSet.getString("phone_number"));
-      userDTO.setRegistrationDate(resultSet.getString("registration_date"));
+      userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
     } catch (SQLException e) { //DEMANDER AU PROF quelle exception
       e.getMessage();
@@ -112,5 +113,33 @@ public class UserDAOImpl implements UserDAO {
       throw new IllegalArgumentException("User not found");
     }
     return null;
+  }
+
+
+  /**
+   * Registers a new user with the provided information.
+   *
+   * @return A UserDTO object representing the registered user.
+   */
+  public UserDTO register(UserDTO userDTO){
+
+    try {
+      String query = "INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role) VALUES(?, ?, ?, ?, ?, ?, ?)";
+
+      try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)){
+        preparedStatement.setString(1, userDTO.getEmail());
+        preparedStatement.setString(2, userDTO.getPassword());
+        preparedStatement.setString(3, userDTO.getLastName());
+        preparedStatement.setString(4, userDTO.getFirstName());
+        preparedStatement.setString(5, userDTO.getPhoneNumber());
+        preparedStatement.setDate(6, (Date) userDTO.getRegistrationDate());
+        preparedStatement.setString(7, userDTO.getRole());
+        preparedStatement.execute();
+          return userDTO;
+        }
+      } catch (SQLException e) {
+        throw new IllegalArgumentException("IMPOSSIBLE DE REGISTER");
+      }
+
   }
 }

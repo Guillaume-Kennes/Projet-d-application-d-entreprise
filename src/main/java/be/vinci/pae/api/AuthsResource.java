@@ -1,5 +1,6 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
@@ -35,6 +36,9 @@ public class AuthsResource {
   private UserUCC myUserUCC;
   //private TokenServices token;
 
+  @Inject
+  private DomainFactory domainFactory;
+
 
   /**
    * Endpoint for user login.
@@ -68,8 +72,37 @@ public class AuthsResource {
         .put("lastName", publicUser.getLastName())
         .put("firstName", publicUser.getFirstName())
         .put("phoneNumber", publicUser.getPhoneNumber())
-        .put("registrationDate", publicUser.getRegistrationDate())
+        .put("registrationDate", String.valueOf(publicUser.getRegistrationDate()))
         .put("role", publicUser.getRole());
+  }
+
+
+  /**
+   * Registers a new user with the provided information.
+   *
+   * @return A UserDTO object representing the registered user.
+   */
+  @POST
+  @Path("register")
+  @Produces(MediaType.APPLICATION_JSON)
+  public UserDTO register(UserDTO userDTO){
+    if(userDTO.getEmail().isBlank() || userDTO.getPassword().isBlank() || userDTO.getLastName().isBlank() || userDTO.getFirstName().isBlank() || userDTO.getPhoneNumber().isBlank() || userDTO.getPhoneNumber().isBlank())
+      throw new WebApplicationException("Missing information(s)");
+    // Vérification blank & null de users.http
+
+    UserDTO user = domainFactory.getUser();
+
+    user.setEmail(userDTO.getEmail());
+    user.setPassword(userDTO.getPassword());
+    user.setLastName(userDTO.getLastName());
+    user.setFirstName(userDTO.getFirstName());
+    user.setPhoneNumber(userDTO.getPhoneNumber());
+
+
+    user.setRole(userDTO.getRole());
+
+    return myUserUCC.register(user);
+
   }
 
 

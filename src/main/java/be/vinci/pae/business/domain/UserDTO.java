@@ -1,6 +1,8 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.time.LocalDate;
+import java.util.Date;
 
 /**
  * Represents a user data transfer object (DTO) with various properties.
@@ -85,14 +87,14 @@ public interface UserDTO {
    *
    * @return the user's registration date
    */
-  String getRegistrationDate();
+  Date getRegistrationDate();
 
   /**
    * Sets the user's registration date.
    *
    * @param registrationDate the user's registration date to set
    */
-  void setRegistrationDate(String registrationDate);
+  void setRegistrationDate(Date registrationDate);
 
   /**
    * Returns the user's role.

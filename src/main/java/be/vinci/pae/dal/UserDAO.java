@@ -39,5 +39,13 @@ public interface UserDAO {
    */
   UserDTO getUserById(int id);
 
+
+  /**
+   * Registers a new user with the provided information.
+   *
+   * @return A UserDTO object representing the registered user.
+   */
+  UserDTO register(UserDTO userDTO);
+
 }
 

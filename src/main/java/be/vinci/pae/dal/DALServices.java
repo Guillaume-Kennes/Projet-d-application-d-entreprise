@@ -24,4 +24,5 @@ public interface DALServices {
    * Roll back a database transaction.
    */
   void rollBack();
+
 }
