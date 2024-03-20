@@ -15,5 +15,7 @@ public interface User extends UserDTO {
    * @return true if the password matches, otherwise false
    */
   boolean checkPassword(String password);
+
+  String hashPassword(String password);
 }
 

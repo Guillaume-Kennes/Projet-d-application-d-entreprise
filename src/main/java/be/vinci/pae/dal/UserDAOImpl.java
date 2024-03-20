@@ -134,7 +134,7 @@ public class UserDAOImpl implements UserDAO {
         preparedStatement.setString(5, userDTO.getPhoneNumber());
         preparedStatement.setDate(6, (Date) userDTO.getRegistrationDate());
         preparedStatement.setString(7, userDTO.getRole());
-        preparedStatement.execute();
+        preparedStatement.executeQuery();
           return userDTO;
         }
       } catch (SQLException e) {

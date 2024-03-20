@@ -1,7 +1,6 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import java.time.LocalDate;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -199,6 +198,12 @@ class UserImpl implements User {
   public boolean checkPassword(String password) {
     return BCrypt.checkpw(password, this.password);
   }
+
+  @Override
+  public String hashPassword(String password) {
+    return BCrypt.hashpw(password, BCrypt.gensalt());
+  }
+
 
   /**
    * Get a string representation of the UserImpl object.
