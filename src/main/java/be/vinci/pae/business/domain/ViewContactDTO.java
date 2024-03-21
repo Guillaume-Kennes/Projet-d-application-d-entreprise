@@ -92,4 +92,18 @@ public interface ViewContactDTO {
    * @param state the contact's state to set
    */
   public void setState(String state);
+
+  /**
+   * Returns the contact's followed boolean
+   *
+   * @return the contact's followed boolean
+   */
+  public boolean isFollowed();
+
+  /**
+   * Sets the boolean followed.
+   *
+   * @param followed the new boolean
+   */
+  public void setFollowed(boolean followed);
 }

@@ -137,4 +137,22 @@ public class ViewContactImpl implements ViewContact{
     } catch (IllegalArgumentException e) {
     }
   }
+
+  /**
+   * Get whether the contact is being followed.
+   *
+   * @return The value of the "followed" boolean
+   */
+  public boolean isFollowed() {
+    return this.followed;
+  }
+
+  /**
+   * Set the state of the "followed" boolean.
+   *
+   * @param followed The state to set.
+   */
+  public void setFollowed(boolean followed) {
+    this.followed = followed;
+  }
 }

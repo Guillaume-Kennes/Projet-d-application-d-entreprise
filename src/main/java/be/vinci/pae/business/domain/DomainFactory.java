@@ -12,4 +12,38 @@ public interface DomainFactory {
    */
   UserDTO getUser();
 
+  /**
+   * Gets an internship.
+   *
+   * @return an internship
+   */
+  InternshipDTO getInternship();
+
+  /**
+   * Gets an internship supervisor.
+   *
+   * @return an internship supervisor
+   */
+  InternshipSupervisorDTO getInternshipSupervisor();
+
+  /**
+   * Gets a company.
+   *
+   * @return a company
+   */
+  ViewCompanyDTO getCompany();
+
+  /**
+   * Gets a UE Inscription.
+   *
+   * @return a UE Inscription
+   */
+  ViewUEInscriptionDTO getUEInscription();
+
+  /**
+   * Gets a contact.
+   *
+   * @return a contact
+   */
+  ViewContactDTO getContact();
 }
