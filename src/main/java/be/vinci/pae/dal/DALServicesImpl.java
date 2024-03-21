@@ -73,21 +73,29 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public void start() {
-    if (connections.get() == null) {
+//    if (connections.get() == null) {
+//
+//      try {
+//        connections.set(connectionPool.getConnection());
+//      } catch (SQLException e) {
+//        throw new RuntimeException(e);
+//      }
+//
+//      try {
+//        connections.get().setAutoCommit(false);
+//      } catch (SQLException e) {
+//        throw new RuntimeException(e);
+//      }
+//    } else {
+//      throw new RuntimeException("Already a connection");
+//    }
 
-      try {
-        connections.set(connectionPool.getConnection());
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
-
-      try {
-        connections.get().setAutoCommit(false);
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
-    } else {
-      throw new RuntimeException("Already a connection");
+    try {
+      Connection connection = connectionPool.getConnection();
+      connection.setAutoCommit(false);
+      connections.set(connection);
+    } catch (SQLException e) {
+      throw new IllegalArgumentException("START ERROR");
     }
 
   }
@@ -97,19 +105,34 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public void commit() {
+//    try {
+//      connections.get().setAutoCommit(false);
+//      connections.get().commit();
+//    } catch (SQLException e) {
+//      throw new RuntimeException(e);
+//    } finally {
+//      try {
+//        connections.get().close();
+//      } catch (SQLException e) {
+//        throw new RuntimeException(e);
+//      }
+//      finally {
+//        connections.remove();
+//      }
+//    }
+
+    Connection connection;
     try {
-      connections.get().commit();
+      //avant y'avait connection = connectionPool.getConnection() et ça faisait en sorte de créer une nouvelle connexion alors qu'on veut récupérer celle en cours
+      //et du coup on disait qu'on voulait arreter une nouvelle connexion alors qu'on veut arreter celle en cours
+      connection = connections.get();
+      connection.commit(); //faut faire le commit AVANT le setAutoCommit
+      //commit c'est pour arreter la connexion
+      connection.setAutoCommit(false); //c'est après le commit qu'on set le autoCommit à false pour dire que
+      connections.remove(); //ensuite on enlève la connexion
+      connection.close();
     } catch (SQLException e) {
-      throw new RuntimeException(e);
-    } finally {
-      try {
-        connections.get().close();
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
-      finally {
-        connections.remove();
-      }
+      throw new IllegalArgumentException("COMMIT ERROR");
     }
   }
 
@@ -118,19 +141,33 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   @Override
   public void rollBack() {
-    try {
-      connections.get().rollback();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    } finally {
-      try {
-        connections.get().close();
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      } finally {
-        connections.remove();
-      }
-    }
+//    try {
+//      connections.get().rollback();
+//      connections.get().setAutoCommit(false);
+//    } catch (SQLException e) {
+//      throw new RuntimeException(e);
+//    } finally {
+//      try {
+//        connections.get().close();
+//      } catch (SQLException e) {
+//        throw new RuntimeException(e);
+//      } finally {
+//        connections.remove();
+//      }
+//    }
+
+    Connection connection = connections.get();
+
+     try {
+       connection.rollback();
+       connection.setAutoCommit(false);
+       connections.remove();
+       connection.close();
+     } catch (SQLException e ) {
+       throw new IllegalArgumentException("ROLLBACK ERROR");
+     }
+
+
   }
 
 }

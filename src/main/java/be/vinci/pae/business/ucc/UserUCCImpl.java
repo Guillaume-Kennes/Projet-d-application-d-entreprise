@@ -4,6 +4,7 @@ import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
+import be.vinci.pae.dal.UserDAOImpl;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.inject.Inject;
@@ -65,24 +66,31 @@ dalServices.start();
       UserDTO userDTO = userDAO.getUserById(id);
       return userDTO;
     }catch(Exception e){
+      System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
     } finally {
+      System.out.println("COMMITT");
       dalServices.commit();
     }
   }
 
 
   public UserDTO register(UserDTO userDTO){
-    //userDTO.setPassword(User.hashPassword(userDTO.getPassword()));
     dalServices.start();
     try{
+      //userDTO.setPassword(User.hashPassword(userDTO.getPassword()));
+
       return userDAO.register(userDTO);
+
     }catch(Exception e){
+
+      System.out.println("ROLL BACK");
       dalServices.rollBack();
       throw e;
     } finally {
-      dalServices.commit();
+       dalServices.commit();
+      System.out.println("COMMIT");
     }
   }
 

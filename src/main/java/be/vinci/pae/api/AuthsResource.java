@@ -90,18 +90,18 @@ public class AuthsResource {
       throw new WebApplicationException("Missing information(s)");
     // Vérification blank & null de users.http
 
-    UserDTO user = domainFactory.getUser();
+//    UserDTO user = domainFactory.getUser();
+//
+//    user.setEmail(userDTO.getEmail());
+//    user.setPassword(userDTO.getPassword());
+//    user.setLastName(userDTO.getLastName());
+//    user.setFirstName(userDTO.getFirstName());
+//    user.setPhoneNumber(userDTO.getPhoneNumber());
+//   // user.setRegistrationDate(userDTO.getRegistrationDate());
+//
+//    user.setRole(userDTO.getRole());
 
-    user.setEmail(userDTO.getEmail());
-    user.setPassword(userDTO.getPassword());
-    user.setLastName(userDTO.getLastName());
-    user.setFirstName(userDTO.getFirstName());
-    user.setPhoneNumber(userDTO.getPhoneNumber());
-    user.setRegistrationDate(userDTO.getRegistrationDate());
-
-    user.setRole(userDTO.getRole());
-
-    return myUserUCC.register(user);
+    return myUserUCC.register(userDTO);
 
   }
 

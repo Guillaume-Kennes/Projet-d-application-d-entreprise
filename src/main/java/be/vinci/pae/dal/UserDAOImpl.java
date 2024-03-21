@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 /**
  * Implementation of the UserDAO interface.
  * Provides methods for retrieving user-related data from the database.
@@ -124,7 +125,7 @@ public class UserDAOImpl implements UserDAO {
   public UserDTO register(UserDTO userDTO){
 
     try {
-      String query = "INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role) VALUES(?, ?, ?, ?, ?, ?, ?)";
+      String query = "INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role) VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
 
       try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)){
         System.out.println("PASSE");
@@ -133,14 +134,24 @@ public class UserDAOImpl implements UserDAO {
         preparedStatement.setString(3, userDTO.getLastName());
         preparedStatement.setString(4, userDTO.getFirstName());
         preparedStatement.setString(5, userDTO.getPhoneNumber());
-        preparedStatement.setDate(6, (Date) userDTO.getRegistrationDate());
-        preparedStatement.setString(7, userDTO.getRole());
-        preparedStatement.executeQuery();
-          return userDTO;
+        preparedStatement.setString(6, userDTO.getRole());
+
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+          if (resultSet.next()) {
+            userDTO = userInfos(resultSet);
+          } else {
+            userDTO = null;
+          }
+        }
+
+//        if(preparedStatement.getResultSet().next())
+//          userDTO.setRegistrationDate(preparedStatement.getResultSet().getDate("registration_date"));
+
         }
       } catch (SQLException e) {
-        throw new IllegalArgumentException("IMPOSSIBLE DE REGISTER");
+        e.printStackTrace();
       }
+    return userDTO;
 
   }
 }
