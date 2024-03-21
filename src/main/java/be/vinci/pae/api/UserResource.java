@@ -45,18 +45,25 @@ public class UserResource {
     if (user == null) {
       throw new IllegalArgumentException("User not found");
     }
+
     InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
-    return jsonMapper.createObjectNode()
-        .put("email", user.getEmail())
-        .put("lastName", user.getLastName())
-        .put("firstName", user.getFirstName())
-        .put("phoneNumber", user.getPhoneNumber())
-        .put("internshipTitle", internship.getProject())
-        .put("internshipCompany", internship.getContact().getCompany().getTradeName()
-        + " " + internship.getContact().getCompany().getDesignation())
-        .put("internshipSupervisor", internship.getSupervisor().getFirstName() + " "
-        + internship.getSupervisor().getLastName())
-        .put("internshipSubject", internship.getProject());
+
+    ObjectNode response = jsonMapper.createObjectNode();
+    response.put("email", user.getEmail());
+    response.put("lastName", user.getLastName());
+    response.put("firstName", user.getFirstName());
+    response.put("phoneNumber", user.getPhoneNumber());
+
+    if (internship != null) {
+      response.put("internshipTitle", internship.getProject());
+      response.put("internshipCompany", internship.getContact().getCompany().getTradeName()
+          + " " + internship.getContact().getCompany().getDesignation());
+      response.put("internshipSupervisor", internship.getSupervisor().getFirstName() + " "
+          + internship.getSupervisor().getLastName());
+      response.put("internshipSubject", internship.getProject());
+    }
+
+    return response;
   }
 
 }

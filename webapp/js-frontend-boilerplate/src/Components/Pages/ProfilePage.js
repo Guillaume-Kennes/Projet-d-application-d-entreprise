@@ -34,6 +34,20 @@ function renderProfilePage(user) {
             <p class="fw-bold mb-n1">Téléphone</p>
             <p id="phoneNumber">${user.phoneNumber}</p>
           </div>
+          <div class="col-md-5 bg-secondary rounded mt-3 ms-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <h3 class="text-right mt-3">Données de stage</h3>
+              <button class="btn btn-primary me-3">Modifier ou ajouter le sujet de stage</button>
+            </div>
+            <p class="fw-bold mb-n1">Titre</p>
+            <p id="internshipTitle">${user.internshipTitle}</p>
+            <p class="fw-bold mb-n1">Entreprise</p>
+            <p id="internshipCompany">${user.internshipCompany}</p>
+            <p class="fw-bold mb-n1">Responsable</p>
+            <p id="internshipSupervisor">${user.internshipSupervisor}</p>
+            <p class="fw-bold mb-n1">Sujet</p>
+            <p id="internshipSubject">${user.internshipSubject}</p>
+          </div>
         </div>
       </div>`;
 }
