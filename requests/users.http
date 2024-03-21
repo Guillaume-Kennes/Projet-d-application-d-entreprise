@@ -31,5 +31,6 @@ Content-Type: application/json
   "lastName": "test",
   "firstName": "TEST",
   "phoneNumber": "0546546545",
+  "registrationDate": "2024-03-21",
   "role": "Professeur"
 }

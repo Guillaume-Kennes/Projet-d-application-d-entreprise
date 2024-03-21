@@ -97,7 +97,7 @@ public class AuthsResource {
     user.setLastName(userDTO.getLastName());
     user.setFirstName(userDTO.getFirstName());
     user.setPhoneNumber(userDTO.getPhoneNumber());
-
+    user.setRegistrationDate(userDTO.getRegistrationDate());
 
     user.setRole(userDTO.getRole());
 

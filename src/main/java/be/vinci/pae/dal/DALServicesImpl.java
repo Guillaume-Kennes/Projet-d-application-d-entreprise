@@ -72,7 +72,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * @throws RuntimeException If connection fails.
    */
   @Override
-  public Connection start() {
+  public void start() {
     if (connections.get() == null) {
 
       try {
@@ -90,7 +90,6 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       throw new RuntimeException("Already a connection");
     }
 
-    return connections.get();
   }
 
   /**
@@ -107,7 +106,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         connections.get().close();
       } catch (SQLException e) {
         throw new RuntimeException(e);
-      } finally {
+      }
+      finally {
         connections.remove();
       }
     }
@@ -132,6 +132,5 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       }
     }
   }
-
 
 }
