@@ -41,7 +41,7 @@ public class UserResource {
     if (user == null) {
       throw new IllegalArgumentException("User not found");
     }
-    return jsonMapper.createObjectNode().put("userInfo", user.toString())
+    return jsonMapper.createObjectNode()
         .put("email", user.getEmail())
         .put("lastName", user.getLastName())
         .put("firstName", user.getFirstName())

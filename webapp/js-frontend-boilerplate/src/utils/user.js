@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 function getToken(){
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('user');
   if(!token){
     return null;
   }
@@ -24,6 +24,7 @@ function getUserInfoFromToken() {
   }
 
   const userInfo = {
+    token: token.token || null,
     id: token.id || null,
     email: token.email || null,
     lastName: token.lastName || null,

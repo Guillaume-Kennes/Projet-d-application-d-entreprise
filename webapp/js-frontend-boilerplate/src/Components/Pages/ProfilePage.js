@@ -1,12 +1,16 @@
 import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
-import {getToken, getUserInfoFromToken} from "../../utils/user";
+import {getUserInfoFromToken} from "../../utils/user";
 
 const ProfilePage = async () => {
   clearPage();
   Navbar();
-  const user = await getValues();
-  renderProfilePage(user);
+  try {
+    const user = await getValues();
+    renderProfilePage(user);
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+  }
 };
 
 function renderProfilePage(user) {
@@ -35,17 +39,16 @@ function renderProfilePage(user) {
 }
 
 async function getValues() {
-  const token = getToken();
+  const { token, id } = getUserInfoFromToken();
   const options = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: token,
-      id: getUserInfoFromToken().id
     },
   };
   let user;
-  const response = await fetch(`http://localhost:3000/users`, options);
+  const response = await fetch(`http://localhost:3000/users/${id}`, options);
   if (!response.ok) {
     throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
   }else{

@@ -36,7 +36,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionPool = new BasicDataSource();
     connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
     connectionPool.setUsername(properties.getProperty("DatabaseUser"));
-    connectionPool.setPassword(properties.getProperty("JWTSecret"));
+    connectionPool.setPassword(properties.getProperty("DatabasePassword"));
     connectionPool.setDriverClassName("org.postgresql.Driver");
   }
 
