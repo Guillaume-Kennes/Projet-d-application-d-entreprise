@@ -79,7 +79,7 @@ public class InternshipImpl implements Internship{
    *
    * @return The project of the internship
    */
-  public String getProjec() {
+  public String getProject() {
     return this.project;
   }
 

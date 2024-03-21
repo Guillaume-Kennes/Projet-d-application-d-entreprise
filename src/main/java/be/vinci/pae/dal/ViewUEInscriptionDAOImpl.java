@@ -19,6 +19,7 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO{
   private DomainFactory myDomainFactory;
   @Inject
   private DALBackServices dalServices;
+  @Inject
   private UserDAO userDAO;
 
   /**

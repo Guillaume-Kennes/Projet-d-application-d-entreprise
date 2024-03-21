@@ -17,9 +17,9 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
 
   @Inject
   private DomainFactory myDomainFactory;
-
   @Inject
   private DALBackServices dalServices;
+  @Inject
   private ViewCompanyDAO companyDAO;
 
   /**

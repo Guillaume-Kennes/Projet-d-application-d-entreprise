@@ -3,7 +3,9 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.InternshipSupervisor;
-import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.business.domain.InternshipSupervisorDTO;
+import be.vinci.pae.business.domain.ViewContact;
+import be.vinci.pae.business.domain.ViewContactDTO;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +22,10 @@ public class InternshipDAOImpl implements InternshipDAO{
 
   @Inject
   private DALBackServices dalServices;
+  @Inject
+  private ViewContactDAO contactDAO;
+  @Inject
+  private InternshipSupervisorDAO supervisorDAO;
 
   /**
    * Retrieves an internship by their user id from the database.
@@ -33,15 +39,33 @@ public class InternshipDAOImpl implements InternshipDAO{
   public InternshipDTO getInternshipByUserId(int id) {
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, pae.inscriptions_UE iu "
+        "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, pae.inscriptions_UE iu, pae.internship_supervisors s "
             + "WHERE i.contact = c.id_contact AND c.inscription_UE = iu.id_inscription_UE "
-            + "AND iu.student = u.id_user AND u.id_user = ?");
+            + "AND iu.student = u.id_user AND i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
-    return null;
+
+    InternshipDTO internship = myDomainFactory.getInternship();
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      if (resultSet.next()) {
+        internship = internshipInfos(resultSet);
+      } else {
+        internship = null;
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      System.exit(1);
+    } finally {
+      try {
+        preparedStatement.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+    return internship;
   }
 
   /**
@@ -53,12 +77,17 @@ public class InternshipDAOImpl implements InternshipDAO{
    */
   public InternshipDTO internshipInfos(ResultSet resultSet) {
     InternshipDTO internshipDTO = myDomainFactory.getInternship();
+    ViewContactDTO contact;
+    InternshipSupervisorDTO supervisor;
 
     try {
       internshipDTO.setId(resultSet.getInt("id_internship"));
       internshipDTO.setProject(resultSet.getString("internship_project"));
-      internshipDTO.setDate(resultSet.getString("signature_date"));
-      int idSupervisor = resultSet.getInt("internship_supervisor");
+      internshipDTO.setDate(String.valueOf(resultSet.getDate("signature_date")));
+      contact = contactDAO.contactInfos(resultSet);
+      internshipDTO.setContact((ViewContact) contact);
+      supervisor = supervisorDAO.supervisorInfos(resultSet);
+      internshipDTO.setSupervisor((InternshipSupervisor) supervisor);
     } catch (SQLException e) {
       e.getMessage();
     }

@@ -56,7 +56,7 @@ public interface InternshipDTO {
    *
    * @return the internship's project
    */
-  public String getProjec();
+  public String getProject();
 
   /**
    * Sets the internship's project.

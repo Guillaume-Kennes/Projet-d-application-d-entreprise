@@ -22,7 +22,9 @@ public class ViewContactDAOImpl implements ViewContactDAO{
   private DomainFactory myDomainFactory;
   @Inject
   private DALBackServices dalServices;
+  @Inject
   private ViewCompanyDAO companyDAO;
+  @Inject
   private ViewUEInscriptionDAO inscriptionDAO;
 
   /**
