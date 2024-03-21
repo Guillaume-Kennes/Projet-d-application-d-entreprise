@@ -1,0 +1,75 @@
+package be.vinci.pae.business.domain;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+/**
+ * Implementation class for the ViewUEInscription interface.
+ * This class provides implementations for various UEInscription-related methods.
+ */
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+public class ViewUEInscriptionImpl implements ViewUEInscription{
+
+  private int id;
+  private User student;
+  private String schoolYear;
+
+  /**
+   * Default constructor for ViewUEInscriptionImpl.
+   */
+  public ViewUEInscriptionImpl() {
+  }
+
+  /**
+   * Get the id of the UEInscription.
+   *
+   * @return The id of the UEInscription
+   */
+  public int getId() {
+    return this.id;
+  }
+
+  /**
+   * Set the id of the UEInscription.
+   *
+   * @param id The id to set.
+   */
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  /**
+   * Get the student of the UEInscription.
+   *
+   * @return The student of the UEInscription
+   */
+  public User getStudent() {
+    return this.student;
+  }
+
+  /**
+   * Set the student of the UEInscription.
+   *
+   * @param student The id to set.
+   */
+  public void setStudent(User student) {
+    this.student = student;
+  }
+
+  /**
+   * Get the school year of the UEInscription.
+   *
+   * @return The school year of the UEInscription
+   */
+  public String getSchoolYear() {
+    return this.schoolYear;
+  }
+
+  /**
+   * Set the school year of the UEInscription.
+   *
+   * @param schoolYear The school year to set.
+   */
+  public void setSchoolYear(String schoolYear) {
+    this.schoolYear = schoolYear;
+  }
+}
