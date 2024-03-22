@@ -17,157 +17,88 @@ import org.apache.commons.dbcp2.BasicDataSource;
  * Manages database connections and provides methods for database operations.
  */
 public class DALServicesImpl implements DALBackServices, DALServices {
+  private final ThreadLocal<Connection> connectionThread;
+  private final ThreadLocal<Integer> counterThreads;
+  private final BasicDataSource connectionBDS;
 
-  private ThreadLocal<Connection> connections;
-  private BasicDataSource connectionPool;
+  public DALServicesImpl(){
+    connectionThread = new ThreadLocal<>();
+    counterThreads = new ThreadLocal<>();
+    connectionBDS = new BasicDataSource();
 
-  /**
-   * Constructs a new instance of DALServicesImpl. Initializes the database connection pool and
-   * loads database properties from a properties file.
-   */
-  public DALServicesImpl() {
-
-//    Properties properties = new Properties();
-//    try (InputStream input = new FileInputStream("dev.properties")) {
-//      properties.load(input);
-//    } catch (IOException e) {
-//      e.printStackTrace();
-//    }
-
-    connections = new ThreadLocal<>();
-    connectionPool = new BasicDataSource();
-    connectionPool.setDriverClassName("org.postgresql.Driver");
-    connectionPool.setUrl(Config.getProperty("DatabaseFilePath"));
-    connectionPool.setUsername(Config.getProperty("DatabaseUser"));
-    connectionPool.setPassword(Config.getProperty("JWTSecret"));
-    connectionPool.setMaxTotal(5);
+    connectionBDS.setUrl(Config.getProperty("DatabaseFilePath"));
+    connectionBDS.setUsername(Config.getProperty("DatabaseUser"));
+    connectionBDS.setPassword(Config.getProperty("JWTSecret"));
+    connectionBDS.setDriverClassName("org.postgresql.Driver");
+    connectionBDS.setMaxTotal(1);
   }
 
-  /**
-   * Retrieves a prepared statement for the given SQL query.
-   *
-   * @param sql The SQL query.
-   * @return A prepared statement.
-   * @throws RuntimeException If unable to connect to the database.
-   */
-  public PreparedStatement getPreparedStatement(String sql) {
-    try {
-      Connection connection = connections.get();
+  public PreparedStatement getPreparedStatement(String sql, boolean primaryKey){
+    try{
+      return connectionThread.get().prepareStatement(sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+    }catch(SQLException e){
+      throw new RuntimeException(e.getMessage());
+    }
+  }
 
-      if (connection == null) {
-        throw new UnauthorizedException("No connection to the database");
+  public PreparedStatement getPreparedStatement(String sql){
+    return getPreparedStatement(sql, false);
+  }
+
+  public void start(){
+    if(counterThreads.get() == null){
+      try{
+        counterThreads.set(1);
+        Connection connection = connectionBDS.getConnection();
+        connection.setAutoCommit(false);
+        connectionThread.set(connection); //comme ça y'a une connexion pour un thread -> lier un thread à une connexion
+      }catch(SQLException e){
+        throw new RuntimeException(e.getMessage());
       }
-      return connection.prepareStatement(sql);
-
-    } catch (SQLException e) {
-      throw new RuntimeException("Unable to connect to database" + e.getMessage());
+    }else{
+      counterThreads.set(counterThreads.get()+1);
     }
   }
 
-
-  /**
-   * Establishes a database connection.
-   *
-   * @return A database connection.
-   * @throws RuntimeException If connection fails.
-   */
-  @Override
-  public void start() {
-//    if (connections.get() == null) {
-//
-//      try {
-//        connections.set(connectionPool.getConnection());
-//      } catch (SQLException e) {
-//        throw new RuntimeException(e);
-//      }
-//
-//      try {
-//        connections.get().setAutoCommit(false);
-//      } catch (SQLException e) {
-//        throw new RuntimeException(e);
-//      }
-//    } else {
-//      throw new RuntimeException("Already a connection");
-//    }
-
-    try {
-      Connection connection = connectionPool.getConnection();
-      connection.setAutoCommit(false);
-      connections.set(connection);
-    } catch (SQLException e) {
-      throw new IllegalArgumentException("START ERROR");
-    }
-
-  }
-
-  /**
-   * Commits a transaction and closes the connection.
-   */
-  @Override
-  public void commit() {
-//    try {
-//      connections.get().setAutoCommit(false);
-//      connections.get().commit();
-//    } catch (SQLException e) {
-//      throw new RuntimeException(e);
-//    } finally {
-//      try {
-//        connections.get().close();
-//      } catch (SQLException e) {
-//        throw new RuntimeException(e);
-//      }
-//      finally {
-//        connections.remove();
-//      }
-//    }
-
-    Connection connection;
-    try {
-      //avant y'avait connection = connectionPool.getConnection() et ça faisait en sorte de créer une nouvelle connexion alors qu'on veut récupérer celle en cours
-      //et du coup on disait qu'on voulait arreter une nouvelle connexion alors qu'on veut arreter celle en cours
-      connection = connections.get();
-      connection.commit(); //faut faire le commit AVANT le setAutoCommit
-      //commit c'est pour arreter la connexion
-      connection.setAutoCommit(false); //c'est après le commit qu'on set le autoCommit à false pour dire que
-      connections.remove(); //ensuite on enlève la connexion
-      connection.close();
-    } catch (SQLException e) {
-      throw new IllegalArgumentException("COMMIT ERROR");
+  public void commit(){
+    if(counterThreads.get() == 1){
+      counterThreads.remove(); // ?
+      Connection connection = connectionThread.get();
+      try{
+        connection.setAutoCommit(false);
+        connection.commit();
+        connectionThread.remove();
+        connection.close();
+      }catch(SQLException e){
+        throw new RuntimeException(e.getMessage());
+      }
+    } else{
+      counterThreads.set(counterThreads.get()-1);
     }
   }
 
-  /**
-   * Rolls back a transaction and closes the connection.
-   */
-  @Override
-  public void rollBack() {
-//    try {
-//      connections.get().rollback();
-//      connections.get().setAutoCommit(false);
-//    } catch (SQLException e) {
-//      throw new RuntimeException(e);
-//    } finally {
-//      try {
-//        connections.get().close();
-//      } catch (SQLException e) {
-//        throw new RuntimeException(e);
-//      } finally {
-//        connections.remove();
-//      }
-//    }
+  public void rollBack(){
+    Connection connection = connectionThread.get();
 
-    Connection connection = connections.get();
-
-     try {
-       connection.rollback();
-       connection.setAutoCommit(false);
-       connections.remove();
-       connection.close();
-     } catch (SQLException e ) {
-       throw new IllegalArgumentException("ROLLBACK ERROR");
-     }
-
-
+    if(counterThreads.get() == null){
+      try{
+        counterThreads.remove();
+        if(connection != null){
+          connection.close();
+        }
+      }catch(SQLException e){
+        throw new RuntimeException(e.getMessage());
+      }
+    }else{
+      counterThreads.set(counterThreads.get()-1);
+      try{
+        connection.rollback();
+        connection.setAutoCommit(false);
+        counterThreads.remove();
+        connection.close();
+      }catch(SQLException e){
+        throw new RuntimeException(e.getMessage());
+      }
+    }
   }
-
 }

@@ -49,8 +49,8 @@ function renderRegisterForm() {
   confirmationPassword.placeholder = 'Confirmation de mot de passe';
   confirmationPassword.className = 'form-control mb-3';
   const phoneNumber = document.createElement('input');
-  phoneNumber.type = 'number';
-  phoneNumber.id = 'phone';
+  phoneNumber.type = 'text';
+  phoneNumber.id = 'phoneNumber';
   phoneNumber.placeholder = 'Numéro de téléphone';
   phoneNumber.required = true;
   phoneNumber.className = 'form-control mb-3';

@@ -79,7 +79,7 @@ dalServices.start();
   public UserDTO register(UserDTO userDTO){
     dalServices.start();
     try{
-      //userDTO.setPassword(User.hashPassword(userDTO.getPassword()));
+      userDTO.setPassword(User.hashPassword(userDTO.getPassword()));
 
       return userDAO.register(userDTO);
 
