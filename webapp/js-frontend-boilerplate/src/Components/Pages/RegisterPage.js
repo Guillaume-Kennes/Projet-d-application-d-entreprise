@@ -44,7 +44,7 @@ function renderRegisterForm() {
   password.className = 'form-control mb-3';
   const confirmationPassword = document.createElement('input');
   confirmationPassword.type = 'password';
-  confirmationPassword.id = 'CofirmationPassword';
+  confirmationPassword.id = 'confirmationPassword';
   confirmationPassword.required = true;
   confirmationPassword.placeholder = 'Confirmation de mot de passe';
   confirmationPassword.className = 'form-control mb-3';
