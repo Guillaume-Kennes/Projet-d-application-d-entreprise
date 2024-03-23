@@ -36,8 +36,8 @@ public class AuthsResource {
   private UserUCC myUserUCC;
   //private TokenServices token;
 
-  @Inject
-  private DomainFactory domainFactory;
+//  @Inject
+//  private DomainFactory domainFactory;
 
 
   /**
@@ -66,14 +66,7 @@ public class AuthsResource {
           Response.Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
-    return jsonMapper.createObjectNode().put("token", token)
-        .put("id", publicUser.getId())
-        .put("email", publicUser.getEmail())
-        .put("lastName", publicUser.getLastName())
-        .put("firstName", publicUser.getFirstName())
-        .put("phoneNumber", publicUser.getPhoneNumber())
-        .put("registrationDate", String.valueOf(publicUser.getRegistrationDate()))
-        .put("role", publicUser.getRole());
+    return jsonMapper.createObjectNode().put("token", token);
   }
 
 

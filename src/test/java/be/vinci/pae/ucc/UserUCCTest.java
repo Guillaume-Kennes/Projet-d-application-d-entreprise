@@ -95,4 +95,14 @@ public class UserUCCTest {
     assertNotNull(result);
     assertEquals(userDTO.getId(), result.getId());
   }
+
+
+  @Test
+  public void testRegisterSuccess() {
+    userDTO.setEmail("");
+    userDTO.setPassword("");
+
+    when(userDAO.getUserByEmail(userDTO.getEmail())).thenReturn(null);
+    
+  }
 }

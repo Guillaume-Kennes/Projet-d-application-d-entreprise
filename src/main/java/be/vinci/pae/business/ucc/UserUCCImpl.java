@@ -61,7 +61,7 @@ public class UserUCCImpl implements UserUCC {
    * @return the user corresponding to the id
    */
   public UserDTO getUserById(int id) {
-dalServices.start();
+   dalServices.start();
     try{
       UserDTO userDTO = userDAO.getUserById(id);
       return userDTO;
@@ -76,22 +76,27 @@ dalServices.start();
   }
 
 
-  public UserDTO register(UserDTO userDTO){
+  public UserDTO register(UserDTO userDTO) {
     dalServices.start();
-    try{
-      userDTO.setPassword(User.hashPassword(userDTO.getPassword()));
 
-      return userDAO.register(userDTO);
+    User user = (User) userDAO.getUserByEmail(userDTO.getEmail());
 
-    }catch(Exception e){
+    if (user != null)
+      throw new RuntimeException();
+    else {
+      try {
+        userDTO.setPassword(user.hashPassword(userDTO.getPassword()));
 
-      System.out.println("ROLL BACK");
-      dalServices.rollBack();
-      throw e;
-    } finally {
-       dalServices.commit();
-      System.out.println("COMMIT");
+        return userDAO.register(userDTO);
+
+      } catch (Exception e) {
+        System.out.println("ROLL BACK");
+        dalServices.rollBack();
+        throw e;
+      } finally {
+        dalServices.commit();
+        System.out.println("COMMIT");
+      }
     }
   }
-
 }
