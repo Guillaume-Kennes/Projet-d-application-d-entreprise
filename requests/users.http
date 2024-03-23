@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3000
 
-### Login an user
+### Login a user
 POST {{baseUrl}}/auths/login
 Content-Type: application/json
 
@@ -9,5 +9,5 @@ Content-Type: application/json
   "password":"Azertyui1_"
 }
 
-### Get an user by it's id
-GET {{baseUrl}}/users/1
+### Get a user by their id
+GET {{baseUrl}}/users/10

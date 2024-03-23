@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.utils.Config;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,6 +8,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -15,114 +17,88 @@ import org.apache.commons.dbcp2.BasicDataSource;
  * Manages database connections and provides methods for database operations.
  */
 public class DALServicesImpl implements DALBackServices, DALServices {
+  private final ThreadLocal<Connection> connectionThread;
+  private final ThreadLocal<Integer> counterThreads;
+  private final BasicDataSource connectionBDS;
 
-  private ThreadLocal<Connection> connections;
-  private BasicDataSource connectionPool;
+  public DALServicesImpl(){
+    connectionThread = new ThreadLocal<>();
+    counterThreads = new ThreadLocal<>();
+    connectionBDS = new BasicDataSource();
 
-  /**
-   * Constructs a new instance of DALServicesImpl. Initializes the database connection pool and
-   * loads database properties from a properties file.
-   */
-  public DALServicesImpl() {
-
-    Properties properties = new Properties();
-    try (InputStream input = new FileInputStream("dev.properties")) {
-      properties.load(input);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    connections = new ThreadLocal<>();
-    connectionPool = new BasicDataSource();
-    connectionPool.setUrl(properties.getProperty("DatabaseFilePath"));
-    connectionPool.setUsername(properties.getProperty("DatabaseUser"));
-    connectionPool.setPassword(properties.getProperty("DatabasePassword"));
-    connectionPool.setDriverClassName("org.postgresql.Driver");
+    connectionBDS.setUrl(Config.getProperty("DatabaseFilePath"));
+    connectionBDS.setUsername(Config.getProperty("DatabaseUser"));
+    connectionBDS.setPassword(Config.getProperty("DatabasePassword"));
+    connectionBDS.setDriverClassName("org.postgresql.Driver");
+    connectionBDS.setMaxTotal(1);
   }
 
-  /**
-   * Retrieves a prepared statement for the given SQL query.
-   *
-   * @param sql The SQL query.
-   * @return A prepared statement.
-   * @throws RuntimeException If unable to connect to the database.
-   */
-  public PreparedStatement getPreparedStatement(String sql) {
-    try {
-      Connection connection = start();
-      if (connection == null) {
-        throw new UnauthorizedException("No connection to the database");
-      }
-      return connection.prepareStatement(sql);
-    } catch (SQLException e) {
-      throw new RuntimeException("Unable to connect to database" + e.getMessage());
+  public PreparedStatement getPreparedStatement(String sql, boolean primaryKey){
+    try{
+      return connectionThread.get().prepareStatement(sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+    }catch(SQLException e){
+      throw new RuntimeException(e.getMessage());
     }
   }
 
-  /**
-   * Establishes a database connection.
-   *
-   * @return A database connection.
-   * @throws RuntimeException If connection fails.
-   */
-  @Override
-  public Connection start() {
-    if (connections.get() == null) {
-      try {
-        connections.set(connectionPool.getConnection());
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
-      try {
-        connections.get().setAutoCommit(false);
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      }
-    } else {
-      throw new RuntimeException("Already a connection");
-    }
-
-    return connections.get();
+  public PreparedStatement getPreparedStatement(String sql){
+    return getPreparedStatement(sql, false);
   }
 
-  /**
-   * Commits a transaction and closes the connection.
-   */
-  @Override
-  public void commit() {
-    try {
-      connections.get().commit();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    } finally {
-      try {
-        connections.get().close();
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      } finally {
-        connections.remove();
+  public void start(){
+    if(counterThreads.get() == null){
+      try{
+        counterThreads.set(1);
+        Connection connection = connectionBDS.getConnection();
+        connection.setAutoCommit(false);
+        connectionThread.set(connection); //comme ça y'a une connexion pour un thread -> lier un thread à une connexion
+      }catch(SQLException e){
+        throw new RuntimeException(e.getMessage());
       }
+    }else{
+      counterThreads.set(counterThreads.get()+1);
     }
   }
 
-  /**
-   * Rolls back a transaction and closes the connection.
-   */
-  @Override
-  public void rollBack() {
-    try {
-      connections.get().rollback();
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    } finally {
-      try {
-        connections.get().close();
-      } catch (SQLException e) {
-        throw new RuntimeException(e);
-      } finally {
-        connections.remove();
+  public void commit(){
+    if(counterThreads.get() == 1){
+      counterThreads.remove(); // ?
+      Connection connection = connectionThread.get();
+      try{
+        connection.setAutoCommit(false);
+        connection.commit();
+        connectionThread.remove();
+        connection.close();
+      }catch(SQLException e){
+        throw new RuntimeException(e.getMessage());
       }
+    } else{
+      counterThreads.set(counterThreads.get()-1);
     }
   }
 
+  public void rollBack(){
+    Connection connection = connectionThread.get();
+
+    if(counterThreads.get() == null){
+      try{
+        counterThreads.remove();
+        if(connection != null){
+          connection.close();
+        }
+      }catch(SQLException e){
+        throw new RuntimeException(e.getMessage());
+      }
+    }else{
+      counterThreads.set(counterThreads.get()-1);
+      try{
+        connection.rollback();
+        connection.setAutoCommit(false);
+        counterThreads.remove();
+        connection.close();
+      }catch(SQLException e){
+        throw new RuntimeException(e.getMessage());
+      }
+    }
+  }
 }

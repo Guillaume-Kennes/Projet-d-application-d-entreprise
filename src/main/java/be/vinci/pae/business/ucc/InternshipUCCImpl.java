@@ -1,6 +1,8 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.InternshipDTO;
+import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.InternshipDAO;
 import jakarta.inject.Inject;
 
@@ -12,6 +14,8 @@ public class InternshipUCCImpl implements InternshipUCC{
 
   @Inject
   private InternshipDAO internshipDAO;
+  @Inject
+  private DALServices dalServices;
 
   /**
    * Returns the internship corresponding to the user corresponding to the id.
@@ -21,6 +25,17 @@ public class InternshipUCCImpl implements InternshipUCC{
    * @return the internship corresponding to the user
    */
   public InternshipDTO getInternshipByUserId(int id) {
-    return internshipDAO.getInternshipByUserId(id);
+    dalServices.start();
+    try{
+      InternshipDTO internshipDTO = internshipDAO.getInternshipByUserId(id);
+      return internshipDTO;
+    }catch(Exception e){
+      System.out.println("ROLLBACK");
+      dalServices.rollBack();
+      throw e;
+    } finally {
+      System.out.println("COMMITT");
+      dalServices.commit();
+    }
   }
 }

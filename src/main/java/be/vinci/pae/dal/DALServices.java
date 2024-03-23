@@ -13,7 +13,7 @@ public interface DALServices {
    *
    * @return The started database connection.
    */
-  Connection start();
+  void start();
 
   /**
    * Commit a database transaction.
