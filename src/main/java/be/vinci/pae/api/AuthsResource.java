@@ -71,7 +71,13 @@ public class AuthsResource {
 
 
   /**
-   * Registers a new user with the provided information.
+   * Registers a new user.
+   * This method is annotated with @POST and @Path("register") for RESTful API endpoint configuration.
+   * It accepts a UserDTO object representing the user to be registered.
+   * Validates the required fields of the user and throws a WebApplicationException if any required field is missing.
+   * Calls the register method of the MyUserUCC instance to perform the registration.
+   *
+   * @param userDTO The UserDTO object containing user information.
    *
    * @return A UserDTO object representing the registered user.
    */

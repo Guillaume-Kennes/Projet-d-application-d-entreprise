@@ -27,8 +27,11 @@ public interface UserUCC {
   UserDTO getUserById(int id);
 
   /**
-   * Registers a new user with the provided information.
+   * Registers a new user.
+   * This method takes a UserDTO object representing the user to be registered.
+   * It performs the registration process and returns a UserDTO object representing the registered user.
    *
+   * @param userDTO The UserDTO object containing user information.
    *
    * @return A UserDTO object representing the registered user.
    */

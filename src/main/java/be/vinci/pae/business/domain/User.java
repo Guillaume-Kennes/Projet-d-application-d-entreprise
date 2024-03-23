@@ -16,6 +16,13 @@ public interface User extends UserDTO {
    */
   boolean checkPassword(String password);
 
+  /**
+   * Hashes the provided password using a hashing algorithm.
+   *
+   * @param password The password to be hashed.
+   *
+   * @return A string representing the hashed password.
+   */
   String hashPassword(String password);
 }
 
