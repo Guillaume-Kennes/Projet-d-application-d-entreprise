@@ -48,8 +48,21 @@ function renderProfilePage(user) {
             <p class="fw-bold mb-n1">Sujet</p>
             <p id="internshipSubject">${user.internshipSubject}</p>
           </div>
+          <div class="fw-bold mb-n1">Contacts pris</div>
+            <ul id="contactCompanies"></ul>
         </div>
       </div>`;
+
+  const contactCompaniesList = document.getElementById("contactCompanies");
+  if (user.contactCompanies && user.contactCompanies.length > 0) {
+    user.contactCompanies.forEach(company => {
+      const listItem = document.createElement("li");
+      listItem.textContent = company;
+      contactCompaniesList.appendChild(listItem);
+    });
+  } else {
+    contactCompaniesList.innerHTML = "<li>Aucun contact pris</li>";
+  }
 }
 
 async function getValues() {

@@ -11,6 +11,7 @@ import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Implementation of the ViewContactDAO interface.
@@ -66,7 +67,7 @@ public class ViewContactDAOImpl implements ViewContactDAO{
    */
   public ViewContactDTO getContactById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.entreprises e, pae.inscriptions_UE i"
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
             + " AND c.id_contact = ?");
     try {
@@ -93,5 +94,77 @@ public class ViewContactDAOImpl implements ViewContactDAO{
       }
     }
     return contact;
+  }
+
+  /**
+   * Method to retrieve contacts by their user's id.
+   *
+   * @param id The ID of the user whose contacts to retrieve.
+   *
+   * @return A list of ViewContactDTO object representing the contacts, or null if not found.
+   *
+   * @throws IllegalArgumentException if not found in the database.
+   */
+  public ArrayList<ViewContactDTO> getContactsByUserId(int id) {
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
+            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
+            + " AND i.student = u.id_user AND u.id_user = ?");
+    try {
+      preparedStatement.setInt(1, id);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    ArrayList<ViewContactDTO> contacts = new ArrayList<>();
+    ViewContactDTO contact;
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while(resultSet.next()) {
+        contact = contactInfos(resultSet);
+        contacts.add(contact);
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      System.exit(1);
+    } finally {
+      try {
+        preparedStatement.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+    return contacts;
+  }
+
+  @Override
+  public ArrayList<ViewContactDTO> getTakenContactsByUserId(int id) {
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
+            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
+            + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
+    try {
+      preparedStatement.setInt(1, id);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+    ArrayList<ViewContactDTO> contacts = new ArrayList<>();
+    ViewContactDTO contact;
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while(resultSet.next()) {
+        contact = contactInfos(resultSet);
+        contacts.add(contact);
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      System.exit(1);
+    } finally {
+      try {
+        preparedStatement.close();
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+    }
+    return contacts;
   }
 }

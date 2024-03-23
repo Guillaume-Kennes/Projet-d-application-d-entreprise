@@ -12,7 +12,7 @@ CREATE TABLE pae.users(
                           role VARCHAR(15) NOT NULL
 );
 
-CREATE TABLE pae.entreprises(
+CREATE TABLE pae.enterprises(
                                 id_enterprise SERIAL PRIMARY KEY,
                                 trade_name VARCHAR(30) NOT NULL,
                                 designation VARCHAR(60),

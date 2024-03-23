@@ -2,8 +2,10 @@ package be.vinci.pae.api;
 
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.business.domain.ViewContactDTO;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.business.ucc.ViewContactUCC;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -13,6 +15,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.util.ArrayList;
 
 /**
  * Resource class for handling user-related endpoints.
@@ -27,6 +30,8 @@ public class UserResource {
   private UserUCC myUserUcc;
   @Inject
   private InternshipUCC myInternshipUcc;
+  @Inject
+  private ViewContactUCC myContactUcc;
 
   /**
    * Retrieves a user by their ID.
@@ -47,6 +52,7 @@ public class UserResource {
     }
 
     InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
+    ArrayList<ViewContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
 
     ObjectNode response = jsonMapper.createObjectNode();
     response.put("email", user.getEmail());
@@ -61,6 +67,18 @@ public class UserResource {
       response.put("internshipSupervisor", internship.getSupervisor().getFirstName() + " "
           + internship.getSupervisor().getLastName());
       response.put("internshipSubject", internship.getProject());
+    }
+
+    if(!contacts.isEmpty()) {
+      ArrayList<String> companies = new ArrayList<>();
+      for (ViewContactDTO c : contacts) {
+        if(c.getCompany().getDesignation() == null){
+          companies.add(c.getCompany().getTradeName());
+        }else{
+          companies.add(c.getCompany().getTradeName() + " " + c.getCompany().getDesignation());
+        }
+      }
+      response.putPOJO("contactCompanies", companies);
     }
 
     return response;
