@@ -133,20 +133,49 @@ async function onLogin(e) {
     },
   };
 
-  const response = await fetch(`http://localhost:3000/auths/login`, options);
-  console.log(response);
+  try {
+    const response = await fetch(`http://localhost:3000/auths/login`, options);
 
-  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    if (!response.ok) {
+      // Gestion des erreurs existante !!! A MODIFIER !!!
+      // todo
 
-  const authenticatedUser = await response.json();
+      if (response.status === 401) {
+        const errorMessage = document.createElement('p');
+        errorMessage.className = 'error-message';
+        errorMessage.textContent = 'Informations d\'identification invalides';
+        errorMessage.style.color = '#ecb8dc';
+        errorMessage.style.fontWeight = 'bold';
 
-  console.log('Authenticated user : ', authenticatedUser);
+        const existingErrorMessage = document.querySelector('.error-message');
+        if (existingErrorMessage) {
+          existingErrorMessage.remove();
+        }
 
-  setAuthenticatedUser(authenticatedUser);
+        const formCheckWrapper = document.querySelector('.form-check');
+        formCheckWrapper.appendChild(errorMessage);
+        return;
+      }
 
-  Navbar();
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
 
-  Navigate('/');
+    const authenticatedUser = await response.json();
+
+    console.log('Authenticated user : ', authenticatedUser);
+
+    // Stocker le token JWT dans le local storage
+    localStorage.setItem('token', authenticatedUser.token);
+
+    setAuthenticatedUser(authenticatedUser);
+
+    Navbar();
+
+    Navigate('/');
+  } catch (error) {
+    // Gestion des erreurs existante
+    alert('An error occurred during login. Please try again.');
+    console.error('An error occurred during login:', error);
+  }
 }
-
 export default LoginPage;

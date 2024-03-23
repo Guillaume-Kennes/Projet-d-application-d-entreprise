@@ -1,5 +1,6 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
@@ -12,12 +13,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -61,12 +66,13 @@ public class AuthsResource {
     String password = json.get("password").asText();
 
     UserDTO publicUser = myUserUCC.login(login, password);
+
     if (publicUser == null) {
       throw new WebApplicationException("Login or password incorrect",
           Response.Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
-    return jsonMapper.createObjectNode().put("token", token);
+    return jsonMapper.createObjectNode().put("token", token).put("email", publicUser.getEmail());
   }
 
 
@@ -89,21 +95,22 @@ public class AuthsResource {
       throw new WebApplicationException("Missing information(s)");
     // Vérification blank & null de users.http
 
-//    UserDTO user = domainFactory.getUser();
-//
-//    user.setEmail(userDTO.getEmail());
-//    user.setPassword(userDTO.getPassword());
-//    user.setLastName(userDTO.getLastName());
-//    user.setFirstName(userDTO.getFirstName());
-//    user.setPhoneNumber(userDTO.getPhoneNumber());
-//   // user.setRegistrationDate(userDTO.getRegistrationDate());
-//
-//    user.setRole(userDTO.getRole());
 
     return myUserUCC.register(userDTO);
-
   }
 
+  @GET
+  @Path("refresh")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public UserDTO getUser(@Context ContainerRequestContext requestContext){
+    UserDTO userDTO = (UserDTO) requestContext.getProperty("user");
+
+    if(userDTO == null)
+      throw new WebApplicationException("user", Status.UNAUTHORIZED);
+
+    return jsonMapper.convertValue(userDTO, UserDTO.class);
+  }
 
   /**
    * Creates a JWT token for the given user.

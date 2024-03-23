@@ -1,27 +1,39 @@
+/* eslint-disable import/no-cycle */
+
 const STORE_NAME = 'user';
 const REMEMBER_ME = 'remembered';
 
 let currentUser;
 
 const getAuthenticatedUser = () => {
-  if (currentUser !== undefined) return currentUser;
+  if (currentUser !== undefined) {
+    return currentUser;
+  }
 
   const remembered = getRememberMe();
   const serializedUser = remembered
-    ? localStorage.getItem(STORE_NAME)
-    : sessionStorage.getItem(STORE_NAME);
+      ? localStorage.getItem(STORE_NAME)
+      : sessionStorage.getItem(STORE_NAME);
 
-  if (!serializedUser) return undefined;
+  console.log("SERIALIZED USER", serializedUser);
+  console.log(localStorage.getItem(STORE_NAME));
+  if (!serializedUser) {
+    return undefined;
+  }
 
   currentUser = JSON.parse(serializedUser);
+  console.log("CurrentUser", currentUser);
   return currentUser;
 };
 
 const setAuthenticatedUser = (authenticatedUser) => {
   const serializedUser = JSON.stringify(authenticatedUser);
   const remembered = getRememberMe();
-  if (remembered) localStorage.setItem(STORE_NAME, serializedUser);
-  else sessionStorage.setItem(STORE_NAME, serializedUser);
+  if (remembered) {
+    localStorage.setItem(STORE_NAME, serializedUser);
+  } else {
+    sessionStorage.setItem(STORE_NAME, serializedUser);
+  }
 
   currentUser = authenticatedUser;
 };
@@ -29,21 +41,47 @@ const setAuthenticatedUser = (authenticatedUser) => {
 const isAuthenticated = () => currentUser !== undefined;
 
 const clearAuthenticatedUser = () => {
-  localStorage.clear();
-  sessionStorage.clear();
+  localStorage.removeItem(STORE_NAME);
+  sessionStorage.removeItem(STORE_NAME);
+  localStorage.removeItem(REMEMBER_ME);
   currentUser = undefined;
 };
 
 function getRememberMe() {
   const rememberedSerialized = localStorage.getItem(REMEMBER_ME);
-  const remembered = JSON.parse(rememberedSerialized);
-  return remembered;
+  return JSON.parse(rememberedSerialized);
 }
 
 function setRememberMe(remembered) {
   const rememberedSerialized = JSON.stringify(remembered);
   localStorage.setItem(REMEMBER_ME, rememberedSerialized);
 }
+
+const refreshAuthenticatedUser = async () => {
+
+  const API = await import('./api');
+
+  const authenticatedUser = getAuthenticatedUser();
+  if (!authenticatedUser) {
+    return;
+  }
+
+  const token = localStorage.getItem('token'); // Modifier la récupération du token
+  try {
+    const updatedUser = await API.get('auths/user', {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    setAuthenticatedUser({...authenticatedUser, ...updatedUser});
+  } catch (error) {
+    if (!(error instanceof TypeError)) {
+      clearAuthenticatedUser();
+    }
+  }
+};
 
 export {
   getAuthenticatedUser,
@@ -52,4 +90,5 @@ export {
   clearAuthenticatedUser,
   getRememberMe,
   setRememberMe,
+  refreshAuthenticatedUser,
 };

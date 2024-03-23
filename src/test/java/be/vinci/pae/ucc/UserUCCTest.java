@@ -99,10 +99,16 @@ public class UserUCCTest {
 
   @Test
   public void testRegisterSuccess() {
-    userDTO.setEmail("");
-    userDTO.setPassword("");
+    userDTO.setEmail("kawtar.dahman@student.vinci.be");
+    userDTO.setPassword("$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa");
 
     when(userDAO.getUserByEmail(userDTO.getEmail())).thenReturn(null);
-    
+    when(userDAO.register(userDTO)).thenReturn(userDTO);
+
+    UserDTO registeredUser = userDAO.register(userDTO);
+
+    assertEquals(userDTO.getEmail(), registeredUser.getEmail());
+    assertEquals(userDTO.getPassword(), registeredUser.getPassword());
+
   }
 }

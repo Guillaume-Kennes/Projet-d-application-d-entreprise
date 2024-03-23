@@ -9,7 +9,7 @@ import org.mindrot.jbcrypt.BCrypt;
  * This class provides implementations for various user-related methods.
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-class UserImpl implements User, UserDTO {
+class UserImpl implements User{
 
   private String email;
   //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
