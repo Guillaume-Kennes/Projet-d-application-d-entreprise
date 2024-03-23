@@ -38,4 +38,26 @@ public class ViewContactUCCImpl implements ViewContactUCC{
       dalServices.commit();
     }
   }
+
+  /**
+   * Returns all the contacts corresponding to the user corresponding to the id.
+   *
+   * @param id the user's id
+   *
+   * @return all the contacts corresponding to the user
+   */
+  public ArrayList<ViewContactDTO> getContactsByUserId(int id) {
+    dalServices.start();
+    try{
+      ArrayList<ViewContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
+      return contactDTOS;
+    }catch(Exception e){
+      System.out.println("ROLLBACK");
+      dalServices.rollBack();
+      throw e;
+    } finally {
+      System.out.println("COMMITT");
+      dalServices.commit();
+    }
+  }
 }

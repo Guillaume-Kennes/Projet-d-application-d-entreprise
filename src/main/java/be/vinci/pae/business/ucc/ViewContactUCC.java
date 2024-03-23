@@ -16,4 +16,13 @@ public interface ViewContactUCC {
    * @return the taken contacts corresponding to the user
    */
   ArrayList<ViewContactDTO> getTakenContactsByUserId(int id);
+
+  /**
+   * Returns all the contacts of the user corresponding to the id.
+   *
+   * @param id the user's id
+   *
+   * @return all the contacts corresponding to the user
+   */
+  ArrayList<ViewContactDTO> getContactsByUserId(int id);
 }
