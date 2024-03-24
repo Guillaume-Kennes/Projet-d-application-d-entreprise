@@ -3,15 +3,15 @@ package be.vinci.pae.business.domain;
 /**
  * Interface Contact extending ContactDTO.
  */
-public interface Contact extends ContactDTO{
+public interface Contact extends ContactDTO {
   /**
    * Checks if the user role is student.
    *
-   * @param id_user The ID of the user.
+   * @param idUser The ID of the user.
    *
    * @return true if the user role is student, false otherwise.
    */
-  boolean userRoleIsStudent(int id_user);
+  boolean userRoleIsStudent(int idUser);
 
   /**
    * Checks if the school year is correct.

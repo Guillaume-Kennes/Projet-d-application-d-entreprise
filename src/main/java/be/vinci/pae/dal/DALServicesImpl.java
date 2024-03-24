@@ -79,7 +79,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()+1);
+      counterThreads.set(counterThreads.get() + 1);
     }
   }
 
@@ -102,7 +102,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()-1);
+      counterThreads.set(counterThreads.get() - 1);
     }
   }
 
@@ -124,7 +124,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()-1);
+      counterThreads.set(counterThreads.get() - 1);
       try {
         connection.rollback();
         connection.setAutoCommit(false);

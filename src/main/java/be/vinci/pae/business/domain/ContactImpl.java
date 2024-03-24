@@ -35,6 +35,7 @@ class ContactImpl implements Contact {
   public void setState(String state) {
     this.state = state;
   }
+
   @Override
   public int getEnterprise() {
     return enterprise;
@@ -44,26 +45,32 @@ class ContactImpl implements Contact {
   public void setEnterprise(int enterprise) {
     this.enterprise = enterprise;
   }
+
   @Override
   public int getInscriptionUE() {
     return inscriptionUE;
   }
+
   @Override
   public void setInscriptionUE(int inscriptionUE) {
     this.inscriptionUE = inscriptionUE;
   }
+
   @Override
   public String getReasonForRefusal() {
     return reasonForRefusal;
   }
+
   @Override
   public void setReasonForRefusal(String reasonForRefusal) {
     this.reasonForRefusal = reasonForRefusal;
   }
+
   @Override
   public boolean isFollowed() {
     return isFollowed;
   }
+
   @Override
   public void setFollowed(boolean followed) {
     isFollowed = followed;

@@ -89,18 +89,18 @@ public class ContactDAOImpl implements ContactDAO {
           WHERE id_contact= ?;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
-          ps.setString(1, contactDTO.getState());
-          ps.setInt(2, contactDTO.getEnterprise());
-          ps.setInt(3, contactDTO.getInscriptionUE());
-          ps.setString(4, contactDTO.getReasonForRefusal());
-          ps.setBoolean(5, contactDTO.isFollowed());
-          ps.setString(6, contactDTO.getMeetingPlace());
-          ps.setInt(7, contactDTO.getId());
+        ps.setString(1, contactDTO.getState());
+        ps.setInt(2, contactDTO.getEnterprise());
+        ps.setInt(3, contactDTO.getInscriptionUE());
+        ps.setString(4, contactDTO.getReasonForRefusal());
+        ps.setBoolean(5, contactDTO.isFollowed());
+        ps.setString(6, contactDTO.getMeetingPlace());
+        ps.setInt(7, contactDTO.getId());
 
-          System.out.println("contact DAO IMPL : " + contactDTO.getId());
+        System.out.println("contact DAO IMPL : " + contactDTO.getId());
 
-          ps.execute();
-        }
+        ps.execute();
+      }
     } catch (SQLException e) {
       throw new IllegalArgumentException(e);
     }
