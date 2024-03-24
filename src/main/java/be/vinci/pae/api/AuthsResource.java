@@ -4,15 +4,20 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.HeaderParam;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
@@ -33,8 +38,6 @@ public class AuthsResource {
 
   @Inject
   private UserUCC myUserUCC;
-  //private TokenServices token;
-
 
   /**
    * Endpoint for user login.
@@ -62,16 +65,8 @@ public class AuthsResource {
           Response.Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
-    return jsonMapper.createObjectNode().put("token", token)
-        .put("id", publicUser.getId())
-        .put("email", publicUser.getEmail())
-        .put("lastName", publicUser.getLastName())
-        .put("firstName", publicUser.getFirstName())
-        .put("phoneNumber", publicUser.getPhoneNumber())
-        .put("registrationDate", publicUser.getRegistrationDate())
-        .put("role", publicUser.getRole());
+    return jsonMapper.createObjectNode().put("token", token).put("email", publicUser.getEmail());
   }
-
 
   /**
    * Creates a JWT token for the given user.

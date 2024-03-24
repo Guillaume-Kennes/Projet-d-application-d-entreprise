@@ -1,5 +1,6 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.domain.ViewContactDTO;
 import be.vinci.pae.business.ucc.UserUCC;
@@ -39,6 +40,7 @@ public class ContactResource {
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
+  @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode getContactsByUserId(@PathParam("id") int id) {

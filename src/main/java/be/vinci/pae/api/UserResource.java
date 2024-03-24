@@ -1,5 +1,6 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.domain.ViewContactDTO;
@@ -43,6 +44,7 @@ public class UserResource {
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
+  @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode getUserById(@PathParam("id") int id) {

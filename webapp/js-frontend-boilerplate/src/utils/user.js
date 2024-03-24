@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 function getToken(){
   const token = localStorage.getItem('user');
   if(!token){
@@ -8,33 +9,31 @@ function getToken(){
   return token;
 }
 
-function getUserInfoFromToken() {
-  const tokenString = getToken();
+function getUserIdFromToken() {
+  const token = getToken();
 
-  if (!tokenString) {
+  if (!token) {
     return null;
   }
 
-  let token;
   try {
-    token = JSON.parse(tokenString);
+    // Split the token into three parts: header, payload, signature
+    const tokenParts = token.split('.');
+
+    // Decode the payload (claims), which is the second part of the token
+    const decodedPayload = atob(tokenParts[1]);
+
+    // Parse the decoded payload as JSON
+    const payload = JSON.parse(decodedPayload);
+
+    // Extract the 'id' claim from the payload
+    const userId = payload.id;
+
+    return userId;
   } catch (error) {
-    console.error('Error parsing token:', error);
+    console.error('Error decoding token:', error);
     return null;
   }
-
-  const userInfo = {
-    token: token.token || null,
-    id: token.id || null,
-    email: token.email || null,
-    lastName: token.lastName || null,
-    firstName: token.firstName || null,
-    phoneNumber: token.phoneNumber || null,
-    registrationDate: token.registrationDate || null,
-    role: token.role || null
-  };
-
-  return userInfo;
 }
 
-export { getToken, getUserInfoFromToken };
+export { getToken, getUserIdFromToken };

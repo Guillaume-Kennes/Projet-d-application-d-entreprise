@@ -1,6 +1,6 @@
 import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
-import {getUserInfoFromToken} from "../../utils/user";
+import {getToken, getUserIdFromToken} from "../../utils/user";
 
 const ProfilePage = async () => {
   clearPage();
@@ -66,7 +66,8 @@ function renderProfilePage(user) {
 }
 
 async function getValues() {
-  const { token, id } = getUserInfoFromToken();
+  const token = getToken();
+  const id = getUserIdFromToken();
   const options = {
     method: 'GET',
     headers: {
