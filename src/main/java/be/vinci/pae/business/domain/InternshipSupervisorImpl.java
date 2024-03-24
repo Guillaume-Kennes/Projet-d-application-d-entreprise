@@ -60,6 +60,7 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
    * @param firstName The first name to set.
    */
   public void setFirstName(String firstName) {
+
     this.firstName = firstName;
   }
 
