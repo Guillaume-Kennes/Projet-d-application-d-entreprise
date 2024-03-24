@@ -7,5 +7,12 @@ import be.vinci.pae.business.domain.ViewCompanyDTO;
  */
 public interface ViewCompanyUCC {
 
+  /**
+   * Add a new company to the database.
+   *
+   * @param companyDTO the company to be added
+   *
+   * @return the added company
+   */
   ViewCompanyDTO addCompany(ViewCompanyDTO companyDTO);
 }

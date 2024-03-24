@@ -11,7 +11,7 @@ public class ViewContactImpl implements ViewContact {
    * This enum contains all the states a contact is allowed to be in.
    */
   public enum State {
-    ABANDONNE, REFUSE, PRIS, INITIE, SUSPENDU, ACCEPTE
+    ABANDONNE, REFUSE, PRIS, INITIE, SUSPENDU, ACCEPTE;
   }
 
   /**
@@ -19,7 +19,7 @@ public class ViewContactImpl implements ViewContact {
    * This enum contains the 2 different meeting places possible for a contact.
    */
   public enum MeetingPlace {
-    ENTREPRISE, DISTANCIEL
+    ENTREPRISE, DISTANCIEL;
   }
 
   private int id;
