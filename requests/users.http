@@ -26,7 +26,7 @@ POST {{baseUrl}}/auths/register
 Content-Type: application/json
 
 {
-  "email": "test@vinci.be",
+  "email": "testtttt@vinci.be",
   "password": "mdp1",
   "lastName": "test",
   "firstName": "TEST",

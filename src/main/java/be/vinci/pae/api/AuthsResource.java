@@ -91,10 +91,13 @@ public class AuthsResource {
   @Path("register")
   @Produces(MediaType.APPLICATION_JSON)
   public UserDTO register(UserDTO userDTO){
-    if(userDTO.getEmail().isBlank() || userDTO.getPassword().isBlank() || userDTO.getLastName().isBlank() || userDTO.getFirstName().isBlank() || userDTO.getPhoneNumber().isBlank() || userDTO.getPhoneNumber().isBlank())
+    if(userDTO.getEmail() == null || userDTO.getEmail().isBlank() ||
+        userDTO.getPassword() == null || userDTO.getPassword().isBlank() ||
+        userDTO.getLastName() == null || userDTO.getLastName().isBlank() ||
+        userDTO.getFirstName() == null || userDTO.getFirstName().isBlank() ||
+        userDTO.getPhoneNumber() == null || userDTO.getPhoneNumber().isBlank() ||
+        userDTO.getRole() == null || userDTO.getRole().isBlank())
       throw new WebApplicationException("Missing information(s)");
-    // Vérification blank & null de users.http
-
 
     return myUserUCC.register(userDTO);
   }

@@ -105,12 +105,13 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * @throws RuntimeException if a SQLException occurs.
    */
   public void commit(){
-    if(counterThreads.get() == 1){
+    Connection connection = connectionThread.get();
+
+    if(counterThreads.get() == 1 && connection != null){
       counterThreads.remove(); // ?
-      Connection connection = connectionThread.get();
       try{
-        connection.setAutoCommit(false);
         connection.commit();
+        connection.setAutoCommit(true);
         connectionThread.remove();
         connection.close();
       }catch(SQLException e){
@@ -143,7 +144,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       counterThreads.set(counterThreads.get()-1);
       try{
         connection.rollback();
-        connection.setAutoCommit(false);
+        connection.setAutoCommit(true);
         counterThreads.remove();
         connection.close();
       }catch(SQLException e){
