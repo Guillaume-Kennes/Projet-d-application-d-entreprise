@@ -7,17 +7,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * This class provides implementations for various internship-related methods.
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public class InternshipImpl implements Internship{
+public class InternshipImpl implements Internship {
 
   private int id;
   private ViewContact contact;
   private InternshipSupervisor supervisor;
-  private String project, signatureDate;
+  private String project;
+  private String signatureDate;
 
   /**
    * Default constructor for InternshipImpl.
    */
-  public InternshipImpl(){
+  public InternshipImpl() {
   }
 
   /**
@@ -52,7 +53,7 @@ public class InternshipImpl implements Internship{
    *
    * @param contact The contact to set.
    */
-  public void setContact(ViewContact contact){
+  public void setContact(ViewContact contact) {
     this.contact = contact;
   }
 

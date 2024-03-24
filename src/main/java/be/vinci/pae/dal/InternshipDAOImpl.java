@@ -15,7 +15,7 @@ import java.sql.SQLException;
  * Implementation of the InternshipDAO interface.
  * Provides methods for retrieving internship-related data from the database.
  */
-public class InternshipDAOImpl implements InternshipDAO{
+public class InternshipDAOImpl implements InternshipDAO {
 
   @Inject
   private DomainFactory myDomainFactory;
@@ -39,9 +39,11 @@ public class InternshipDAOImpl implements InternshipDAO{
   public InternshipDTO getInternshipByUserId(int id) {
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, pae.inscriptions_UE iu, pae.internship_supervisors s "
+        "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, "
+            + "pae.inscriptions_UE iu, pae.internship_supervisors s "
             + "WHERE i.contact = c.id_contact AND c.inscription_UE = iu.id_inscription_UE "
-            + "AND iu.student = u.id_user AND i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
+            + "AND iu.student = u.id_user AND "
+            + "i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {
@@ -69,11 +71,11 @@ public class InternshipDAOImpl implements InternshipDAO{
   }
 
   /**
-   * Method to retrieve internship information from a ResultSet and map it to a InternshipDTO object.
+   * Method to retrieve internship information and map it to an InternshipDTO object.
    *
    * @param resultSet The ResultSet containing internship information.
    *
-   * @return A InternshipDTO object populated with internship information from the ResultSet.
+   * @return An InternshipDTO object populated with internship information.
    */
   public InternshipDTO internshipInfos(ResultSet resultSet) {
     InternshipDTO internshipDTO = myDomainFactory.getInternship();

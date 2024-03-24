@@ -1,10 +1,14 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.ViewCompanyDTO;
-import be.vinci.pae.dal.ViewCompanyDAO;
 import be.vinci.pae.dal.DALServices;
+import be.vinci.pae.dal.ViewCompanyDAO;
 import jakarta.inject.Inject;
 
+/**
+ * Implementation of the ViewCompanyUCC interface.
+ * Provides methods related to company operations.
+ */
 public class ViewCompanyUCCImpl implements ViewCompanyUCC {
 
   @Inject

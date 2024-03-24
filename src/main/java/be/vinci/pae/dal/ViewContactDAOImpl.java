@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Implementation of the ViewContactDAO interface.
  * Provides methods for retrieving contact-related data from the database.
  */
-public class ViewContactDAOImpl implements ViewContactDAO{
+public class ViewContactDAOImpl implements ViewContactDAO {
 
   @Inject
   private DomainFactory myDomainFactory;
@@ -37,7 +37,7 @@ public class ViewContactDAOImpl implements ViewContactDAO{
   public ViewContactDTO contactInfos(ResultSet resultSet) {
     ViewContactDTO contact = myDomainFactory.getContact();
     ViewCompanyDTO company;
-    ViewUEInscriptionDTO UEInscription;
+    ViewUEInscriptionDTO uEInscription;
 
     try {
       contact.setId(resultSet.getInt("id_contact"));
@@ -47,8 +47,8 @@ public class ViewContactDAOImpl implements ViewContactDAO{
       contact.setFollowed(resultSet.getBoolean("is_followed"));
       company = companyDAO.companyInfos(resultSet);
       contact.setCompany((ViewCompany) company);
-      UEInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
-      contact.setUeInscription((ViewUEInscription) UEInscription);
+      uEInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
+      contact.setUeInscription((ViewUEInscription) uEInscription);
     } catch (SQLException e) {
       e.getMessage();
     }
@@ -60,7 +60,7 @@ public class ViewContactDAOImpl implements ViewContactDAO{
    *
    * @param id The ID of the contact to retrieve.
    *
-   * @return A ViewContactDTO object representing the contact with the specified ID, or null if not found.
+   * @return A ViewContactDTO object representing the contact, or null if not found.
    *
    * @throws IllegalArgumentException if the contact is not found in the database.
    */
@@ -118,7 +118,7 @@ public class ViewContactDAOImpl implements ViewContactDAO{
     ArrayList<ViewContactDTO> contacts = new ArrayList<>();
     ViewContactDTO contact;
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
-      while(resultSet.next()) {
+      while (resultSet.next()) {
         contact = contactInfos(resultSet);
         contacts.add(contact);
       }
@@ -150,7 +150,7 @@ public class ViewContactDAOImpl implements ViewContactDAO{
     ArrayList<ViewContactDTO> contacts = new ArrayList<>();
     ViewContactDTO contact;
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
-      while(resultSet.next()) {
+      while (resultSet.next()) {
         contact = contactInfos(resultSet);
         contacts.add(contact);
       }

@@ -31,14 +31,14 @@ public interface ViewContactDTO {
   void setReasonRefusal(String reasonRefusal);
 
   /**
-   * Sets the contact's meeting place
+   * Sets the contact's meeting place.
    *
    * @param meetingPlace the contact's meeting place to set
    */
   void setMeetingPlace(String meetingPlace);
 
   /**
-   * Returns the contact's company
+   * Returns the contact's company.
    *
    * @return the contact's company
    */
@@ -59,7 +59,7 @@ public interface ViewContactDTO {
   void setUeInscription(ViewUEInscription ueInscription);
 
   /**
-   * Returns the contact's state
+   * Returns the contact's state.
    *
    * @return the contact's state
    */

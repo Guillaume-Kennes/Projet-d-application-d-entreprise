@@ -23,11 +23,11 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
   private ViewCompanyDAO companyDAO;
 
   /**
-   * Method to retrieve internship supervisor information from a ResultSet and map it to a InternshipSupervisorDTO object.
+   * Method to retrieve supervisor information and map it to a InternshipSupervisorDTO object.
    *
    * @param resultSet The ResultSet containing supervisor information.
    *
-   * @return A InternshipSupervisorDTO object populated with internship supervisor information from the ResultSet.
+   * @return A InternshipSupervisorDTO object populated with supervisor info.
    */
   public InternshipSupervisorDTO supervisorInfos(ResultSet resultSet) {
     InternshipSupervisorDTO internshipSupervisorDTO = myDomainFactory.getInternshipSupervisor();
@@ -53,7 +53,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    *
    * @param id The ID of the supervisor to retrieve.
    *
-   * @return A InternshipSupervisorDTO object representing the supervisor with the specified ID, or null if not found.
+   * @return A InternshipSupervisorDTO object representing the supervisor, or null if not found.
    *
    * @throws IllegalArgumentException if the supervisor is not found in the database.
    */

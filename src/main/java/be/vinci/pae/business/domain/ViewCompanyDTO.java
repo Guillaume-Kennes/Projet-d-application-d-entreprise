@@ -2,6 +2,10 @@ package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/**
+ * Represents a company data transfer object (DTO) with various properties.
+ * This interface defines methods for accessing and modifying company-related information.
+ */
 @JsonDeserialize(as = ViewCompanyImpl.class)
 public interface ViewCompanyDTO {
 
@@ -19,46 +23,73 @@ public interface ViewCompanyDTO {
    */
   void setId(int id);
 
+  /**
+   * Returns the enterprise's name.
+   *
+   * @return the enterprise's name
+   */
   String getTradeName();
 
   /**
-   * Returns the enterprise's name.
+   * Sets the name of the company.
    *
-   * @return the enterprise's name
+   * @param tradeName the new name of the item.
    */
   void setTradeName(String tradeName);
 
-
+  /**
+   * Returns the enterprise's designation.
+   *
+   * @return the enterprise's designation
+   */
   String getDesignation();
 
   /**
-   * Returns the enterprise's name.
+   * Sets the designation of the company.
    *
-   * @return the enterprise's name
+   * @param designation the new designation of the item.
    */
   void setDesignation(String designation);
 
-
+  /**
+   * Returns the enterprise's address.
+   *
+   * @return the enterprise's address
+   */
   String getAdress();
 
   /**
-   * Returns the enterprise's name.
+   * Sets the address of the company.
    *
-   * @return the enterprise's name
+   * @param adress the new address of the item.
    */
   void setAdress(String adress);
 
-
+  /**
+   * Returns the enterprise's city.
+   *
+   * @return the enterprise's city
+   */
   String getCity();
 
+  /**
+   * Sets the city of the company.
+   *
+   * @param city the new city of the item.
+   */
   void setCity(String city);
 
+  /**
+   * Returns the enterprise's means of communication.
+   *
+   * @return the enterprise's means of communication
+   */
   String getMeansOfCommunication();
 
   /**
-   * Returns the enterprise's name.
+   * Sets the means of communication of the company.
    *
-   * @return the enterprise's name
+   * @param meansOfCommunication the new means of communication.
    */
   void setMeansOfCommunication(String meansOfCommunication);
 

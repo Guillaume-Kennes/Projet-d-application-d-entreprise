@@ -3,6 +3,10 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.ViewCompanyDTO;
 import java.sql.ResultSet;
 
+/**
+ * Represents a Data Access Object (DAO) for managing company-related data.
+ * Provides methods to retrieve company information based on ID.
+ */
 public interface ViewCompanyDAO {
 
   /**

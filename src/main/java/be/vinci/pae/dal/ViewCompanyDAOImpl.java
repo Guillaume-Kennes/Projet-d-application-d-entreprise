@@ -8,6 +8,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * Implementation of the ViewCompanyDAO interface.
+ * Provides methods for retrieving company-related data from the database.
+ */
 public class ViewCompanyDAOImpl implements ViewCompanyDAO {
 
   @Inject
@@ -76,7 +80,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    *
    * @param id The ID of the company to retrieve.
    *
-   * @return A ViewCompanyDTO object representing the company with the specified ID, or null if not found.
+   * @return A ViewCompanyDTO object representing the company, or null if not found.
    *
    * @throws IllegalArgumentException if the company is not found in the database.
    */

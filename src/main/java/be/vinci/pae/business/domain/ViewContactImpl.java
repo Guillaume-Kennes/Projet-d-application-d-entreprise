@@ -1,9 +1,23 @@
 package be.vinci.pae.business.domain;
-public class ViewContactImpl implements ViewContact{
+
+/**
+ * Implementation class for the ViewContact interface.
+ * This class provides implementations for various contact-related methods.
+ */
+public class ViewContactImpl implements ViewContact {
+
+  /**
+   * Enum for containing the different states of a contact.
+   * This enum contains all the states a contact is allowed to be in.
+   */
   public enum State {
     ABANDONNE, REFUSE, PRIS, INITIE, SUSPENDU, ACCEPTE
   }
 
+  /**
+   * Enum for containing the different meeting places of a contact.
+   * This enum contains the 2 different meeting places possible for a contact.
+   */
   public enum MeetingPlace {
     ENTREPRISE, DISTANCIEL
   }

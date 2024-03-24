@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 public interface ViewUEInscriptionDAO {
 
   /**
-   * Returns the information of a UE Inscription
+   * Returns the information of a UE Inscription.
    *
    * @param resultSet the given resultSet
    *

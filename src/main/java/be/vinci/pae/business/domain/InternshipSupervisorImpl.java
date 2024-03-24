@@ -1,9 +1,16 @@
 package be.vinci.pae.business.domain;
 
-public class InternshipSupervisorImpl implements InternshipSupervisor{
+/**
+ * Implementation class for the InternshipSupervisor interface.
+ * This class provides implementations for various supervisor-related methods.
+ */
+public class InternshipSupervisorImpl implements InternshipSupervisor {
 
   private int id;
-  private String firstName, lastName, phoneNumber, email;
+  private String firstName;
+  private String lastName;
+  private String phoneNumber;
+  private String email;
   private ViewCompany company;
 
   /**

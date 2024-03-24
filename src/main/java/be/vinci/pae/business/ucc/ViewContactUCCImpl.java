@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Implementation of the ViewContactUCC interface.
  * Provides methods related to contact operations.
  */
-public class ViewContactUCCImpl implements ViewContactUCC{
+public class ViewContactUCCImpl implements ViewContactUCC {
 
   @Inject
   private ViewContactDAO contactDAO;
@@ -26,10 +26,10 @@ public class ViewContactUCCImpl implements ViewContactUCC{
    */
   public ArrayList<ViewContactDTO> getTakenContactsByUserId(int id) {
     dalServices.start();
-    try{
+    try {
       ArrayList<ViewContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
       return contactDTOS;
-    }catch(Exception e){
+    } catch (Exception e) {
       System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
@@ -48,10 +48,10 @@ public class ViewContactUCCImpl implements ViewContactUCC{
    */
   public ArrayList<ViewContactDTO> getContactsByUserId(int id) {
     dalServices.start();
-    try{
+    try {
       ArrayList<ViewContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
       return contactDTOS;
-    }catch(Exception e){
+    } catch (Exception e) {
       System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;

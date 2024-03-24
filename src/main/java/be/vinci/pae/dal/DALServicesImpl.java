@@ -16,7 +16,10 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   private final ThreadLocal<Integer> counterThreads;
   private final BasicDataSource connectionBDS;
 
-  public DALServicesImpl(){
+  /**
+   * Default constructor for DALServicesImpl.
+   */
+  public DALServicesImpl() {
     connectionThread = new ThreadLocal<>();
     counterThreads = new ThreadLocal<>();
     connectionBDS = new BasicDataSource();
@@ -28,46 +31,46 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionBDS.setMaxTotal(1);
   }
 
-  public PreparedStatement getPreparedStatement(String sql, boolean primaryKey){
-    try{
+  public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
+    try {
       return connectionThread.get().prepareStatement(sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
-    }catch(SQLException e){
+    } catch (SQLException e) {
       throw new RuntimeException(e.getMessage());
     }
   }
 
-  public PreparedStatement getPreparedStatement(String sql){
+  public PreparedStatement getPreparedStatement(String sql) {
     return getPreparedStatement(sql, false);
   }
 
-  public void start(){
-    if(counterThreads.get() == null){
-      try{
+  public void start() {
+    if (counterThreads.get() == null) {
+      try {
         counterThreads.set(1);
         Connection connection = connectionBDS.getConnection();
         connection.setAutoCommit(false);
-        connectionThread.set(connection); //comme ça y'a une connexion pour un thread -> lier un thread à une connexion
-      }catch(SQLException e){
+        connectionThread.set(connection);
+      } catch(SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
-    }else{
+    } else {
       counterThreads.set(counterThreads.get()+1);
     }
   }
 
-  public void commit(){
-    if(counterThreads.get() == 1){
-      counterThreads.remove(); // ?
+  public void commit() {
+    if (counterThreads.get() == 1) {
+      counterThreads.remove();
       Connection connection = connectionThread.get();
-      try{
+      try {
         connection.setAutoCommit(false);
         connection.commit();
         connectionThread.remove();
         connection.close();
-      }catch(SQLException e){
+      } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
-    } else{
+    } else {
       counterThreads.set(counterThreads.get()-1);
     }
   }
@@ -75,23 +78,23 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   public void rollBack(){
     Connection connection = connectionThread.get();
 
-    if(counterThreads.get() == null){
-      try{
+    if (counterThreads.get() == null) {
+      try {
         counterThreads.remove();
-        if(connection != null){
+        if (connection != null) {
           connection.close();
         }
-      }catch(SQLException e){
+      } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
-    }else{
+    } else {
       counterThreads.set(counterThreads.get()-1);
-      try{
+      try {
         connection.rollback();
         connection.setAutoCommit(false);
         counterThreads.remove();
         connection.close();
-      }catch(SQLException e){
+      } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
     }

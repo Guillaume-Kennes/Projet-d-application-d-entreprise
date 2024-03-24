@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * Implementation of the ViewUEInscriptionDAO interface.
  * Provides methods for retrieving UE inscription-related data from the database.
  */
-public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO{
+public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
 
   @Inject
   private DomainFactory myDomainFactory;
@@ -23,11 +23,11 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO{
   private UserDAO userDAO;
 
   /**
-   * Method to retrieve UE Inscription information from a ResultSet and map it to a ViewUEInscriptionDTO object.
+   * Method to retrieve UE Inscription info and map it to a ViewUEInscriptionDTO object.
    *
    * @param resultSet The ResultSet containing inscription information.
    *
-   * @return A ViewUEInscriptionDTO object populated with UE inscription information from the ResultSet.
+   * @return A ViewUEInscriptionDTO object populated with UE inscription info.
    */
   public ViewUEInscriptionDTO ueInscriptionInfos(ResultSet resultSet) {
     ViewUEInscriptionDTO inscription = myDomainFactory.getUEInscription();
@@ -50,7 +50,7 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO{
    *
    * @param id The ID of the UE inscription to retrieve.
    *
-   * @return A ViewUEInscriptionDTO object representing the inscription with the specified ID, or null if not found.
+   * @return A ViewUEInscriptionDTO object representing the inscription, or null if not found.
    *
    * @throws IllegalArgumentException if the inscription is not found in the database.
    */

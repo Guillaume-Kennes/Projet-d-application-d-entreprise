@@ -51,17 +51,18 @@ public class ContactResource {
 
     ObjectNode response = jsonMapper.createObjectNode();
     ArrayList<ViewContactDTO> contacts = myContactUcc.getContactsByUserId(user.getId());
-    if(contacts.isEmpty()){
+    if (contacts.isEmpty()) {
       return null;
     }
     
     ArrayList<String> contactList = new ArrayList<>();
 
     for (ViewContactDTO c : contacts) {
-      if(c.getCompany().getDesignation() == null){
+      if (c.getCompany().getDesignation() == null) {
         contactList.add(c.getCompany().getTradeName() + "\t" + c.getState());
-      }else{
-        contactList.add(c.getCompany().getTradeName() + " " + c.getCompany().getDesignation() + "\t" + c.getState());
+      } else {
+        contactList.add(c.getCompany().getTradeName() + " " + c.getCompany().getDesignation()
+            + "\t" + c.getState());
       }
     }
 

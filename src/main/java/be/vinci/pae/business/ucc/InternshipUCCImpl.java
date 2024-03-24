@@ -9,7 +9,7 @@ import jakarta.inject.Inject;
  * Implementation of the InternshipUCC interface.
  * Provides methods related to internship operations.
  */
-public class InternshipUCCImpl implements InternshipUCC{
+public class InternshipUCCImpl implements InternshipUCC {
 
   @Inject
   private InternshipDAO internshipDAO;
@@ -25,10 +25,10 @@ public class InternshipUCCImpl implements InternshipUCC{
    */
   public InternshipDTO getInternshipByUserId(int id) {
     dalServices.start();
-    try{
+    try {
       InternshipDTO internshipDTO = internshipDAO.getInternshipByUserId(id);
       return internshipDTO;
-    }catch(Exception e){
+    } catch (Exception e) {
       System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;

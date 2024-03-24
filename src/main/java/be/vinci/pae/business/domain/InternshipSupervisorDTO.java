@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Represents an internship supervisor data transfer object (DTO) with various properties.
- * This interface defines methods for accessing and modifying internship supervisor-related information.
+ * This interface defines methods for accessing and modifying supervisor-related information.
  */
 @JsonDeserialize(as = UserImpl.class)
 public interface InternshipSupervisorDTO {
@@ -24,7 +24,7 @@ public interface InternshipSupervisorDTO {
   void setId(int id);
 
   /**
-   * Returns the supervisor's first name
+   * Returns the supervisor's first name.
    *
    * @return the supervisor's first name
    */

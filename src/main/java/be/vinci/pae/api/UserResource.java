@@ -53,14 +53,13 @@ public class UserResource {
       throw new IllegalArgumentException("User not found");
     }
 
-    InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
-    ArrayList<ViewContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
-
     ObjectNode response = jsonMapper.createObjectNode();
     response.put("email", user.getEmail());
     response.put("lastName", user.getLastName());
     response.put("firstName", user.getFirstName());
     response.put("phoneNumber", user.getPhoneNumber());
+
+    InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
 
     if (internship != null) {
       response.put("internshipTitle", internship.getProject());
@@ -71,10 +70,12 @@ public class UserResource {
       response.put("internshipSubject", internship.getProject());
     }
 
-    if(!contacts.isEmpty()) {
+    ArrayList<ViewContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
+
+    if (!contacts.isEmpty()) {
       ArrayList<String> companies = new ArrayList<>();
       for (ViewContactDTO c : contacts) {
-        if(c.getCompany().getDesignation() == null){
+        if (c.getCompany().getDesignation() == null) {
           companies.add(c.getCompany().getTradeName());
         }else{
           companies.add(c.getCompany().getTradeName() + " " + c.getCompany().getDesignation());

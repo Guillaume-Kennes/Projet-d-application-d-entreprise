@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * This class provides implementations for various UEInscription-related methods.
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public class ViewUEInscriptionImpl implements ViewUEInscription{
+public class ViewUEInscriptionImpl implements ViewUEInscription {
 
   private int id;
   private User student;

@@ -8,8 +8,6 @@ public interface DALServices {
 
   /**
    * Start a database connection.
-   *
-   * @return The started database connection.
    */
   void start();
 

@@ -28,13 +28,13 @@ public class UserUCCImpl implements UserUCC {
 
   public UserDTO login(String email, String password) {
     dalServices.start();
-    try{
+    try {
       User userFound = (User) userDAO.getUserByEmail(email);
       if (userFound == null || !userFound.checkPassword(password)) {
         throw new UnauthorizedException("Incorrect Email or Password");
       }
       return userFound;
-    }catch(Exception e){
+    } catch (Exception e) {
       System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
@@ -54,10 +54,10 @@ public class UserUCCImpl implements UserUCC {
    */
   public UserDTO getUserById(int id) {
     dalServices.start();
-    try{
+    try {
       UserDTO userDTO = userDAO.getUserById(id);
       return userDTO;
-    }catch(Exception e){
+    } catch (Exception e) {
       System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
