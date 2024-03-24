@@ -1,15 +1,10 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.utils.Config;
-import be.vinci.pae.utils.exception.UnauthorizedException;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
@@ -21,7 +16,10 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   private final ThreadLocal<Integer> counterThreads;
   private final BasicDataSource connectionBDS;
 
-  public DALServicesImpl(){
+  /**
+   * Default constructor.
+   */
+  public DALServicesImpl() {
     connectionThread = new ThreadLocal<>();
     counterThreads = new ThreadLocal<>();
     connectionBDS = new BasicDataSource();
@@ -33,71 +31,106 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionBDS.setMaxTotal(1);
   }
 
-  public PreparedStatement getPreparedStatement(String sql, boolean primaryKey){
-    try{
-      return connectionThread.get().prepareStatement(sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
-    }catch(SQLException e){
+  /**
+   * Prepares a SQL statement.
+   *
+   * @param sql The SQL query.
+   *
+   * @param primaryKey If true, the statement will return generated keys.
+   *
+   * @return The prepared statement.
+   *
+   * @throws RuntimeException if an SQL error occurs.
+   */
+  public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
+    try {
+      return connectionThread.get().prepareStatement(
+          sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+    } catch (SQLException e) {
       throw new RuntimeException(e.getMessage());
     }
   }
 
-  public PreparedStatement getPreparedStatement(String sql){
+  /**
+   * Prepares a SQL statement without returning generated keys.
+   *
+   * @param sql The SQL query.
+   *
+   * @return The prepared statement.
+   */
+  public PreparedStatement getPreparedStatement(String sql) {
     return getPreparedStatement(sql, false);
   }
 
-  public void start(){
-    if(counterThreads.get() == null){
-      try{
+  /**
+   * Starts a new transaction.
+   *
+   * @throws RuntimeException if an SQL error occurs.
+   */
+  public void start() {
+    if (counterThreads.get() == null) {
+      try {
         counterThreads.set(1);
         Connection connection = connectionBDS.getConnection();
         connection.setAutoCommit(false);
-        connectionThread.set(connection); //comme ça y'a une connexion pour un thread -> lier un thread à une connexion
-      }catch(SQLException e){
+        connectionThread.set(connection); //comme ça y'a une connexion pour un thread
+        // -> lier un thread à une connexion
+      } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
-    }else{
+    } else {
       counterThreads.set(counterThreads.get()+1);
     }
   }
 
-  public void commit(){
-    if(counterThreads.get() != null && counterThreads.get() == 1){
+  /**
+   * Commits the current transaction.
+   *
+   * @throws RuntimeException if an SQL error occurs.
+   */
+  public void commit() {
+    if (counterThreads.get() != null && counterThreads.get() == 1) {
       counterThreads.remove(); // ?
       Connection connection = connectionThread.get();
-      try{
+      try {
         connection.commit();
         connection.setAutoCommit(false);
 
         connectionThread.remove();
         connection.close();
-      }catch(SQLException e){
+      } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
-    } else{
+    } else {
       counterThreads.set(counterThreads.get()-1);
     }
   }
 
-  public void rollBack(){
+  /**
+   * Rolls back the current transaction.
+   *
+   * @throws RuntimeException if an SQL error occurs.
+   */
+  public void rollBack() {
     Connection connection = connectionThread.get();
 
-    if(counterThreads.get() == null){
-      try{
+    if (counterThreads.get() == null) {
+      try {
         counterThreads.remove();
-        if(connection != null){
+        if (connection != null) {
           connection.close();
         }
-      }catch(SQLException e){
+      } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
-    }else{
+    } else {
       counterThreads.set(counterThreads.get()-1);
-      try{
+      try {
         connection.rollback();
         connection.setAutoCommit(false);
         counterThreads.remove();
         connection.close();
-      }catch(SQLException e){
+      } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
     }

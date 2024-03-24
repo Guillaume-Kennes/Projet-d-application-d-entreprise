@@ -2,7 +2,6 @@ package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.ContactDTO;
-import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
@@ -12,11 +11,11 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
-import org.glassfish.jersey.server.ContainerRequest;
 
+/**
+ * Resource class for managing contacts.
+ */
 @Singleton
 @Path("/contacts")
 public class ContactResource {
@@ -24,18 +23,27 @@ public class ContactResource {
   @Inject
   private ContactUCC myContactUcc;
 
+  /**
+   * Endpoint for meeting a company.
+   *
+   * @param idContact The ID of the contact.
+   *
+   * @param json The JSON object containing the meeting location.
+   *
+   * @return The updated contact.
+   */
   @POST
-  @Path("/meet/{id_contact}")
+  @Path("/meet/{id_con}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ContactDTO meetCompany(@PathParam("id_contact") int id_contact,JsonNode json) {
-    ContactDTO contact = myContactUcc.getContactById(id_contact);
-    if(contact == null) {
+  public ContactDTO meetCompany(@PathParam("id_con") int idContact, JsonNode json) {
+    ContactDTO contact = myContactUcc.getContactById(idContact);
+    if (contact == null) {
       throw new IllegalArgumentException("Contact not found");
     }
 
-    if(json == null) {
+    if (json == null) {
       throw new IllegalArgumentException("Request body is missing or not a valid JSON");
     }
 
@@ -48,14 +56,21 @@ public class ContactResource {
   }
 
 
+  /**
+   * Endpoint for stopping following a contact.
+   *
+   * @param idContact The ID of the contact.
+   *
+   * @return The updated contact.
+   */
   @POST
-  @Path("/stop/{id_contact}")
+  @Path("/stop/{id_con}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ContactDTO stopFollowing(@PathParam("id_contact") int id_contact) {
-    ContactDTO contact = myContactUcc.getContactById(id_contact);
-    if(contact == null) {
+  public ContactDTO stopFollowing(@PathParam("id_con") int idContact) {
+    ContactDTO contact = myContactUcc.getContactById(idContact);
+    if (contact == null) {
       throw new IllegalArgumentException("Contact not found");
     }
 
@@ -64,18 +79,27 @@ public class ContactResource {
     return contact;
   }
 
+  /**
+   * Endpoint for when a company refuses an internship.
+   *
+   * @param idContact The ID of the contact.
+   *
+   * @param json The JSON object containing the reason for refusal.
+   *
+   * @return The updated contact.
+   */
   @POST
-  @Path("/companyrefused/{id_contact}")
+  @Path("/companyrefused/{id_con}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public ContactDTO companyRefusedInternship(@PathParam("id_contact") int id_contact, JsonNode json) {
-    ContactDTO contact = myContactUcc.getContactById(id_contact);
-    if(contact == null) {
+  public ContactDTO companyRefusedInternship(@PathParam("id_con") int idContact, JsonNode json) {
+    ContactDTO contact = myContactUcc.getContactById(idContact);
+    if (contact == null) {
       throw new IllegalArgumentException("Contact not found");
     }
 
-    if(json == null) {
+    if (json == null) {
       throw new IllegalArgumentException("Request body is missing or not a valid JSON");
     }
 

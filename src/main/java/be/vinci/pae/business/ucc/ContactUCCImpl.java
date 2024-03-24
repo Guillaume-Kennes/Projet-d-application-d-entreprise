@@ -1,11 +1,13 @@
 package be.vinci.pae.business.ucc;
 
-import be.vinci.pae.business.domain.Contact;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
 import jakarta.inject.Inject;
 
+/**
+ * Implementation of the ContactUCC interface.
+ */
 public class ContactUCCImpl implements ContactUCC {
 
   @Inject
@@ -14,11 +16,21 @@ public class ContactUCCImpl implements ContactUCC {
   @Inject
   private DALServices dalServices;
 
+  /**
+   * Arranges a meeting with a company.
+   *
+   * @param contact The contact for the meeting.
+   *
+   * @param place The place of the meeting.
+   *
+   * @return The updated contact after the meeting.
+   */
   public ContactDTO meetCompany(ContactDTO contact, String place) {
     dalServices.start();
-    try{
-      if(contact == null)
+    try {
+      if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
+      }
       contact.setState("pris");
       contact.setMeetingPlace(place);
 
@@ -34,10 +46,17 @@ public class ContactUCCImpl implements ContactUCC {
     }
   }
 
-  public ContactDTO getContactById(int id_contact) {
+  /**
+   * Retrieves a contact by its ID.
+   *
+   * @param idContact The ID of the contact.
+   *
+   * @return The contact with the given ID.
+   */
+  public ContactDTO getContactById(int idContact) {
     dalServices.start();
-    try{
-      return contactDAO.getContactById(id_contact);
+    try {
+      return contactDAO.getContactById(idContact);
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
@@ -46,9 +65,16 @@ public class ContactUCCImpl implements ContactUCC {
     }
   }
 
+  /**
+   * Stops following a contact.
+   *
+   * @param contact The contact to stop following.
+   *
+   * @return The updated contact after stopping the follow.
+   */
   public ContactDTO stopFollowing(ContactDTO contact) {
     dalServices.start();
-    try{
+    try {
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
       }
@@ -66,6 +92,15 @@ public class ContactUCCImpl implements ContactUCC {
     }
   }
 
+  /**
+   * Handles the case when a company refuses an internship.
+   *
+   * @param contact The contact for the company.
+   *
+   * @param reason The reason for refusal.
+   *
+   * @return The updated contact after the refusal.
+   */
   public ContactDTO companyRefusedInternship(ContactDTO contact, String reason) {
     dalServices.start();
     try {

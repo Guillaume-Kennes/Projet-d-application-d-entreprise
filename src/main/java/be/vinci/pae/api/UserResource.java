@@ -1,20 +1,14 @@
 package be.vinci.pae.api;
 
-import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
-import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import org.glassfish.jersey.server.ContainerRequest;
 
 /**
  * Resource class for handling user-related endpoints.

@@ -7,19 +7,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ContactDAOImpl implements ContactDAO{
+/**
+ * Implementation of the ContactDAO interface.
+ */
+public class ContactDAOImpl implements ContactDAO {
   @Inject
   private DomainFactory myDomainFactory;
 
   @Inject
   private DALBackServices dalServices;
 
-  public ContactDTO getContactById(int contact_id) {
+  /**
+   * Retrieves a contact by its ID.
+   *
+   * @param contactId The ID of the contact to retrieve.
+   *
+   * @return The contact DTO if found, null otherwise.
+   *
+   * @throws IllegalArgumentException if the contact is not found.
+   */
+  public ContactDTO getContactById(int contactId) {
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts co WHERE co.id_contact = ?");
     try {
-      preparedStatement.setInt(1, contact_id);
+      preparedStatement.setInt(1, contactId);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
           return contactInfos(resultSet);
@@ -32,6 +44,13 @@ public class ContactDAOImpl implements ContactDAO{
   }
 
 
+  /**
+   * Extracts contact information from a ResultSet.
+   *
+   * @param resultSet The ResultSet to extract information from.
+   *
+   * @return A ContactDTO populated with the extracted information.
+   */
   public ContactDTO contactInfos(ResultSet resultSet) {
     ContactDTO contactDTO = myDomainFactory.getContact();
 
@@ -50,8 +69,14 @@ public class ContactDAOImpl implements ContactDAO{
     return contactDTO;
   }
 
-
-  public void update (ContactDTO contactDTO) {
+  /**
+   * Updates a contact in the database.
+   *
+   * @param contactDTO The contact DTO to update.
+   *
+   * @throws IllegalArgumentException if an SQL error occurs.
+   */
+  public void update(ContactDTO contactDTO) {
     try {
       String query = """
           UPDATE pae.contacts
@@ -64,19 +89,19 @@ public class ContactDAOImpl implements ContactDAO{
           WHERE id_contact= ?;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
-        ps.setString(1, contactDTO.getState());
-        ps.setInt(2, contactDTO.getEnterprise());
-        ps.setInt(3, contactDTO.getInscriptionUE());
-        ps.setString(4, contactDTO.getReasonForRefusal());
-        ps.setBoolean(5, contactDTO.isFollowed());
-        ps.setString(6, contactDTO.getMeetingPlace());
-        ps.setInt(7, contactDTO.getId());
+          ps.setString(1, contactDTO.getState());
+          ps.setInt(2, contactDTO.getEnterprise());
+          ps.setInt(3, contactDTO.getInscriptionUE());
+          ps.setString(4, contactDTO.getReasonForRefusal());
+          ps.setBoolean(5, contactDTO.isFollowed());
+          ps.setString(6, contactDTO.getMeetingPlace());
+          ps.setInt(7, contactDTO.getId());
 
-        System.out.println("contact DAO IMPL : " + contactDTO.getId());
+          System.out.println("contact DAO IMPL : " + contactDTO.getId());
 
-        ps.execute();
-      }
-      } catch (SQLException e) {
+          ps.execute();
+        }
+    } catch (SQLException e) {
       throw new IllegalArgumentException(e);
     }
   }

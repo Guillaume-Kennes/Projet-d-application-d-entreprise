@@ -1,7 +1,6 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 class ContactImpl implements Contact {
@@ -14,8 +13,8 @@ class ContactImpl implements Contact {
   private boolean isFollowed;
   private String meetingPlace;
 
-  public ContactImpl(){
-  };
+  public ContactImpl() {
+  }
 
   @Override
   public int getId() {
@@ -80,11 +79,11 @@ class ContactImpl implements Contact {
     this.meetingPlace = meetingPlace;
   }
 
-  public boolean userRoleIsStudent(int id_user){
+  public boolean userRoleIsStudent(int idUser) {
     return false;
   }
 
-  public boolean correctSchoolYear(){
+  public boolean correctSchoolYear() {
     return false;
   }
 }
