@@ -54,6 +54,8 @@ function renderRegisterForm() {
   phoneNumber.placeholder = 'Numéro de téléphone';
   phoneNumber.required = true;
   phoneNumber.className = 'form-control mb-3';
+
+
   const submit = document.createElement('input');
   submit.value = "S'inscrire";
   submit.type = 'submit';
@@ -95,24 +97,28 @@ function onCheckboxClicked(e) {
 async function onRegister(e) {
   e.preventDefault();
 
-  const lastname = document.querySelector('#lastname').value;
+  const lastname = document.querySelector('#lastname');
   const firstname = document.querySelector('#firstname').value;
   const email = document.querySelector('#email').value;
   const password = document.querySelector('#password').value;
-  const confirmationPassword = document.querySelector('#confirmationPassword').value;
+  const confirmationPassword = document.querySelector(
+      '#confirmationPassword').value;
   const phoneNumber = document.querySelector('#phoneNumber').value;
 
-
+  let role = document.querySelector('input[name="gender"]:checked').value;
+  if (email.endsWith("@student.vinci.be")) {
+    role = "Student";
+  }
 
   const options = {
     method: 'POST',
     body: JSON.stringify({
-      lastname,
+      lastName : lastname.value,
       firstname,
       email,
       password,
-      confirmationPassword,
-      phoneNumber
+      phoneNumber,
+      role
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -121,7 +127,10 @@ async function onRegister(e) {
 
   const response = await fetch(`http://localhost:3000/auths/register`, options);
 
-  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+  if (!response.ok) {
+    throw new Error(
+        `fetch error : ${response.status} : ${response.statusText}`);
+  }
 
   const authenticatedUser = await response.json();
 
