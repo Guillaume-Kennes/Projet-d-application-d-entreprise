@@ -31,15 +31,33 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionBDS.setMaxTotal(1);
   }
 
+  /**
+   * Method to retrieve a prepared statement.
+   *
+   * @param sql The text of the query to put in the statement.
+   *
+   * @param primaryKey a boolean
+   *
+   * @return A Prepared statement corresponding to the given query.
+   *
+   * @throws RuntimeException if problems are encountered.
+   */
   public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
     try {
-      return connectionThread.get().prepareStatement
-          (sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+      return connectionThread.get().prepareStatement(
+          sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
     } catch (SQLException e) {
       throw new RuntimeException(e.getMessage());
     }
   }
 
+  /**
+   * Method to retrieve a prepared statement.
+   *
+   * @param sql The text of the query to put in the statement.
+   *
+   * @return A Prepared statement corresponding to the given query.
+   */
   public PreparedStatement getPreparedStatement(String sql) {
     return getPreparedStatement(sql, false);
   }

@@ -109,30 +109,8 @@ public class ViewContactDAOImpl implements ViewContactDAO {
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
             + " AND i.student = u.id_user AND u.id_user = ?");
-    try {
-      preparedStatement.setInt(1, id);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
 
-    ArrayList<ViewContactDTO> contacts = new ArrayList<>();
-    ViewContactDTO contact;
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-      while (resultSet.next()) {
-        contact = contactInfos(resultSet);
-        contacts.add(contact);
-      }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
-    } finally {
-      try {
-        preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-    }
-    return contacts;
+    return getCorrespondingContacts(preparedStatement, id);
   }
 
   @Override
@@ -141,15 +119,20 @@ public class ViewContactDAOImpl implements ViewContactDAO {
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
             + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
+
+    return getCorrespondingContacts(preparedStatement, id);
+  }
+
+  private ArrayList<ViewContactDTO> getCorrespondingContacts(PreparedStatement ps, int id) {
     try {
-      preparedStatement.setInt(1, id);
+      ps.setInt(1, id);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
     ArrayList<ViewContactDTO> contacts = new ArrayList<>();
     ViewContactDTO contact;
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
         contact = contactInfos(resultSet);
         contacts.add(contact);
@@ -159,7 +142,7 @@ public class ViewContactDAOImpl implements ViewContactDAO {
       System.exit(1);
     } finally {
       try {
-        preparedStatement.close();
+        ps.close();
       } catch (SQLException e) {
         e.printStackTrace();
       }
