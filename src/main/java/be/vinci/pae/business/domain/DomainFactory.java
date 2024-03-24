@@ -12,4 +12,6 @@ public interface DomainFactory {
    */
   UserDTO getUser();
 
+  ContactDTO getContact();
+
 }

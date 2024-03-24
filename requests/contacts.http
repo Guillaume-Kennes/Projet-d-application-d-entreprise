@@ -1,0 +1,17 @@
+@baseurl = http://localhost:3000
+
+### requete meetCompany
+POST {{baseurl}}/contacts/meet/9
+Content-Type: application/json
+
+{
+  "meetLocation": "enterprise"
+}
+
+### requete stopFollowing
+POST {{baseurl}}/contacts/stop/9
+Content-Type: application/json
+
+{
+
+}
