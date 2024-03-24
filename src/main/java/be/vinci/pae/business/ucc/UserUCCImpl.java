@@ -4,12 +4,8 @@ import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
-import be.vinci.pae.dal.UserDAOImpl;
 import be.vinci.pae.utils.exception.UnauthorizedException;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.inject.Inject;
-import java.time.LocalDate;
-import java.util.Date;
 
 /**
  * Implementation of the UserUCC interface.
@@ -35,14 +31,14 @@ public class UserUCCImpl implements UserUCC {
     // start mais cest k
     dalServices.start();
 
-    try{
+    try {
       User userFound = (User) userDAO.getUserByEmail(email);
       if (userFound == null || !userFound.checkPassword(password)) {
         throw new UnauthorizedException("Incorrect Email or Password");
       }
 
       return userFound;
-    }catch(Exception e){
+    } catch(Exception e) {
       dalServices.rollBack();
       throw e;
 
@@ -62,10 +58,10 @@ public class UserUCCImpl implements UserUCC {
    */
   public UserDTO getUserById(int id) {
    dalServices.start();
-    try{
+    try {
       UserDTO userDTO = userDAO.getUserById(id);
       return userDTO;
-    }catch(Exception e){
+    } catch(Exception e) {
       dalServices.rollBack();
       throw e;
     } finally {
@@ -83,7 +79,7 @@ public class UserUCCImpl implements UserUCC {
       throw new UnauthorizedException("This email already exists in database");
     else {
       try {
-        if(!userDTO.getEmail().endsWith("@vinci.be") && !userDTO.getEmail().endsWith("@student.vinci.be")){
+        if (!userDTO.getEmail().endsWith("@vinci.be") && !userDTO.getEmail().endsWith("@student.vinci.be")) {
           throw new UnauthorizedException("The email address should end with @student.vinci.be or @vinci.be");
         }
         user.setRole(userDTO.getRole());
