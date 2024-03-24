@@ -54,15 +54,13 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
   public ViewCompany getCompany() {
     return this.company;
   }
+
   /**
    * Set the first name of the internship supervisor.
    *
    * @param firstName The first name to set.
    */
-  public void setFirstName(String firstName) {
-
-    this.firstName = firstName;
-  }
+  public void setFirstName(String firstName) { this.firstName = firstName; }
 
   /**
    * Get the last name of the internship supervisor.
