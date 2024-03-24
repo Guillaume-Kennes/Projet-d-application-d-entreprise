@@ -14,13 +14,13 @@ public class ContactUCCImpl implements ContactUCC {
   @Inject
   private DALServices dalServices;
 
-  public ContactDTO meetCompany(ContactDTO contact, String param) {
+  public ContactDTO meetCompany(ContactDTO contact, String place) {
     dalServices.start();
     try{
       if(contact == null)
         throw new IllegalArgumentException("Contact not found");
       contact.setState("pris");
-      contact.setMeetingPlace(param);
+      contact.setMeetingPlace(place);
 
       System.out.println("contact ucc : " + contact);
 
@@ -55,6 +55,27 @@ public class ContactUCCImpl implements ContactUCC {
       contact.setFollowed(false);
 
       System.out.println("contact ucc stop following : " + contact);
+
+      contactDAO.update(contact);
+      return contact;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    } finally {
+      dalServices.commit();
+    }
+  }
+
+  public ContactDTO companyRefusedInternship(ContactDTO contact, String reason) {
+    dalServices.start();
+    try {
+      if (contact == null) {
+        throw new IllegalArgumentException("Contact not found");
+      }
+      contact.setState("refusé");
+      contact.setReasonForRefusal(reason);
+
+      System.out.println("contact ucc company refused internship : " + contact);
 
       contactDAO.update(contact);
       return contact;

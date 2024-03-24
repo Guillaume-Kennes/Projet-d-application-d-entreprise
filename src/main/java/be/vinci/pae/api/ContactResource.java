@@ -63,4 +63,27 @@ public class ContactResource {
 
     return contact;
   }
+
+  @POST
+  @Path("/companyrefused/{id_contact}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ContactDTO companyRefusedInternship(@PathParam("id_contact") int id_contact, JsonNode json) {
+    ContactDTO contact = myContactUcc.getContactById(id_contact);
+    if(contact == null) {
+      throw new IllegalArgumentException("Contact not found");
+    }
+
+    if(json == null) {
+      throw new IllegalArgumentException("Request body is missing or not a valid JSON");
+    }
+
+    String reasonForRefusal = json.get("reason_for_refusal").asText();
+    System.out.println("reason_for_refusal : " + reasonForRefusal);
+
+    myContactUcc.companyRefusedInternship(contact, reasonForRefusal);
+
+    return contact;
+  }
 }
