@@ -1,6 +1,5 @@
 package be.vinci.pae.dal;
 
-import java.sql.Connection;
 
 /**
  * Interface defining Data Access Layer (DAL) services.

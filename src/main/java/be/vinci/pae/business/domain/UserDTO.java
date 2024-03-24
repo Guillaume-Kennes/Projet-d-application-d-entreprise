@@ -1,7 +1,6 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import java.time.LocalDate;
 import java.util.Date;
 
 /**
