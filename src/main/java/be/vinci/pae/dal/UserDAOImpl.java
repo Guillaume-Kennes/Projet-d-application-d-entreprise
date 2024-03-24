@@ -125,8 +125,9 @@ public class UserDAOImpl implements UserDAO {
   public UserDTO register(UserDTO userDTO) {
 
     try {
-      String query = "INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role)"
-          + " VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
+      String query = "INSERT INTO pae.users (email, password, last_name, first_name, "
+          + "phone_number, registration_date, role) "
+          + "VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
 
       try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
         preparedStatement.setString(1, userDTO.getEmail());

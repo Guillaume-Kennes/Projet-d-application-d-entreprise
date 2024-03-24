@@ -57,8 +57,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    */
   public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
     try {
-      return connectionThread.get().prepareStatement(sql, primaryKey ?
-          Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+      return connectionThread.get().prepareStatement(sql, primaryKey
+          ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
     } catch (SQLException e) {
       throw new RuntimeException(e.getMessage());
     }
@@ -89,12 +89,12 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         counterThreads.set(1);
         Connection connection = connectionBDS.getConnection();
         connection.setAutoCommit(false);
-        connectionThread.set(connection); //comme ça y'a une connexion pour un thread -> lier un thread à une connexion
+        connectionThread.set(connection);
       } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()+1);
+      counterThreads.set(counterThreads.get() + 1);
     }
   }
 
@@ -119,7 +119,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()-1);
+      counterThreads.set(counterThreads.get() - 1);
     }
   }
 
@@ -142,7 +142,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()-1);
+      counterThreads.set(counterThreads.get() - 1);
       try {
         connection.rollback();
         connection.setAutoCommit(true);
