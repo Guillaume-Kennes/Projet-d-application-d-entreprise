@@ -15,6 +15,11 @@ public class DomainFactoryImpl implements DomainFactory {
     return new UserImpl();
   }
 
+  /**
+   * Creates and returns a new instance of ContactImpl.
+   *
+   * @return A new instance of ContactImpl.
+   */
   public ContactDTO getContact() {
     return new ContactImpl();
   }
