@@ -33,7 +33,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
   public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
     try {
-      return connectionThread.get().prepareStatement(sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+      return connectionThread.get().prepareStatement
+          (sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
     } catch (SQLException e) {
       throw new RuntimeException(e.getMessage());
     }
@@ -43,6 +44,9 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     return getPreparedStatement(sql, false);
   }
 
+  /**
+   * Starts a connection to the database.
+   */
   public void start() {
     if (counterThreads.get() == null) {
       try {
@@ -50,14 +54,17 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         Connection connection = connectionBDS.getConnection();
         connection.setAutoCommit(false);
         connectionThread.set(connection);
-      } catch(SQLException e) {
+      } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()+1);
+      counterThreads.set(counterThreads.get() + 1);
     }
   }
 
+  /**
+   * Commits current transaction to the database.
+   */
   public void commit() {
     if (counterThreads.get() == 1) {
       counterThreads.remove();
@@ -71,11 +78,14 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()-1);
+      counterThreads.set(counterThreads.get() - 1);
     }
   }
 
-  public void rollBack(){
+  /**
+   * Roll back from current transaction.
+   */
+  public void rollBack() {
     Connection connection = connectionThread.get();
 
     if (counterThreads.get() == null) {
@@ -88,7 +98,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         throw new RuntimeException(e.getMessage());
       }
     } else {
-      counterThreads.set(counterThreads.get()-1);
+      counterThreads.set(counterThreads.get() - 1);
       try {
         connection.rollback();
         connection.setAutoCommit(false);

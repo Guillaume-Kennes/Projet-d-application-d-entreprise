@@ -37,7 +37,7 @@ public class ViewContactDAOImpl implements ViewContactDAO {
   public ViewContactDTO contactInfos(ResultSet resultSet) {
     ViewContactDTO contact = myDomainFactory.getContact();
     ViewCompanyDTO company;
-    ViewUEInscriptionDTO uEInscription;
+    ViewUEInscriptionDTO ueInscription;
 
     try {
       contact.setId(resultSet.getInt("id_contact"));
@@ -47,8 +47,8 @@ public class ViewContactDAOImpl implements ViewContactDAO {
       contact.setFollowed(resultSet.getBoolean("is_followed"));
       company = companyDAO.companyInfos(resultSet);
       contact.setCompany((ViewCompany) company);
-      uEInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
-      contact.setUeInscription((ViewUEInscription) uEInscription);
+      ueInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
+      contact.setUeInscription((ViewUEInscription) ueInscription);
     } catch (SQLException e) {
       e.getMessage();
     }

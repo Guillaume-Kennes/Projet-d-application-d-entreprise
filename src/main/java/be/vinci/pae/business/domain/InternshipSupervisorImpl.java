@@ -16,7 +16,7 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
   /**
    * Default constructor for InternshipSupervisorImpl.
    */
-  public InternshipSupervisorImpl(){
+  public InternshipSupervisorImpl() {
   }
 
   /**

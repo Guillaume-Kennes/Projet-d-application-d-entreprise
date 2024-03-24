@@ -77,7 +77,7 @@ public class UserResource {
       for (ViewContactDTO c : contacts) {
         if (c.getCompany().getDesignation() == null) {
           companies.add(c.getCompany().getTradeName());
-        }else{
+        } else {
           companies.add(c.getCompany().getTradeName() + " " + c.getCompany().getDesignation());
         }
       }
