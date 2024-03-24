@@ -84,7 +84,7 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setPhoneNumber(resultSet.getString("phone_number"));
       userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
-    } catch (SQLException e) { //DEMANDER AU PROF quelle exception
+    } catch (SQLException e) {
       e.getMessage();
     }
 
@@ -122,13 +122,13 @@ public class UserDAOImpl implements UserDAO {
    *
    * @return A UserDTO object representing the registered user.
    */
-  public UserDTO register(UserDTO userDTO){
+  public UserDTO register(UserDTO userDTO) {
 
     try {
-      String query = "INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role) VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
+      String query = "INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role)"
+          + " VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
 
-      try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)){
-        System.out.println("PASSE");
+      try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
         preparedStatement.setString(1, userDTO.getEmail());
         preparedStatement.setString(2, userDTO.getPassword());
         preparedStatement.setString(3, userDTO.getLastName());
@@ -144,13 +144,10 @@ public class UserDAOImpl implements UserDAO {
           }
         }
 
-//        if(preparedStatement.getResultSet().next())
-//          userDTO.setRegistrationDate(preparedStatement.getResultSet().getDate("registration_date"));
-
-        }
-      } catch (SQLException e) {
-        e.printStackTrace();
       }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
     return userDTO;
 
   }

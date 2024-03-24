@@ -39,10 +39,6 @@ public class AuthsResource {
 
   @Inject
   private UserUCC myUserUCC;
-  //private TokenServices token;
-
-//  @Inject
-//  private DomainFactory domainFactory;
 
 
   /**
@@ -78,9 +74,11 @@ public class AuthsResource {
 
   /**
    * Registers a new user.
-   * This method is annotated with @POST and @Path("register") for RESTful API endpoint configuration.
+   * This method is annotated with @POST and @Path("register")
+   *     for RESTful API endpoint configuration.
    * It accepts a UserDTO object representing the user to be registered.
-   * Validates the required fields of the user and throws a WebApplicationException if any required field is missing.
+   * Validates the required fields of the user and throws
+   *     a WebApplicationException if any required field is missing.
    * Calls the register method of the MyUserUCC instance to perform the registration.
    *
    * @param userDTO The UserDTO object containing user information.
@@ -90,28 +88,38 @@ public class AuthsResource {
   @POST
   @Path("register")
   @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO register(UserDTO userDTO){
-    if(userDTO.getEmail() == null || userDTO.getEmail().isBlank() ||
-        userDTO.getPassword() == null || userDTO.getPassword().isBlank() ||
-        userDTO.getLastName() == null || userDTO.getLastName().isBlank() ||
-        userDTO.getFirstName() == null || userDTO.getFirstName().isBlank() ||
-        userDTO.getPhoneNumber() == null || userDTO.getPhoneNumber().isBlank() ||
-        userDTO.getRole() == null || userDTO.getRole().isBlank())
+  public UserDTO register(UserDTO userDTO) {
+    if (userDTO.getEmail() == null || userDTO.getEmail().isBlank()
+        || userDTO.getPassword() == null || userDTO.getPassword().isBlank()
+        || userDTO.getLastName() == null || userDTO.getLastName().isBlank()
+        || userDTO.getFirstName() == null || userDTO.getFirstName().isBlank()
+        || userDTO.getPhoneNumber() == null || userDTO.getPhoneNumber().isBlank()
+        || userDTO.getRole() == null || userDTO.getRole().isBlank()) {
       throw new WebApplicationException("Missing information(s)");
+    }
 
     return myUserUCC.register(userDTO);
   }
 
+  /**
+   * Retrieves the user information from the request context.
+   * This method is accessed via HTTP GET request to the specified path "refresh".
+   *
+   * @param requestContext The context of the container request.
+   * @return The user data transfer object containing user information.
+   * @throws WebApplicationException If the user data is not found in the request context,
+   *                                 it throws an exception with status code 401 (UNAUTHORIZED).
+   */
   @GET
   @Path("refresh")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  public UserDTO getUser(@Context ContainerRequestContext requestContext){
+  public UserDTO getUser(@Context ContainerRequestContext requestContext) {
     UserDTO userDTO = (UserDTO) requestContext.getProperty("user");
 
-    if(userDTO == null)
+    if (userDTO == null) {
       throw new WebApplicationException("user", Status.UNAUTHORIZED);
-
+    }
     return jsonMapper.convertValue(userDTO, UserDTO.class);
   }
 
