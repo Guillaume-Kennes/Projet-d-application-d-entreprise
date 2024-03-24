@@ -19,14 +19,19 @@ public class UserUCCImpl implements UserUCC {
   @Inject
   private DALServices dalServices;
 
-  /** Returns the user's data if the login is successful.
+  /**
+   * Authenticates a user by their email and password.
    *
-   * @param email the user's email
-   * @param password the user's password
+   * @param email The email of the user attempting to log in.
    *
-   * @return the user's data if the login is successful
+   * @param password The password of the user attempting to log in.
+   *
+   * @return The UserDTO object representing the authenticated user.
+   *
+   * @throws UnauthorizedException If the provided email or password is incorrect.
+   *
+   * @throws Exception If an error occurs during the authentication process.
    */
-
   public UserDTO login(String email, String password) {
     // start mais cest k
     dalServices.start();
@@ -50,11 +55,13 @@ public class UserUCCImpl implements UserUCC {
 
 
   /**
-   * Returns the user corresponding to the id.
+   * Retrieves a UserDTO object by its unique identifier.
    *
-   * @param id the user's id
+   * @param id The unique identifier of the user to retrieve.
    *
-   * @return the user corresponding to the id
+   * @return The UserDTO object corresponding to the given identifier.
+   *
+   * @throws Exception If an error occurs while retrieving the user.
    */
   public UserDTO getUserById(int id) {
     dalServices.start();
@@ -79,7 +86,7 @@ public class UserUCCImpl implements UserUCC {
    * @throws UnauthorizedException If the email already exists in the database
    *     or if the email address does not end with "@student.vinci.be" or "@vinci.be".
    *
-   * @throws Exception             If an error occurs during registration process.
+   * @throws Exception If an error occurs during registration process.
    */
   public UserDTO register(UserDTO userDTO) {
     dalServices.start();
