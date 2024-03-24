@@ -38,30 +38,12 @@ public class ViewUEInscriptionImpl implements ViewUEInscription{
   }
 
   /**
-   * Get the student of the UEInscription.
-   *
-   * @return The student of the UEInscription
-   */
-  public User getStudent() {
-    return this.student;
-  }
-
-  /**
    * Set the student of the UEInscription.
    *
    * @param student The id to set.
    */
   public void setStudent(User student) {
     this.student = student;
-  }
-
-  /**
-   * Get the school year of the UEInscription.
-   *
-   * @return The school year of the UEInscription
-   */
-  public String getSchoolYear() {
-    return this.schoolYear;
   }
 
   /**

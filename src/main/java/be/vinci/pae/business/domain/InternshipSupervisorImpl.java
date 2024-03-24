@@ -67,15 +67,6 @@ public class InternshipSupervisorImpl implements InternshipSupervisor{
   }
 
   /**
-   * Get the phone number of the internship supervisor.
-   *
-   * @return The phone number of the internship supervisor
-   */
-  public String getPhoneNumber() {
-    return this.phoneNumber;
-  }
-
-  /**
    * Set the phone number of the internship supervisor.
    *
    * @param phoneNumber The phone number to set.
@@ -100,15 +91,6 @@ public class InternshipSupervisorImpl implements InternshipSupervisor{
    */
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  /**
-   * Get the company of the internship supervisor.
-   *
-   * @return The company of the internship supervisor
-   */
-  public ViewCompany getCompany() {
-    return this.company;
   }
 
   /**

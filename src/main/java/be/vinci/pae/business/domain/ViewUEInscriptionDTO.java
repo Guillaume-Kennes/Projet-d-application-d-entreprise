@@ -14,19 +14,19 @@ public interface ViewUEInscriptionDTO {
    *
    * @param id the UEInscription's id to set
    */
-  public void setId(int id);
+  void setId(int id);
 
   /**
    * Sets the UEInscription's student.
    *
    * @param student the UEInscription's student to set
    */
-  public void setStudent(User student);
+  void setStudent(User student);
 
   /**
    * Sets the UEInscription's school year.
    *
    * @param schoolYear the UEInscription's school year to set
    */
-  public void setSchoolYear(String schoolYear);
+  void setSchoolYear(String schoolYear);
 }
