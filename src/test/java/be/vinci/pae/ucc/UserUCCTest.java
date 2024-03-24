@@ -118,9 +118,9 @@ public class UserUCCTest {
     userDTO.setPassword("noOne");
 
     when(userDAO.getUserByEmail("noOne@gmail.com")).thenReturn(null);
-    when(userDAO.register(userDTO)).thenThrow(NullPointerException.class);
+    when(userDAO.register(userDTO)).thenThrow(UnauthorizedException.class);
 
-    assertThrows(NullPointerException.class, () -> {
+    assertThrows(UnauthorizedException.class, () -> {
       userUCC.register(userDTO);
     });
   }

@@ -1,8 +1,6 @@
 /* eslint-disable no-console */
 import {
-  getRememberMe,
   setAuthenticatedUser,
-  setRememberMe
 } from '../../utils/auths';
 import {clearPage, renderPageTitle} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
@@ -17,44 +15,29 @@ const RegisterPage = () => {
 function renderRegisterForm() {
   const main = document.querySelector('main');
   const form = document.createElement('form');
-  form.className = 'p-5';
-  const lastname = document.createElement('input');
-  lastname.type = 'text';
-  lastname.id = 'lastname';
-  lastname.placeholder = 'Nom';
-  lastname.required = true;
-  lastname.className = 'form-control mb-3';
-  const firstname = document.createElement('input');
-  firstname.type = 'text';
-  firstname.id = 'firstname';
-  firstname.placeholder = 'Prénom';
-  firstname.required = true;
-  firstname.className = 'form-control mb-3';
-  const email = document.createElement('input');
-  email.type = 'text';
-  email.id = 'email';
-  email.placeholder = 'Email';
-  email.required = true;
-  email.className = 'form-control mb-3';
-  const password = document.createElement('input');
-  password.type = 'password';
-  password.id = 'password';
-  password.required = true;
-  password.placeholder = 'Mot de passe';
-  password.className = 'form-control mb-3';
-  const confirmationPassword = document.createElement('input');
-  confirmationPassword.type = 'password';
-  confirmationPassword.id = 'confirmationPassword';
-  confirmationPassword.required = true;
-  confirmationPassword.placeholder = 'Confirmation de mot de passe';
-  confirmationPassword.className = 'form-control mb-3';
-  const phoneNumber = document.createElement('input');
-  phoneNumber.type = 'text';
-  phoneNumber.id = 'phoneNumber';
-  phoneNumber.placeholder = 'Numéro de téléphone';
-  phoneNumber.required = true;
-  phoneNumber.className = 'form-control mb-3';
 
+  function createInput(type, id, placeholder, required = true) {
+    const input = document.createElement('input');
+    input.type = type;
+    input.id = id;
+    input.placeholder = placeholder;
+    input.required = required;
+    input.className = 'form-control mb-3';
+    return input;
+  }
+
+  const inputAttributes = [
+    { type: 'text', id: 'lastName', placeholder: 'Nom', required: true },
+    { type: 'text', id: 'firstName', placeholder: 'Prénom', required: true },
+    { type: 'text', id: 'email', placeholder: 'Email', required: true },
+    { type: 'password', id: 'password', placeholder: 'Mot de passe', required: true },
+    { type: 'text', id: 'phoneNumber', placeholder: 'Numéro de téléphone', required: true },
+  ];
+
+  inputAttributes.forEach(attr => {
+    const input = createInput(attr.type, attr.id, attr.placeholder, attr.required);
+    form.appendChild(input); // Append inputs to body, you can change this to another parent element if needed
+  });
 
   const submit = document.createElement('input');
   submit.value = "S'inscrire";
@@ -63,46 +46,22 @@ function renderRegisterForm() {
   const formCheckWrapper = document.createElement('div');
   formCheckWrapper.className = 'mb-3 form-check';
 
-  const rememberme = document.createElement('input');
-  rememberme.type = 'checkbox';
-  rememberme.className = 'form-check-input';
-  rememberme.id = 'rememberme';
-  rememberme.checked = getRememberMe();
-  rememberme.addEventListener('click', onCheckboxClicked);
-
-  const checkLabel = document.createElement('label');
-  checkLabel.htmlFor = 'rememberme';
-  checkLabel.className = 'form-check-label';
-  checkLabel.textContent = 'Se souvenir de moi';
-
-  formCheckWrapper.appendChild(rememberme);
-  formCheckWrapper.appendChild(checkLabel);
-
-  form.appendChild(lastname);
-  form.appendChild(firstname);
-  form.appendChild(email);
-  form.appendChild(password);
-  form.appendChild(confirmationPassword);
-  form.appendChild(phoneNumber);
-  form.appendChild(formCheckWrapper);
   form.appendChild(submit);
+
   main.appendChild(form);
+
+
   form.addEventListener('submit', onRegister);
 }
 
-function onCheckboxClicked(e) {
-  setRememberMe(e.target.checked);
-}
 
 async function onRegister(e) {
   e.preventDefault();
 
-  const lastname = document.querySelector('#lastname');
-  const firstname = document.querySelector('#firstname').value;
+  const lastName = document.querySelector('#lastName').value;
+  const firstName = document.querySelector('#firstName').value;
   const email = document.querySelector('#email').value;
   const password = document.querySelector('#password').value;
-  const confirmationPassword = document.querySelector(
-      '#confirmationPassword').value;
   const phoneNumber = document.querySelector('#phoneNumber').value;
 
   let role = document.querySelector('input[name="gender"]:checked').value;
@@ -113,10 +72,10 @@ async function onRegister(e) {
   const options = {
     method: 'POST',
     body: JSON.stringify({
-      lastName : lastname.value,
-      firstname,
       email,
       password,
+      lastName,
+      firstName,
       phoneNumber,
       role
     }),

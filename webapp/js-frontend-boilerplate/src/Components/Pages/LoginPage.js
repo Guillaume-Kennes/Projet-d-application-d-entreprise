@@ -162,8 +162,6 @@ async function onLogin(e) {
 
     const authenticatedUser = await response.json();
 
-    console.log('Authenticated user : ', authenticatedUser);
-
     // Stocker le token JWT dans le local storage
     localStorage.setItem('token', authenticatedUser.token);
 
