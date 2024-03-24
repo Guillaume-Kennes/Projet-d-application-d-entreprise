@@ -38,7 +38,7 @@ public class UserUCCImpl implements UserUCC {
       }
 
       return userFound;
-    } catch(Exception e) {
+    } catch (Exception e) {
       dalServices.rollBack();
       throw e;
 
@@ -57,7 +57,7 @@ public class UserUCCImpl implements UserUCC {
    * @return the user corresponding to the id
    */
   public UserDTO getUserById(int id) {
-   dalServices.start();
+    dalServices.start();
     try {
       UserDTO userDTO = userDAO.getUserById(id);
       return userDTO;
@@ -69,18 +69,32 @@ public class UserUCCImpl implements UserUCC {
     }
   }
 
-
+  /**
+   * Registers a new user in the system.
+   *
+   * @param userDTO The user data transfer object containing user information.
+   *
+   * @return The registered user data transfer object.
+   *
+   * @throws UnauthorizedException If the email already exists in the database or if the email address
+   *                               does not end with "@student.vinci.be" or "@vinci.be".
+   *
+   * @throws Exception             If an error occurs during registration process.
+   */
   public UserDTO register(UserDTO userDTO) {
     dalServices.start();
 
     User user = (User) userDTO;
 
-    if (userDAO.getUserByEmail(userDTO.getEmail()) != null)
+    if (userDAO.getUserByEmail(userDTO.getEmail()) != null) {
       throw new UnauthorizedException("This email already exists in database");
+    }
     else {
       try {
-        if (!userDTO.getEmail().endsWith("@vinci.be") && !userDTO.getEmail().endsWith("@student.vinci.be")) {
-          throw new UnauthorizedException("The email address should end with @student.vinci.be or @vinci.be");
+        if (!userDTO.getEmail().endsWith("@vinci.be") &&
+            !userDTO.getEmail().endsWith("@student.vinci.be")) {
+          throw new UnauthorizedException
+              ("The email address should end with @student.vinci.be or @vinci.be");
         }
         user.setRole(userDTO.getRole());
         userDTO.setPassword(user.hashPassword(userDTO.getPassword()));
@@ -90,7 +104,7 @@ public class UserUCCImpl implements UserUCC {
         dalServices.rollBack();
         throw e;
       } finally {
-          dalServices.commit();
+        dalServices.commit();
       }
     }
   }
