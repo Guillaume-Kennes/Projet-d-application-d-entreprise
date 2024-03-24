@@ -77,7 +77,7 @@ public class UserUCCImpl implements UserUCC {
    * @return The registered user data transfer object.
    *
    * @throws UnauthorizedException If the email already exists in the database
-   * or if the email address does not end with "@student.vinci.be" or "@vinci.be".
+   *     or if the email address does not end with "@student.vinci.be" or "@vinci.be".
    *
    * @throws Exception             If an error occurs during registration process.
    */
