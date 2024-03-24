@@ -47,6 +47,14 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
   }
 
   /**
+   * Get the company of the internship supervisor.
+   *
+   * @return The company of the internship supervisor
+   */
+  public ViewCompany getCompany() {
+    return this.company;
+  }
+  /**
    * Set the first name of the internship supervisor.
    *
    * @param firstName The first name to set.
@@ -71,6 +79,15 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
    */
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  /**
+   * Get the phone number of the internship supervisor.
+   *
+   * @return The phone number of the internship supervisor
+   */
+  public String getPhoneNumber() {
+    return this.phoneNumber;
   }
 
   /**

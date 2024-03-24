@@ -55,12 +55,30 @@ public class ViewContactImpl implements ViewContact {
   }
 
   /**
+   * Get the reason for refusal of the contact.
+   *
+   * @return The refusal reason of the contact
+   */
+  public String getReasonRefusal() {
+    return this.reasonRefusal;
+  }
+
+  /**
    * Set the reason for refusal of the contact.
    *
    * @param reasonRefusal The reason for refusal to set.
    */
   public void setReasonRefusal(String reasonRefusal) {
     this.reasonRefusal = reasonRefusal;
+  }
+
+  /**
+   * Get the meeting place of the contact.
+   *
+   * @return The meeting place of the contact
+   */
+  public String getMeetingPlace() {
+    return this.meetingPlace.name();
   }
 
   /**
@@ -134,5 +152,23 @@ public class ViewContactImpl implements ViewContact {
    */
   public void setFollowed(boolean followed) {
     this.followed = followed;
+  }
+
+  /**
+   * Get the UE inscription of the contact.
+   *
+   * @return The UE inscription of the contact
+   */
+  public ViewUEInscription getUeInscription() {
+    return ueInscription;
+  }
+
+  /**
+   * Get the value of the followed boolean for the contact.
+   *
+   * @return The value of the followed boolean
+   */
+  public boolean isFollowed() {
+    return followed;
   }
 }
