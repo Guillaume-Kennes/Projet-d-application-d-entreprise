@@ -61,7 +61,7 @@ public class UserUCCImpl implements UserUCC {
     try {
       UserDTO userDTO = userDAO.getUserById(id);
       return userDTO;
-    } catch(Exception e) {
+    } catch (Exception e) {
       dalServices.rollBack();
       throw e;
     } finally {
@@ -76,8 +76,8 @@ public class UserUCCImpl implements UserUCC {
    *
    * @return The registered user data transfer object.
    *
-   * @throws UnauthorizedException If the email already exists in the database or if the email address
-   *                               does not end with "@student.vinci.be" or "@vinci.be".
+   * @throws UnauthorizedException If the email already exists in the database
+   * or if the email address does not end with "@student.vinci.be" or "@vinci.be".
    *
    * @throws Exception             If an error occurs during registration process.
    */
@@ -88,13 +88,12 @@ public class UserUCCImpl implements UserUCC {
 
     if (userDAO.getUserByEmail(userDTO.getEmail()) != null) {
       throw new UnauthorizedException("This email already exists in database");
-    }
-    else {
+    } else {
       try {
-        if (!userDTO.getEmail().endsWith("@vinci.be") &&
-            !userDTO.getEmail().endsWith("@student.vinci.be")) {
-          throw new UnauthorizedException
-              ("The email address should end with @student.vinci.be or @vinci.be");
+        if (!userDTO.getEmail().endsWith("@vinci.be")
+            && !userDTO.getEmail().endsWith("@student.vinci.be")) {
+          throw new UnauthorizedException(
+              "The email address should end with @student.vinci.be or @vinci.be");
         }
         user.setRole(userDTO.getRole());
         userDTO.setPassword(user.hashPassword(userDTO.getPassword()));

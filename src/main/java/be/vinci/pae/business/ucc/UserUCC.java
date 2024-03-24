@@ -29,7 +29,8 @@ public interface UserUCC {
   /**
    * Registers a new user.
    * This method takes a UserDTO object representing the user to be registered.
-   * It performs the registration process and returns a UserDTO object representing the registered user.
+   * Performs the registration process and returns a UserDTO object
+   * representing the registered user.
    *
    * @param userDTO The UserDTO object containing user information.
    *
