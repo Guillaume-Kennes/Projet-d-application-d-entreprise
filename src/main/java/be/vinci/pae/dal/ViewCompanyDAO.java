@@ -1,6 +1,5 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.business.domain.ViewCompanyDTO;
 import java.sql.ResultSet;
 

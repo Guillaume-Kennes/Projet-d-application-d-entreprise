@@ -10,13 +10,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public interface ViewUEInscriptionDTO {
 
   /**
-   * Returns the UEInscription's id.
-   *
-   * @return the UEInscription's id
-   */
-  public int getId();
-
-  /**
    * Sets the UEInscription's id.
    *
    * @param id the UEInscription's id to set
@@ -24,25 +17,11 @@ public interface ViewUEInscriptionDTO {
   public void setId(int id);
 
   /**
-   * Returns the UEInscription's student.
-   *
-   * @return the UEInscription's student
-   */
-  public User getStudent();
-
-  /**
    * Sets the UEInscription's student.
    *
    * @param student the UEInscription's student to set
    */
   public void setStudent(User student);
-
-  /**
-   * Returns the UEInscription's school year.
-   *
-   * @return the UEInscription's school year
-   */
-  public String getSchoolYear();
 
   /**
    * Sets the UEInscription's school year.

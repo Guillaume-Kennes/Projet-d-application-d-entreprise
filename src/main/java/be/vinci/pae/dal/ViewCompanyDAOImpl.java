@@ -1,8 +1,6 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.UserDTO;
-import be.vinci.pae.business.domain.ViewCompany;
 import be.vinci.pae.business.domain.ViewCompanyDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;

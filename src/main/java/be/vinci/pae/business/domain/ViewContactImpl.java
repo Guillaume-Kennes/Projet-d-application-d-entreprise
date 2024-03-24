@@ -77,6 +77,7 @@ public class ViewContactImpl implements ViewContact{
       MeetingPlace meet = MeetingPlace.valueOf(meetingPlace);
       this.meetingPlace = meet;
     } catch (IllegalArgumentException e) {
+      throw e;
     }
   }
 
@@ -135,6 +136,7 @@ public class ViewContactImpl implements ViewContact{
       State state1 = State.valueOf(state);
       this.state = state1;
     } catch (IllegalArgumentException e) {
+      throw e;
     }
   }
 

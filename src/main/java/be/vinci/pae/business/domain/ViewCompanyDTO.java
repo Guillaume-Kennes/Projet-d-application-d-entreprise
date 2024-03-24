@@ -63,14 +63,3 @@ public interface ViewCompanyDTO {
   void setMeansOfCommunication(String meansOfCommunication);
 
 }
-
-
-/*
-id_contact => incremente tout seul;
-state => initié;
-entreprise => l entreprise qui est selectrionnée ou créée;
-inscription_UE => l utilisateur connecté;
-reason_for_refusal => null;
-is_followed => true par defaut;
-meeting_place => null;
-*/

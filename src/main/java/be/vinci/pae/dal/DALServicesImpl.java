@@ -1,15 +1,10 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.utils.Config;
-import be.vinci.pae.utils.exception.UnauthorizedException;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 /**

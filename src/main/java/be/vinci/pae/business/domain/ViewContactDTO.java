@@ -24,25 +24,11 @@ public interface ViewContactDTO {
   public void setId(int id);
 
   /**
-   * Returns the contact's reason for refusal
-   *
-   * @return the contact's reason for refusal
-   */
-  public String getReasonRefusal();
-
-  /**
    * Sets the contact's reason for refusal.
    *
    * @param reasonRefusal the contact's reason for refusal
    */
   public void setReasonRefusal(String reasonRefusal);
-
-  /**
-   * Returns the contact's meeting place
-   *
-   * @return the contact's meeting place
-   */
-  public String getMeetingPlace();
 
   /**
    * Sets the contact's meeting place
@@ -66,13 +52,6 @@ public interface ViewContactDTO {
   public void setCompany(ViewCompany company);
 
   /**
-   * Returns the contact's UEInscription
-   *
-   * @return the contact's UEInscription
-   */
-  public ViewUEInscription getUeInscription();
-
-  /**
    * Sets the contact's UEInscription.
    *
    * @param ueInscription the contact's UEInscription to set
@@ -92,13 +71,6 @@ public interface ViewContactDTO {
    * @param state the contact's state to set
    */
   public void setState(String state);
-
-  /**
-   * Returns the contact's followed boolean
-   *
-   * @return the contact's followed boolean
-   */
-  public boolean isFollowed();
 
   /**
    * Sets the boolean followed.
