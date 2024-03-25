@@ -52,18 +52,20 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   }
 
   /**
-   * Method to retrieve a prepared statement.
+   * Prepares a SQL statement without returning generated keys.
    *
-   * @param sql The text of the query to put in the statement.
+   * @param sql The SQL query.
    *
-   * @return A Prepared statement corresponding to the given query.
+   * @return The prepared statement.
    */
   public PreparedStatement getPreparedStatement(String sql) {
     return getPreparedStatement(sql, false);
   }
 
   /**
-   * Starts a connection to the database.
+   * Starts a new transaction.
+   *
+   * @throws RuntimeException if an SQL error occurs.
    */
   public void start() {
     if (counterThreads.get() == null) {
@@ -81,15 +83,18 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   }
 
   /**
-   * Commits current transaction to the database.
+   * Commits the current transaction.
+   *
+   * @throws RuntimeException if an SQL error occurs.
    */
   public void commit() {
-    if (counterThreads.get() == 1) {
-      counterThreads.remove();
+    if (counterThreads.get() != null && counterThreads.get() == 1) {
+      counterThreads.remove(); // ?
       Connection connection = connectionThread.get();
       try {
-        connection.setAutoCommit(false);
         connection.commit();
+        connection.setAutoCommit(false);
+
         connectionThread.remove();
         connection.close();
       } catch (SQLException e) {
@@ -101,7 +106,9 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   }
 
   /**
-   * Roll back from current transaction.
+   * Rolls back the current transaction.
+   *
+   * @throws RuntimeException if an SQL error occurs.
    */
   public void rollBack() {
     Connection connection = connectionThread.get();
