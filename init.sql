@@ -12,11 +12,12 @@ CREATE TABLE pae.users(
                           role VARCHAR(15) NOT NULL
 );
 
-CREATE TABLE pae.entreprises(
+CREATE TABLE pae.enterprises(
                                 id_enterprise SERIAL PRIMARY KEY,
                                 trade_name VARCHAR(30) NOT NULL,
                                 designation VARCHAR(60),
-                                adress VARCHAR(50) NOT NULL,
+                                address VARCHAR(50) NOT NULL,
+                                city VARCHAR(60) NOT NULL,
                                 means_of_communication VARCHAR(50) NOT NULL,
                                 is_black_listed boolean NOT NULL,
                                 motivation_black_list VARCHAR(200)
@@ -24,9 +25,9 @@ CREATE TABLE pae.entreprises(
 
 CREATE TABLE pae.internship_supervisors(
                                            id_supervisor SERIAL PRIMARY KEY,
-                                           entreprise INTEGER REFERENCES pae.entreprises (id_enterprise),
-                                           last_name VARCHAR(20) NOT NULL,
-                                           first_name VARCHAR(20) NOT NULL,
+                                           enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
+                                           supervisor_last_name VARCHAR(20) NOT NULL,
+                                           supervisor_first_name VARCHAR(20) NOT NULL,
                                            phone_number VARCHAR(13),
                                            email CHAR(50)
 );
@@ -40,7 +41,7 @@ CREATE TABLE pae.inscriptions_UE(
 CREATE TABLE pae.contacts(
                              id_contact SERIAL PRIMARY KEY,
                              state VARCHAR(15) NOT NULL,
-                             enterprise INTEGER REFERENCES pae.entreprises (id_enterprise),
+                             enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
                              inscription_UE INTEGER REFERENCES pae.inscriptions_UE (id_inscription_UE),
                              reason_for_refusal  VARCHAR(200),
                              is_followed BOOLEAN NOT NULL,
@@ -64,14 +65,14 @@ CREATE TABLE pae.internships(
     Niboo		                0487 02 79 13	Boulevard du Souverain, 24	    1170 Watermael-Boisfort
     Sopra Steria		        02 566 66 66	Avenue Arnaud Fraiteur, 15/23	1050 Bruxelles
   */
-INSERT INTO pae.entreprises (trade_name, designation, adress, means_of_communication, is_black_listed, motivation_black_list)
-VALUES ('Assyst Europe', null, 'Avenue du Japon, 1/B9', '02.609.25.00', false, null);
-INSERT INTO pae.entreprises (trade_name, designation, adress, means_of_communication, is_black_listed, motivation_black_list)
-VALUES ('LetsBuild', null, 'Chaussée de Bruxelles, 135A', '014 54 67 54', false, null);
-INSERT INTO pae.entreprises (trade_name, designation, adress, means_of_communication, is_black_listed, motivation_black_list)
-VALUES ('Niboo', null, 'Chaussée de Bruxelles, 135A', '014 54 67 54', false, null);
-INSERT INTO pae.entreprises (trade_name, designation, adress, means_of_communication, is_black_listed, motivation_black_list)
-VALUES ('Sopra Steria', null, 'Avenue Arnaud Fraiteur, 15/23', '02 566 66 66', false, null);
+INSERT INTO pae.enterprises (trade_name, designation, address, city, means_of_communication, is_black_listed, motivation_black_list)
+VALUES ('Assyst Europe', null, 'Avenue du Japon, 1/B9', '1420 Braine-l Alleud', '02.609.25.00', false, null);
+INSERT INTO pae.enterprises (trade_name, designation, address, city, means_of_communication, is_black_listed, motivation_black_list)
+VALUES ('LetsBuild', null, 'Chaussée de Bruxelles, 135A', '1310 La Hulpe', '014 54 67 54', false, null);
+INSERT INTO pae.enterprises (trade_name, designation, address, city, means_of_communication, is_black_listed, motivation_black_list)
+VALUES ('Niboo', null, 'Chaussée de Bruxelles, 135A', '1170 Watermael-Boisfort', '014 54 67 54', false, null);
+INSERT INTO pae.enterprises (trade_name, designation, address, city, means_of_communication, is_black_listed, motivation_black_list)
+VALUES ('Sopra Steria', null, 'Avenue Arnaud Fraiteur, 15/23', '1050 Bruxelles', '02 566 66 66', false, null);
 
 
 /*RESPONSABLE
@@ -80,11 +81,11 @@ VALUES ('Sopra Steria', null, 'Avenue Arnaud Fraiteur, 15/23', '02 566 66 66', f
     ALVAREZ CORCHETE	Roberto	    02.566.60.14		                                Sopra Steria
     Assal	            Farid	    0474 39 69 09	f.assal@assyst-europe.com	        Assyst Europe
   */
-INSERT INTO pae.internship_supervisors (last_name, first_name, phone_number, email, entreprise)
+INSERT INTO pae.internship_supervisors (supervisor_last_name, supervisor_first_name, phone_number, email, enterprise)
 VALUES ('Dossche', 'Stéphanie', '014.54.67.54', 'stephanie.dossche@letsbuild.com', 2);
-INSERT INTO pae.internship_supervisors (last_name, first_name, phone_number, email, entreprise)
+INSERT INTO pae.internship_supervisors (supervisor_last_name, supervisor_first_name, phone_number, email, enterprise)
 VALUES ('ALVAREZ CORCHETE', 'Roberto', '02.566.60.14', null, 4);
-INSERT INTO pae.internship_supervisors (last_name, first_name, phone_number, email, entreprise)
+INSERT INTO pae.internship_supervisors (supervisor_last_name, supervisor_first_name, phone_number, email, enterprise)
 VALUES ('Assal', 'Farid', '0474 39 69 09', 'f.assal@assyst-europe.com', 1);
 
 
@@ -148,27 +149,27 @@ INSERT INTO pae.inscriptions_UE (student, school_year)
 VALUES (8, '2023-2024');
 
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (1, 2, 3, null, 'A distance', TRUE);
+VALUES (1, 2, 'accepté', null, 'A distance', TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (2, 4, 3, null, 'Dans l entreprise', TRUE);
+VALUES (2, 4, 'accepté', null, 'Dans l entreprise', TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (2, 3, 4, 'N ont pas accepté d avoir un entretien', 'A distance', TRUE);
+VALUES (2, 3, 'refusé', 'N ont pas accepté d avoir un entretien', 'A distance', TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (3, 1, 3, null, 'Dans l entreprise', TRUE);
+VALUES (3, 1, 'accepté', null, 'Dans l entreprise', TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (3, 2, 5, null, 'A distance', TRUE);
+VALUES (3, 2, 'suspendu', null, 'A distance', TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (3, 4, 5, null, null, TRUE);
+VALUES (3, 4, 'suspendu', null, null, TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (3, 3, 4, 'ne prennent qu un seul étudiant', 'Dans l entreprise', TRUE);
+VALUES (3, 3, 'refusé', 'ne prennent qu un seul étudiant', 'Dans l entreprise', TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (4, 3, 2, null, 'A distance', TRUE);
+VALUES (4, 3, 'pris', null, 'A distance', TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (4, 4, 1, null, null, TRUE);
+VALUES (4, 4, 'initié', null, null, TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (4, 2, 1, null, null, TRUE);
+VALUES (4, 2, 'initié', null, null, TRUE);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed)
-VALUES (5, 4, 1, null, null, TRUE);
+VALUES (5, 4, 'initié', null, null, TRUE);
 
 
 INSERT INTO pae.internships (contact, internship_supervisor, internship_project, signature_date)
@@ -183,4 +184,11 @@ VALUES (4, 3, 'CRM : Microsoft Dynamics 365 For Sales', '12-10-23');
 
 
 INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role)
-VALUES ('chuqi.chups@student.vinci.be', '$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa', 'chuqi', 'chups', '04 666 666 66', CURRENT_DATE, 'étudiant');
+VALUES ('chuqi.chups@student.vinci.be', '$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa', 'chuqi', 'chups', '04 666 666 66', CURRENT_DATE, 'Etudiant');
+
+
+/*
+initié -> pris ou suspendu
+
+pris -> refusé ou accepté ou suspendu
+*/

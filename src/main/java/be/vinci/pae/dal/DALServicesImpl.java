@@ -17,7 +17,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   private final BasicDataSource connectionBDS;
 
   /**
-   * Default constructor.
+   * Default constructor for DALServicesImpl.
    */
   public DALServicesImpl() {
     connectionThread = new ThreadLocal<>();
@@ -32,15 +32,15 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   }
 
   /**
-   * Prepares a SQL statement.
+   * Method to retrieve a prepared statement.
    *
-   * @param sql The SQL query.
+   * @param sql The text of the query to put in the statement.
    *
-   * @param primaryKey If true, the statement will return generated keys.
+   * @param primaryKey a boolean
    *
-   * @return The prepared statement.
+   * @return A Prepared statement corresponding to the given query.
    *
-   * @throws RuntimeException if an SQL error occurs.
+   * @throws RuntimeException if problems are encountered.
    */
   public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
     try {
@@ -73,8 +73,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         counterThreads.set(1);
         Connection connection = connectionBDS.getConnection();
         connection.setAutoCommit(false);
-        connectionThread.set(connection); //comme ça y'a une connexion pour un thread
-        // -> lier un thread à une connexion
+        connectionThread.set(connection);
       } catch (SQLException e) {
         throw new RuntimeException(e.getMessage());
       }

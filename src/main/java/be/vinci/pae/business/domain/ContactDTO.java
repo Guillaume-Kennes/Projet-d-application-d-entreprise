@@ -102,4 +102,12 @@ public interface ContactDTO {
    * @param meetingPlace the meeting place of the contact.
    */
   void setMeetingPlace(String meetingPlace);
+
+  void setReasonRefusal(String reasonForRefusal);
+
+  void setCompany(ViewCompany company);
+
+  void setUeInscription(ViewUEInscription ueInscription);
+
+  ViewCompanyDTO getCompany();
 }
