@@ -42,10 +42,10 @@ public class UserResource {
   }
 
   @GET
+  @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
   public List<UserDTO> getAllUsers() {
     return myUserUcc.getAllUsers();
   }
-
 
 }

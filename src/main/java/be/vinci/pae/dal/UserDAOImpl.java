@@ -129,6 +129,12 @@ public class UserDAOImpl implements UserDAO {
       while (resultSet.next()) {
         UserDTO userDTO = myDomainFactory.getUser();
         userDTO.setEmail(resultSet.getString("email"));
+        userDTO.setLastName(resultSet.getString("last_name"));
+        userDTO.setFirstName(resultSet.getString("first_name"));
+        userDTO.setPhoneNumber(resultSet.getString("phone_number"));
+        userDTO.setRegistrationDate(resultSet.getString("registration_date"));
+        userDTO.setRole(resultSet.getString("role"));
+        userDTO.setId(resultSet.getInt("id_user"));
         usersList.add(userDTO);
       }
     } catch (Exception e) {
