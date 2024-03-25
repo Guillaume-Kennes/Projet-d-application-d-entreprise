@@ -2,6 +2,8 @@ package be.vinci.pae.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.DomainFactory;
@@ -53,5 +55,19 @@ public class InternshipUCCTest {
 
     assertNotNull(result);
     assertEquals(expectedInternship.getId(), result.getId());
+  }
+
+  /**
+   * Test for successful process when the user doesn't have an internship.
+   */
+  @Test
+  public void testGetInternshipByUserIdWhenNoInternship() {
+    int userId = 5;
+
+    InternshipDTO result = internshipUCC.getInternshipByUserId(userId);
+
+    assertNull(result);
+    assertThrows(NullPointerException.class,
+        () -> internshipUCC.getInternshipByUserId(5));
   }
 }
