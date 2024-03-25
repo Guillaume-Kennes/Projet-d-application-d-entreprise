@@ -114,14 +114,15 @@ public class UserUCCTest {
 
   @Test
   void testRegisterFailure() {
-    userDTO.setEmail("noOne@gmail.com");
-    userDTO.setPassword("noOne");
+    UserDTO user = myDomainFactory.getUser();
+    user.setEmail("noOne@gmail.com");
+    user.setPassword("noOne");
 
-    when(userDAO.getUserByEmail("noOne@gmail.com")).thenReturn(null);
-    when(userDAO.register(userDTO)).thenThrow(UnauthorizedException.class);
+    when(userDAO.getUserByEmail(user.getEmail())).thenReturn(null);
+    when(userDAO.register(user)).thenThrow(UnauthorizedException.class);
 
     assertThrows(UnauthorizedException.class, () -> {
-      userUCC.register(userDTO);
+      userUCC.register(user);
     });
   }
 

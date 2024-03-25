@@ -23,7 +23,16 @@ function renderRegisterForm() {
     input.placeholder = placeholder;
     input.required = required;
     input.className = 'form-control mb-3';
+    const inputLabel = createLabel(placeholder);
+    input.appendChild(inputLabel);
     return input;
+  }
+
+  function createLabel(text){
+    const label = document.createElement('placeholder');
+    label.className = 'form-placeholder';
+    label.textContent = text;
+    return label;
   }
 
   const inputAttributes = [
@@ -39,8 +48,8 @@ function renderRegisterForm() {
     form.appendChild(input); // Append inputs to body, you can change this to another parent element if needed
   });
 
-  const submit = document.createElement('input');
-  submit.value = "S'inscrire";
+  const submit = document.createElement('button');
+  submit.textContent = "S'inscrire";
   submit.type = 'submit';
   submit.className = 'btn btn-info';
   const formCheckWrapper = document.createElement('div');
@@ -64,7 +73,8 @@ async function onRegister(e) {
   const password = document.querySelector('#password').value;
   const phoneNumber = document.querySelector('#phoneNumber').value;
 
-  let role = document.querySelector('input[name="gender"]:checked').value;
+  // let role = document.querySelector('input[name="gender"]:checked').value;
+  let role;
   if (email.endsWith("@student.vinci.be")) {
     role = "Student";
   }
@@ -77,14 +87,17 @@ async function onRegister(e) {
       lastName,
       firstName,
       phoneNumber,
-      role
+      role : role.value
     }),
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
+  console.log("ROLE", role);
+
   const response = await fetch(`http://localhost:3000/auths/register`, options);
+  console.log("RESPONSE", response);
 
   if (!response.ok) {
     throw new Error(

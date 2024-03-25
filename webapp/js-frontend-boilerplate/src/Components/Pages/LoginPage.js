@@ -137,26 +137,6 @@ async function onLogin(e) {
     const response = await fetch(`http://localhost:3000/auths/login`, options);
 
     if (!response.ok) {
-      // Gestion des erreurs existante !!! A MODIFIER !!!
-      // todo
-
-      if (response.status === 401) {
-        const errorMessage = document.createElement('p');
-        errorMessage.className = 'error-message';
-        errorMessage.textContent = 'Informations d\'identification invalides';
-        errorMessage.style.color = '#ecb8dc';
-        errorMessage.style.fontWeight = 'bold';
-
-        const existingErrorMessage = document.querySelector('.error-message');
-        if (existingErrorMessage) {
-          existingErrorMessage.remove();
-        }
-
-        const formCheckWrapper = document.querySelector('.form-check');
-        formCheckWrapper.appendChild(errorMessage);
-        return;
-      }
-
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
 
