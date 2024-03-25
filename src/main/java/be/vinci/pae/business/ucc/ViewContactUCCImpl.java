@@ -49,7 +49,7 @@ public class ViewContactUCCImpl implements ViewContactUCC {
   public ArrayList<ViewContactDTO> getContactsByUserId(int id) {
     dalServices.start();
     try {
-      ArrayList<ViewContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
+      ArrayList<ViewContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
       return contactDTOS;
     } catch (Exception e) {
       System.out.println("ROLLBACK");
