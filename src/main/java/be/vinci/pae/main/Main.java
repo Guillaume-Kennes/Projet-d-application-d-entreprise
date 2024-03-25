@@ -13,6 +13,12 @@ import org.glassfish.jersey.server.ResourceConfig;
  * Main class.
  */
 public class Main {
+
+  /**
+   * Retrieves the base URI for the application.
+   *
+   * @return The base URI retrieved from the configuration properties.
+   */
   public static final String BASE_URI = Config.getProperty("BaseUri");
 
 
