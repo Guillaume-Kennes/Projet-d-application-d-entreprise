@@ -101,6 +101,11 @@ class ContactImpl implements Contact {
 
   }
 
+  @Override
+  public ViewCompanyDTO getCompany() {
+    return null;
+  }
+
   public boolean userRoleIsStudent(int idUser) {
     return false;
   }
