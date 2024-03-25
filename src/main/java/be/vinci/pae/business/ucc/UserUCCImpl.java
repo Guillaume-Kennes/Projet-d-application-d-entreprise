@@ -2,6 +2,7 @@ package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
@@ -15,6 +16,8 @@ public class UserUCCImpl implements UserUCC {
 
   @Inject
   private UserDAO userDAO;
+  @Inject
+  private DALServices dalServices;
 
   /** Returns the user's data if the login is successful.
    *
@@ -52,8 +55,17 @@ public class UserUCCImpl implements UserUCC {
    * @return A list containing UserDTO objects representing all users.
    * If no users are found, the list will be empty.
    */
-  public List<UserDTO> getAllUsers(){
-    return userDAO.getAllUsers();
+  public List<UserDTO> getAllUsers() {
+    dalServices.start();
+    try {
+      return userDAO.getAllUsers();
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+    finally {
+      dalServices.commit();
+    }
   }
 
 }
