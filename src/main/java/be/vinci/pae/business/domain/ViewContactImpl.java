@@ -6,29 +6,13 @@ package be.vinci.pae.business.domain;
  */
 public class ViewContactImpl implements ViewContact {
 
-  /**
-   * Enum for containing the different states of a contact.
-   * This enum contains all the states a contact is allowed to be in.
-   */
-  public enum State {
-    ABANDONNE, REFUSE, PRIS, INITIE, SUSPENDU, ACCEPTE;
-  }
-
-  /**
-   * Enum for containing the different meeting places of a contact.
-   * This enum contains the 2 different meeting places possible for a contact.
-   */
-  public enum MeetingPlace {
-    ENTREPRISE, DISTANCIEL;
-  }
-
   private int id;
   private String reasonRefusal;
-  private MeetingPlace meetingPlace;
+  private String meetingPlace;
   private ViewCompany company;
   private ViewUEInscription ueInscription;
   private boolean followed;
-  private State state;
+  private String state;
 
   /**
    * Default constructor for ViewContactImpl.
@@ -78,7 +62,7 @@ public class ViewContactImpl implements ViewContact {
    * @return The meeting place of the contact
    */
   public String getMeetingPlace() {
-    return this.meetingPlace.name();
+    return this.meetingPlace;
   }
 
   /**
@@ -87,12 +71,7 @@ public class ViewContactImpl implements ViewContact {
    * @param meetingPlace The meeting place to set.
    */
   public void setMeetingPlace(String meetingPlace) {
-    try {
-      MeetingPlace meet = MeetingPlace.valueOf(meetingPlace);
-      this.meetingPlace = meet;
-    } catch (IllegalArgumentException e) {
-      throw e;
-    }
+    this.meetingPlace = meetingPlace;
   }
 
   /**
@@ -101,6 +80,7 @@ public class ViewContactImpl implements ViewContact {
    * @return The company of the contact
    */
   public ViewCompany getCompany() {
+
     return this.company;
   }
 
@@ -128,7 +108,7 @@ public class ViewContactImpl implements ViewContact {
    * @return The state of the contact
    */
   public String getState() {
-    return this.state.name();
+    return this.state;
   }
 
   /**
@@ -137,12 +117,7 @@ public class ViewContactImpl implements ViewContact {
    * @param state The state to set.
    */
   public void setState(String state) {
-    try {
-      State state1 = State.valueOf(state);
-      this.state = state1;
-    } catch (IllegalArgumentException e) {
-      throw e;
-    }
+    this.state = state;
   }
 
   /**
@@ -151,6 +126,7 @@ public class ViewContactImpl implements ViewContact {
    * @param followed The state to set.
    */
   public void setFollowed(boolean followed) {
+
     this.followed = followed;
   }
 
@@ -160,7 +136,8 @@ public class ViewContactImpl implements ViewContact {
    * @return The UE inscription of the contact
    */
   public ViewUEInscription getUeInscription() {
-    return ueInscription;
+
+    return this.ueInscription;
   }
 
   /**
@@ -169,6 +146,7 @@ public class ViewContactImpl implements ViewContact {
    * @return The value of the followed boolean
    */
   public boolean isFollowed() {
+
     return followed;
   }
 }
