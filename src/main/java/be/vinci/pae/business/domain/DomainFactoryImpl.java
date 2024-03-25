@@ -57,6 +57,6 @@ public class DomainFactoryImpl implements DomainFactory {
    * @return A new ViewContactDTO instance.
    */
   public ContactDTO getContact() {
-    return new ViewContactImpl();
+    return new ContactImpl();
   }
 }
