@@ -125,7 +125,7 @@ public class ContactResource {
    *
    * @param id The ID of the user.
    *
-   * @return An ObjectNode object containing all the data to be displayed on the user's contact page
+   * @return An ObjectNode object containing all the data to be displayed on the user's contacts page
    *
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
