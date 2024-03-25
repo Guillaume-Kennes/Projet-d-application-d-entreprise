@@ -27,13 +27,17 @@ function renderContactsPage(contact) {
       const listItem = document.createElement("li");
       const contactText = document.createElement("span");
       const button = document.createElement("button");
+      const button2 = document.createElement("button");
 
       contactText.textContent = `${description}`; // Display the contact description
       button.textContent = "Indiquer que le contact est pris";
       button.addEventListener("click", () => showForm(id)); // Attach event listener
+      button2.textContent = "Indiquer que le contact est refusé";
+      button2.addEventListener("click", () => showFormRefusal(id));
 
       listItem.appendChild(contactText);
       listItem.appendChild(button);
+      listItem.appendChild(button2);
       contactList.appendChild(listItem);
     });
   } else {
@@ -76,6 +80,24 @@ function showForm(idContact) {
   form.addEventListener('submit', (e) => meetCompany(e, idContact));
 }
 
+function showFormRefusal(idContact) {
+  const main = document.querySelector('main');
+  main.innerHTML = `
+    <div class="container mt-5">
+      <h1>Formulaire de refus d'un contact</h1>
+      <form id="refusal-form">
+        <h3> Raisons du refus </h3>
+        <div class="form-group">
+          <label for="reason">Raison :</label>
+            <input type="text" class="form-control" id="reason" name="reason" placeholder="Entrez la raison du refus" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+      </form>
+    </div>
+  `;
+  const form = document.getElementById('refusal-form');
+  form.addEventListener('submit', (e) => refuseInternship(e, idContact));
+}
 async function meetCompany(e, idContact) {
   e.preventDefault();
   const meetLocation = document.querySelector('input[name="meetingLocation"]:checked').value;
@@ -97,6 +119,30 @@ async function meetCompany(e, idContact) {
     window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
   } catch (error) {
     console.error('Error meeting company:', error);
+  }
+}
+
+async function refuseInternship(e, idContact) {
+  e.preventDefault();
+  const reasonRefusal = document.querySelector('input[name="reason"]').value;
+  const token = getToken();
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+    body: JSON.stringify({ reasonRefusal }),
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/contacts/companyrefused/${idContact}`, options);
+    if (!response.ok) {
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
+    window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
+  } catch (error) {
+    console.error('Error setting refusal reason :', error);
   }
 }
 
