@@ -78,6 +78,7 @@ public class ViewContactUCCTest {
 
     ViewContactDTO expectedContact = domainFactory.getContact();
     expectedContact.setId(8);
+    expectedContacts.add(expectedContact);
 
     int userId = 5;
     when(contactDAO.getContactsByUserId(userId)).thenReturn(expectedContacts);
