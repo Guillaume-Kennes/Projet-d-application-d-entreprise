@@ -1,7 +1,8 @@
 package be.vinci.pae.business.domain;
 
 /**
- * Interface Contact extending ContactDTO.
+ * Represents a contact with various properties.
+ * Extends the ContactDTO interface.
  */
 public interface Contact extends ContactDTO {
   /**

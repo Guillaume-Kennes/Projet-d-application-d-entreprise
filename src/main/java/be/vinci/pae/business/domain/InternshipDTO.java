@@ -28,14 +28,14 @@ public interface InternshipDTO {
    *
    * @return the internship's contact
    */
-  ViewContact getContact();
+  Contact getContact();
 
   /**
    * Sets the internship's contact.
    *
    * @param contact the internship's contact to set
    */
-  void setContact(ViewContact contact);
+  void setContact(Contact contact);
 
   /**
    * Returns the internship's supervisor.
