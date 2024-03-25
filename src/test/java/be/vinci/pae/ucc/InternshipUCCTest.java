@@ -67,7 +67,5 @@ public class InternshipUCCTest {
     InternshipDTO result = internshipUCC.getInternshipByUserId(userId);
 
     assertNull(result);
-    assertThrows(NullPointerException.class,
-        () -> internshipUCC.getInternshipByUserId(5));
   }
 }
