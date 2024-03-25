@@ -44,7 +44,6 @@ public class ViewContactUCCTest {
    */
   @Test
   public void testGetContactsByUserId() {
-    int userId = 7;
 
     ViewContactDTO expectedContact1 = domainFactory.getContact();
     expectedContact1.setId(4);
@@ -59,6 +58,7 @@ public class ViewContactUCCTest {
     expectedContact4.setId(7);
     expectedContacts.add(expectedContact4);
 
+    int userId = 7;
     when(contactDAO.getContactsByUserId(userId)).thenReturn(expectedContacts);
 
     ArrayList<ViewContactDTO> result = contactUCC.getContactsByUserId(userId);
