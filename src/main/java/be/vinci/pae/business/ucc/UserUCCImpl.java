@@ -29,8 +29,6 @@ public class UserUCCImpl implements UserUCC {
    * @return The UserDTO object representing the authenticated user.
    *
    * @throws UnauthorizedException If the provided email or password is incorrect.
-   *
-   * @throws Exception If an error occurs during the authentication process.
    */
   public UserDTO login(String email, String password) {
     // start mais cest k
@@ -60,8 +58,6 @@ public class UserUCCImpl implements UserUCC {
    * @param id The unique identifier of the user to retrieve.
    *
    * @return The UserDTO object corresponding to the given identifier.
-   *
-   * @throws Exception If an error occurs while retrieving the user.
    */
   public UserDTO getUserById(int id) {
     dalServices.start();
@@ -85,8 +81,6 @@ public class UserUCCImpl implements UserUCC {
    *
    * @throws UnauthorizedException If the email already exists in the database
    *     or if the email address does not end with "@student.vinci.be" or "@vinci.be".
-   *
-   * @throws Exception If an error occurs during registration process.
    */
   public UserDTO register(UserDTO userDTO) {
     dalServices.start();

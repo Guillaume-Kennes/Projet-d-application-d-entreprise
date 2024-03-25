@@ -43,6 +43,8 @@ public interface UserDAO {
   /**
    * Registers a new user with the provided information.
    *
+   * @param userDTO The UserDTO object containing user information to register.
+   *
    * @return A UserDTO object representing the registered user.
    */
   UserDTO register(UserDTO userDTO);
