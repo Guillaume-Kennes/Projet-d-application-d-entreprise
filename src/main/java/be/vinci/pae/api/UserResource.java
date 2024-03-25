@@ -4,7 +4,6 @@ import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
-import be.vinci.pae.business.domain.ViewContactDTO;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.business.ucc.ViewContactUCC;

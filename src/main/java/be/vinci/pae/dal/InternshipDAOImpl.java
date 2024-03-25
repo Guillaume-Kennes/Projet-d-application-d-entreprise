@@ -6,7 +6,6 @@ import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.InternshipSupervisor;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.business.domain.ViewContact;
-import be.vinci.pae.business.domain.ViewContactDTO;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
