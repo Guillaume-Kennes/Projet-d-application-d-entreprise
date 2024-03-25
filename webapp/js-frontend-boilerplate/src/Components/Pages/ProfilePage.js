@@ -40,13 +40,13 @@ function renderProfilePage(user) {
               <button class="btn btn-primary me-3">Modifier ou ajouter le sujet de stage</button>
             </div>
             <p class="fw-bold mb-n1">Titre</p>
-            <p id="internshipTitle">${user.internshipTitle}</p>
+            <p id="internshipTitle">${user.internshipTitle ? user.internshipTitle : 'aucun'}</p>
             <p class="fw-bold mb-n1">Entreprise</p>
-            <p id="internshipCompany">${user.internshipCompany}</p>
+            <p id="internshipCompany">${user.internshipCompany ? user.internshipCompany : 'aucun'}</p>
             <p class="fw-bold mb-n1">Responsable</p>
-            <p id="internshipSupervisor">${user.internshipSupervisor}</p>
+            <p id="internshipSupervisor">${user.internshipSupervisor ? user.internshipSupervisor : 'aucun'}</p>
             <p class="fw-bold mb-n1">Sujet</p>
-            <p id="internshipSubject">${user.internshipSubject}</p>
+            <p id="internshipSubject">${user.internshipSubject ? user.internshipSubject : 'aucun'}</p>
           </div>
           <div class="fw-bold mb-n1">Contacts pris</div>
             <ul id="contactCompanies"></ul>

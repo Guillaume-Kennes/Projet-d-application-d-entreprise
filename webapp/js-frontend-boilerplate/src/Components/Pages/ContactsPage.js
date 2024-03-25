@@ -50,7 +50,11 @@ async function getValues() {
   if (!response.ok) {
     throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
   }else{
-    contacts = await response.json();
+    const responseData = await response.text();
+    if (responseData.trim() === '') {
+      return { contacts: [] }; // Return an empty array if response body is empty
+    }
+    contacts = JSON.parse(responseData);
     return contacts;
   }
 }
