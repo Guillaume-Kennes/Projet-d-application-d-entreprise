@@ -126,7 +126,7 @@ public class ContactResource {
    *
    * @param id The ID of the user.
    *
-   * @return An ObjectNode object containing all the data to be displayed on the user's contacts page
+   * @return An ObjectNode object containing all the data to be displayed
    *
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
@@ -151,9 +151,11 @@ public class ContactResource {
 
     for (ContactDTO c : contacts) {
       if (c.getCompany().getDesignation() == null) {
-        contactList.put(c.getId(), c.getCompany().getTradeName() + " : dans l'état " + c.getState());
+        contactList.put(c.getId(), c.getCompany().getTradeName()
+            + " : dans l'état " + c.getState());
       } else {
-        contactList.put(c.getId(), c.getCompany().getTradeName() + " " + c.getCompany().getDesignation()
+        contactList.put(c.getId(), c.getCompany().getTradeName()
+            + " " + c.getCompany().getDesignation()
             + " : dans l'état " + c.getState());
       }
     }

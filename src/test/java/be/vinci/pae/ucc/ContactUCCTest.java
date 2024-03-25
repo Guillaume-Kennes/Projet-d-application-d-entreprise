@@ -3,6 +3,7 @@ package be.vinci.pae.ucc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.ucc.ContactUCC;
@@ -14,6 +15,9 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test class for ContactUCC.
+ */
 public class ContactUCCTest {
   private ContactUCC contactUCC;
   private DomainFactory domainFactory;

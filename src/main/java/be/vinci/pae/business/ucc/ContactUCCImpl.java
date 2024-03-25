@@ -129,7 +129,7 @@ public class ContactUCCImpl implements ContactUCC {
         contactDAO.update(contact);
         return contact;
       } else {
-       throw new IllegalArgumentException("Invalid contact state");
+        throw new IllegalArgumentException("Invalid contact state");
       }
     } catch (Exception e) {
       dalServices.rollBack();
