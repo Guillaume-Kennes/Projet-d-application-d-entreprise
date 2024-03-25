@@ -31,7 +31,7 @@ public interface UserUCC {
    * Retrieves the list of all users available in the system.
    *
    * @return A list containing UserDTO objects representing all users.
-   * If no users are found, the list will be empty.
+   *     If no users are found, the list will be empty.
    */
   List<UserDTO> getAllUsers();
 }

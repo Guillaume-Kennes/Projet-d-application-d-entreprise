@@ -43,8 +43,8 @@ public class UserResource {
 
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public List<UserDTO> getAllUsers(){
-   return myUserUcc.getAllUsers();
+  public List<UserDTO> getAllUsers() {
+    return myUserUcc.getAllUsers();
   }
 
 

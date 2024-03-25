@@ -53,7 +53,7 @@ public class UserUCCImpl implements UserUCC {
    * Returns the list of all users available in the system.
    *
    * @return A list containing UserDTO objects representing all users.
-   * If no users are found, the list will be empty.
+   *     If no users are found, the list will be empty.
    */
   public List<UserDTO> getAllUsers() {
     dalServices.start();
@@ -62,8 +62,7 @@ public class UserUCCImpl implements UserUCC {
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    }
-    finally {
+    } finally {
       dalServices.commit();
     }
   }

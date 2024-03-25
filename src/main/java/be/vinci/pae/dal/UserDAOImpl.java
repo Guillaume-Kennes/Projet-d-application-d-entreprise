@@ -1,7 +1,6 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -117,17 +116,22 @@ public class UserDAOImpl implements UserDAO {
     return null;
   }
 
-  public List<UserDTO> getAllUsers(){
+  /**
+   * Retrieves a list of all users from the database.
+   *
+   * @return A list of UserDTO objects representing all users.
+   */
+  public List<UserDTO> getAllUsers() {
     List<UserDTO> usersList = new ArrayList<>();
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.users");
-    try(ResultSet resultSet = preparedStatement.executeQuery()){
-      while(resultSet.next()) {
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
         UserDTO userDTO = myDomainFactory.getUser();
         userDTO.setEmail(resultSet.getString("email"));
         usersList.add(userDTO);
       }
-    }catch(Exception e){
+    } catch (Exception e) {
       System.exit(1);
     }
     return usersList;
