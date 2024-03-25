@@ -1,4 +1,4 @@
-// import { getAuthenticatedUser } from '../../utils/auths';
+import { getAuthenticatedUser } from '../../utils/auths';
 import { clearPage } from '../../utils/render';
 
 const meetCompany = async () => {
@@ -58,7 +58,7 @@ async function saveMeeting(e) {
     }),
     headers: {
       'Content-Type': 'application/json',
-      // authorization: getAuthenticatedUser().token,
+      authorization: getAuthenticatedUser().token,
     },
   };
 
