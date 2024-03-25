@@ -18,6 +18,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Resource class for managing contacts.
@@ -145,13 +146,14 @@ public class ContactResource {
       return null;
     }
 
-    ArrayList<String> contactList = new ArrayList<>();
+
+    HashMap<Integer, String> contactList = new HashMap<>();
 
     for (ContactDTO c : contacts) {
       if (c.getCompany().getDesignation() == null) {
-        contactList.add(c.getCompany().getTradeName() + " : dans l'état " + c.getState());
+        contactList.put(c.getId(), c.getCompany().getTradeName() + " : dans l'état " + c.getState());
       } else {
-        contactList.add(c.getCompany().getTradeName() + " " + c.getCompany().getDesignation()
+        contactList.put(c.getId(), c.getCompany().getTradeName() + " " + c.getCompany().getDesignation()
             + " : dans l'état " + c.getState());
       }
     }

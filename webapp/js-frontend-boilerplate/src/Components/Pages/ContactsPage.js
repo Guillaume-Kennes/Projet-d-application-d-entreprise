@@ -24,10 +24,10 @@ function renderContactsPage(contact) {
             <ul id="contact"></ul>`;
 
   const contactList = document.getElementById("contact");
-  if (contact.contacts && contact.contacts.length > 0) {
-    contact.contacts.forEach(c => {
+  if (contact.contacts && Object.keys(contact.contacts).length > 0) {
+    Object.entries(contact.contacts).forEach(([id, description]) => {
       const listItem = document.createElement("li");
-      listItem.textContent = c;
+      listItem.textContent = `${description}`; // Display the contact description
       contactList.appendChild(listItem);
     });
   } else {
