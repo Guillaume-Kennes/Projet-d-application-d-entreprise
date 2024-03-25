@@ -139,11 +139,11 @@ public class UserDAOImpl implements UserDAO {
         try (ResultSet resultSet = preparedStatement.executeQuery()) {
           if (resultSet.next()) {
             userDTO = userInfos(resultSet);
+            userDTO.setRole(userDTO.getRole());
           } else {
             userDTO = null;
           }
         }
-
       }
     } catch (SQLException e) {
       e.printStackTrace();

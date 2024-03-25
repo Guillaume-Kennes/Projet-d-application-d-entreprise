@@ -30,7 +30,6 @@ public class AppBinderTest extends AbstractBinder {
     bind(DomainFactoryImpl.class).to(DomainFactory.class);
     bind(UserUCCImpl.class).to(UserUCC.class);
     bind(Mockito.mock(UserDAOImpl.class)).to(UserDAO.class);
-    bind(DALServicesImpl.class).to(DALBackServices.class).to(DALServices.class);
-
+    bind(Mockito.mock(DALServicesImpl.class)).to(DALBackServices.class).to(DALServices.class);
   }
 }

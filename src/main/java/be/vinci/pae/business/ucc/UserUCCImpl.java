@@ -100,9 +100,10 @@ public class UserUCCImpl implements UserUCC {
         if (!userDTO.getEmail().endsWith("@vinci.be")
             && !userDTO.getEmail().endsWith("@student.vinci.be")) {
           throw new UnauthorizedException(
-              "The email address should end with @student.vinci.be or @vinci.be");
+              "The email address must end with @student.vinci.be or @vinci.be");
+        } else if (userDTO.getEmail().endsWith("@student.vinci.be")) {
+          userDTO.setRole("Student");
         }
-        user.setRole(userDTO.getRole());
         userDTO.setPassword(user.hashPassword(userDTO.getPassword()));
         return userDAO.register(userDTO);
 
