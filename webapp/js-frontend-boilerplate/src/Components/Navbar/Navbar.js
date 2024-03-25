@@ -34,6 +34,9 @@ function renderNavbar() {
             <li class="nav-item">
               <a class="nav-link" href="#" data-uri="/meetCompany" style="color: white;">Indiquer une rencontre avec l'entreprise</a>
             </li>      
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-uri="/companyRefused" style="color: white;">entreprise refuse le stage</a>
+            </li>
           </ul>
         </div>
       </div>

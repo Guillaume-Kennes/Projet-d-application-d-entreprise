@@ -31,13 +31,18 @@ public class ContactUCCImpl implements ContactUCC {
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
       }
-      contact.setState("pris");
-      contact.setMeetingPlace(place);
 
-      System.out.println("contact ucc : " + contact);
+      if (contact.getState().equals("initié")) {
+        contact.setState("pris");
+        contact.setMeetingPlace(place);
 
-      contactDAO.update(contact);
-      return contact;
+        System.out.println("contact ucc : " + contact);
+
+        contactDAO.update(contact);
+        return contact;
+      } else {
+        throw new IllegalArgumentException("Invalid contact state");
+      }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
@@ -78,12 +83,18 @@ public class ContactUCCImpl implements ContactUCC {
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
       }
-      contact.setFollowed(false);
 
-      System.out.println("contact ucc stop following : " + contact);
+      if (!contact.isFollowed()) {
+        throw new IllegalArgumentException("Invalid contact state");
+      } else {
+        contact.setFollowed(false);
+        contact.setState("abandonné");
 
-      contactDAO.update(contact);
-      return contact;
+        System.out.println("contact ucc stop following : " + contact);
+
+        contactDAO.update(contact);
+        return contact;
+      }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
@@ -107,13 +118,18 @@ public class ContactUCCImpl implements ContactUCC {
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
       }
-      contact.setState("refusé");
-      contact.setReasonForRefusal(reason);
 
-      System.out.println("contact ucc company refused internship : " + contact);
+      if (contact.getState().equals("pris")) {
+        contact.setState("refusé");
+        contact.setReasonForRefusal(reason);
 
-      contactDAO.update(contact);
-      return contact;
+        System.out.println("contact ucc company refused internship : " + contact);
+
+        contactDAO.update(contact);
+        return contact;
+      } else {
+       throw new IllegalArgumentException("Invalid contact state");
+      }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

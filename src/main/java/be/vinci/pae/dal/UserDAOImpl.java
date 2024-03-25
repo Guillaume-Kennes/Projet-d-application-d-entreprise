@@ -105,7 +105,7 @@ public class UserDAOImpl implements UserDAO {
       preparedStatement.setInt(1, id);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
-          return userInfos(resultSet);
+            return userInfos(resultSet);
         }
       }
     } catch (SQLException e) {
