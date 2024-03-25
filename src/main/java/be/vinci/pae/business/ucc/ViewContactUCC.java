@@ -1,6 +1,6 @@
 package be.vinci.pae.business.ucc;
 
-import be.vinci.pae.business.domain.ViewContactDTO;
+import be.vinci.pae.business.domain.ContactDTO;
 import java.util.ArrayList;
 
 /**
@@ -12,17 +12,15 @@ public interface ViewContactUCC {
    * Returns the taken contacts of the user corresponding to the id.
    *
    * @param id the user's id
-   *
    * @return the taken contacts corresponding to the user
    */
-  ArrayList<ViewContactDTO> getTakenContactsByUserId(int id);
+  ArrayList<ContactDTO> getTakenContactsByUserId(int id);
 
   /**
    * Returns all the contacts of the user corresponding to the id.
    *
    * @param id the user's id
-   *
    * @return all the contacts corresponding to the user
    */
-  ArrayList<ViewContactDTO> getContactsByUserId(int id);
+  ArrayList<ContactDTO> getContactsByUserId(int id);
 }

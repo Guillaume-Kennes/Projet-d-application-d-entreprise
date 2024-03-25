@@ -1,6 +1,6 @@
 package be.vinci.pae.business.ucc;
 
-import be.vinci.pae.business.domain.ViewContactDTO;
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.ViewContactDAO;
 import jakarta.inject.Inject;
@@ -21,13 +21,12 @@ public class ViewContactUCCImpl implements ViewContactUCC {
    * Returns the taken contacts corresponding to the user corresponding to the id.
    *
    * @param id the user's id
-   *
    * @return the taken contacts corresponding to the user
    */
-  public ArrayList<ViewContactDTO> getTakenContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
     dalServices.start();
     try {
-      ArrayList<ViewContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
+      ArrayList<ContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
       return contactDTOS;
     } catch (Exception e) {
       System.out.println("ROLLBACK");
@@ -43,13 +42,12 @@ public class ViewContactUCCImpl implements ViewContactUCC {
    * Returns all the contacts corresponding to the user corresponding to the id.
    *
    * @param id the user's id
-   *
    * @return all the contacts corresponding to the user
    */
-  public ArrayList<ViewContactDTO> getContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getContactsByUserId(int id) {
     dalServices.start();
     try {
-      ArrayList<ViewContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
+      ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
       return contactDTOS;
     } catch (Exception e) {
       System.out.println("ROLLBACK");

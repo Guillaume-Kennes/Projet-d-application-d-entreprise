@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.InternshipSupervisor;
@@ -79,7 +80,7 @@ public class InternshipDAOImpl implements InternshipDAO {
    */
   public InternshipDTO internshipInfos(ResultSet resultSet) {
     InternshipDTO internshipDTO = myDomainFactory.getInternship();
-    ViewContactDTO contact;
+    ContactDTO contact;
     InternshipSupervisorDTO supervisor;
 
     try {
