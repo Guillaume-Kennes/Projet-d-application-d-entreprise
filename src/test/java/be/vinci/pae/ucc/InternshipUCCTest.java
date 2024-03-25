@@ -7,17 +7,13 @@ import static org.mockito.Mockito.when;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.ucc.InternshipUCC;
-import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.InternshipDAO;
 import be.vinci.pae.utils.AppBinderTest;
-import java.util.ArrayList;
-import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 /**
  * Test class for InternshipUCC.
@@ -28,7 +24,6 @@ public class InternshipUCCTest {
   private DomainFactory domainFactory;
   @Mock
   private InternshipDAO internshipDAO;
-  @Mock
   private InternshipDTO expectedInternship;
 
   /**
