@@ -69,4 +69,22 @@ public class ViewContactUCCTest {
     assertEquals(expectedContact3, result.get(2));
     assertEquals(expectedContact4, result.get(3));
   }
+
+  /**
+   * Test for successful retrieving of the user's taken contacts.
+   */
+  @Test
+  public void testGetTakenContactsByUserId() {
+
+    ViewContactDTO expectedContact = domainFactory.getContact();
+    expectedContact.setId(8);
+
+    int userId = 5;
+    when(contactDAO.getContactsByUserId(userId)).thenReturn(expectedContacts);
+
+    ArrayList<ViewContactDTO> result = contactUCC.getContactsByUserId(userId);
+
+    assertNotNull(result);
+    assertEquals(expectedContact, result.get(0));
+  }
 }
