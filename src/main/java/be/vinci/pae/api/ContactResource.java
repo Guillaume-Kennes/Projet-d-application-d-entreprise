@@ -1,72 +1,113 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
-import be.vinci.pae.business.domain.UserDTO;
-import be.vinci.pae.business.domain.ViewContactDTO;
-import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.business.ucc.ViewContactUCC;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import be.vinci.pae.business.domain.ContactDTO;
+import be.vinci.pae.business.ucc.ContactUCC;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import java.util.ArrayList;
 
 /**
- * Resource class for handling contact-related endpoints.
- * This class provides endpoints for retrieving contact information.
+ * Resource class for managing contacts.
  */
 @Singleton
 @Path("/contacts")
 public class ContactResource {
 
-  private ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
-  private UserUCC myUserUcc;
-  @Inject
-  private ViewContactUCC myContactUcc;
+  private ContactUCC myContactUcc;
 
   /**
-   * Retrieves contacts corresponding to a user's ID.
+   * Endpoint for meeting a company.
    *
-   * @param id The ID of the user.
+   * @param idContact The ID of the contact.
    *
-   * @return An ObjectNode object containing all the data to be displayed on the user's contact page
+   * @param json The JSON object containing the meeting location.
    *
-   * @throws IllegalArgumentException if the user with the specified ID is not found.
+   * @return The updated contact.
    */
-  @GET
-  @Authorize
-  @Path("/{id}")
+  @POST
+  @Path("/meet/{id_con}")
+  @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode getContactsByUserId(@PathParam("id") int id) {
-    UserDTO user = myUserUcc.getUserById(id);
-    if (user == null) {
-      throw new IllegalArgumentException("User not found");
+  @Authorize
+  public ContactDTO meetCompany(@PathParam("id_con") int idContact, JsonNode json) {
+    ContactDTO contact = myContactUcc.getContactById(idContact);
+    if (contact == null) {
+      throw new IllegalArgumentException("Contact not found");
     }
 
-    ObjectNode response = jsonMapper.createObjectNode();
-    ArrayList<ViewContactDTO> contacts = myContactUcc.getContactsByUserId(user.getId());
-    if (contacts.isEmpty()) {
-      return null;
-    }
-    
-    ArrayList<String> contactList = new ArrayList<>();
-
-    for (ViewContactDTO c : contacts) {
-      if (c.getCompany().getDesignation() == null) {
-        contactList.add(c.getCompany().getTradeName() + " : dans l'état " + c.getState());
-      } else {
-        contactList.add(c.getCompany().getTradeName() + " " + c.getCompany().getDesignation()
-            + " : dans l'état " + c.getState());
-      }
+    if (json == null) {
+      throw new IllegalArgumentException("Request body is missing or not a valid JSON");
     }
 
-    response.putPOJO("contacts", contactList);
-    return response;
+    String meetLocation = json.get("meetLocation").asText();
+    System.out.println("Meet Location: " + meetLocation);
+
+    myContactUcc.meetCompany(contact, meetLocation);
+
+    return contact;
+  }
+
+
+  /**
+   * Endpoint for stopping following a contact.
+   *
+   * @param idContact The ID of the contact.
+   *
+   * @return The updated contact.
+   */
+  @POST
+  @Path("/stop/{id_con}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ContactDTO stopFollowing(@PathParam("id_con") int idContact) {
+    ContactDTO contact = myContactUcc.getContactById(idContact);
+    if (contact == null) {
+      throw new IllegalArgumentException("Contact not found");
+    }
+
+    myContactUcc.stopFollowing(contact);
+
+    return contact;
+  }
+
+  /**
+   * Endpoint for when a company refuses an internship.
+   *
+   * @param idContact The ID of the contact.
+   *
+   * @param json The JSON object containing the reason for refusal.
+   *
+   * @return The updated contact.
+   */
+  @POST
+  @Path("/companyrefused/{id_con}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ContactDTO companyRefusedInternship(@PathParam("id_con") int idContact, JsonNode json) {
+    ContactDTO contact = myContactUcc.getContactById(idContact);
+    if (contact == null) {
+      throw new IllegalArgumentException("Contact not found");
+    }
+
+    if (json == null) {
+      throw new IllegalArgumentException("Request body is missing or not a valid JSON");
+    }
+
+    String reasonForRefusal = json.get("reason_for_refusal").asText();
+    System.out.println("reason_for_refusal : " + reasonForRefusal);
+
+    myContactUcc.companyRefusedInternship(contact, reasonForRefusal);
+
+    return contact;
   }
 }

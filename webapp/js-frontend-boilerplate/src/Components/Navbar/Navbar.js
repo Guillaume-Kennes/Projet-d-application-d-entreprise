@@ -30,7 +30,13 @@ function renderNavbar() {
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">      
             <li id="loginItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/login" style="color: white;">Se connecter</a>
-            </li>         
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-uri="/meetCompany" style="color: white;">Indiquer une rencontre avec l'entreprise</a>
+            </li>      
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-uri="/companyRefused" style="color: white;">entreprise refuse le stage</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -59,7 +65,10 @@ function renderNavbar() {
             </li>    
             <li class="nav-item">
               <a class="nav-link disabled" href="#" style="color: white;">${authenticatedUser?.email}</a>
-            </li>           
+            </li>      
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-uri="/meetCompany" style="color: white;">Indiquer une rencontre avec l'entreprise</a>
+            </li> 
           </ul>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
