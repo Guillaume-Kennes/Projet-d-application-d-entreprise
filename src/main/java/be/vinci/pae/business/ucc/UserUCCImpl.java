@@ -72,6 +72,7 @@ public class UserUCCImpl implements UserUCC {
     }
   }
 
+
   /**
    * Registers a new user in the system.
    *
