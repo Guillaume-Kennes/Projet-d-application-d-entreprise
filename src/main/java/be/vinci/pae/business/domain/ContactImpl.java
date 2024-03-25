@@ -86,6 +86,21 @@ class ContactImpl implements Contact {
     this.meetingPlace = meetingPlace;
   }
 
+  @Override
+  public void setReasonRefusal(String reasonForRefusal) {
+
+  }
+
+  @Override
+  public void setCompany(ViewCompany company) {
+
+  }
+
+  @Override
+  public void setUeInscription(ViewUEInscription ueInscription) {
+
+  }
+
   public boolean userRoleIsStudent(int idUser) {
     return false;
   }
