@@ -108,4 +108,6 @@ public interface ContactDTO {
   void setCompany(ViewCompany company);
 
   void setUeInscription(ViewUEInscription ueInscription);
+
+  ViewCompanyDTO getCompany();
 }

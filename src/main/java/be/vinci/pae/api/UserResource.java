@@ -1,6 +1,7 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.domain.ViewContactDTO;
@@ -70,11 +71,11 @@ public class UserResource {
       response.put("internshipSubject", internship.getProject());
     }
 
-    ArrayList<ViewContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
+    ArrayList<ContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
 
     if (!contacts.isEmpty()) {
       ArrayList<String> companies = new ArrayList<>();
-      for (ViewContactDTO c : contacts) {
+      for (ContactDTO c : contacts) {
         if (c.getCompany().getDesignation() == null) {
           companies.add(c.getCompany().getTradeName());
         } else {
