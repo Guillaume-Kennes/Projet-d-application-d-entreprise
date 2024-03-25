@@ -12,12 +12,20 @@ import org.apache.commons.dbcp2.BasicDataSource;
  * Manages database connections and provides methods for database operations.
  */
 public class DALServicesImpl implements DALBackServices, DALServices {
+
+  /** ThreadLocal variable to hold connection objects for each thread. */
   private final ThreadLocal<Connection> connectionThread;
+
+  /** ThreadLocal variable to keep track of the number of threads. */
   private final ThreadLocal<Integer> counterThreads;
+
+  /** DataSource object for managing database connections. */
   private final BasicDataSource connectionBDS;
 
+
   /**
-   * Default constructor for DALServicesImpl.
+   * Constructs a new DALServicesImpl object.
+   * Initializes ThreadLocal variables and sets up database connection settings.
    */
   public DALServicesImpl() {
     connectionThread = new ThreadLocal<>();
@@ -26,46 +34,49 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
     connectionBDS.setUrl(Config.getProperty("DatabaseFilePath"));
     connectionBDS.setUsername(Config.getProperty("DatabaseUser"));
-    connectionBDS.setPassword(Config.getProperty("DatabasePassword"));
+    connectionBDS.setPassword(Config.getProperty("JWTSecret"));
     connectionBDS.setDriverClassName("org.postgresql.Driver");
     connectionBDS.setMaxTotal(1);
   }
 
+
   /**
-   * Method to retrieve a prepared statement.
+   * Retrieves a PreparedStatement object for the provided SQL query.
    *
-   * @param sql The text of the query to put in the statement.
+   * @param sql The SQL query.
+   * @param primaryKey A boolean indicating whether the generated keys are required.
    *
-   * @param primaryKey a boolean
+   * @return A PreparedStatement object.
    *
-   * @return A Prepared statement corresponding to the given query.
-   *
-   * @throws RuntimeException if problems are encountered.
+   * @throws RuntimeException if a SQLException occurs.
    */
   public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
     try {
-      return connectionThread.get().prepareStatement(
-          sql, primaryKey ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
+      return connectionThread.get().prepareStatement(sql, primaryKey
+          ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
     } catch (SQLException e) {
       throw new RuntimeException(e.getMessage());
     }
   }
 
   /**
-   * Prepares a SQL statement without returning generated keys.
+   * Overloaded method to retrieve a PreparedStatement object without considering primary keys.
    *
    * @param sql The SQL query.
    *
-   * @return The prepared statement.
+   * @return A PreparedStatement object.
    */
   public PreparedStatement getPreparedStatement(String sql) {
     return getPreparedStatement(sql, false);
   }
 
+
   /**
-   * Starts a new transaction.
+   * Starts a new database transaction.
+   * If no transaction is active for the current thread, a new connection is established.
+   * Otherwise, the counter for the active transaction is incremented.
    *
-   * @throws RuntimeException if an SQL error occurs.
+   * @throws RuntimeException if a SQLException occurs.
    */
   public void start() {
     if (counterThreads.get() == null) {
@@ -82,19 +93,21 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     }
   }
 
+
   /**
    * Commits the current transaction.
+   * If the transaction is the only active one, the connection is closed after commit.
    *
-   * @throws RuntimeException if an SQL error occurs.
+   * @throws RuntimeException if a SQLException occurs.
    */
   public void commit() {
-    if (counterThreads.get() != null && counterThreads.get() == 1) {
-      counterThreads.remove(); // ?
-      Connection connection = connectionThread.get();
+    Connection connection = connectionThread.get();
+
+    if (counterThreads.get() == 1 && connection != null) {
+      counterThreads.remove();
       try {
         connection.commit();
-        connection.setAutoCommit(false);
-
+        connection.setAutoCommit(true);
         connectionThread.remove();
         connection.close();
       } catch (SQLException e) {
@@ -107,8 +120,9 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
   /**
    * Rolls back the current transaction.
+   * If no transaction is active, it closes the connection if it exists.
    *
-   * @throws RuntimeException if an SQL error occurs.
+   * @throws RuntimeException if a SQLException occurs.
    */
   public void rollBack() {
     Connection connection = connectionThread.get();
@@ -126,7 +140,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       counterThreads.set(counterThreads.get() - 1);
       try {
         connection.rollback();
-        connection.setAutoCommit(false);
+        connection.setAutoCommit(true);
         counterThreads.remove();
         connection.close();
       } catch (SQLException e) {

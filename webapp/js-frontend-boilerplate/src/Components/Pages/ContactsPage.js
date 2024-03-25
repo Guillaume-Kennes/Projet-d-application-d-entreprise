@@ -27,11 +27,40 @@ function renderContactsPage(contact) {
   if (contact.contacts && Object.keys(contact.contacts).length > 0) {
     Object.entries(contact.contacts).forEach(([id, description]) => {
       const listItem = document.createElement("li");
-      listItem.textContent = `${description}`; // Display the contact description
+      const contactText = document.createElement("span");
+      const button = document.createElement("button");
+
+      contactText.textContent = `${description}`; // Display the contact description
+      button.textContent = "Meet Company";
+      button.addEventListener("click", () => meetCompany(id)); // Attach event listener
+
+      listItem.appendChild(contactText);
+      listItem.appendChild(button);
       contactList.appendChild(listItem);
     });
   } else {
     contactList.innerHTML = "<li>Aucun contact</li>";
+  }
+}
+
+async function meetCompany(idContact) {
+  const token = getToken();
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/contacts/meet/${idContact}`, options);
+    if (!response.ok) {
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
+    window.location.href = `http://localhost:3000/contacts/meet/${idContact}`;
+  } catch (error) {
+    console.error('Error meeting company:', error);
   }
 }
 
