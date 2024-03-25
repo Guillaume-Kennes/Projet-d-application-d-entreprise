@@ -1,9 +1,9 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.ViewCompany;
 import be.vinci.pae.business.domain.ViewCompanyDTO;
-import be.vinci.pae.business.domain.ViewContactDTO;
 import be.vinci.pae.business.domain.ViewUEInscription;
 import be.vinci.pae.business.domain.ViewUEInscriptionDTO;
 import jakarta.inject.Inject;
@@ -31,11 +31,10 @@ public class ViewContactDAOImpl implements ViewContactDAO {
    * Method to retrieve contact information from a ResultSet and map it to a ViewContactDTO object.
    *
    * @param resultSet The ResultSet containing contact information.
-   *
    * @return A ViewContactDTO object populated with contact information from the ResultSet.
    */
-  public ViewContactDTO contactInfos(ResultSet resultSet) {
-    ViewContactDTO contact = myDomainFactory.getContact();
+  public ContactDTO contactInfos(ResultSet resultSet) {
+    ContactDTO contact = myDomainFactory.getContact();
     ViewCompanyDTO company;
     ViewUEInscriptionDTO ueInscription;
 
@@ -59,12 +58,10 @@ public class ViewContactDAOImpl implements ViewContactDAO {
    * Method to retrieve a contact by its ID.
    *
    * @param id The ID of the contact to retrieve.
-   *
    * @return A ViewContactDTO object representing the contact, or null if not found.
-   *
    * @throws IllegalArgumentException if the contact is not found in the database.
    */
-  public ViewContactDTO getContactById(int id) {
+  public ContactDTO getContactById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
@@ -75,7 +72,7 @@ public class ViewContactDAOImpl implements ViewContactDAO {
       throw new RuntimeException(e);
     }
 
-    ViewContactDTO contact = myDomainFactory.getContact();
+    ContactDTO contact = myDomainFactory.getContact();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         contact = contactInfos(resultSet);
@@ -99,12 +96,10 @@ public class ViewContactDAOImpl implements ViewContactDAO {
    * Method to retrieve contacts by their user's id.
    *
    * @param id The ID of the user whose contacts to retrieve.
-   *
    * @return A list of ViewContactDTO object representing the contacts, or null if not found.
-   *
    * @throws IllegalArgumentException if not found in the database.
    */
-  public ArrayList<ViewContactDTO> getContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getContactsByUserId(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
@@ -114,7 +109,7 @@ public class ViewContactDAOImpl implements ViewContactDAO {
   }
 
   @Override
-  public ArrayList<ViewContactDTO> getTakenContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
@@ -123,15 +118,15 @@ public class ViewContactDAOImpl implements ViewContactDAO {
     return getCorrespondingContacts(preparedStatement, id);
   }
 
-  private ArrayList<ViewContactDTO> getCorrespondingContacts(PreparedStatement ps, int id) {
+  private ArrayList<ContactDTO> getCorrespondingContacts(PreparedStatement ps, int id) {
     try {
       ps.setInt(1, id);
     } catch (SQLException e) {
       throw new RuntimeException(e);
     }
 
-    ArrayList<ViewContactDTO> contacts = new ArrayList<>();
-    ViewContactDTO contact;
+    ArrayList<ContactDTO> contacts = new ArrayList<>();
+    ContactDTO contact;
     try (ResultSet resultSet = ps.executeQuery()) {
       while (resultSet.next()) {
         contact = contactInfos(resultSet);
