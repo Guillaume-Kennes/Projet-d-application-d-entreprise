@@ -12,4 +12,11 @@ public interface DomainFactory {
    */
   UserDTO getUser();
 
+  /**
+   * Retrieves a ContactDTO object.
+   *
+   * @return A ContactDTO object.
+   */
+  ContactDTO getContact();
+
 }
