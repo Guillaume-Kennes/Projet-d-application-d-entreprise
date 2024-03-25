@@ -45,5 +45,5 @@ public interface DomainFactory {
    *
    * @return a contact
    */
-  ViewContactDTO getContact();
+  ContactDTO getContact();
 }
