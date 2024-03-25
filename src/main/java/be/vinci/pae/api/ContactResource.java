@@ -59,10 +59,10 @@ public class ContactResource {
 
     for (ViewContactDTO c : contacts) {
       if (c.getCompany().getDesignation() == null) {
-        contactList.add(c.getCompany().getTradeName() + "\t" + c.getState());
+        contactList.add(c.getCompany().getTradeName() + " : dans l'état " + c.getState());
       } else {
         contactList.add(c.getCompany().getTradeName() + " " + c.getCompany().getDesignation()
-            + "\t" + c.getState());
+            + " : dans l'état " + c.getState());
       }
     }
 

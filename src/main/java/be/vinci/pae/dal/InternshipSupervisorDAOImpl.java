@@ -37,8 +37,8 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
       internshipSupervisorDTO.setId(resultSet.getInt("id_supervisor"));
       internshipSupervisorDTO.setEmail(resultSet.getString("email"));
       internshipSupervisorDTO.setPhoneNumber(resultSet.getString("phone_number"));
-      internshipSupervisorDTO.setFirstName(resultSet.getString("first_name"));
-      internshipSupervisorDTO.setLastName(resultSet.getString("last_name"));
+      internshipSupervisorDTO.setFirstName(resultSet.getString("supervisor_first_name"));
+      internshipSupervisorDTO.setLastName(resultSet.getString("supervisor_last_name"));
       company = companyDAO.companyInfos(resultSet);
       internshipSupervisorDTO.setCompany((ViewCompany) company);
     } catch (SQLException e) {
@@ -59,8 +59,8 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    */
   public InternshipSupervisorDTO getSupervisorById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.internship_supervisors s, pae.entreprises e"
-            + " WHERE s.entreprise = e.id_enterprise AND s.id_supervisor = ?");
+        "SELECT * FROM pae.internship_supervisors s, pae.enterprises e"
+            + " WHERE s.enterprise = e.id_enterprise AND s.id_supervisor = ?");
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {

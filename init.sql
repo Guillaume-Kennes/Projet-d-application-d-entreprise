@@ -25,9 +25,9 @@ CREATE TABLE pae.enterprises(
 
 CREATE TABLE pae.internship_supervisors(
                                            id_supervisor SERIAL PRIMARY KEY,
-                                           entreprise INTEGER REFERENCES pae.entreprises (id_enterprise),
-                                           last_name VARCHAR(20) NOT NULL,
-                                           first_name VARCHAR(20) NOT NULL,
+                                           enterprise INTEGER REFERENCES pae.entreprises (id_enterprise),
+                                           supervisor_last_name VARCHAR(20) NOT NULL,
+                                           supervisor_first_name VARCHAR(20) NOT NULL,
                                            phone_number VARCHAR(13),
                                            email CHAR(50)
 );
@@ -81,11 +81,11 @@ VALUES ('Sopra Steria', null, 'Avenue Arnaud Fraiteur, 15/23', '1050 Bruxelles',
     ALVAREZ CORCHETE	Roberto	    02.566.60.14		                                Sopra Steria
     Assal	            Farid	    0474 39 69 09	f.assal@assyst-europe.com	        Assyst Europe
   */
-INSERT INTO pae.internship_supervisors (last_name, first_name, phone_number, email, entreprise)
+INSERT INTO pae.internship_supervisors (supervisor_last_name, supervisor_first_name, phone_number, email, enterprise)
 VALUES ('Dossche', 'Stéphanie', '014.54.67.54', 'stephanie.dossche@letsbuild.com', 2);
-INSERT INTO pae.internship_supervisors (last_name, first_name, phone_number, email, entreprise)
+INSERT INTO pae.internship_supervisors (supervisor_last_name, supervisor_first_name, phone_number, email, enterprise)
 VALUES ('ALVAREZ CORCHETE', 'Roberto', '02.566.60.14', null, 4);
-INSERT INTO pae.internship_supervisors (last_name, first_name, phone_number, email, entreprise)
+INSERT INTO pae.internship_supervisors (supervisor_last_name, supervisor_first_name, phone_number, email, enterprise)
 VALUES ('Assal', 'Farid', '0474 39 69 09', 'f.assal@assyst-europe.com', 1);
 
 
