@@ -28,16 +28,20 @@ function renderContactsPage(contact) {
       const contactText = document.createElement("span");
       const button = document.createElement("button");
       const button2 = document.createElement("button");
+      const checkBox = document.createElement("input");
+      checkBox.type = "checkbox";
 
       contactText.textContent = `${description}`; // Display the contact description
       button.textContent = "Indiquer que le contact est pris";
       button.addEventListener("click", () => showForm(id)); // Attach event listener
       button2.textContent = "Indiquer que le contact est refusé";
       button2.addEventListener("click", () => showFormRefusal(id));
+      checkBox.addEventListener("check", () => stopFollowing(id));
 
       listItem.appendChild(contactText);
       listItem.appendChild(button);
       listItem.appendChild(button2);
+      listItem.appendChild(checkBox);
       contactList.appendChild(listItem);
     });
   } else {
@@ -146,6 +150,26 @@ async function refuseInternship(e, idContact) {
   }
 }
 
+async function stopFollowing(idContact) {
+  const token = getToken();
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/contacts/stop/${idContact}`, options);
+    if (!response.ok) {
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
+    window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
+  } catch (error) {
+    console.error('Error stopping following the contact :', error);
+  }
+}
 async function getValues() {
   const token = getToken();
   const id = getUserIdFromToken();
