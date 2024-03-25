@@ -31,7 +31,7 @@ function renderContactsPage(contact) {
       const button = document.createElement("button");
 
       contactText.textContent = `${description}`; // Display the contact description
-      button.textContent = "Meet Company";
+      button.textContent = "Indiquer que le contact est pris";
       button.addEventListener("click", () => meetCompany(id)); // Attach event listener
 
       listItem.appendChild(contactText);
