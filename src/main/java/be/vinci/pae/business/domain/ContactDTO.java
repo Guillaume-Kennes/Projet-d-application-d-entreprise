@@ -25,6 +25,8 @@ public interface ContactDTO {
 
   /**
    * Returns the state of the contact.
+   *
+   * @return The state of the contact.
    */
   String getState();
 
@@ -37,6 +39,8 @@ public interface ContactDTO {
 
   /**
    * Returns the ID of the enterprise associated with the contact.
+   *
+   * @return The ID of the enterprise associated with the contact.
    */
   int getEnterprise();
 
@@ -49,6 +53,8 @@ public interface ContactDTO {
 
   /**
    * Returns the ID of the user associated with the contact inscription.
+   *
+   * @return The ID of the user associated with the contact inscription.
    */
   int getInscriptionUe();
 
@@ -61,6 +67,8 @@ public interface ContactDTO {
 
   /**
    * Returns the reason for refusal for the contact.
+   *
+   * @return The reason for refusal for the contact.
    */
   String getReasonForRefusal();
 
@@ -73,6 +81,8 @@ public interface ContactDTO {
 
   /**
    * Returns whether the contact is followed or not.
+   *
+   * @return true if the contact is followed, false otherwise.
    */
   boolean getIsFollowed();
 
@@ -85,6 +95,8 @@ public interface ContactDTO {
 
   /**
    * Returns the meeting place for the contact.
+   *
+   * @return The meeting place for the contact.
    */
   String getMeetingPlace();
 
@@ -97,6 +109,8 @@ public interface ContactDTO {
 
   /**
    * Returns the ID of the user associated with the contact.
+   *
+   * @return The ID of the user associated with the contact.
    */
   int getUserId();
 
@@ -111,6 +125,8 @@ public interface ContactDTO {
 
   /**
    * Returns the trade name associated with the contact.
+   *
+   * @return The trade name associated with the contact.
    */
   String getTradeName();
 
@@ -121,13 +137,3 @@ public interface ContactDTO {
    */
   void setTradeName(String tradeName);
 }
-
-/*
-id_contact => incremente tout seul;
-state => initié;
-entreprise => l entreprise qui est selectrionnée ou créée;
-inscription_UE => l utilisateur connecté;
-reason_for_refusal => null;
-is_followed => true par defaut;
-meeting_place => null;
-*/
