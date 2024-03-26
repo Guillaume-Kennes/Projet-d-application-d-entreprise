@@ -120,7 +120,7 @@ async function meetCompany(e, idContact) {
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
-    window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
+    // window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
   } catch (error) {
     console.error('Error meeting company:', error);
   }
@@ -144,7 +144,7 @@ async function refuseInternship(e, idContact) {
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
-    window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
+    // window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
   } catch (error) {
     console.error('Error setting refusal reason :', error);
   }

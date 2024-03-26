@@ -1,6 +1,7 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -12,7 +13,7 @@ import org.mindrot.jbcrypt.BCrypt;
 class UserImpl implements User {
 
   private String email;
-  //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
   private String lastName;
   private String firstName;

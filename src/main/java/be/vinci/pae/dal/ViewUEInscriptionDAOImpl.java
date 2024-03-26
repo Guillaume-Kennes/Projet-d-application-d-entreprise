@@ -34,7 +34,7 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
     UserDTO student;
 
     try {
-      inscription.setId(resultSet.getInt("id_inscription_UE"));
+      inscription.setId(resultSet.getInt("id_inscription_ue"));
       inscription.setSchoolYear(resultSet.getString("school_year"));
       student = userDAO.userInfos(resultSet);
       inscription.setStudent((User) student);
@@ -56,8 +56,8 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
    */
   public ViewUEInscriptionDTO getUeInscriptionById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.users u, pae.inscriptions_UE i"
-            + " WHERE i.student = u.id_user AND i.id_inscription_UE = ?");
+        "SELECT * FROM pae.users u, pae.inscriptions_ue i"
+            + " WHERE i.student = u.id_user AND i.id_inscription_ue = ?");
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {

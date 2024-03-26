@@ -126,8 +126,8 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ArrayList<ContactDTO> getContactsByUserId(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
-            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_ue i, pae.users u"
+            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_ue = i.id_inscription_ue"
             + " AND i.student = u.id_user AND u.id_user = ?");
 
     return getCorrespondingContacts(preparedStatement, id);
@@ -142,8 +142,8 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
-            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_ue i, pae.users u"
+            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_ue = i.id_inscription_ue"
             + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
 
     return getCorrespondingContacts(preparedStatement, id);
@@ -184,7 +184,6 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
-
   /**
    * Inserts a new contact into the database.
    *
@@ -199,7 +198,7 @@ public class ContactDAOImpl implements ContactDAO {
               INSERT INTO pae.contacts (
               state,
               enterprise,
-              inscription_UE,
+              inscription_ue,
               reason_for_refusal,
               is_followed,
               meeting_place)
@@ -208,9 +207,9 @@ public class ContactDAOImpl implements ContactDAO {
            FROM pae.enterprises e
            WHERE e.trade_name LIKE ?),
           (SELECT DISTINCT c.inscription_ue
-           FROM pae.users u, pae.contacts c, pae.inscriptions_UE i
+           FROM pae.users u, pae.contacts c, pae.inscriptions_ue i
            WHERE u.id_user = i.student
-           AND i.id_inscription_UE = c.inscription_ue
+           AND i.id_inscription_ue = c.inscription_ue
            AND u.id_user = ?),
           null, true, null)
           RETURNING *;
