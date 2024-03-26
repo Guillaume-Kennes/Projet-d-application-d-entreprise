@@ -1,62 +1,56 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * This class represents an implementation of the ContactDTO interface. It provides getters and
- * setters for contact attributes.
- */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public class ContactImpl implements ContactDTO {
+class ContactImpl implements Contact {
 
   private int id;
   private String state;
-  private int enterprise;
-  @JsonProperty("inscription_ue")
-  private int inscriptionUe;
+  private ViewCompany company;
+  private ViewUEInscription inscriptionUE;
   private String reasonForRefusal;
   private boolean isFollowed;
   private String meetingPlace;
-  private int userId;
-  private String tradeName;
 
   /**
-   * Retrieves the ID of the contact.
-   *
-   * @return The ID of the contact.
+   * Default constructor for ContactImpl.
    */
-  @Override
+  public ContactImpl() {
+  }
+
+  /**
+   * Get the id of the contact.
+   *
+   * @return The id of the contact
+   */
   public int getId() {
     return id;
   }
 
   /**
-   * Sets the ID of the contact.
+   * Set the id of the contact.
    *
-   * @param id The new ID of the contact.
+   * @param id The id to set.
    */
-  @Override
   public void setId(int id) {
     this.id = id;
   }
 
   /**
-   * Retrieves the state of the contact.
+   * Get the state of the contact.
    *
-   * @return The state of the contact.
+   * @return The state of the contact
    */
-  @Override
   public String getState() {
     return state;
   }
 
   /**
-   * Sets the state of the contact.
+   * Set the state of the contact.
    *
-   * @param state The new state of the contact.
+   * @param state The state to set.
    */
-  @Override
   public void setState(String state) {
     this.state = state;
   }
@@ -112,105 +106,103 @@ public class ContactImpl implements ContactDTO {
   }
 
   /**
-   * Sets the reason for refusal for the contact.
+   * Set the reason for refusal of the contact.
    *
-   * @param reasonForRefusal The new reason for refusal for the contact.
+   * @param reasonForRefusal The reason to set.
    */
-  @Override
   public void setReasonForRefusal(String reasonForRefusal) {
     this.reasonForRefusal = reasonForRefusal;
   }
 
   /**
-   * Retrieves whether the contact is followed or not.
+   * Get the value of the isFollowed boolean.
    *
-   * @return true if the contact is followed, false otherwise.
+   * @return The value of the isFollowed boolean
    */
-  @Override
-  public boolean getIsFollowed() {
+  public boolean isFollowed() {
     return isFollowed;
   }
 
   /**
-   * Sets whether the contact is followed or not.
+   * Set the value of the isFollowed boolean.
    *
-   * @param isFollowed true if the contact is followed, false otherwise.
+   * @param followed The value to set.
    */
-  @Override
-  public void setIsFollowed(boolean isFollowed) {
-    this.isFollowed = isFollowed;
+  public void setFollowed(boolean followed) {
+    isFollowed = followed;
   }
 
   /**
-   * Retrieves the meeting place for the contact.
+   * Get the meeting place of the contact.
    *
-   * @return The meeting place for the contact.
+   * @return The meeting place of the contact
    */
-  @Override
   public String getMeetingPlace() {
     return meetingPlace;
   }
 
   /**
-   * Sets the meeting place for the contact.
+   * Set the meeting place of the contact.
    *
-   * @param meetingPlace The new meeting place for the contact.
+   * @param meetingPlace The meeting place to set.
    */
-  @Override
   public void setMeetingPlace(String meetingPlace) {
     this.meetingPlace = meetingPlace;
   }
 
   /**
-   * Retrieves the ID of the user associated with the contact.
+   * Set the company of the contact.
    *
-   * @return The ID of the user associated with the contact.
+   * @param company The company to set.
    */
-  @Override
-  public int getUserId() {
-    return userId;
+  public void setCompany(ViewCompany company) {
+    this.company = company;
   }
 
   /**
-   * Sets the ID of the user associated with the contact.
+   * Get the UE inscription of the contact.
    *
-   * @param userId The new ID of the user associated with the contact.
+   * @return The UE inscription of the contact
    */
-  @Override
-  public void setUserId(int userId) {
-    this.userId = userId;
-  }
-
-
-  /**
-   * Returns the trade name associated with the contact.
-   *
-   * @return The trade name of the contact.
-   */
-  @Override
-  public String getTradeName() {
-    return tradeName;
+  public ViewUEInscription getInscriptionUE() {
+    return this.inscriptionUE;
   }
 
   /**
-   * Sets the trade name associated with the contact.
+   * Set the UE inscription of the contact.
    *
-   * @param tradeName The new trade name to be set.
+   * @param inscriptionUE The UE inscription to set.
    */
-  public void setTradeName(String tradeName) {
-    this.tradeName = tradeName;
+  public void setInscriptionUE(ViewUEInscription inscriptionUE) {
+    this.inscriptionUE = inscriptionUE;
   }
 
-  @Override
-  public String toString() {
-    return "ContactImpl{"
-        + "id=" + id
-        + ", state='" + state + '\''
-        + ", enterprise=" + enterprise
-        + ", inscriptionUe=" + inscriptionUe
-        + ", reasonForRefusal='" + reasonForRefusal
-        + '\'' + ", isFollowed=" + isFollowed
-        + ", meetingPlace='" + meetingPlace + '\''
-        + '}';
+  /**
+   * Get the company of the contact.
+   *
+   * @return The company of the contact
+   */
+  public ViewCompanyDTO getCompany() {
+    return this.company;
+  }
+
+  /**
+   * Checks if a user is a student.
+   *
+   * @param idUser The concerned user.
+   *
+   * @return A boolean stating whether the user is a student
+   */
+  public boolean userRoleIsStudent(int idUser) {
+    return false;
+  }
+
+  /**
+   * Checks if the school year is correct.
+   *
+   * @return a boolean stating whether the year is correct.
+   */
+  public boolean correctSchoolYear() {
+    return false;
   }
 }

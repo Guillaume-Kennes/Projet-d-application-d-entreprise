@@ -1,16 +1,12 @@
 package be.vinci.pae.business.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 /**
- * This interface represents a Data Transfer Object (DTO) for a contact. It provides methods to
- * access and manipulate contact data.
+ * Interface for Data Transfer Object (DTO) for Contact.
  */
-@JsonDeserialize(as = ContactImpl.class)
 public interface ContactDTO {
 
   /**
-   * Retrieves the ID of the contact.
+   * Gets the ID of the contact.
    *
    * @return the ID of the contact.
    */
@@ -19,84 +15,84 @@ public interface ContactDTO {
   /**
    * Sets the ID of the contact.
    *
-   * @param id the new ID of the contact.
+   * @param id the ID of the contact.
    */
   void setId(int id);
 
   /**
-   * Returns the state of the contact.
+   * Gets the state of the contact.
    *
-   * @return The state of the contact.
+   * @return the state of the contact.
    */
   String getState();
 
   /**
    * Sets the state of the contact.
    *
-   * @param state the new state of the contact.
+   * @param state the state of the contact.
    */
   void setState(String state);
 
   /**
-   * Returns the ID of the enterprise associated with the contact.
+   * Gets the enterprise of the contact.
    *
-   * @return The ID of the enterprise associated with the contact.
+   * @return the enterprise of the contact.
    */
-  int getEnterprise();
+  ViewCompanyDTO getCompany();
 
   /**
-   * Sets the ID of the enterprise associated with the contact.
+   * Sets the enterprise of the contact.
    *
-   * @param enterprise the new ID of the enterprise associated with the contact.
+   * @param enterprise the enterprise of the contact.
    */
-  void setEnterprise(int enterprise);
+  void setCompany(ViewCompany enterprise);
 
   /**
-   * Returns the ID of the user associated with the contact inscription.
+   * Gets the inscription UE of the contact.
    *
-   * @return The ID of the user associated with the contact inscription.
+   * @return the inscription UE of the contact.
    */
-  int getInscriptionUe();
+  ViewUEInscription getInscriptionUE();
 
   /**
-   * Sets the ID of the user associated with the contact inscription.
+   * Sets the inscription UE of the contact.
    *
-   * @param inscriptionUe the new ID of the user associated with the contact inscription.
+   * @param inscriptionUE the inscription UE of the contact.
    */
-  void setInscriptionUe(int inscriptionUe);
+  void setInscriptionUE(ViewUEInscription inscriptionUE);
 
   /**
-   * Returns the reason for refusal for the contact.
+   * Gets the reason for refusal of the contact.
    *
-   * @return The reason for refusal for the contact.
+   * @return the reason for refusal of the contact.
    */
   String getReasonForRefusal();
 
   /**
-   * Sets the reason for refusal for the contact.
+   * Sets the reason for refusal of the contact.
    *
-   * @param reasonForRefusal the new reason for refusal for the contact.
+   * @param reasonForRefusal the reason for refusal of the contact.
    */
   void setReasonForRefusal(String reasonForRefusal);
 
   /**
-   * Returns whether the contact is followed or not.
+   * Checks if the contact is followed.
    *
    * @return true if the contact is followed, false otherwise.
    */
-  boolean getIsFollowed();
+  boolean isFollowed();
 
   /**
-   * Sets whether the contact is followed or not.
+   * Sets the followed status of the contact.
    *
-   * @param isFollowed true if the contact is followed, false otherwise.
+   * @param isFollowed the followed status of the contact.
    */
-  void setIsFollowed(boolean isFollowed);
+  void setFollowed(boolean isFollowed);
 
   /**
-   * Returns the meeting place for the contact.
+   * Gets the meeting place of the contact.
    *
-   * @return The meeting place for the contact.
+   * @return the meeting place of the contact.
    */
   String getMeetingPlace();
 

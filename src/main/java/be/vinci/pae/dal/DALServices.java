@@ -1,6 +1,5 @@
 package be.vinci.pae.dal;
 
-
 /**
  * Interface defining Data Access Layer (DAL) services. These services provide methods for managing
  * database transactions.
@@ -21,4 +20,5 @@ public interface DALServices {
    * Roll back a database transaction.
    */
   void rollBack();
+
 }

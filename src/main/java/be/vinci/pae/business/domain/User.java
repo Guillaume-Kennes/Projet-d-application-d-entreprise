@@ -1,6 +1,5 @@
 package be.vinci.pae.business.domain;
 
-
 /**
  * Represents a user with various properties.
  * Extends the UserDTO interface.
@@ -15,5 +14,14 @@ public interface User extends UserDTO {
    * @return true if the password matches, otherwise false
    */
   boolean checkPassword(String password);
+
+  /**
+   * Hashes the provided password using a hashing algorithm.
+   *
+   * @param password The password to be hashed.
+   *
+   * @return A string representing the hashed password.
+   */
+  String hashPassword(String password);
 }
 

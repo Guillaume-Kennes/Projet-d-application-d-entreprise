@@ -13,9 +13,11 @@ import org.glassfish.jersey.server.ResourceConfig;
  * Main class.
  */
 public class Main {
-
   /**
-   * The base URI for the server.
+   * The base URI for the application.
+   * This URI represents the root endpoint of the application.
+   * It is used as the base URL for making HTTP requests.
+   * Ensure this URI is properly configured in the application's configuration.
    */
   public static final String BASE_URI = Config.getProperty("BaseUri");
 

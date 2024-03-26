@@ -13,25 +13,19 @@ import org.apache.commons.dbcp2.BasicDataSource;
  */
 public class DALServicesImpl implements DALBackServices, DALServices {
 
-  /**
-   * ThreadLocal variable to hold connection objects for each thread.
-   */
+  /** ThreadLocal variable to hold connection objects for each thread. */
   private final ThreadLocal<Connection> connectionThread;
 
-  /**
-   * ThreadLocal variable to keep track of the number of threads.
-   */
+  /** ThreadLocal variable to keep track of the number of threads. */
   private final ThreadLocal<Integer> counterThreads;
 
-  /**
-   * DataSource object for managing database connections.
-   */
+  /** DataSource object for managing database connections. */
   private final BasicDataSource connectionBDS;
 
 
   /**
-   * Constructs a new DALServicesImpl object. Initializes ThreadLocal variables and sets up database
-   * connection settings.
+   * Constructs a new DALServicesImpl object.
+   * Initializes ThreadLocal variables and sets up database connection settings.
    */
   public DALServicesImpl() {
     connectionThread = new ThreadLocal<>();
@@ -49,9 +43,11 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   /**
    * Retrieves a PreparedStatement object for the provided SQL query.
    *
-   * @param sql        The SQL query.
+   * @param sql The SQL query.
    * @param primaryKey A boolean indicating whether the generated keys are required.
+   *
    * @return A PreparedStatement object.
+   *
    * @throws RuntimeException if a SQLException occurs.
    */
   public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
@@ -67,6 +63,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * Overloaded method to retrieve a PreparedStatement object without considering primary keys.
    *
    * @param sql The SQL query.
+   *
    * @return A PreparedStatement object.
    */
   public PreparedStatement getPreparedStatement(String sql) {
@@ -75,8 +72,9 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
 
   /**
-   * Starts a new database transaction. If no transaction is active for the current thread, a new
-   * connection is established. Otherwise, the counter for the active transaction is incremented.
+   * Starts a new database transaction.
+   * If no transaction is active for the current thread, a new connection is established.
+   * Otherwise, the counter for the active transaction is incremented.
    *
    * @throws RuntimeException if a SQLException occurs.
    */
@@ -97,8 +95,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
 
   /**
-   * Commits the current transaction. If the transaction is the only active one, the connection is
-   * closed after commit.
+   * Commits the current transaction.
+   * If the transaction is the only active one, the connection is closed after commit.
    *
    * @throws RuntimeException if a SQLException occurs.
    */
@@ -121,8 +119,8 @@ public class DALServicesImpl implements DALBackServices, DALServices {
   }
 
   /**
-   * Rolls back the current transaction. If no transaction is active, it closes the connection if it
-   * exists.
+   * Rolls back the current transaction.
+   * If no transaction is active, it closes the connection if it exists.
    *
    * @throws RuntimeException if a SQLException occurs.
    */
