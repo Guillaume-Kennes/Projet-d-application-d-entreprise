@@ -9,9 +9,27 @@ Content-Type: application/json
   "password":"Azertyui1_"
 }
 
+### Login another user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email":"raphael.baroni@vinci.be" ,
+  "password": "Azertyui1_"
+}
+
 ### Get an user by it's id
 GET {{baseUrl}}/users/1
 
+### Register an user
+POST {{baseUrl}}/auths/register
+Content-Type: application/json
 
-### Get all users
-GET {{baseUrl}}/users
+{
+  "email": "r@student.vinci.be",
+  "password": "mdp1",
+  "lastName": "test",
+  "firstName": "TEST",
+  "phoneNumber": "0546546545",
+  "role": "Student"
+}

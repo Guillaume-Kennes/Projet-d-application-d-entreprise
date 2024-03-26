@@ -32,7 +32,7 @@ public class UserUCCTest {
    * Method executed before each test.
    */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new AppBinderTest());
 
     userUCC = locator.getService(UserUCC.class);
@@ -45,7 +45,7 @@ public class UserUCCTest {
    * Test for successful login.
    */
   @Test
-  public void testLoginSuccess() {
+  void testLoginSuccess() {
     userDTO.setEmail("chuqi.chups@student.vinci.be");
     userDTO.setPassword("$2a$10$3an9aQhFzbmHXVAqS4/o4OYicVWoR/OJBVOZ0052Fhm3T5ycz1MKu");
 
@@ -63,7 +63,7 @@ public class UserUCCTest {
    * Test for login failure due to incorrect password.
    */
   @Test
-  public void testLoginFailureForPassword() {
+  void testLoginFailureForPassword() {
     userDTO.setEmail("chuqi.chups@student.vinci.be");
     userDTO.setPassword("$2a$10$jTSImXQiYMuPdgtrfA9t1u0lln65JDLUyzvir9t21uENvF0yIX.na");
 
@@ -77,7 +77,7 @@ public class UserUCCTest {
    * Test for login failure due to incorrect email.
    */
   @Test
-  public void testLoginFailureForEmail() {
+  void testLoginFailureForEmail() {
     assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
     assertThrows(UnauthorizedException.class,
         () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
@@ -87,7 +87,7 @@ public class UserUCCTest {
    * Test for retrieving a user by their ID.
    */
   @Test
-  public void testGetUserById() {
+  void testGetUserById() {
     userDTO.setId(1);
 
     when(userDAO.getUserById(1)).thenReturn(userDTO);
@@ -95,4 +95,35 @@ public class UserUCCTest {
     assertNotNull(result);
     assertEquals(userDTO.getId(), result.getId());
   }
+
+
+  @Test
+  void testRegisterSuccess() {
+    userDTO.setEmail("kawtar.dahman@student.vinci.be");
+    userDTO.setPassword("$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa");
+
+    when(userDAO.getUserByEmail("kawtar.dahman@student.vinci.be")).thenReturn(null);
+    when(userDAO.register(userDTO)).thenReturn(userDTO);
+
+    UserDTO registeredUser = userDAO.register(userDTO);
+
+    assertEquals(userDTO.getEmail(), registeredUser.getEmail());
+    assertEquals(userDTO.getPassword(), registeredUser.getPassword());
+
+  }
+
+
+  @Test
+  void testRegisterFailureEmailExists() {
+    userDTO.setEmail("laurent.leleux@vinci.be");
+    userDTO.setPassword("$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa");
+
+    when(userDAO.getUserByEmail("laurent.leleux@vinci.be")).thenReturn(userDTO);
+
+    assertThrows(UnauthorizedException.class, () -> {
+      userUCC.register(userDTO);
+    });
+  }
+
+
 }

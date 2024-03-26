@@ -1,5 +1,6 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
@@ -11,12 +12,16 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -55,12 +60,79 @@ public class AuthsResource {
     String password = json.get("password").asText();
 
     UserDTO publicUser = myUserUCC.login(login, password);
+
     if (publicUser == null) {
       throw new WebApplicationException("Login or password incorrect",
           Response.Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
     return jsonMapper.createObjectNode().put("token", token).put("email", publicUser.getEmail());
+  }
+
+  /**
+   * Registers a new user.
+   * This method is annotated with @POST and @Path("register")
+   *     for RESTful API endpoint configuration.
+   * It accepts a UserDTO object representing the user to be registered.
+   * Validates the required fields of the user and throws
+   *     a WebApplicationException if any required field is missing.
+   * Calls the register method of the MyUserUCC instance to perform the registration.
+   *
+   * @param userDTO The UserDTO object containing user information.
+   *
+   * @return A UserDTO object representing the registered user.
+   */
+  @POST
+  @Path("register")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+//  public UserDTO register(JsonNode jsonNode) {
+//    if (jsonNode == null) {
+//      throw new WebApplicationException("Request body is missing or not a valid JSON");
+//    }
+//
+//    String lastName = jsonNode.get("lastName").asText();
+//    String firstName = jsonNode.get("firstName").asText();
+//    String email = jsonNode.get("email").asText();
+//    String password = jsonNode.get("password").asText();
+//    String phoneNumber = jsonNode.get("phoneNumber").asText();
+//    String role = jsonNode.get("role").asText();
+//
+//    myUserUCC.register(lastName, firstName, email, password, phoneNumber, role);
+//  }
+  public UserDTO register(UserDTO userDTO) {
+    if (userDTO.getEmail() == null || userDTO.getEmail().isBlank()
+        || userDTO.getPassword() == null || userDTO.getPassword().isBlank()
+        || userDTO.getLastName() == null || userDTO.getLastName().isBlank()
+        || userDTO.getFirstName() == null || userDTO.getFirstName().isBlank()
+        || userDTO.getPhoneNumber() == null || userDTO.getPhoneNumber().isBlank()
+        || userDTO.getRole() == null || userDTO.getRole().isBlank()) {
+      throw new WebApplicationException("Missing information(s)");
+    }
+
+    return myUserUCC.register(userDTO);
+  }
+
+  /**
+   * Retrieves the user information from the request context.
+   * This method is accessed via HTTP GET request to the specified path "refresh".
+   *
+   * @param requestContext The context of the container request.
+   * @return The user data transfer object containing user information.
+   * @throws WebApplicationException If the user data is not found in the request context,
+   *                                 it throws an exception with status code 401 (UNAUTHORIZED).
+   */
+  @GET
+  @Path("refresh")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public UserDTO getUser(@Context ContainerRequestContext requestContext) {
+    UserDTO userDTO = (UserDTO) requestContext.getProperty("user");
+
+    if (userDTO == null) {
+      throw new WebApplicationException("user", Status.UNAUTHORIZED);
+    }
+    return jsonMapper.convertValue(userDTO, UserDTO.class);
   }
 
   /**

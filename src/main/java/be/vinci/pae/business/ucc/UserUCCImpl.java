@@ -19,14 +19,18 @@ public class UserUCCImpl implements UserUCC {
   @Inject
   private DALServices dalServices;
 
-  /** Returns the user's data if the login is successful.
-   *
-   * @param email the user's email
-   * @param password the user's password
-   *
-   * @return the user's data if the login is successful
-   */
 
+  /**
+   * Authenticates a user by their email and password.
+   *
+   * @param email The email of the user attempting to log in.
+   *
+   * @param password The password of the user attempting to log in.
+   *
+   * @return The UserDTO object representing the authenticated user.
+   *
+   * @throws UnauthorizedException If the provided email or password is incorrect.
+   */
   public UserDTO login(String email, String password) {
     dalServices.start();
     try {
@@ -47,11 +51,11 @@ public class UserUCCImpl implements UserUCC {
 
 
   /**
-   * Returns the user corresponding to the id.
+   * Retrieves a UserDTO object by its unique identifier.
    *
-   * @param id the user's id
+   * @param id The unique identifier of the user to retrieve.
    *
-   * @return the user corresponding to the id
+   * @return The UserDTO object corresponding to the given identifier.
    */
   public UserDTO getUserById(int id) {
     dalServices.start();
@@ -87,4 +91,42 @@ public class UserUCCImpl implements UserUCC {
     }
   }
 
+
+  /**
+   * Registers a new user in the system.
+   *
+   * @param userDTO The user data transfer object containing user information.
+   *
+   * @return The registered user data transfer object.
+   *
+   * @throws UnauthorizedException If the email already exists in the database
+   *     or if the email address does not end with "@student.vinci.be" or "@vinci.be".
+   */
+  public UserDTO register(UserDTO userDTO) {
+    dalServices.start();
+
+    User user = (User) userDTO;
+
+    if (userDAO.getUserByEmail(userDTO.getEmail()) != null) {
+      throw new UnauthorizedException("This email already exists in database");
+    } else {
+      try {
+        if (!userDTO.getEmail().endsWith("@vinci.be")
+            && !userDTO.getEmail().endsWith("@student.vinci.be")) {
+          throw new UnauthorizedException(
+              "The email address must end with @student.vinci.be or @vinci.be");
+        } else if (userDTO.getEmail().endsWith("@student.vinci.be")) {
+          userDTO.setRole("Student");
+        }
+        userDTO.setPassword(user.hashPassword(userDTO.getPassword()));
+        return userDAO.register(userDTO);
+
+      } catch (Exception e) {
+        dalServices.rollBack();
+        throw e;
+      } finally {
+        dalServices.commit();
+      }
+    }
+  }
 }

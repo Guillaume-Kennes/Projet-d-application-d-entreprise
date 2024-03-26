@@ -5,6 +5,7 @@ package be.vinci.pae.business.domain;
  * Creates and returns a new instance of UserDTO.
  */
 public class DomainFactoryImpl implements DomainFactory {
+
   /**
    * Creates and returns a new instance of UserDTO.
    *

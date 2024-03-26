@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * Implementation of the UserDAO interface.
  * Provides methods for retrieving user-related data from the database.
@@ -78,9 +79,9 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setEmail(resultSet.getString("email"));
       userDTO.setPassword(resultSet.getString("password"));
       userDTO.setPhoneNumber(resultSet.getString("phone_number"));
-      userDTO.setRegistrationDate(resultSet.getString("registration_date"));
+      userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
-    } catch (SQLException e) { //DEMANDER AU PROF quelle exception
+    } catch (SQLException e) {
       e.getMessage();
     }
 
@@ -128,7 +129,7 @@ public class UserDAOImpl implements UserDAO {
         userDTO.setLastName(resultSet.getString("last_name"));
         userDTO.setFirstName(resultSet.getString("first_name"));
         userDTO.setPhoneNumber(resultSet.getString("phone_number"));
-        userDTO.setRegistrationDate(resultSet.getString("registration_date"));
+        userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
         userDTO.setRole(resultSet.getString("role"));
         userDTO.setId(resultSet.getInt("id_user"));
         usersList.add(userDTO);
@@ -138,4 +139,43 @@ public class UserDAOImpl implements UserDAO {
     }
     return usersList;
   }
+
+  /**
+   * Registers a new user in the database.
+   *
+   * @param userDTO The UserDTO object containing user information.
+   *
+   * @return A UserDTO object representing the registered user, or null if registration fails.
+   */
+  public UserDTO register(UserDTO userDTO) {
+
+    try {
+      String query = "INSERT INTO pae.users (email, password, last_name, first_name, "
+          + "phone_number, registration_date, role) "
+          + "VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
+
+      try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+        preparedStatement.setString(1, userDTO.getEmail());
+        preparedStatement.setString(2, userDTO.getPassword());
+        preparedStatement.setString(3, userDTO.getLastName());
+        preparedStatement.setString(4, userDTO.getFirstName());
+        preparedStatement.setString(5, userDTO.getPhoneNumber());
+        preparedStatement.setString(6, userDTO.getRole());
+
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+          if (resultSet.next()) {
+            userDTO = userInfos(resultSet);
+            userDTO.setRole(userDTO.getRole());
+          } else {
+            userDTO = null;
+          }
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return userDTO;
+
+  }
+
 }
