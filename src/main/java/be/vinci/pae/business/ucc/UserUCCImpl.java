@@ -19,8 +19,6 @@ public class UserUCCImpl implements UserUCC {
   @Inject
   private DALServices dalServices;
 
-  @Inject
-  private DALServices dalServices;
 
   /**
    * Authenticates a user by their email and password.
