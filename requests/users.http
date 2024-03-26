@@ -9,5 +9,9 @@ Content-Type: application/json
   "password":"Azertyui1_"
 }
 
-### Get a user by their id
-GET {{baseUrl}}/users/10
+### Get an user by it's id
+GET {{baseUrl}}/users/1
+
+
+### Get all users
+GET {{baseUrl}}/users

@@ -11,6 +11,7 @@ const routes = {
   '/': HomePage,
   '/login': LoginPage,
   '/register': RegisterPage,
+  '/viewUsers': ViewUsers,
   '/logout': Logout,
   '/meetCompany': meetCompanyPage,
   '/companyRefused': companyRefusedInternship,

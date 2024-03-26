@@ -6,6 +6,7 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
+import java.util.List;
 
 /**
  * Implementation of the UserUCC interface.
@@ -63,6 +64,25 @@ public class UserUCCImpl implements UserUCC {
       throw e;
     } finally {
       System.out.println("COMMITT");
+      dalServices.commit();
+    }
+  }
+
+
+  /**
+   * Returns the list of all users available in the system.
+   *
+   * @return A list containing UserDTO objects representing all users.
+   *     If no users are found, the list will be empty.
+   */
+  public List<UserDTO> getAllUsers() {
+    dalServices.start();
+    try {
+      return userDAO.getAllUsers();
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    } finally {
       dalServices.commit();
     }
   }

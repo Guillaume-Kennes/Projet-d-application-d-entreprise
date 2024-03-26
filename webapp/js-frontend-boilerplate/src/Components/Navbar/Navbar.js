@@ -30,10 +30,10 @@ function renderNavbar() {
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">      
             <li id="loginItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/login" style="color: white;">Se connecter</a>
-            </li>     
+            </li>  
             <li class="nav-item">
-              <a class="nav-link" href="#" data-uri="/companyRefused" style="color: white;">entreprise refuse le stage</a>
-            </li>
+              <a class="nav-link" href="#" data-uri="/viewUsers" style="color: white;">Rechercher tous les utilisateurs</a>
+            </li>        
           </ul>
         </div>
       </div>

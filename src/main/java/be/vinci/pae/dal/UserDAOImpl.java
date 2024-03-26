@@ -6,6 +6,8 @@ import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the UserDAO interface.
@@ -108,5 +110,32 @@ public class UserDAOImpl implements UserDAO {
       throw new IllegalArgumentException("User not found");
     }
     return null;
+  }
+
+  /**
+   * Retrieves a list of all users from the database.
+   *
+   * @return A list of UserDTO objects representing all users.
+   */
+  public List<UserDTO> getAllUsers() {
+    List<UserDTO> usersList = new ArrayList<>();
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.users");
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
+        UserDTO userDTO = myDomainFactory.getUser();
+        userDTO.setEmail(resultSet.getString("email"));
+        userDTO.setLastName(resultSet.getString("last_name"));
+        userDTO.setFirstName(resultSet.getString("first_name"));
+        userDTO.setPhoneNumber(resultSet.getString("phone_number"));
+        userDTO.setRegistrationDate(resultSet.getString("registration_date"));
+        userDTO.setRole(resultSet.getString("role"));
+        userDTO.setId(resultSet.getInt("id_user"));
+        usersList.add(userDTO);
+      }
+    } catch (Exception e) {
+      System.exit(1);
+    }
+    return usersList;
   }
 }
