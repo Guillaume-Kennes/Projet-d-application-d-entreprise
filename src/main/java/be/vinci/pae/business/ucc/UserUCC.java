@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.UserDTO;
+import java.util.List;
 
 /**
  * Represents a User Use Case Controller (UCC) with methods related to user operations.
@@ -27,14 +28,10 @@ public interface UserUCC {
   UserDTO getUserById(int id);
 
   /**
-   * Registers a new user.
-   * This method takes a UserDTO object representing the user to be registered.
-   * Performs the registration process and returns a UserDTO object
-   * representing the registered user.
+   * Retrieves the list of all users available in the system.
    *
-   * @param userDTO The UserDTO object containing user information.
-   *
-   * @return A UserDTO object representing the registered user.
+   * @return A list containing UserDTO objects representing all users.
+   *     If no users are found, the list will be empty.
    */
-  UserDTO register(UserDTO userDTO);
+  List<UserDTO> getAllUsers();
 }

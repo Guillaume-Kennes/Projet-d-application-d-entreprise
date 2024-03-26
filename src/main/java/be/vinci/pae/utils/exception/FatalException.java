@@ -20,14 +20,23 @@ public class FatalException extends WebApplicationException {
   }
 
   /**
-   * Constructs a new FatalException with a specified
-   *     error message and HTTP 500 Internal Server Error response.
+   * Constructs a new FatalException with the specified message and a status code of 500.
    *
-   * @param message the error message to be included in the response
+   * @param message the error message that explains the reason for the exception.
    */
   public FatalException(String message) {
     super(Response.status(Status.INTERNAL_SERVER_ERROR).entity(message).type("text/plain").build());
-
   }
 
+  /**
+   * Constructs a new FatalException with the specified cause and a status code of 500.
+   *
+   * @param cause the Throwable that caused this exception to be thrown.
+   */
+  public FatalException(Throwable cause) {
+    super(
+        Response.status(Status.INTERNAL_SERVER_ERROR).entity(cause.getMessage()).type("text/plain")
+            .build());
+  }
 }
+

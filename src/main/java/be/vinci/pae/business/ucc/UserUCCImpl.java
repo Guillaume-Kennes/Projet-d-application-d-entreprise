@@ -6,6 +6,7 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
+import java.util.List;
 
 /**
  * Implementation of the UserUCC interface.
@@ -15,6 +16,8 @@ public class UserUCCImpl implements UserUCC {
 
   @Inject
   private UserDAO userDAO;
+  @Inject
+  private DALServices dalServices;
 
   @Inject
   private DALServices dalServices;
@@ -31,24 +34,21 @@ public class UserUCCImpl implements UserUCC {
    * @throws UnauthorizedException If the provided email or password is incorrect.
    */
   public UserDTO login(String email, String password) {
-    // start mais cest k
     dalServices.start();
-
     try {
       User userFound = (User) userDAO.getUserByEmail(email);
       if (userFound == null || !userFound.checkPassword(password)) {
         throw new UnauthorizedException("Incorrect Email or Password");
       }
-
       return userFound;
     } catch (Exception e) {
+      System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
-
     } finally {
+      System.out.println("COMMITT");
       dalServices.commit();
     }
-
   }
 
 
@@ -64,6 +64,27 @@ public class UserUCCImpl implements UserUCC {
     try {
       UserDTO userDTO = userDAO.getUserById(id);
       return userDTO;
+    } catch (Exception e) {
+      System.out.println("ROLLBACK");
+      dalServices.rollBack();
+      throw e;
+    } finally {
+      System.out.println("COMMITT");
+      dalServices.commit();
+    }
+  }
+
+
+  /**
+   * Returns the list of all users available in the system.
+   *
+   * @return A list containing UserDTO objects representing all users.
+   *     If no users are found, the list will be empty.
+   */
+  public List<UserDTO> getAllUsers() {
+    dalServices.start();
+    try {
+      return userDAO.getAllUsers();
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

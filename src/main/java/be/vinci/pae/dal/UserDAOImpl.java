@@ -6,6 +6,8 @@ import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -13,15 +15,11 @@ import java.sql.SQLException;
  * Provides methods for retrieving user-related data from the database.
  */
 public class UserDAOImpl implements UserDAO {
-
-
   @Inject
   private DomainFactory myDomainFactory;
 
   @Inject
   private DALBackServices dalServices;
-
-
 
   /**
    * Retrieves a user by their email address from the database.
@@ -115,40 +113,30 @@ public class UserDAOImpl implements UserDAO {
     return null;
   }
 
-
   /**
-   * Registers a new user with the provided information.
+   * Retrieves a list of all users from the database.
    *
-   * @return A UserDTO object representing the registered user.
+   * @return A list of UserDTO objects representing all users.
    */
-  public UserDTO register(UserDTO userDTO) {
-
-    try {
-      String query = "INSERT INTO pae.users (email, password, last_name, first_name, "
-          + "phone_number, registration_date, role) "
-          + "VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
-
-      try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
-        preparedStatement.setString(1, userDTO.getEmail());
-        preparedStatement.setString(2, userDTO.getPassword());
-        preparedStatement.setString(3, userDTO.getLastName());
-        preparedStatement.setString(4, userDTO.getFirstName());
-        preparedStatement.setString(5, userDTO.getPhoneNumber());
-        preparedStatement.setString(6, userDTO.getRole());
-
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-          if (resultSet.next()) {
-            userDTO = userInfos(resultSet);
-            userDTO.setRole(userDTO.getRole());
-          } else {
-            userDTO = null;
-          }
-        }
+  public List<UserDTO> getAllUsers() {
+    List<UserDTO> usersList = new ArrayList<>();
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.users");
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
+        UserDTO userDTO = myDomainFactory.getUser();
+        userDTO.setEmail(resultSet.getString("email"));
+        userDTO.setLastName(resultSet.getString("last_name"));
+        userDTO.setFirstName(resultSet.getString("first_name"));
+        userDTO.setPhoneNumber(resultSet.getString("phone_number"));
+        userDTO.setRegistrationDate(resultSet.getString("registration_date"));
+        userDTO.setRole(resultSet.getString("role"));
+        userDTO.setId(resultSet.getInt("id_user"));
+        usersList.add(userDTO);
       }
-    } catch (SQLException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      System.exit(1);
     }
-    return userDTO;
-
+    return usersList;
   }
 }

@@ -39,7 +39,6 @@ public class AuthsResource {
   @Inject
   private UserUCC myUserUCC;
 
-
   /**
    * Endpoint for user login.
    *
@@ -69,7 +68,6 @@ public class AuthsResource {
     String token = createToken(publicUser);
     return jsonMapper.createObjectNode().put("token", token).put("email", publicUser.getEmail());
   }
-
 
   /**
    * Registers a new user.

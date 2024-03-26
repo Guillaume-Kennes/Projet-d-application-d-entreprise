@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.UserDTO;
 import java.sql.ResultSet;
+import java.util.List;
 
 /**
  * Represents a Data Access Object (DAO) for managing user-related data.
@@ -39,15 +40,12 @@ public interface UserDAO {
    */
   UserDTO getUserById(int id);
 
-
   /**
-   * Registers a new user with the provided information.
+   * Retrieves the list of all users available in the system.
    *
-   * @param userDTO The UserDTO object containing user information to register.
-   *
-   * @return A UserDTO object representing the registered user.
+   * @return A list containing UserDTO objects representing all users.
+   *     If no users are found, the list will be empty.
    */
-  UserDTO register(UserDTO userDTO);
-
+  List<UserDTO> getAllUsers();
 }
 
