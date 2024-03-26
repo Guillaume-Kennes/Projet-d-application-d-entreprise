@@ -13,6 +13,9 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
 
+/**
+ * This class represents a resource for managing contacts.
+ */
 @Singleton
 @Path("/contact")
 public class ContactResource {
@@ -21,6 +24,12 @@ public class ContactResource {
   private ContactUCC contactUCC;
 
 
+  /**
+   * Adds a new contact.
+   *
+   * @param newContactDTO The contact data to be added.
+   * @return The added contact data.
+   */
   @POST
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)

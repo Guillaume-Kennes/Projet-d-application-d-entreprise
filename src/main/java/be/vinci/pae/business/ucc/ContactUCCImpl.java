@@ -1,11 +1,14 @@
 package be.vinci.pae.business.ucc;
 
-
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
 import jakarta.inject.Inject;
 
+/**
+ * This class implements the ContactUCC interface to provide functionality related to managing
+ * contacts.
+ */
 public class ContactUCCImpl implements ContactUCC {
 
   @Inject
@@ -13,6 +16,12 @@ public class ContactUCCImpl implements ContactUCC {
   @Inject
   private DALServices dalServices;
 
+  /**
+   * Adds a new contact.
+   *
+   * @param contactDTO The contact data to be added.
+   * @return The added contact data.
+   */
   @Override
   public ContactDTO addContact(ContactDTO contactDTO) {
     System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
