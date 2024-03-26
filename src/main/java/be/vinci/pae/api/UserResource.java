@@ -4,9 +4,9 @@ import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.business.ucc.ViewContactUCC;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -32,7 +32,7 @@ public class UserResource {
   @Inject
   private InternshipUCC myInternshipUcc;
   @Inject
-  private ViewContactUCC myContactUcc;
+  private ContactUCC myContactUcc;
 
   /**
    * Retrieves a user by their ID.

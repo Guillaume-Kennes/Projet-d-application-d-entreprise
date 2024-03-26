@@ -1,11 +1,11 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.business.domain.Contact;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.InternshipSupervisor;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
-import be.vinci.pae.business.domain.ViewContact;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,7 +23,7 @@ public class InternshipDAOImpl implements InternshipDAO {
   @Inject
   private DALBackServices dalServices;
   @Inject
-  private ViewContactDAO contactDAO;
+  private ContactDAO contactDAO;
   @Inject
   private InternshipSupervisorDAO supervisorDAO;
 
@@ -87,7 +87,7 @@ public class InternshipDAOImpl implements InternshipDAO {
       internshipDTO.setProject(resultSet.getString("internship_project"));
       internshipDTO.setDate(String.valueOf(resultSet.getDate("signature_date")));
       contact = contactDAO.contactInfos(resultSet);
-      internshipDTO.setContact((ViewContact) contact);
+      internshipDTO.setContact((Contact) contact);
       supervisor = supervisorDAO.supervisorInfos(resultSet);
       internshipDTO.setSupervisor((InternshipSupervisor) supervisor);
     } catch (SQLException e) {

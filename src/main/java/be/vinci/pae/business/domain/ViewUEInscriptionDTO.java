@@ -29,4 +29,11 @@ public interface ViewUEInscriptionDTO {
    * @param schoolYear the UEInscription's school year to set
    */
   void setSchoolYear(String schoolYear);
+
+  /**
+   * Gets the id of the UE inscription.
+   *
+   * @return the id of the UE inscription.
+   */
+  int getId();
 }

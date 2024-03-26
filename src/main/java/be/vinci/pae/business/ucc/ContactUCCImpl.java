@@ -4,6 +4,7 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
 import jakarta.inject.Inject;
+import java.util.ArrayList;
 
 /**
  * Implementation of the ContactUCC interface.
@@ -30,6 +31,10 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
+      }
+
+      if(place == null) {
+        throw new IllegalArgumentException("Place field cannot be null");
       }
 
       if (contact.getState().equals("initié")) {
@@ -119,6 +124,10 @@ public class ContactUCCImpl implements ContactUCC {
         throw new IllegalArgumentException("Contact not found");
       }
 
+      if(reason == null) {
+        throw new IllegalArgumentException("Reason field cannot be null");
+      }
+
       if (contact.getState().equals("pris")) {
         contact.setState("refusé");
         contact.setReasonForRefusal(reason);
@@ -128,12 +137,54 @@ public class ContactUCCImpl implements ContactUCC {
         contactDAO.update(contact);
         return contact;
       } else {
-       throw new IllegalArgumentException("Invalid contact state");
+        throw new IllegalArgumentException("Invalid contact state");
       }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
     } finally {
+      dalServices.commit();
+    }
+  }
+
+  /**
+   * Returns the taken contacts corresponding to the user corresponding to the id.
+   *
+   * @param id the user's id
+   * @return the taken contacts corresponding to the user
+   */
+  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
+    dalServices.start();
+    try {
+      ArrayList<ContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
+      return contactDTOS;
+    } catch (Exception e) {
+      System.out.println("ROLLBACK");
+      dalServices.rollBack();
+      throw e;
+    } finally {
+      System.out.println("COMMITT");
+      dalServices.commit();
+    }
+  }
+
+  /**
+   * Returns all the contacts corresponding to the user corresponding to the id.
+   *
+   * @param id the user's id
+   * @return all the contacts corresponding to the user
+   */
+  public ArrayList<ContactDTO> getContactsByUserId(int id) {
+    dalServices.start();
+    try {
+      ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
+      return contactDTOS;
+    } catch (Exception e) {
+      System.out.println("ROLLBACK");
+      dalServices.rollBack();
+      throw e;
+    } finally {
+      System.out.println("COMMITT");
       dalServices.commit();
     }
   }

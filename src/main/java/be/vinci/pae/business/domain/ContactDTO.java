@@ -38,28 +38,28 @@ public interface ContactDTO {
    *
    * @return the enterprise of the contact.
    */
-  int getEnterprise();
+  ViewCompanyDTO getCompany();
 
   /**
    * Sets the enterprise of the contact.
    *
    * @param enterprise the enterprise of the contact.
    */
-  void setEnterprise(int enterprise);
+  void setCompany(ViewCompany enterprise);
 
   /**
    * Gets the inscription UE of the contact.
    *
    * @return the inscription UE of the contact.
    */
-  int getInscriptionUE();
+  ViewUEInscription getInscriptionUE();
 
   /**
    * Sets the inscription UE of the contact.
    *
    * @param inscriptionUE the inscription UE of the contact.
    */
-  void setInscriptionUE(int inscriptionUE);
+  void setInscriptionUE(ViewUEInscription inscriptionUE);
 
   /**
    * Gets the reason for refusal of the contact.
@@ -102,12 +102,4 @@ public interface ContactDTO {
    * @param meetingPlace the meeting place of the contact.
    */
   void setMeetingPlace(String meetingPlace);
-
-  void setReasonRefusal(String reasonForRefusal);
-
-  void setCompany(ViewCompany company);
-
-  void setUeInscription(ViewUEInscription ueInscription);
-
-  ViewCompanyDTO getCompany();
 }

@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.ContactDTO;
+import java.util.ArrayList;
 
 /**
  * Interface for Use Case Controller (UCC) for Contact.
@@ -46,5 +47,21 @@ public interface ContactUCC {
    * @return The updated contact after the refusal.
    */
   ContactDTO companyRefusedInternship(ContactDTO contact, String reason);
+
+  /**
+   * Returns the taken contacts of the user corresponding to the id.
+   *
+   * @param id the user's id
+   * @return the taken contacts corresponding to the user
+   */
+  ArrayList<ContactDTO> getTakenContactsByUserId(int id);
+
+  /**
+   * Returns all the contacts of the user corresponding to the id.
+   *
+   * @param id the user's id
+   * @return all the contacts corresponding to the user
+   */
+  ArrayList<ContactDTO> getContactsByUserId(int id);
 
 }

@@ -7,109 +7,160 @@ class ContactImpl implements Contact {
 
   private int id;
   private String state;
-  private int enterprise;
-  private int inscriptionUE;
+  private ViewCompany company;
+  private ViewUEInscription inscriptionUE;
   private String reasonForRefusal;
   private boolean isFollowed;
   private String meetingPlace;
 
+  /**
+   * Default constructor for ContactImpl.
+   */
   public ContactImpl() {
   }
 
-  @Override
+  /**
+   * Get the id of the contact.
+   *
+   * @return The id of the contact
+   */
   public int getId() {
     return id;
   }
 
-  @Override
+  /**
+   * Set the id of the contact.
+   *
+   * @param id The id to set.
+   */
   public void setId(int id) {
     this.id = id;
   }
 
-  @Override
+  /**
+   * Get the state of the contact.
+   *
+   * @return The state of the contact
+   */
   public String getState() {
     return state;
   }
 
-  @Override
+  /**
+   * Set the state of the contact.
+   *
+   * @param state The state to set.
+   */
   public void setState(String state) {
     this.state = state;
   }
 
-  @Override
-  public int getEnterprise() {
-    return enterprise;
-  }
-
-  @Override
-  public void setEnterprise(int enterprise) {
-    this.enterprise = enterprise;
-  }
-
-  @Override
-  public int getInscriptionUE() {
-    return inscriptionUE;
-  }
-
-  @Override
-  public void setInscriptionUE(int inscriptionUE) {
-    this.inscriptionUE = inscriptionUE;
-  }
-
-  @Override
+  /**
+   * Get the reason for refusal of the contact.
+   *
+   * @return The reason for refusal of the contact
+   */
   public String getReasonForRefusal() {
     return reasonForRefusal;
   }
 
-  @Override
+  /**
+   * Set the reason for refusal of the contact.
+   *
+   * @param reasonForRefusal The reason to set.
+   */
   public void setReasonForRefusal(String reasonForRefusal) {
     this.reasonForRefusal = reasonForRefusal;
   }
 
-  @Override
+  /**
+   * Get the value of the isFollowed boolean.
+   *
+   * @return The value of the isFollowed boolean
+   */
   public boolean isFollowed() {
     return isFollowed;
   }
 
-  @Override
+  /**
+   * Set the value of the isFollowed boolean.
+   *
+   * @param followed The value to set.
+   */
   public void setFollowed(boolean followed) {
     isFollowed = followed;
   }
 
-  @Override
+  /**
+   * Get the meeting place of the contact.
+   *
+   * @return The meeting place of the contact
+   */
   public String getMeetingPlace() {
     return meetingPlace;
   }
 
-  @Override
+  /**
+   * Set the meeting place of the contact.
+   *
+   * @param meetingPlace The meeting place to set.
+   */
   public void setMeetingPlace(String meetingPlace) {
     this.meetingPlace = meetingPlace;
   }
 
-  @Override
-  public void setReasonRefusal(String reasonForRefusal) {
-
-  }
-
-  @Override
+  /**
+   * Set the company of the contact.
+   *
+   * @param company The company to set.
+   */
   public void setCompany(ViewCompany company) {
-
+    this.company = company;
   }
 
-  @Override
-  public void setUeInscription(ViewUEInscription ueInscription) {
-
+  /**
+   * Get the UE inscription of the contact.
+   *
+   * @return The UE inscription of the contact
+   */
+  public ViewUEInscription getInscriptionUE() {
+    return this.inscriptionUE;
   }
 
-  @Override
+  /**
+   * Set the UE inscription of the contact.
+   *
+   * @param inscriptionUE The UE inscription to set.
+   */
+  public void setInscriptionUE(ViewUEInscription inscriptionUE) {
+    this.inscriptionUE = inscriptionUE;
+  }
+
+  /**
+   * Get the company of the contact.
+   *
+   * @return The company of the contact
+   */
   public ViewCompanyDTO getCompany() {
-    return null;
+    return this.company;
   }
 
+  /**
+   * Checks if a user is a student.
+   *
+   * @param idUser The concerned user.
+   *
+   * @return A boolean stating whether the user is a student
+   */
   public boolean userRoleIsStudent(int idUser) {
     return false;
   }
 
+  /**
+   * Checks if the school year is correct.
+   *
+   * @return a boolean stating whether the year is correct.
+   */
   public boolean correctSchoolYear() {
     return false;
   }

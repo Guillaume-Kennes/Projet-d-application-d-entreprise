@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class InternshipImpl implements Internship {
 
   private int id;
-  private ViewContact contact;
+  private Contact contact;
   private InternshipSupervisor supervisor;
   private String project;
   private String signatureDate;
@@ -44,7 +44,7 @@ public class InternshipImpl implements Internship {
    *
    * @return The contact of the internship
    */
-  public ViewContact getContact() {
+  public Contact getContact() {
     return this.contact;
   }
 
@@ -53,7 +53,7 @@ public class InternshipImpl implements Internship {
    *
    * @param contact The contact to set.
    */
-  public void setContact(ViewContact contact) {
+  public void setContact(Contact contact) {
     this.contact = contact;
   }
 
