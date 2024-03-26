@@ -2,6 +2,9 @@ package be.vinci.pae.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.ContactDTO;
@@ -87,5 +90,258 @@ public class ContactUCCTest {
 
     assertNotNull(result);
     assertEquals(expectedContact, result.get(0));
+  }
+
+  /**
+   * Test for meeting a company when the contact is null.
+   */
+  @Test
+  public void meetCompanyTest_nullContact() {
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.meetCompany(null, "enterprise");
+    });
+  }
+
+  /**
+   * Test for meeting a company when the place is null.
+   */
+  @Test
+  public void meetCompanyTest_nullPlace() {
+    // arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("initié");
+
+    // act and assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.meetCompany(contact, null);
+    });
+  }
+
+  /**
+   * Test for meeting a company when the state is initiated.
+   */
+  @Test
+  public void meetCompanyTest_StateInitiated() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("initié");
+    String place = "enterprise";
+
+    // Act
+    ContactDTO result = contactUCC.meetCompany(contact, place);
+
+    // Assert
+    verify(contact).setState("pris");
+    verify(contact).setMeetingPlace(place);
+    verify(contactDAO).update(contact);
+    assertEquals(contact, result);
+  }
+
+  @Test
+  public void meetCompanyTest_StateTaken() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("pris");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.meetCompany(contact, "enterprise");
+    });
+  }
+
+  @Test
+  public void meetCompanyTest_StateRefused() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("refusé");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.meetCompany(contact, "distance");
+    });
+  }
+
+  @Test
+  public void meetCompanyTest_StateAccepted() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("accepté");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.meetCompany(contact, "distance");
+    });
+  }
+
+  @Test
+  public void meetCompanyTest_StateSuspended() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("suspendu");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.meetCompany(contact, "distance");
+    });
+  }
+
+  @Test
+  public void meetCompanyTest_StateAbandoned() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("abandonné");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.meetCompany(contact, "enterprise");
+    });
+  }
+
+  @Test
+  public void getContactByIdTest() {
+    // Arrange
+    int idContact = 1;
+    ContactDTO expectedContact = mock(ContactDTO.class);
+    when(contactDAO.getContactById(idContact)).thenReturn(expectedContact);
+
+    // Act
+    ContactDTO result = contactUCC.getContactById(idContact);
+
+    // Assert
+    verify(contactDAO).getContactById(idContact);
+    assertEquals(expectedContact, result);
+  }
+
+  @Test
+  public void stopFollowingTest_nullContact() {
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.stopFollowing(null);
+    });
+  }
+
+  @Test
+  public void stopFollowingErrorTest() {
+    // arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.isFollowed()).thenReturn(false);
+
+    // act and assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.stopFollowing(contact);
+    });
+  }
+
+  @Test
+  public void stopFollowingCorrectTest() {
+    // arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.isFollowed()).thenReturn(true);
+
+    // act
+    ContactDTO result = contactUCC.stopFollowing(contact);
+
+    // assert
+    verify(contact).setFollowed(false);
+    verify(contact).setState("abandonné");
+    verify(contactDAO).update(contact);
+    assertEquals(contact, result);
+  }
+
+  @Test
+  public void companyRefusedInternshipTest_nullContact() {
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.companyRefusedInternship(null, "hello");
+    });
+  }
+
+  @Test
+  public void companyRefusedInternshipTest_nullReason() {
+    // arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("pris");
+
+    // act and assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.companyRefusedInternship(contact, null);
+    });
+  }
+
+  @Test
+  public void companyRefusedInternshipTest_stateTaken() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("pris");
+    String reason = "hello";
+
+    // Act
+    ContactDTO result = contactUCC.companyRefusedInternship(contact, reason);
+
+    // Assert
+    verify(contact).setState("refusé");
+    verify(contact).setReasonForRefusal(reason);
+    verify(contactDAO).update(contact);
+    assertEquals(contact, result);
+  }
+
+  @Test
+  public void companyRefusedInternshipTest_stateInitiated() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("initié");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.companyRefusedInternship(contact, "hello");
+    });
+  }
+
+  @Test
+  public void companyRefusedInternshipTest_stateRefused() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("refusé");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.companyRefusedInternship(contact, "hello");
+    });
+  }
+
+  @Test
+  public void companyRefusedInternshipTest_stateAccepted() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("accepté");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.companyRefusedInternship(contact, "hello");
+    });
+  }
+
+  @Test
+  public void companyRefusedInternshipTest_stateSuspended() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("suspendu");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.companyRefusedInternship(contact, "hello");
+    });
+  }
+
+  @Test
+  public void companyRefusedInternshipTest_stateAbandoned() {
+    // Arrange
+    ContactDTO contact = mock(ContactDTO.class);
+    when(contact.getState()).thenReturn("abandonné");
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> {
+      contactUCC.companyRefusedInternship(contact, "hello");
+    });
   }
 }
