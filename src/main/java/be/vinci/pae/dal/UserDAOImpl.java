@@ -14,15 +14,11 @@ import java.util.List;
  * Provides methods for retrieving user-related data from the database.
  */
 public class UserDAOImpl implements UserDAO {
-
-
   @Inject
   private DomainFactory myDomainFactory;
 
   @Inject
   private DALBackServices dalServices;
-
-
 
   /**
    * Retrieves a user by their email address from the database.

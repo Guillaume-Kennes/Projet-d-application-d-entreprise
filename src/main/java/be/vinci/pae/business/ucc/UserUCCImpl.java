@@ -28,12 +28,21 @@ public class UserUCCImpl implements UserUCC {
    */
 
   public UserDTO login(String email, String password) {
-
-    User userFound = (User) userDAO.getUserByEmail(email);
-    if (userFound == null || !userFound.checkPassword(password)) {
-      throw new UnauthorizedException("Incorrect Email or Password");
+    dalServices.start();
+    try {
+      User userFound = (User) userDAO.getUserByEmail(email);
+      if (userFound == null || !userFound.checkPassword(password)) {
+        throw new UnauthorizedException("Incorrect Email or Password");
+      }
+      return userFound;
+    } catch (Exception e) {
+      System.out.println("ROLLBACK");
+      dalServices.rollBack();
+      throw e;
+    } finally {
+      System.out.println("COMMITT");
+      dalServices.commit();
     }
-    return userFound;
   }
 
 
@@ -45,7 +54,18 @@ public class UserUCCImpl implements UserUCC {
    * @return the user corresponding to the id
    */
   public UserDTO getUserById(int id) {
-    return userDAO.getUserById(id);
+    dalServices.start();
+    try {
+      UserDTO userDTO = userDAO.getUserById(id);
+      return userDTO;
+    } catch (Exception e) {
+      System.out.println("ROLLBACK");
+      dalServices.rollBack();
+      throw e;
+    } finally {
+      System.out.println("COMMITT");
+      dalServices.commit();
+    }
   }
 
 

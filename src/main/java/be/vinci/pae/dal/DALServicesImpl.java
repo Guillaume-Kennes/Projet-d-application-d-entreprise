@@ -34,7 +34,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
 
     connectionBDS.setUrl(Config.getProperty("DatabaseFilePath"));
     connectionBDS.setUsername(Config.getProperty("DatabaseUser"));
-    connectionBDS.setPassword(Config.getProperty("JWTSecret"));
+    connectionBDS.setPassword(Config.getProperty("DatabasePassword"));
     connectionBDS.setDriverClassName("org.postgresql.Driver");
     connectionBDS.setMaxTotal(1);
   }

@@ -33,8 +33,6 @@ public class AuthsResource {
 
   @Inject
   private UserUCC myUserUCC;
-  //private TokenServices token;
-
 
   /**
    * Endpoint for user login.
@@ -62,16 +60,8 @@ public class AuthsResource {
           Response.Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
-    return jsonMapper.createObjectNode().put("token", token)
-        .put("id", publicUser.getId())
-        .put("email", publicUser.getEmail())
-        .put("lastName", publicUser.getLastName())
-        .put("firstName", publicUser.getFirstName())
-        .put("phoneNumber", publicUser.getPhoneNumber())
-        .put("registrationDate", publicUser.getRegistrationDate())
-        .put("role", publicUser.getRole());
+    return jsonMapper.createObjectNode().put("token", token).put("email", publicUser.getEmail());
   }
-
 
   /**
    * Creates a JWT token for the given user.

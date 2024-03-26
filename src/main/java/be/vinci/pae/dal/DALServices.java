@@ -1,6 +1,5 @@
 package be.vinci.pae.dal;
 
-
 /**
  * Interface defining Data Access Layer (DAL) services.
  * These services provide methods for managing database transactions.
