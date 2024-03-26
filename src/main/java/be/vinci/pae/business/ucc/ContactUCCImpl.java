@@ -33,6 +33,10 @@ public class ContactUCCImpl implements ContactUCC {
         throw new IllegalArgumentException("Contact not found");
       }
 
+      if(place == null) {
+        throw new IllegalArgumentException("Place field cannot be null");
+      }
+
       if (contact.getState().equals("initié")) {
         contact.setState("pris");
         contact.setMeetingPlace(place);
@@ -118,6 +122,10 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
+      }
+
+      if(reason == null) {
+        throw new IllegalArgumentException("Reason field cannot be null");
       }
 
       if (contact.getState().equals("pris")) {
