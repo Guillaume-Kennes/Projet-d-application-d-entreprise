@@ -12,9 +12,7 @@ public interface ContactUCC {
    * Arranges a meeting with a company.
    *
    * @param contact The contact for the meeting.
-   *
-   * @param place The place of the meeting.
-   *
+   * @param place   The place of the meeting.
    * @return The updated contact after the meeting.
    */
   ContactDTO meetCompany(ContactDTO contact, String place);
@@ -23,7 +21,6 @@ public interface ContactUCC {
    * Retrieves a contact by its ID.
    *
    * @param idContact The ID of the contact.
-   *
    * @return The contact with the given ID.
    */
   ContactDTO getContactById(int idContact);
@@ -32,7 +29,6 @@ public interface ContactUCC {
    * Stops following a contact.
    *
    * @param contact The contact to stop following.
-   *
    * @return The updated contact after stopping the follow.
    */
   ContactDTO stopFollowing(ContactDTO contact);
@@ -41,9 +37,7 @@ public interface ContactUCC {
    * Handles the case when a company refuses an internship.
    *
    * @param contact The contact for the company.
-   *
-   * @param reason The reason for refusal.
-   *
+   * @param reason  The reason for refusal.
    * @return The updated contact after the refusal.
    */
   ContactDTO companyRefusedInternship(ContactDTO contact, String reason);
@@ -63,5 +57,13 @@ public interface ContactUCC {
    * @return all the contacts corresponding to the user
    */
   ArrayList<ContactDTO> getContactsByUserId(int id);
+
+  /**
+   * Adds a new contact.
+   *
+   * @param contactDTO The contact data to be added.
+   * @return The added contact data.
+   */
+  ContactDTO addContact(ContactDTO contactDTO);
 
 }

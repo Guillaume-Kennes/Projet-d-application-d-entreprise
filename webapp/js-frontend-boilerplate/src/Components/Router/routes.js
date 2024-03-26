@@ -6,6 +6,8 @@ import companyRefusedInternship from '../Pages/companyRefusedInternship';
 import ProfilePage from "../Pages/ProfilePage";
 import ContactsPage from "../Pages/ContactsPage";
 import meetCompanyPage from "../Pages/meetCompanyPage";
+import ViewUsers from "../Pages/ViewUsers";
+import ContactCompanyPage from "../Pages/ContactCompanyPage";
 
 const routes = {
   '/': HomePage,
@@ -16,7 +18,8 @@ const routes = {
   '/meetCompany': meetCompanyPage,
   '/companyRefused': companyRefusedInternship,
   '/users': ProfilePage,
-  '/contacts': ContactsPage
+  '/contacts': ContactsPage,
+  '/contact': ContactCompanyPage
 };
 
 export default routes;

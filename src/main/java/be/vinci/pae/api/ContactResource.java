@@ -16,7 +16,9 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,9 +39,7 @@ public class ContactResource {
    * Endpoint for meeting a company.
    *
    * @param idContact The ID of the contact.
-   *
-   * @param json The JSON object containing the meeting location.
-   *
+   * @param json      The JSON object containing the meeting location.
    * @return The updated contact.
    */
   @POST
@@ -70,7 +70,6 @@ public class ContactResource {
    * Endpoint for stopping following a contact.
    *
    * @param idContact The ID of the contact.
-   *
    * @return The updated contact.
    */
   @POST
@@ -93,9 +92,7 @@ public class ContactResource {
    * Endpoint for when a company refuses an internship.
    *
    * @param idContact The ID of the contact.
-   *
-   * @param json The JSON object containing the reason for refusal.
-   *
+   * @param json      The JSON object containing the reason for refusal.
    * @return The updated contact.
    */
   @POST
@@ -125,9 +122,7 @@ public class ContactResource {
    * Retrieves contacts corresponding to a user's ID.
    *
    * @param id The ID of the user.
-   *
    * @return An ObjectNode object containing all the data to be displayed
-   *
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
@@ -145,8 +140,6 @@ public class ContactResource {
     if (contacts.isEmpty()) {
       return null;
     }
-
-
     HashMap<Integer, String> contactList = new HashMap<>();
 
     for (ContactDTO c : contacts) {
@@ -162,5 +155,42 @@ public class ContactResource {
 
     response.putPOJO("contacts", contactList);
     return response;
+  }
+
+  /**
+   * Adds a new contact.
+   *
+   * @param newContactDTO The contact data to be added.
+   * @return The added contact data.
+   */
+  @POST
+  @Path("/add")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Authorize
+  public ContactDTO addContact(ContactDTO newContactDTO) {
+    int userId = newContactDTO.getUserId();
+    System.out.println("ContactResource -------> newContactDTO : " + newContactDTO);
+    System.out.println("ContactResource -------> userId : " + userId);
+    // Validate the new item
+    try {
+      if (newContactDTO == null) {
+        throw new WebApplicationException("Invalid contact data", Status.BAD_REQUEST);
+      }
+      // newContactDTO.setUserId(userId);
+      // Add the new item
+      ContactDTO addedContactDTO = myContactUcc.addContact(newContactDTO);
+      System.out.println("ContactRessource -------> addedContactDTO" + addedContactDTO);
+      if (addedContactDTO == null) {
+        throw new WebApplicationException("Contact could not be added",
+            Status.INTERNAL_SERVER_ERROR);
+      }
+      System.out.println("ContactResource ---> addedContactDTO : " + addedContactDTO);
+      return addedContactDTO;
+    } catch (Exception e) {
+      // Handle exceptions appropriately
+      System.out.println("ContactResource exception");
+      throw new WebApplicationException("Failed to add contact", Status.INTERNAL_SERVER_ERROR);
+    }
   }
 }

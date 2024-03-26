@@ -40,7 +40,6 @@ public class Main {
    * Main method to start the Jersey application server.
    *
    * @param args Command-line arguments (not used in this method).
-   *
    * @throws IOException if an I/O error occurs while starting the server.
    */
   public static void main(String[] args) throws IOException {

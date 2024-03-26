@@ -12,6 +12,9 @@ class ContactImpl implements Contact {
   private String reasonForRefusal;
   private boolean isFollowed;
   private String meetingPlace;
+  private int enterprise;
+  private int userId;
+  private String tradeName;
 
   /**
    * Default constructor for ContactImpl.
@@ -24,6 +27,7 @@ class ContactImpl implements Contact {
    *
    * @return The id of the contact
    */
+  @Override
   public int getId() {
     return id;
   }
@@ -33,6 +37,7 @@ class ContactImpl implements Contact {
    *
    * @param id The id to set.
    */
+  @Override
   public void setId(int id) {
     this.id = id;
   }
@@ -42,6 +47,7 @@ class ContactImpl implements Contact {
    *
    * @return The state of the contact
    */
+  @Override
   public String getState() {
     return state;
   }
@@ -51,15 +57,17 @@ class ContactImpl implements Contact {
    *
    * @param state The state to set.
    */
+  @Override
   public void setState(String state) {
     this.state = state;
   }
 
   /**
-   * Get the reason for refusal of the contact.
+   * Retrieves the reason for refusal for the contact.
    *
-   * @return The reason for refusal of the contact
+   * @return The reason for refusal for the contact.
    */
+  @Override
   public String getReasonForRefusal() {
     return reasonForRefusal;
   }
@@ -69,6 +77,7 @@ class ContactImpl implements Contact {
    *
    * @param reasonForRefusal The reason to set.
    */
+  @Override
   public void setReasonForRefusal(String reasonForRefusal) {
     this.reasonForRefusal = reasonForRefusal;
   }
@@ -78,6 +87,7 @@ class ContactImpl implements Contact {
    *
    * @return The value of the isFollowed boolean
    */
+  @Override
   public boolean isFollowed() {
     return isFollowed;
   }
@@ -87,6 +97,7 @@ class ContactImpl implements Contact {
    *
    * @param followed The value to set.
    */
+  @Override
   public void setFollowed(boolean followed) {
     isFollowed = followed;
   }
@@ -96,6 +107,7 @@ class ContactImpl implements Contact {
    *
    * @return The meeting place of the contact
    */
+  @Override
   public String getMeetingPlace() {
     return meetingPlace;
   }
@@ -105,17 +117,9 @@ class ContactImpl implements Contact {
    *
    * @param meetingPlace The meeting place to set.
    */
+  @Override
   public void setMeetingPlace(String meetingPlace) {
     this.meetingPlace = meetingPlace;
-  }
-
-  /**
-   * Set the company of the contact.
-   *
-   * @param company The company to set.
-   */
-  public void setCompany(ViewCompany company) {
-    this.company = company;
   }
 
   /**
@@ -123,6 +127,7 @@ class ContactImpl implements Contact {
    *
    * @return The UE inscription of the contact
    */
+  @Override
   public ViewUEInscription getInscriptionUE() {
     return this.inscriptionUE;
   }
@@ -132,6 +137,7 @@ class ContactImpl implements Contact {
    *
    * @param inscriptionUE The UE inscription to set.
    */
+  @Override
   public void setInscriptionUE(ViewUEInscription inscriptionUE) {
     this.inscriptionUE = inscriptionUE;
   }
@@ -141,17 +147,28 @@ class ContactImpl implements Contact {
    *
    * @return The company of the contact
    */
+  @Override
   public ViewCompanyDTO getCompany() {
     return this.company;
+  }
+
+  /**
+   * Set the company of the contact.
+   *
+   * @param company The company to set.
+   */
+  @Override
+  public void setCompany(ViewCompany company) {
+    this.company = company;
   }
 
   /**
    * Checks if a user is a student.
    *
    * @param idUser The concerned user.
-   *
    * @return A boolean stating whether the user is a student
    */
+  @Override
   public boolean userRoleIsStudent(int idUser) {
     return false;
   }
@@ -161,7 +178,69 @@ class ContactImpl implements Contact {
    *
    * @return a boolean stating whether the year is correct.
    */
+  @Override
   public boolean correctSchoolYear() {
     return false;
+  }
+
+
+  /**
+   * Retrieves the ID of the enterprise associated with the contact.
+   *
+   * @return The ID of the enterprise associated with the contact.
+   */
+  @Override
+  public int getEnterprise() {
+    return enterprise;
+  }
+
+  /**
+   * Sets the ID of the enterprise associated with the contact.
+   *
+   * @param enterprise The new ID of the enterprise associated with the contact.
+   */
+  @Override
+  public void setEnterprise(int enterprise) {
+    this.enterprise = enterprise;
+  }
+
+  /**
+   * Retrieves the ID of the user associated with the contact.
+   *
+   * @return The ID of the user associated with the contact.
+   */
+  @Override
+  public int getUserId() {
+    return userId;
+  }
+
+  /**
+   * Sets the ID of the user associated with the contact.
+   *
+   * @param userId The new ID of the user associated with the contact.
+   */
+  @Override
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
+
+
+  /**
+   * Returns the trade name associated with the contact.
+   *
+   * @return The trade name of the contact.
+   */
+  @Override
+  public String getTradeName() {
+    return tradeName;
+  }
+
+  /**
+   * Sets the trade name associated with the contact.
+   *
+   * @param tradeName The new trade name to be set.
+   */
+  public void setTradeName(String tradeName) {
+    this.tradeName = tradeName;
   }
 }

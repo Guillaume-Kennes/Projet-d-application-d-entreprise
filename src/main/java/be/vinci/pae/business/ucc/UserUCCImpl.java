@@ -9,8 +9,7 @@ import jakarta.inject.Inject;
 import java.util.List;
 
 /**
- * Implementation of the UserUCC interface.
- * Provides methods related to user operations.
+ * Implementation of the UserUCC interface. Provides methods related to user operations.
  */
 public class UserUCCImpl implements UserUCC {
 
@@ -23,12 +22,9 @@ public class UserUCCImpl implements UserUCC {
   /**
    * Authenticates a user by their email and password.
    *
-   * @param email The email of the user attempting to log in.
-   *
+   * @param email    The email of the user attempting to log in.
    * @param password The password of the user attempting to log in.
-   *
    * @return The UserDTO object representing the authenticated user.
-   *
    * @throws UnauthorizedException If the provided email or password is incorrect.
    */
   public UserDTO login(String email, String password) {
@@ -44,7 +40,7 @@ public class UserUCCImpl implements UserUCC {
       dalServices.rollBack();
       throw e;
     } finally {
-      System.out.println("COMMITT");
+      System.out.println("UserUCCImpl (login) --> COMMITT");
       dalServices.commit();
     }
   }
@@ -54,7 +50,6 @@ public class UserUCCImpl implements UserUCC {
    * Retrieves a UserDTO object by its unique identifier.
    *
    * @param id The unique identifier of the user to retrieve.
-   *
    * @return The UserDTO object corresponding to the given identifier.
    */
   public UserDTO getUserById(int id) {
@@ -67,7 +62,7 @@ public class UserUCCImpl implements UserUCC {
       dalServices.rollBack();
       throw e;
     } finally {
-      System.out.println("COMMITT");
+      System.out.println("UserUCCImpl --> COMMITT");
       dalServices.commit();
     }
   }
@@ -76,8 +71,8 @@ public class UserUCCImpl implements UserUCC {
   /**
    * Returns the list of all users available in the system.
    *
-   * @return A list containing UserDTO objects representing all users.
-   *     If no users are found, the list will be empty.
+   * @return A list containing UserDTO objects representing all users. If no users are found, the
+   * list will be empty.
    */
   public List<UserDTO> getAllUsers() {
     dalServices.start();
@@ -96,11 +91,9 @@ public class UserUCCImpl implements UserUCC {
    * Registers a new user in the system.
    *
    * @param userDTO The user data transfer object containing user information.
-   *
    * @return The registered user data transfer object.
-   *
-   * @throws UnauthorizedException If the email already exists in the database
-   *     or if the email address does not end with "@student.vinci.be" or "@vinci.be".
+   * @throws UnauthorizedException If the email already exists in the database or if the email
+   *                               address does not end with "@student.vinci.be" or "@vinci.be".
    */
   public UserDTO register(UserDTO userDTO) {
     dalServices.start();

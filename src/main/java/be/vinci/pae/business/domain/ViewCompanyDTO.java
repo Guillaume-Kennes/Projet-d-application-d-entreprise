@@ -3,8 +3,8 @@ package be.vinci.pae.business.domain;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Represents a company data transfer object (DTO) with various properties.
- * This interface defines methods for accessing and modifying company-related information.
+ * Represents a company data transfer object (DTO) with various properties. This interface defines
+ * methods for accessing and modifying company-related information.
  */
 @JsonDeserialize(as = ViewCompanyImpl.class)
 public interface ViewCompanyDTO {
@@ -56,14 +56,14 @@ public interface ViewCompanyDTO {
    *
    * @return the enterprise's address
    */
-  String getAdress();
+  String getAddress();
 
   /**
    * Sets the address of the company.
    *
-   * @param adress the new address of the item.
+   * @param address the new address of the item.
    */
-  void setAdress(String adress);
+  void setAddress(String address);
 
   /**
    * Returns the enterprise's city.

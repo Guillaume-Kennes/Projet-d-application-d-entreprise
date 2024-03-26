@@ -3,8 +3,8 @@ package be.vinci.pae.business.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
- * Implementation class for the ViewUEInscription interface.
- * This class provides implementations for various UEInscription-related methods.
+ * Implementation class for the ViewUEInscription interface. This class provides implementations for
+ * various UEInscription-related methods.
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class ViewUEInscriptionImpl implements ViewUEInscription {
@@ -37,6 +37,11 @@ public class ViewUEInscriptionImpl implements ViewUEInscription {
     this.id = id;
   }
 
+  public User getStudent() {
+    System.out.println("ViewDEMES2 ---> student : " + student);
+    return student;
+  }
+
   /**
    * Set the student of the UEInscription.
    *
@@ -44,6 +49,10 @@ public class ViewUEInscriptionImpl implements ViewUEInscription {
    */
   public void setStudent(User student) {
     this.student = student;
+  }
+
+  public String getSchoolYear() {
+    return schoolYear;
   }
 
   /**

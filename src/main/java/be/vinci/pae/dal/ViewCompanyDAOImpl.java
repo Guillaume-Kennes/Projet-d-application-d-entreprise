@@ -9,8 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Implementation of the ViewCompanyDAO interface.
- * Provides methods for retrieving company-related data from the database.
+ * Implementation of the ViewCompanyDAO interface. Provides methods for retrieving company-related
+ * data from the database.
  */
 public class ViewCompanyDAOImpl implements ViewCompanyDAO {
 
@@ -40,8 +40,8 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
 
         ps.setString(1, companyDTO.getTradeName());
         ps.setString(2, companyDTO.getDesignation());
-        ps.setString(3, companyDTO.getAdress());
-        ps.setString(4, companyDTO.getAdress()); // city
+        ps.setString(3, companyDTO.getAddress());
+        ps.setString(4, companyDTO.getCity()); // city
         ps.setString(5, companyDTO.getMeansOfCommunication());
 
       }
@@ -56,7 +56,6 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    * Method to retrieve company information from a ResultSet and map it to a ViewCompanyDTO object.
    *
    * @param resultSet The ResultSet containing company information.
-   *
    * @return A ViewCompanyDTO object populated with company information from the ResultSet.
    */
   public ViewCompanyDTO companyInfos(ResultSet resultSet) {
@@ -66,7 +65,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
       companyDTO.setId(resultSet.getInt("id_enterprise"));
       companyDTO.setTradeName(resultSet.getString("trade_name"));
       companyDTO.setDesignation(resultSet.getString("designation"));
-      companyDTO.setAdress(resultSet.getString("adress"));
+      companyDTO.setAddress(resultSet.getString("adress"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
     } catch (SQLException e) { //DEMANDER AU PROF quelle exception
@@ -79,9 +78,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    * Method to retrieve a company by their ID.
    *
    * @param id The ID of the company to retrieve.
-   *
    * @return A ViewCompanyDTO object representing the company, or null if not found.
-   *
    * @throws IllegalArgumentException if the company is not found in the database.
    */
   public ViewCompanyDTO getCompanyById(int id) {
