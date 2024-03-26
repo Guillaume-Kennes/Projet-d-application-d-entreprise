@@ -6,6 +6,7 @@ import companyRefusedInternship from '../Pages/companyRefusedInternship';
 import ProfilePage from "../Pages/ProfilePage";
 import ContactsPage from "../Pages/ContactsPage";
 import meetCompanyPage from "../Pages/meetCompanyPage";
+import ViewUsers from "../Pages/ViewUsers";
 
 const routes = {
   '/': HomePage,

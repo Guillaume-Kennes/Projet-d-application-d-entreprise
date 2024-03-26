@@ -86,20 +86,6 @@ public class AuthsResource {
   @Path("register")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-//  public UserDTO register(JsonNode jsonNode) {
-//    if (jsonNode == null) {
-//      throw new WebApplicationException("Request body is missing or not a valid JSON");
-//    }
-//
-//    String lastName = jsonNode.get("lastName").asText();
-//    String firstName = jsonNode.get("firstName").asText();
-//    String email = jsonNode.get("email").asText();
-//    String password = jsonNode.get("password").asText();
-//    String phoneNumber = jsonNode.get("phoneNumber").asText();
-//    String role = jsonNode.get("role").asText();
-//
-//    myUserUCC.register(lastName, firstName, email, password, phoneNumber, role);
-//  }
   public UserDTO register(UserDTO userDTO) {
     if (userDTO.getEmail() == null || userDTO.getEmail().isBlank()
         || userDTO.getPassword() == null || userDTO.getPassword().isBlank()

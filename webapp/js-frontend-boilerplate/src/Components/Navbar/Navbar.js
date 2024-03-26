@@ -31,6 +31,9 @@ function renderNavbar() {
             <li id="loginItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/login" style="color: white;">Se connecter</a>
             </li>  
+            <li id="registerItem" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/register" style="color: white;">S'inscrire</a>
+            </li>  
             <li class="nav-item">
               <a class="nav-link" href="#" data-uri="/viewUsers" style="color: white;">Rechercher tous les utilisateurs</a>
             </li>        
