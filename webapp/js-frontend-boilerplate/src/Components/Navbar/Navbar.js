@@ -10,6 +10,10 @@ const Navbar = () => {
 
 function renderNavbar() {
   const authenticatedUser = getAuthenticatedUser();
+  const authenticatedUserEmail = authenticatedUser?.user?.email;
+  const authenticatedUserId = authenticatedUser?.user?.id;
+  console.log("Navbar --> authenticatedUserEmail : ", authenticatedUserEmail);
+  console.log("Navbar --> authenticatedUserId : ", authenticatedUserId);
 
   const anonymousUserNavbar = `
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -58,7 +62,7 @@ function renderNavbar() {
               <a class="nav-link" href="#" data-uri="/contact" style="color: white;">Contacter une entreprise</a>
             </li>   
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" style="color: white;">${authenticatedUser?.email}</a>
+              <a class="nav-link disabled" href="#" style="color: white;">${authenticatedUserEmail}</a>
             </li>  
             <li class="nav-item">
               <a class="nav-link" href="#" data-uri="/logout" style="color: white;">Se déconnecter</a>

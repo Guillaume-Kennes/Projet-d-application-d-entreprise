@@ -4,7 +4,7 @@ const HomePage = () => {
   const main = document.querySelector('main');
   const authenticatedUser = getAuthenticatedUser();
   const anonymousUserNavbar = `<a>Connectez vous s'il vous plait</a>`;
-  const authenticatedUserNavbar = `<a>${authenticatedUser?.email}</a>`;
+  const authenticatedUserNavbar = `<a>${authenticatedUser?.user?.email}</a>`;
   main.innerHTML = isAuthenticated() ? authenticatedUserNavbar : anonymousUserNavbar;
 
 };
