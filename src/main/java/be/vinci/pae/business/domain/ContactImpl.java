@@ -204,8 +204,8 @@ public class ContactImpl implements ContactDTO {
   @Override
   public String toString() {
     return "ContactImpl{"
-        + "id=" + id +
-        ", state='" + state + '\''
+        + "id=" + id
+        + ", state='" + state + '\''
         + ", enterprise=" + enterprise
         + ", inscriptionUe=" + inscriptionUe
         + ", reasonForRefusal='" + reasonForRefusal
