@@ -3,8 +3,8 @@ package be.vinci.pae.business.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
- * Implementation class for the ViewCompany interface.
- * This class provides implementations for various company-related methods.
+ * Implementation class for the ViewCompany interface. This class provides implementations for
+ * various company-related methods.
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class ViewCompanyImpl implements ViewCompany {
@@ -12,9 +12,13 @@ public class ViewCompanyImpl implements ViewCompany {
   private int id;
   private String tradeName;
   private String designation;
-  private String adress;
+  private String address;
   private String city;
   private String meansOfCommunication;
+
+
+  public ViewCompanyImpl() {
+  }
 
   @Override
   public int getId() {
@@ -47,13 +51,13 @@ public class ViewCompanyImpl implements ViewCompany {
   }
 
   @Override
-  public String getAdress() {
-    return adress;
+  public String getAddress() {
+    return address;
   }
 
   @Override
-  public void setAdress(String adress) {
-    this.adress = adress;
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   @Override
@@ -81,7 +85,7 @@ public class ViewCompanyImpl implements ViewCompany {
     return "ContactImpl{"
         + "tradeName='" + tradeName + '\''
         + ", designation='" + designation + '\''
-        + ", adress='" + adress + '\''
+        + ", adress='" + address + '\''
         + ", meansOfCommunication='" + meansOfCommunication + '\''
         + '}';
   }

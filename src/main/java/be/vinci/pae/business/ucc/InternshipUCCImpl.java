@@ -6,8 +6,8 @@ import be.vinci.pae.dal.InternshipDAO;
 import jakarta.inject.Inject;
 
 /**
- * Implementation of the InternshipUCC interface.
- * Provides methods related to internship operations.
+ * Implementation of the InternshipUCC interface. Provides methods related to internship
+ * operations.
  */
 public class InternshipUCCImpl implements InternshipUCC {
 
@@ -20,7 +20,6 @@ public class InternshipUCCImpl implements InternshipUCC {
    * Returns the internship corresponding to the user corresponding to the id.
    *
    * @param id the user's id
-   *
    * @return the internship corresponding to the user
    */
   public InternshipDTO getInternshipByUserId(int id) {
@@ -33,7 +32,7 @@ public class InternshipUCCImpl implements InternshipUCC {
       dalServices.rollBack();
       throw e;
     } finally {
-      System.out.println("COMMITT");
+      System.out.println("InternshipUCCImpl --> COMMITT");
       dalServices.commit();
     }
   }

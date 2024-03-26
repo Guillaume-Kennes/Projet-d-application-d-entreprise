@@ -119,7 +119,7 @@ function renderContactCompanyForm() {
       const tradeNameInput = document.getElementById('knownEnterpriseName');
       const enterpriseName = tradeNameInput.value.trim();
 
-      const response = await fetch('http://localhost:3000/contact', {
+      const response = await fetch('http://localhost:3000/contacts/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

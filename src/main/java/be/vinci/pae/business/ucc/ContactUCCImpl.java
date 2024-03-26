@@ -21,9 +21,7 @@ public class ContactUCCImpl implements ContactUCC {
    * Arranges a meeting with a company.
    *
    * @param contact The contact for the meeting.
-   *
-   * @param place The place of the meeting.
-   *
+   * @param place   The place of the meeting.
    * @return The updated contact after the meeting.
    */
   public ContactDTO meetCompany(ContactDTO contact, String place) {
@@ -33,7 +31,7 @@ public class ContactUCCImpl implements ContactUCC {
         throw new IllegalArgumentException("Contact not found");
       }
 
-      if(place == null) {
+      if (place == null) {
         throw new IllegalArgumentException("Place field cannot be null");
       }
 
@@ -60,7 +58,6 @@ public class ContactUCCImpl implements ContactUCC {
    * Retrieves a contact by its ID.
    *
    * @param idContact The ID of the contact.
-   *
    * @return The contact with the given ID.
    */
   public ContactDTO getContactById(int idContact) {
@@ -79,7 +76,6 @@ public class ContactUCCImpl implements ContactUCC {
    * Stops following a contact.
    *
    * @param contact The contact to stop following.
-   *
    * @return The updated contact after stopping the follow.
    */
   public ContactDTO stopFollowing(ContactDTO contact) {
@@ -112,9 +108,7 @@ public class ContactUCCImpl implements ContactUCC {
    * Handles the case when a company refuses an internship.
    *
    * @param contact The contact for the company.
-   *
-   * @param reason The reason for refusal.
-   *
+   * @param reason  The reason for refusal.
    * @return The updated contact after the refusal.
    */
   public ContactDTO companyRefusedInternship(ContactDTO contact, String reason) {
@@ -124,7 +118,7 @@ public class ContactUCCImpl implements ContactUCC {
         throw new IllegalArgumentException("Contact not found");
       }
 
-      if(reason == null) {
+      if (reason == null) {
         throw new IllegalArgumentException("Reason field cannot be null");
       }
 
@@ -163,7 +157,7 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.rollBack();
       throw e;
     } finally {
-      System.out.println("COMMITT");
+      System.out.println("ContactUCCImpl -----> COMMITT");
       dalServices.commit();
     }
   }
@@ -184,9 +178,32 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.rollBack();
       throw e;
     } finally {
-      System.out.println("COMMITT");
+      System.out.println("ContactUCCImpl -----> COMMITT");
       dalServices.commit();
     }
   }
 
+
+  /**
+   * Adds a new contact.
+   *
+   * @param contactDTO The contact data to be added.
+   * @return The added contact data.
+   */
+  @Override
+  public ContactDTO addContact(ContactDTO contactDTO) {
+    System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
+    dalServices.start();
+    try {
+      System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
+      return contactDAO.insert(contactDTO);
+
+    } catch (Exception e) {
+      dalServices.rollBack();
+      System.out.println("ContactUCCImpl ----> e.getMessage() = " + e.getMessage());
+      throw e;
+    } finally {
+      dalServices.commit();
+    }
+  }
 }
