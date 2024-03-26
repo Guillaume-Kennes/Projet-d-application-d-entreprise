@@ -1,8 +1,11 @@
 package be.vinci.pae.business.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 /**
  * Interface for Data Transfer Object (DTO) for Contact.
  */
+@JsonDeserialize(as = ContactImpl.class)
 public interface ContactDTO {
 
   /**
@@ -97,9 +100,52 @@ public interface ContactDTO {
   String getMeetingPlace();
 
   /**
-   * Sets the meeting place of the contact.
+   * Sets the meeting place for the contact.
    *
-   * @param meetingPlace the meeting place of the contact.
+   * @param meetingPlace the new meeting place for the contact.
    */
   void setMeetingPlace(String meetingPlace);
+
+
+  /**
+   * Returns the ID of the enterprise associated with the contact.
+   *
+   * @return The ID of the enterprise associated with the contact.
+   */
+  int getEnterprise();
+
+  /**
+   * Sets the ID of the enterprise associated with the contact.
+   *
+   * @param enterprise the new ID of the enterprise associated with the contact.
+   */
+  void setEnterprise(int enterprise);
+
+  /**
+   * Returns the ID of the user associated with the contact.
+   *
+   * @return The ID of the user associated with the contact.
+   */
+  int getUserId();
+
+  /**
+   * Sets the ID of the user associated with the contact.
+   *
+   * @param userId the new ID of the user associated with the contact.
+   */
+  void setUserId(int userId);
+
+  /**
+   * Returns the trade name associated with the contact.
+   *
+   * @return The trade name associated with the contact.
+   */
+  String getTradeName();
+
+  /**
+   * Sets the trade name associated with the contact.
+   *
+   * @param tradeName the new trade name associated with the contact.
+   */
+  void setTradeName(String tradeName);
 }

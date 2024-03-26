@@ -3,18 +3,13 @@ package be.vinci.pae.business.domain;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
- * Represents a UEInscription data transfer object (DTO) with various properties.
- * This interface defines methods for accessing and modifying UEInscription-related information.
+ * Represents a UEInscription data transfer object (DTO) with various properties. This interface
+ * defines methods for accessing and modifying UEInscription-related information.
  */
-@JsonDeserialize(as = UserImpl.class)
+@JsonDeserialize(as = ViewUEInscriptionImpl.class)
 public interface ViewUEInscriptionDTO {
 
-  /**
-   * Sets the UEInscription's id.
-   *
-   * @param id the UEInscription's id to set
-   */
-  void setId(int id);
+  User getStudent();
 
   /**
    * Sets the UEInscription's student.
@@ -22,6 +17,8 @@ public interface ViewUEInscriptionDTO {
    * @param student the UEInscription's student to set
    */
   void setStudent(User student);
+
+  String getSchoolYear();
 
   /**
    * Sets the UEInscription's school year.
@@ -36,4 +33,11 @@ public interface ViewUEInscriptionDTO {
    * @return the id of the UE inscription.
    */
   int getId();
+
+  /**
+   * Sets the UEInscription's id.
+   *
+   * @param id the UEInscription's id to set
+   */
+  void setId(int id);
 }

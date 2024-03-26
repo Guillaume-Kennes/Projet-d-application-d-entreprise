@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:3000
+
+### Insert a new Company
+POST {{baseUrl}}/contacts/add
+Content-Type: application/json
+
+{
+  "tradeName": "Niboo",
+  "userId": 9
+}

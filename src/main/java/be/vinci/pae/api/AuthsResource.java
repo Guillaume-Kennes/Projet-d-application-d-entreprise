@@ -27,14 +27,15 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * Resource class for handling authentication-related requests.
- * This class provides endpoints for user authentication such as login.
+ * Resource class for handling authentication-related requests. This class provides endpoints for
+ * user authentication such as login.
  */
 @Singleton
 @Path("/auths")
 public class AuthsResource {
+
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
-  private ObjectMapper jsonMapper = new ObjectMapper();
+  private final ObjectMapper jsonMapper = new ObjectMapper();
 
   @Inject
   private UserUCC myUserUCC;
@@ -43,9 +44,7 @@ public class AuthsResource {
    * Endpoint for user login.
    *
    * @param json The JSON object containing the login credentials.
-   *
    * @return An ObjectNode containing a JWT token and user information upon successful login.
-   *
    * @throws WebApplicationException if login credentials are missing or incorrect.
    */
   @POST
@@ -66,7 +65,11 @@ public class AuthsResource {
           Response.Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
-    return jsonMapper.createObjectNode().put("token", token).put("email", publicUser.getEmail());
+    ObjectNode responseObject = jsonMapper.createObjectNode();
+    // Add token and user data to the response
+    responseObject.put("token", token);
+    responseObject.putPOJO("user", publicUser);
+    return responseObject;
   }
 
   /**
@@ -125,7 +128,6 @@ public class AuthsResource {
    * Creates a JWT token for the given user.
    *
    * @param userDTO The UserDTO object representing the user for whom the token is to be created.
-   *
    * @return A JWT token string.
    */
   public String createToken(UserDTO userDTO) {

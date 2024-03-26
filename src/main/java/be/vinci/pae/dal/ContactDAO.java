@@ -13,7 +13,6 @@ public interface ContactDAO {
    * Retrieves a contact by its ID.
    *
    * @param idContact The ID of the contact.
-   *
    * @return The contact with the given ID.
    */
   ContactDTO getContactById(int idContact);
@@ -22,7 +21,6 @@ public interface ContactDAO {
    * Retrieves contact information from a ResultSet.
    *
    * @param resultSet The ResultSet containing the contact information.
-   *
    * @return The contact information retrieved from the ResultSet.
    */
   ContactDTO contactInfos(ResultSet resultSet);
@@ -49,4 +47,12 @@ public interface ContactDAO {
    * @return a list of the "pris" contacts corresponding to the given user
    */
   ArrayList<ContactDTO> getTakenContactsByUserId(int id);
+
+  /**
+   * Inserts a new contact into the database.
+   *
+   * @param contactDTOToInsert The contact data to be inserted.
+   * @return The contact data after insertion.
+   */
+  ContactDTO insert(ContactDTO contactDTOToInsert);
 }
