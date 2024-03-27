@@ -110,7 +110,7 @@ public class ContactResource {
       throw new IllegalArgumentException("Request body is missing or not a valid JSON");
     }
 
-    String reasonForRefusal = json.get("reason_for_refusal").asText();
+    String reasonForRefusal = json.get("reasonRefusal").asText();
     System.out.println("reason_for_refusal : " + reasonForRefusal);
 
     myContactUcc.companyRefusedInternship(contact, reasonForRefusal);
