@@ -8,13 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 /**
- * Implementation of the UserDAO interface.
- * Provides methods for retrieving user-related data from the database.
+ * Implementation of the UserDAO interface. Provides methods for retrieving user-related data from
+ * the database.
  */
 public class UserDAOImpl implements UserDAO {
 
@@ -49,8 +48,10 @@ public class UserDAOImpl implements UserDAO {
       } else {
         user = null;
       }
-    } catch (SQLException e) {
-      throw new FatalException(e);
+
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      System.exit(1);
     } finally {
       try {
         preparedStatement.close();
@@ -67,10 +68,7 @@ public class UserDAOImpl implements UserDAO {
    *
    * @param resultSet The ResultSet containing user information.
    * @return A UserDTO object populated with user information from the ResultSet.
-   * @throws FatalException if an error occurs while fetching
-   *     user information from the ResultSet or setting it to the UserDTO object
    */
-
   public UserDTO userInfos(ResultSet resultSet) {
     UserDTO userDTO = myDomainFactory.getUser();
 
@@ -81,9 +79,10 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setEmail(resultSet.getString("email"));
       userDTO.setPassword(resultSet.getString("password"));
       userDTO.setPhoneNumber(resultSet.getString("phone_number"));
-      userDTO.setRegistrationDate((Date) resultSet.getDate("registration_date"));
+      userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new FatalException(e);
     }
 
@@ -108,7 +107,8 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      throw new FatalException("User not found");
+      e.printStackTrace();
+      throw new FatalException(e);
     }
     return null;
   }
@@ -129,12 +129,12 @@ public class UserDAOImpl implements UserDAO {
         userDTO.setLastName(resultSet.getString("last_name"));
         userDTO.setFirstName(resultSet.getString("first_name"));
         userDTO.setPhoneNumber(resultSet.getString("phone_number"));
-        userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
         userDTO.setRole(resultSet.getString("role"));
         userDTO.setId(resultSet.getInt("id_user"));
         usersList.add(userDTO);
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new FatalException(e);
     }
     return usersList;
@@ -145,7 +145,6 @@ public class UserDAOImpl implements UserDAO {
    *
    * @param userDTO The UserDTO object containing user information.
    * @return A UserDTO object representing the registered user, or null if registration fails.
-   * @throws FatalException if an error occurs during the registration process
    */
   public UserDTO register(UserDTO userDTO) {
 
@@ -180,9 +179,9 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new FatalException(e);
     }
-
     return userDTO;
   }
 }

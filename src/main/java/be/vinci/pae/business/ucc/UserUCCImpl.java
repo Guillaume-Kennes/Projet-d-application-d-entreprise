@@ -98,7 +98,7 @@ public class UserUCCImpl implements UserUCC {
     User user = (User) userDTO;
 
     if (userDAO.getUserByEmail(userDTO.getEmail()) != null) {
-      throw new UnauthorizedException("This email already exists in database");
+      throw new BusinessException("This email already exists in database");
     } else {
       try {
         if (!userDTO.getEmail().endsWith("@vinci.be")

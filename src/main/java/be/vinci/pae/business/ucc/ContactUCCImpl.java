@@ -186,7 +186,6 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       return contactDAO.insert(contactDTO);
-
     } catch (Exception e) {
       dalServices.rollBack();
       throw new BusinessException();

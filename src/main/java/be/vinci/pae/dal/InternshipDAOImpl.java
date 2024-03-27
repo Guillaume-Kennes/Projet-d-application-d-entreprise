@@ -6,14 +6,15 @@ import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.InternshipSupervisor;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
+import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Implementation of the InternshipDAO interface.
- * Provides methods for retrieving internship-related data from the database.
+ * Implementation of the InternshipDAO interface. Provides methods for retrieving internship-related
+ * data from the database.
  */
 public class InternshipDAOImpl implements InternshipDAO {
 
@@ -31,10 +32,8 @@ public class InternshipDAOImpl implements InternshipDAO {
    * Retrieves an internship by their user id from the database.
    *
    * @param id The id of the user whose internship to retrieve.
-   *
    * @return an internship corresponding to the specified user, or null if not found.
-   *
-   * @throws RuntimeException if an SQL exception occurs while accessing the database.
+   * @throws FatalException if an SQL exception occurs while accessing the database.
    */
   public InternshipDTO getInternshipByUserId(int id) {
 
@@ -47,7 +46,7 @@ public class InternshipDAOImpl implements InternshipDAO {
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
 
     InternshipDTO internship = myDomainFactory.getInternship();
@@ -65,6 +64,7 @@ public class InternshipDAOImpl implements InternshipDAO {
         preparedStatement.close();
       } catch (SQLException e) {
         e.printStackTrace();
+        throw new FatalException(e);
       }
     }
     return internship;
@@ -74,8 +74,8 @@ public class InternshipDAOImpl implements InternshipDAO {
    * Method to retrieve internship information and map it to an InternshipDTO object.
    *
    * @param resultSet The ResultSet containing internship information.
-   *
    * @return An InternshipDTO object populated with internship information.
+   * @throws FatalException if an SQL exception occurs while accessing the database.
    */
   public InternshipDTO internshipInfos(ResultSet resultSet) {
     InternshipDTO internshipDTO = myDomainFactory.getInternship();
@@ -92,9 +92,8 @@ public class InternshipDAOImpl implements InternshipDAO {
       internshipDTO.setSupervisor((InternshipSupervisor) supervisor);
     } catch (SQLException e) {
       e.getMessage();
+      throw new FatalException(e);
     }
     return internshipDTO;
   }
-
-
 }
