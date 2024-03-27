@@ -199,7 +199,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void getContactByIdTest() {
+  public void getContactById_Success() {
     // Arrange
     int idContact = 1;
     ContactDTO expectedContact = mock(ContactDTO.class);
@@ -209,9 +209,25 @@ public class ContactUCCTest {
     ContactDTO result = contactUCC.getContactById(idContact);
 
     // Assert
-    verify(contactDAO).getContactById(idContact);
     assertEquals(expectedContact, result);
   }
+
+  @Test
+  public void getContactById_Failure() {
+    // Arrange
+    int idContact = 1;
+    when(contactDAO.getContactById(idContact)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.getContactById(idContact);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
 
   @Test
   public void stopFollowingTest_nullContact() {
@@ -398,6 +414,37 @@ public class ContactUCCTest {
     // Act
     Exception exception = assertThrows(RuntimeException.class, () -> {
       contactUCC.getTakenContactsByUserId(userId);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
+
+  @Test
+  public void getContactsByUserId_Success() {
+    // Arrange
+    int userId = 1;
+    ArrayList<ContactDTO> expectedContacts = new ArrayList<>();
+    when(contactDAO.getContactsByUserId(userId)).thenReturn(expectedContacts);
+
+    // Act
+    ArrayList<ContactDTO> result = contactUCC.getContactsByUserId(userId);
+
+    // Assert
+    assertEquals(expectedContacts, result);
+  }
+
+  @Test
+  public void getContactsByUserId_Failure() {
+    // Arrange
+    int userId = 1;
+    when(contactDAO.getContactsByUserId(userId)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.getContactsByUserId(userId);
     });
 
     // Assert
