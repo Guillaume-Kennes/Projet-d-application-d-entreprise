@@ -150,7 +150,7 @@ public class UserUCCTest {
  @Test
   void getAllUsersTest_Succes() {
     // Arrange
-    ArrayList<UserDTO> expecetedUsers = new ArrayList<>();
+    List<UserDTO> expecetedUsers = new ArrayList<>();
     when(userDAO.getAllUsers()).thenReturn(expecetedUsers);
 
     // Act
