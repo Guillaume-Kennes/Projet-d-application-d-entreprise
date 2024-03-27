@@ -3,6 +3,7 @@ package be.vinci.pae.ucc;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.DomainFactory;
@@ -66,5 +67,34 @@ public class InternshipUCCTest {
     InternshipDTO result = internshipUCC.getInternshipByUserId(userId);
 
     assertNull(result);
+  }
+
+  @Test
+  public void getInternshipByUserIdTest_Success() {
+    // Arrange
+    int userId = 1;
+    InternshipDTO expectedInternship = internshipDAO.getInternshipByUserId(userId);
+    when(internshipDAO.getInternshipByUserId(userId)).thenReturn(expectedInternship);
+
+    // Act
+    InternshipDTO result = internshipUCC.getInternshipByUserId(userId);
+
+    // Assert
+    assertEquals(expectedInternship, result);
+  }
+
+  @Test
+  public void getInternshipByUserIdTest_Failure() {
+    // Arrange
+    int userId = 1;
+    when(internshipDAO.getInternshipByUserId(userId)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      internshipUCC.getInternshipByUserId(userId);
+    });
+
+    // Assert
+    assertNotNull(exception);
   }
 }

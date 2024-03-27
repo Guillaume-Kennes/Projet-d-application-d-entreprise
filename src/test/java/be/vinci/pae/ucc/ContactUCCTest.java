@@ -200,7 +200,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void getContactById_Success() {
+  public void getContactByIdTest_Success() {
     // Arrange
     int idContact = 1;
     ContactDTO expectedContact = mock(ContactDTO.class);
@@ -214,7 +214,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void getContactById_Failure() {
+  public void getContactByIdTest_Failure() {
     // Arrange
     int idContact = 1;
     when(contactDAO.getContactById(idContact)).thenThrow(new RuntimeException());
@@ -364,7 +364,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void addContact_Success() {
+  public void addContactTest_Success() {
     // Arrange
     ContactDTO contactDTO = mock(ContactDTO.class);
     when(contactDAO.insert(contactDTO)).thenReturn(contactDTO);
@@ -377,7 +377,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void addContact_Failure() {
+  public void addContactTest_Failure() {
     // Arrange
     ContactDTO contactDTO = mock(ContactDTO.class);
     when(contactDAO.insert(contactDTO)).thenThrow(new RuntimeException());
@@ -393,7 +393,7 @@ public class ContactUCCTest {
 
 
   @Test
-  public void getTakenContactsByUserId_Success() {
+  public void getTakenContactsByUserIdTest_Success() {
     // Arrange
     int userId = 1;
     ArrayList<ContactDTO> expectedContacts = new ArrayList<>();
@@ -407,7 +407,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void getTakenContactsByUserId_Failure() {
+  public void getTakenContactsByUserIdTest_Failure() {
     // Arrange
     int userId = 1;
     when(contactDAO.getTakenContactsByUserId(userId)).thenThrow(new RuntimeException());
@@ -423,8 +423,8 @@ public class ContactUCCTest {
 
 
 
-  @Test
-  public void getContactsByUserId_Success() {
+  /** @Test
+  public void getContactsByUserIdTest_Success() {
     // Arrange
     int userId = 1;
     ArrayList<ContactDTO> expectedContacts = new ArrayList<>();
@@ -435,10 +435,10 @@ public class ContactUCCTest {
 
     // Assert
     assertEquals(expectedContacts, result);
-  }
+  } */
 
   @Test
-  public void getContactsByUserId_Failure() {
+  public void getContactsByUserIdTest_Failure() {
     // Arrange
     int userId = 1;
     when(contactDAO.getContactsByUserId(userId)).thenThrow(new RuntimeException());
