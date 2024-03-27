@@ -13,8 +13,6 @@ import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.AppBinderTest;
 
-import java.util.ArrayList;
-import java.util.List;
 import be.vinci.pae.utils.exception.BusinessException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
@@ -147,7 +145,8 @@ public class UserUCCTest {
   }
 
 
- /**@Test
+ /**
+  * @Test
   void getAllUsersTest_Succes() {
     // Arrange
     List<UserDTO> expecetedUsers = new ArrayList<>();
@@ -158,7 +157,8 @@ public class UserUCCTest {
 
     // Assert
     assertEquals(expecetedUsers, result);
-  }*/
+  }
+  */
 
   @Test
   void getAllUsersTest_Failure() {
