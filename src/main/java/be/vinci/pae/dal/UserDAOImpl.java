@@ -181,8 +181,10 @@ public class UserDAOImpl implements UserDAO {
       } catch (SQLException e) {
         e.printStackTrace();
       }
-    } finally {
-      return userDTO;
+    } catch (Exception e) {
+      System.exit(1);
     }
+
+    return userDTO;
   }
 }
