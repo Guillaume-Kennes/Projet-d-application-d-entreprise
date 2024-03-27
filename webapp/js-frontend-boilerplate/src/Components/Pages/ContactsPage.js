@@ -75,7 +75,7 @@ function showForm(idContact) {
             Rencontre à distance
           </label>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
       </form>
     </div>
   `;
