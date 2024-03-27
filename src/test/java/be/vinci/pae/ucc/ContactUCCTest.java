@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -199,7 +200,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void getContactByIdTest() {
+  public void getContactById_Success() {
     // Arrange
     int idContact = 1;
     ContactDTO expectedContact = mock(ContactDTO.class);
@@ -209,9 +210,25 @@ public class ContactUCCTest {
     ContactDTO result = contactUCC.getContactById(idContact);
 
     // Assert
-    verify(contactDAO).getContactById(idContact);
     assertEquals(expectedContact, result);
   }
+
+  @Test
+  public void getContactById_Failure() {
+    // Arrange
+    int idContact = 1;
+    when(contactDAO.getContactById(idContact)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.getContactById(idContact);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
 
   @Test
   public void stopFollowingTest_nullContact() {
@@ -345,4 +362,94 @@ public class ContactUCCTest {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
+
+  @Test
+  public void addContact_Success() {
+    // Arrange
+    ContactDTO contactDTO = mock(ContactDTO.class);
+    when(contactDAO.insert(contactDTO)).thenReturn(contactDTO);
+
+    // Act
+    ContactDTO result = contactUCC.addContact(contactDTO);
+
+    // Assert
+    assertEquals(contactDTO, result);
+  }
+
+  @Test
+  public void addContact_Failure() {
+    // Arrange
+    ContactDTO contactDTO = mock(ContactDTO.class);
+    when(contactDAO.insert(contactDTO)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.addContact(contactDTO);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
+  @Test
+  public void getTakenContactsByUserId_Success() {
+    // Arrange
+    int userId = 1;
+    ArrayList<ContactDTO> expectedContacts = new ArrayList<>();
+    when(contactDAO.getTakenContactsByUserId(userId)).thenReturn(expectedContacts);
+
+    // Act
+    ArrayList<ContactDTO> result = contactUCC.getTakenContactsByUserId(userId);
+
+    // Assert
+    assertEquals(expectedContacts, result);
+  }
+
+  @Test
+  public void getTakenContactsByUserId_Failure() {
+    // Arrange
+    int userId = 1;
+    when(contactDAO.getTakenContactsByUserId(userId)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.getTakenContactsByUserId(userId);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
+
+  @Test
+  public void getContactsByUserId_Success() {
+    // Arrange
+    int userId = 1;
+    ArrayList<ContactDTO> expectedContacts = new ArrayList<>();
+    when(contactDAO.getContactsByUserId(userId)).thenReturn(expectedContacts);
+
+    // Act
+    ArrayList<ContactDTO> result = contactUCC.getContactsByUserId(userId);
+
+    // Assert
+    assertEquals(expectedContacts, result);
+  }
+
+  @Test
+  public void getContactsByUserId_Failure() {
+    // Arrange
+    int userId = 1;
+    when(contactDAO.getContactsByUserId(userId)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.getContactsByUserId(userId);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
 }

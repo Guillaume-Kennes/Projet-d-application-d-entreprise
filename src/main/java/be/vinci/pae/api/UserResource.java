@@ -7,6 +7,7 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.main.Main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -18,6 +19,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * Resource class for handling user-related endpoints.
@@ -27,6 +30,7 @@ import java.util.List;
 @Path("/users")
 public class UserResource {
 
+  private final Logger logger = LogManager.getLogger(Main.class.getName());
   private ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private UserUCC myUserUcc;
@@ -51,6 +55,7 @@ public class UserResource {
   public ObjectNode getUserById(@PathParam("id") int id) {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
+      logger.error("Utilisateur inconnu");
       throw new IllegalArgumentException("User not found");
     }
 
@@ -92,6 +97,7 @@ public class UserResource {
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
   public List<UserDTO> getAllUsers() {
+    logger.info("Demande pour voir la liste des utilisateurs");
     return myUserUcc.getAllUsers();
   }
 

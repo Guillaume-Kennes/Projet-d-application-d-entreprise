@@ -102,20 +102,20 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * @throws FatalException if a SQLException occurs.
    */
   public void commit() {
-    Connection connection = connectionThread.get();
-
-    if (counterThreads.get() == 1 && connection != null) {
+    if (counterThreads.get() != null && counterThreads.get() == 1) {
       counterThreads.remove();
+      Connection connection = connectionThread.get();
       try {
         connection.commit();
         connection.setAutoCommit(true);
         connectionThread.remove();
         connection.close();
       } catch (SQLException e) {
+        e.printStackTrace();
         throw new FatalException(e);
       }
     } else {
-      counterThreads.set(counterThreads.get() - 1);
+      counterThreads.set(counterThreads.get());
     }
   }
 

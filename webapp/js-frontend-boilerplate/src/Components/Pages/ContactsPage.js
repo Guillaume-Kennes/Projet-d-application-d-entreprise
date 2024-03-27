@@ -28,20 +28,20 @@ function renderContactsPage(contact) {
       const contactText = document.createElement("span");
       const button = document.createElement("button");
       const button2 = document.createElement("button");
-      const checkBox = document.createElement("input");
-      checkBox.type = "checkbox";
+      const button3 = document.createElement("button");
 
       contactText.textContent = `${description}`; // Display the contact description
       button.textContent = "Indiquer que le contact est pris";
       button.addEventListener("click", () => showForm(id)); // Attach event listener
       button2.textContent = "Indiquer que le contact est refusé";
       button2.addEventListener("click", () => showFormRefusal(id));
-      checkBox.addEventListener("check", () => stopFollowing(id));
+      button3.textContent = "Arrêter de suivre le contact";
+      button3.addEventListener("click", () => stopFollowing(id));
 
       listItem.appendChild(contactText);
       listItem.appendChild(button);
       listItem.appendChild(button2);
-      listItem.appendChild(checkBox);
+      listItem.appendChild(button3);
       contactList.appendChild(listItem);
     });
   } else {
@@ -75,7 +75,7 @@ function showForm(idContact) {
             Rencontre à distance
           </label>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+        <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
       </form>
     </div>
   `;
@@ -92,7 +92,7 @@ function showFormRefusal(idContact) {
       <form id="refusal-form">
         <h3> Raisons du refus </h3>
         <div class="form-group">
-          <label for="reason">Raison :</label>
+          <label for="reason1">Raison :</label>
             <input type="text" class="form-control" id="reason" name="reason" placeholder="Entrez la raison du refus" required>
         </div>
         <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
@@ -165,7 +165,7 @@ async function stopFollowing(idContact) {
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
-    window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
+    // window.location.href = `ContactsPage?id=${getUserIdFromToken()}`;
   } catch (error) {
     console.error('Error stopping following the contact :', error);
   }
