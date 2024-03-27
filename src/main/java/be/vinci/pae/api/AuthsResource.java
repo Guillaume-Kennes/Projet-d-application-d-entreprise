@@ -74,7 +74,8 @@ public class AuthsResource {
     ObjectNode responseObject = jsonMapper.createObjectNode();
     responseObject.put("token", token);
     responseObject.putPOJO("user", publicUser);
-    logger.info("Connexion réussie. Token de " + publicUser.getLastName() + " " + publicUser.getFirstName());
+    logger.info("Connexion réussie. Token de "
+        + publicUser.getLastName() + " " + publicUser.getFirstName());
     return responseObject;
   }
 
@@ -105,7 +106,8 @@ public class AuthsResource {
       logger.error("Impossible de s'enregistrer, il manque des infos");
       throw new WebApplicationException("Missing information(s)");
     }
-    logger.info("Enregistrement du nouvel utilisateur " + userDTO.getFirstName() + " " + userDTO.getLastName());
+    logger.info("Enregistrement du nouvel utilisateur "
+        + userDTO.getFirstName() + " " + userDTO.getLastName());
     return myUserUCC.register(userDTO);
   }
 

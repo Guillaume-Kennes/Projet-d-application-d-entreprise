@@ -3,7 +3,6 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.InternshipDAO;
-import be.vinci.pae.utils.exception.BusinessException;
 import jakarta.inject.Inject;
 
 /**
