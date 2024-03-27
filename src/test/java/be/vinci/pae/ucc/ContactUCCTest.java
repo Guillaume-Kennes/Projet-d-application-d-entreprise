@@ -129,14 +129,12 @@ public class ContactUCCTest {
     String place = "enterprise";
 
 
-
+    // Act
+    ContactDTO result = contactUCC.meetCompany(contact, place);
     // Assert
     verify(contact).setState("pris");
     verify(contact).setMeetingPlace(place);
     verify(contactDAO).update(contact);
-
-    // Act
-    ContactDTO result = contactUCC.meetCompany(contact, place);
     assertEquals(contact, result);
   }
 
@@ -258,14 +256,12 @@ public class ContactUCCTest {
     when(contact.isFollowed()).thenReturn(true);
 
 
-
+    // act
+    ContactDTO result = contactUCC.stopFollowing(contact);
     // assert
     verify(contact).setFollowed(false);
     verify(contact).setState("abandonné");
     verify(contactDAO).update(contact);
-
-    // act
-    ContactDTO result = contactUCC.stopFollowing(contact);
     assertEquals(contact, result);
   }
 
@@ -296,13 +292,12 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("pris");
     String reason = "hello";
 
+    // Act
+    ContactDTO result = contactUCC.companyRefusedInternship(contact, reason);
     // Assert
     verify(contact).setState("refusé");
     verify(contact).setReasonForRefusal(reason);
     verify(contactDAO).update(contact);
-
-    // Act
-    ContactDTO result = contactUCC.companyRefusedInternship(contact, reason);
     assertEquals(contact, result);
   }
 
