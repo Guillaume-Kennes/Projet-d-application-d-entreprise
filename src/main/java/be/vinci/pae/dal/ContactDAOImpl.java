@@ -8,6 +8,7 @@ import be.vinci.pae.business.domain.ViewUEInscription;
 import be.vinci.pae.business.domain.ViewUEInscriptionDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response.Status;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param contactId The ID of the contact to retrieve.
    * @return The contact DTO if found, null otherwise.
-   * @throws IllegalArgumentException if the contact is not found.
+   * @throws FatalException if the contact is not found.
    */
   public ContactDTO getContactById(int contactId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -48,7 +49,7 @@ public class ContactDAOImpl implements ContactDAO {
         }
       }
     } catch (SQLException e) {
-      throw new IllegalArgumentException("Contact not found");
+      throw new FatalException("Contact not found", Status.BAD_REQUEST);
     }
     return null;
   }
@@ -58,6 +59,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param resultSet The ResultSet to extract information from.
    * @return A ContactDTO populated with the extracted information.
+   * @throws FatalException if an SQL error occurs.
    */
   public ContactDTO contactInfos(ResultSet resultSet) {
     ContactDTO contactDTO = myDomainFactory.getContact();
@@ -75,7 +77,7 @@ public class ContactDAOImpl implements ContactDAO {
       ueInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
       contactDTO.setInscriptionUE((ViewUEInscription) ueInscription);
     } catch (SQLException e) {
-      e.getMessage();
+      throw new FatalException(e);
     }
 
     return contactDTO;
@@ -85,7 +87,7 @@ public class ContactDAOImpl implements ContactDAO {
    * Updates a contact in the database.
    *
    * @param contactDTO The contact DTO to update.
-   * @throws IllegalArgumentException if an SQL error occurs.
+   * @throws FatalException if an SQL error occurs.
    */
   public void update(ContactDTO contactDTO) {
     try {
@@ -108,12 +110,11 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setString(6, contactDTO.getMeetingPlace());
         ps.setInt(7, contactDTO.getId());
 
-        System.out.println("contact DAO IMPL : " + contactDTO.getId());
 
         ps.execute();
       }
     } catch (SQLException e) {
-      throw new IllegalArgumentException(e);
+      throw new FatalException(e);
     }
   }
 
@@ -122,7 +123,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param id The ID of the user whose contacts to retrieve.
    * @return A list of ContactDTO object representing the contacts, or null if not found.
-   * @throws IllegalArgumentException if not found in the database.
+   * @throws FatalException if not found in the database.
    */
   public ArrayList<ContactDTO> getContactsByUserId(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -138,14 +139,13 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param id The ID of the user whose taken contacts to retrieve.
    * @return A list of ContactDTO object representing the contacts, or null if not found.
-   * @throws IllegalArgumentException if not found in the database.
+   * @throws FatalException if not found in the database.
    */
   public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
             + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
-
     return getCorrespondingContacts(preparedStatement, id);
   }
 
@@ -155,13 +155,13 @@ public class ContactDAOImpl implements ContactDAO {
    * @param id The ID of the user whose contacts to retrieve.
    * @param ps The prepared statement containing the information about which contacts are wanted.
    * @return A list of ContactDTO object representing the contacts, or null if not found.
-   * @throws IllegalArgumentException if not found in the database.
+   * @throws FatalException if not found in the database.
    */
   private ArrayList<ContactDTO> getCorrespondingContacts(PreparedStatement ps, int id) {
     try {
       ps.setInt(1, id);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
 
     ArrayList<ContactDTO> contacts = new ArrayList<>();
@@ -172,13 +172,13 @@ public class ContactDAOImpl implements ContactDAO {
         contacts.add(contact);
       }
     } catch (Exception e) {
-      System.out.println(e.getMessage());
       System.exit(1);
     } finally {
       try {
         ps.close();
       } catch (SQLException e) {
         e.printStackTrace();
+        throw new FatalException(e);
       }
     }
     return contacts;
@@ -199,24 +199,22 @@ public class ContactDAOImpl implements ContactDAO {
               INSERT INTO pae.contacts (
               state,
               enterprise,
-              inscription_UE,
+              inscription_ue,
               reason_for_refusal,
               is_followed,
               meeting_place)
-          VALUES ('initié',
+          VALUES ('initiÃ©',
           (SELECT e.id_enterprise
            FROM pae.enterprises e
            WHERE e.trade_name LIKE ?),
-          (SELECT DISTINCT c.inscription_ue
-           FROM pae.users u, pae.contacts c, pae.inscriptions_UE i
+          (SELECT DISTINCT i.id_inscription_ue
+           FROM pae.users u, pae.inscriptions_ue i
            WHERE u.id_user = i.student
-           AND i.id_inscription_UE = c.inscription_ue
-           AND u.id_user = ?),
+           AND u.id_user =  ?),
           null, true, null)
           RETURNING *;
             """;
 
-      System.out.println("Generated SQL query: " + query);
 
       // String tradeName = "N"; // Or any other search term
       // String wildcardTradeName = "%" + tradeName + "%";
@@ -224,24 +222,14 @@ public class ContactDAOImpl implements ContactDAO {
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
 
-        System.out.println("2 Generated SQL query : " + query);
-
         ps.setString(1, contactDTO.getTradeName());
         ps.setInt(2, contactDTO.getUserId());
 
-        System.out.println("ContactDAOImpl -------> Enterprise : "
-            + contactDTO.getTradeName());
-        System.out.println("ContactDAOImpl -------> UserId : "
-            + contactDTO.getUserId());
-
-        System.out.println("ContactDAOImpl ----> ps : " + ps);
-        ps.execute();
       }
     } catch (SQLException e) {
       e.printStackTrace();
       throw new FatalException(e);
     }
-    System.out.println("ContactDAOImpl --> contactDTO : " + contactDTO);
     return contactDTO;
   }
 }

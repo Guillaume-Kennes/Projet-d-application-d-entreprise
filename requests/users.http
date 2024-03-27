@@ -5,8 +5,8 @@ POST {{baseUrl}}/auths/login
 Content-Type: application/json
 
 {
-  "email":"chuqi.chups@student.vinci.be",
-  "password":"Azertyui1_"
+  "email":"Caroline.line@student.vinci.be",
+  "password":"mdpuser.1"
 }
 
 ### Login another user
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "email":"raphael.baroni@vinci.be" ,
-  "password": "Azertyui1_"
+  "password": "Prof24,z"
 }
 
 ### Get an user by it's id

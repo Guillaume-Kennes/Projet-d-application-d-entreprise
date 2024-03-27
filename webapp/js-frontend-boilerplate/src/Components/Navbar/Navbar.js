@@ -35,9 +35,9 @@ function renderNavbar() {
             <li id="loginItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/login" style="color: white;">Se connecter</a>
             </li>  
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-uri="/viewUsers" style="color: white;">Rechercher tous les utilisateurs</a>
-            </li>        
+            <li id="registerItem" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/register" style="color: white;">S'inscrire</a>
+            </li>          
           </ul>
         </div>
       </div>
@@ -61,6 +61,9 @@ function renderNavbar() {
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 " style="position: absolute; right: 0;">
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-uri="/viewUsers" style="color: white;">Rechercher tous les utilisateurs</a>
+            </li>
             <li id="contactCompanyItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/contact" style="color: white;">Contacter une entreprise</a>
             </li>
