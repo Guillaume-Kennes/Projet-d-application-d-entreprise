@@ -30,7 +30,7 @@ public class ViewCompanyUCCImpl implements ViewCompanyUCC {
 
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     }
   }
 }

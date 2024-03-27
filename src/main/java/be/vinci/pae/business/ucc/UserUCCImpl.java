@@ -6,6 +6,7 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.BusinessException;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class UserUCCImpl implements UserUCC {
       return userFound;
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException(e.getMessage());
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -57,7 +58,7 @@ public class UserUCCImpl implements UserUCC {
       return userDTO;
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -76,7 +77,7 @@ public class UserUCCImpl implements UserUCC {
       return userDAO.getAllUsers();
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -97,13 +98,13 @@ public class UserUCCImpl implements UserUCC {
     User user = (User) userDTO;
 
     if (userDAO.getUserByEmail(userDTO.getEmail()) != null) {
-      throw new BusinessException("This email already exists in database");
+      throw new BusinessException("This email already exists in database", Status.CONFLICT);
     } else {
       try {
         if (!userDTO.getEmail().endsWith("@vinci.be")
             && !userDTO.getEmail().endsWith("@student.vinci.be")) {
           throw new BusinessException(
-              "The email address must end with @student.vinci.be or @vinci.be");
+              "The email address must end with @student.vinci.be or @vinci.be", Status.BAD_REQUEST);
         } else if (userDTO.getEmail().endsWith("@student.vinci.be")) {
           userDTO.setRole("Etudiant");
         }
@@ -112,7 +113,7 @@ public class UserUCCImpl implements UserUCC {
 
       } catch (Exception e) {
         dalServices.rollBack();
-        throw new BusinessException();
+        throw e;
       } finally {
         dalServices.commit();
       }

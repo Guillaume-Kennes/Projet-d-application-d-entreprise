@@ -47,7 +47,7 @@ public class ContactUCCImpl implements ContactUCC {
       }
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -65,7 +65,7 @@ public class ContactUCCImpl implements ContactUCC {
       return contactDAO.getContactById(idContact);
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -95,7 +95,7 @@ public class ContactUCCImpl implements ContactUCC {
       }
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -130,7 +130,7 @@ public class ContactUCCImpl implements ContactUCC {
       }
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -149,7 +149,7 @@ public class ContactUCCImpl implements ContactUCC {
       return contactDTOS;
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -168,7 +168,7 @@ public class ContactUCCImpl implements ContactUCC {
       return contactDTOS;
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
@@ -188,7 +188,7 @@ public class ContactUCCImpl implements ContactUCC {
       return contactDAO.insert(contactDTO);
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }

@@ -30,7 +30,7 @@ public class InternshipUCCImpl implements InternshipUCC {
       return internshipDTO;
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new BusinessException();
+      throw e;
     } finally {
       dalServices.commit();
     }
