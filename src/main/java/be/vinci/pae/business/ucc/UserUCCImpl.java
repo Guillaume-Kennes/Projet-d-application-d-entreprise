@@ -5,7 +5,6 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.BusinessException;
-import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
 import java.util.List;
 
