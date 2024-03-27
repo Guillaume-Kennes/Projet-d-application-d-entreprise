@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.DomainFactory;
@@ -12,6 +13,8 @@ import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.AppBinderTest;
 import be.vinci.pae.utils.exception.UnauthorizedException;
+import java.util.ArrayList;
+import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,14 +89,34 @@ public class UserUCCTest {
    * Test for retrieving a user by their ID.
    */
   @Test
-  void testGetUserById() {
-    userDTO.setId(1);
+  public void getUserByIdTest_Success() {
+    // Arrange
+    int userId = 1;
+    UserDTO expectedUser = mock(UserDTO.class);
+    when(userDAO.getUserById(userId)).thenReturn(expectedUser);
 
-    when(userDAO.getUserById(1)).thenReturn(userDTO);
-    UserDTO result = userUCC.getUserById(1);
-    assertNotNull(result);
-    assertEquals(userDTO.getId(), result.getId());
+    // Act
+    UserDTO result = userUCC.getUserById(userId);
+
+    // Assert
+    assertEquals(expectedUser, result);
   }
+
+  @Test
+  public void getUserByIdTest_Failure() {
+    // Arrange
+    int userId = 1;
+    when(userDAO.getUserById(userId)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userUCC.getUserById(userId);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
 
 
   @Test
@@ -120,6 +143,34 @@ public class UserUCCTest {
     when(userDAO.getUserByEmail("laurent.leleux@vinci.be")).thenReturn(userDTO);
 
     assertThrows(UnauthorizedException.class, () -> userUCC.register(userDTO));
+  }
+
+
+ @Test
+  void getAllUsersTest_Succes() {
+    // Arrange
+    ArrayList<UserDTO> expecetedUsers = new ArrayList<>();
+    when(userDAO.getAllUsers()).thenReturn(expecetedUsers);
+
+    // Act
+    List<UserDTO> result = userUCC.getAllUsers();
+
+    // Assert
+    assertEquals(expecetedUsers, result);
+  }
+
+  @Test
+  void getAllUsersTest_Failure() {
+    // Arrange
+    when(userDAO.getAllUsers()).thenThrow(new RuntimeException());
+
+    //Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userUCC.getAllUsers();
+    });
+
+    // Assert
+    assertNotNull(exception);
   }
 
 
