@@ -3,6 +3,7 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.InternshipDAO;
+import be.vinci.pae.utils.exception.BusinessException;
 import jakarta.inject.Inject;
 
 /**
@@ -28,11 +29,9 @@ public class InternshipUCCImpl implements InternshipUCC {
       InternshipDTO internshipDTO = internshipDAO.getInternshipByUserId(id);
       return internshipDTO;
     } catch (Exception e) {
-      System.out.println("ROLLBACK");
       dalServices.rollBack();
-      throw e;
+      throw new BusinessException();
     } finally {
-      System.out.println("InternshipUCCImpl --> COMMITT");
       dalServices.commit();
     }
   }

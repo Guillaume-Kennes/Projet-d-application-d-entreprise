@@ -3,6 +3,7 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.ViewCompanyDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.ViewCompanyDAO;
+import be.vinci.pae.utils.exception.BusinessException;
 import jakarta.inject.Inject;
 
 /**
@@ -29,8 +30,7 @@ public class ViewCompanyUCCImpl implements ViewCompanyUCC {
 
     } catch (Exception e) {
       dalServices.rollBack();
-      System.out.println("e.getMessage() = " + e.getMessage());
-      throw e;
+      throw new BusinessException();
     }
   }
 }

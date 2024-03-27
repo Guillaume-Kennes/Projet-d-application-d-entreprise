@@ -32,7 +32,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param contactId The ID of the contact to retrieve.
    * @return The contact DTO if found, null otherwise.
-   * @throws IllegalArgumentException if the contact is not found.
+   * @throws FatalException if the contact is not found.
    */
   public ContactDTO getContactById(int contactId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -48,7 +48,7 @@ public class ContactDAOImpl implements ContactDAO {
         }
       }
     } catch (SQLException e) {
-      throw new IllegalArgumentException("Contact not found");
+      throw new FatalException("Contact not found");
     }
     return null;
   }
@@ -58,6 +58,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param resultSet The ResultSet to extract information from.
    * @return A ContactDTO populated with the extracted information.
+   * @throws FatalException if an SQL error occurs.
    */
   public ContactDTO contactInfos(ResultSet resultSet) {
     ContactDTO contactDTO = myDomainFactory.getContact();
@@ -76,6 +77,7 @@ public class ContactDAOImpl implements ContactDAO {
       contactDTO.setInscriptionUE((ViewUEInscription) ueInscription);
     } catch (SQLException e) {
       e.getMessage();
+      throw new FatalException(e);
     }
 
     return contactDTO;
@@ -85,7 +87,7 @@ public class ContactDAOImpl implements ContactDAO {
    * Updates a contact in the database.
    *
    * @param contactDTO The contact DTO to update.
-   * @throws IllegalArgumentException if an SQL error occurs.
+   * @throws FatalException if an SQL error occurs.
    */
   public void update(ContactDTO contactDTO) {
     try {
@@ -113,7 +115,7 @@ public class ContactDAOImpl implements ContactDAO {
         ps.execute();
       }
     } catch (SQLException e) {
-      throw new IllegalArgumentException(e);
+      throw new FatalException(e);
     }
   }
 
@@ -122,7 +124,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param id The ID of the user whose contacts to retrieve.
    * @return A list of ContactDTO object representing the contacts, or null if not found.
-   * @throws IllegalArgumentException if not found in the database.
+   * @throws FatalException if not found in the database.
    */
   public ArrayList<ContactDTO> getContactsByUserId(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -138,14 +140,13 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param id The ID of the user whose taken contacts to retrieve.
    * @return A list of ContactDTO object representing the contacts, or null if not found.
-   * @throws IllegalArgumentException if not found in the database.
+   * @throws FatalException if not found in the database.
    */
   public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
             + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
-
     return getCorrespondingContacts(preparedStatement, id);
   }
 
@@ -155,13 +156,13 @@ public class ContactDAOImpl implements ContactDAO {
    * @param id The ID of the user whose contacts to retrieve.
    * @param ps The prepared statement containing the information about which contacts are wanted.
    * @return A list of ContactDTO object representing the contacts, or null if not found.
-   * @throws IllegalArgumentException if not found in the database.
+   * @throws FatalException if not found in the database.
    */
   private ArrayList<ContactDTO> getCorrespondingContacts(PreparedStatement ps, int id) {
     try {
       ps.setInt(1, id);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
 
     ArrayList<ContactDTO> contacts = new ArrayList<>();
@@ -179,6 +180,7 @@ public class ContactDAOImpl implements ContactDAO {
         ps.close();
       } catch (SQLException e) {
         e.printStackTrace();
+        throw new FatalException(e);
       }
     }
     return contacts;

@@ -43,7 +43,6 @@ public class Main {
    * @throws IOException if an I/O error occurs while starting the server.
    */
   public static void main(String[] args) throws IOException {
-    //System.out.println(BCrypt.hashpw("Azertyui1_", BCrypt.gensalt()));
 
     final HttpServer server = startServer();
     System.out.println(String.format("Jersey app started with endpoints available at "

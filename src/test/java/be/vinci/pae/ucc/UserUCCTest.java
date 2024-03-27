@@ -12,9 +12,10 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.AppBinderTest;
-import be.vinci.pae.utils.exception.UnauthorizedException;
+
 import java.util.ArrayList;
 import java.util.List;
+import be.vinci.pae.utils.exception.BusinessException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +72,7 @@ public class UserUCCTest {
 
     when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(userDTO);
 
-    assertThrows(UnauthorizedException.class,
+    assertThrows(BusinessException.class,
         () -> userUCC.login("chuqi.chups@student.vinci.be", "12ksdjkglkjglkjwlkmjgmj3"));
   }
 
@@ -81,7 +82,7 @@ public class UserUCCTest {
   @Test
   void testLoginFailureForEmail() {
     assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
-    assertThrows(UnauthorizedException.class,
+    assertThrows(BusinessException.class,
         () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
   }
 
@@ -142,7 +143,7 @@ public class UserUCCTest {
 
     when(userDAO.getUserByEmail("laurent.leleux@vinci.be")).thenReturn(userDTO);
 
-    assertThrows(UnauthorizedException.class, () -> userUCC.register(userDTO));
+    assertThrows(BusinessException.class, () -> userUCC.register(userDTO));
   }
 
 

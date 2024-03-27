@@ -13,6 +13,7 @@ import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.utils.AppBinderTest;
+import be.vinci.pae.utils.exception.BusinessException;
 import java.util.ArrayList;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
@@ -98,7 +99,7 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_nullContact() {
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(null, "enterprise");
     });
   }
@@ -113,7 +114,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("initié");
 
     // act and assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, null);
     });
   }
@@ -145,7 +146,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("pris");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "enterprise");
     });
   }
@@ -157,7 +158,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("refusé");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
   }
@@ -169,7 +170,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("accepté");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
   }
@@ -181,7 +182,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("suspendu");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
   }
@@ -193,7 +194,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("abandonné");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "enterprise");
     });
   }
@@ -232,7 +233,7 @@ public class ContactUCCTest {
   @Test
   public void stopFollowingTest_nullContact() {
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.stopFollowing(null);
     });
   }
@@ -244,7 +245,7 @@ public class ContactUCCTest {
     when(contact.isFollowed()).thenReturn(false);
 
     // act and assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.stopFollowing(contact);
     });
   }
@@ -268,7 +269,7 @@ public class ContactUCCTest {
   @Test
   public void companyRefusedInternshipTest_nullContact() {
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(null, "hello");
     });
   }
@@ -280,7 +281,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("pris");
 
     // act and assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, null);
     });
   }
@@ -309,7 +310,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("initié");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
@@ -321,7 +322,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("refusé");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
@@ -333,7 +334,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("accepté");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
@@ -345,7 +346,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("suspendu");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
@@ -357,7 +358,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("abandonné");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
