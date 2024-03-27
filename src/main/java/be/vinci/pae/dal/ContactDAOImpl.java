@@ -8,6 +8,7 @@ import be.vinci.pae.business.domain.ViewUEInscription;
 import be.vinci.pae.business.domain.ViewUEInscriptionDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Response.Status;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,7 +49,7 @@ public class ContactDAOImpl implements ContactDAO {
         }
       }
     } catch (SQLException e) {
-      throw new FatalException("Contact not found");
+      throw new FatalException("Contact not found", Status.BAD_REQUEST);
     }
     return null;
   }
@@ -76,7 +77,6 @@ public class ContactDAOImpl implements ContactDAO {
       ueInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
       contactDTO.setInscriptionUE((ViewUEInscription) ueInscription);
     } catch (SQLException e) {
-      e.getMessage();
       throw new FatalException(e);
     }
 
@@ -110,7 +110,6 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setString(6, contactDTO.getMeetingPlace());
         ps.setInt(7, contactDTO.getId());
 
-        System.out.println("contact DAO IMPL : " + contactDTO.getId());
 
         ps.execute();
       }
@@ -173,7 +172,6 @@ public class ContactDAOImpl implements ContactDAO {
         contacts.add(contact);
       }
     } catch (Exception e) {
-      System.out.println(e.getMessage());
       System.exit(1);
     } finally {
       try {
@@ -217,7 +215,6 @@ public class ContactDAOImpl implements ContactDAO {
           RETURNING *;
             """;
 
-      System.out.println("Generated SQL query: " + query);
 
       // String tradeName = "N"; // Or any other search term
       // String wildcardTradeName = "%" + tradeName + "%";
@@ -225,24 +222,14 @@ public class ContactDAOImpl implements ContactDAO {
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
 
-        System.out.println("2 Generated SQL query : " + query);
-
         ps.setString(1, contactDTO.getTradeName());
         ps.setInt(2, contactDTO.getUserId());
 
-        System.out.println("ContactDAOImpl -------> Enterprise : "
-            + contactDTO.getTradeName());
-        System.out.println("ContactDAOImpl -------> UserId : "
-            + contactDTO.getUserId());
-
-        System.out.println("ContactDAOImpl ----> ps : " + ps);
-        ps.execute();
       }
     } catch (SQLException e) {
       e.printStackTrace();
       throw new FatalException(e);
     }
-    System.out.println("ContactDAOImpl --> contactDTO : " + contactDTO);
     return contactDTO;
   }
 }

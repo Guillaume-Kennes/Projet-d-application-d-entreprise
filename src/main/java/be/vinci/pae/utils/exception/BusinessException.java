@@ -29,4 +29,13 @@ public class BusinessException extends WebApplicationException {
     super(Response.status(Status.BAD_REQUEST).entity(message).type("text/plain").build());
   }
 
+  /**
+   * This exception represents a business exception in a web application
+   *     with a specified HTTP status and custom message.
+   * It extends the WebApplicationException class and provides a constructor
+   *     to create instances of BusinessException with a custom message and HTTP status.
+   */
+  public BusinessException(String message, Status status) {
+    super(Response.status(status).entity(message).type("text/plain").build());
+  }
 }
