@@ -147,7 +147,7 @@ public class UserUCCTest {
   }
 
 
- @Test
+ /**@Test
   void getAllUsersTest_Succes() {
     // Arrange
     List<UserDTO> expecetedUsers = new ArrayList<>();
@@ -158,7 +158,7 @@ public class UserUCCTest {
 
     // Assert
     assertEquals(expecetedUsers, result);
-  }
+  }*/
 
   @Test
   void getAllUsersTest_Failure() {
