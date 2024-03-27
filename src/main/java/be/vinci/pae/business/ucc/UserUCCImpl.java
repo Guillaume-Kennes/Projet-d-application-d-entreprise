@@ -4,6 +4,7 @@ import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
+import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.UnauthorizedException;
 import jakarta.inject.Inject;
 import java.util.List;
@@ -25,22 +26,20 @@ public class UserUCCImpl implements UserUCC {
    * @param email    The email of the user attempting to log in.
    * @param password The password of the user attempting to log in.
    * @return The UserDTO object representing the authenticated user.
-   * @throws UnauthorizedException If the provided email or password is incorrect.
+   * @throws BusinessException If the provided email or password is incorrect.
    */
   public UserDTO login(String email, String password) {
     dalServices.start();
     try {
       User userFound = (User) userDAO.getUserByEmail(email);
       if (userFound == null || !userFound.checkPassword(password)) {
-        throw new UnauthorizedException("Incorrect Email or Password");
+        throw new BusinessException("Incorrect Email or Password");
       }
       return userFound;
     } catch (Exception e) {
-      System.out.println("ROLLBACK");
       dalServices.rollBack();
-      throw e;
+      throw new BusinessException(e.getMessage());
     } finally {
-      System.out.println("UserUCCImpl (login) --> COMMITT");
       dalServices.commit();
     }
   }
@@ -58,11 +57,9 @@ public class UserUCCImpl implements UserUCC {
       UserDTO userDTO = userDAO.getUserById(id);
       return userDTO;
     } catch (Exception e) {
-      System.out.println("ROLLBACK");
       dalServices.rollBack();
-      throw e;
+      throw new BusinessException();
     } finally {
-      System.out.println("UserUCCImpl --> COMMITT");
       dalServices.commit();
     }
   }
@@ -80,7 +77,7 @@ public class UserUCCImpl implements UserUCC {
       return userDAO.getAllUsers();
     } catch (Exception e) {
       dalServices.rollBack();
-      throw e;
+      throw new BusinessException();
     } finally {
       dalServices.commit();
     }
@@ -92,7 +89,7 @@ public class UserUCCImpl implements UserUCC {
    *
    * @param userDTO The user data transfer object containing user information.
    * @return The registered user data transfer object.
-   * @throws UnauthorizedException If the email already exists in the database or if the email
+   * @throws BusinessException If the email already exists in the database or if the email
    *                               address does not end with "@student.vinci.be" or "@vinci.be".
    */
   public UserDTO register(UserDTO userDTO) {
@@ -106,7 +103,7 @@ public class UserUCCImpl implements UserUCC {
       try {
         if (!userDTO.getEmail().endsWith("@vinci.be")
             && !userDTO.getEmail().endsWith("@student.vinci.be")) {
-          throw new UnauthorizedException(
+          throw new BusinessException(
               "The email address must end with @student.vinci.be or @vinci.be");
         } else if (userDTO.getEmail().endsWith("@student.vinci.be")) {
           userDTO.setRole("Etudiant");
@@ -116,7 +113,7 @@ public class UserUCCImpl implements UserUCC {
 
       } catch (Exception e) {
         dalServices.rollBack();
-        throw e;
+        throw new BusinessException();
       } finally {
         dalServices.commit();
       }
