@@ -21,6 +21,7 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -71,6 +72,7 @@ public class AuthsResource {
     }
     String token = createToken(publicUser);
     ObjectNode responseObject = jsonMapper.createObjectNode();
+    // Add token and user data to the response
     responseObject.put("token", token);
     responseObject.putPOJO("user", publicUser);
     logger.info("Connexion réussie. Token de "
@@ -79,19 +81,36 @@ public class AuthsResource {
   }
 
   /**
-   * Registers a new user. This method is annotated with @POST and @Path("register") for RESTful API
-   * endpoint configuration. It accepts a UserDTO object representing the user to be registered.
-   * Validates the required fields of the user and throws a WebApplicationException if any required
-   * field is missing. Calls the register method of the MyUserUCC instance to perform the
-   * registration.
+   * Registers a new user.
+   * This method is annotated with @POST and @Path("register")
+   *     for RESTful API endpoint configuration.
+   * It accepts a UserDTO object representing the user to be registered.
+   * Validates the required fields of the user and throws
+   *     a WebApplicationException if any required field is missing.
+   * Calls the register method of the MyUserUCC instance to perform the registration.
    *
    * @param userDTO The UserDTO object containing user information.
+   *
    * @return A UserDTO object representing the registered user.
    */
   @POST
   @Path("register")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
+//  public UserDTO register(JsonNode jsonNode) {
+//    if (jsonNode == null) {
+//      throw new WebApplicationException("Request body is missing or not a valid JSON");
+//    }
+//
+//    String lastName = jsonNode.get("lastName").asText();
+//    String firstName = jsonNode.get("firstName").asText();
+//    String email = jsonNode.get("email").asText();
+//    String password = jsonNode.get("password").asText();
+//    String phoneNumber = jsonNode.get("phoneNumber").asText();
+//    String role = jsonNode.get("role").asText();
+//
+//    myUserUCC.register(lastName, firstName, email, password, phoneNumber, role);
+//  }
   public UserDTO register(UserDTO userDTO) {
     if (userDTO.getEmail() == null || userDTO.getEmail().isBlank()
         || userDTO.getPassword() == null || userDTO.getPassword().isBlank()
@@ -102,14 +121,13 @@ public class AuthsResource {
       logger.error("Impossible de s'enregistrer, il manque des infos");
       throw new WebApplicationException("Missing information(s)");
     }
-    logger.info("Enregistrement du nouvel utilisateur "
-        + userDTO.getFirstName() + " " + userDTO.getLastName());
+
     return myUserUCC.register(userDTO);
   }
 
   /**
-   * Retrieves the user information from the request context. This method is accessed via HTTP GET
-   * request to the specified path "refresh".
+   * Retrieves the user information from the request context.
+   * This method is accessed via HTTP GET request to the specified path "refresh".
    *
    * @param requestContext The context of the container request.
    * @return The user data transfer object containing user information.

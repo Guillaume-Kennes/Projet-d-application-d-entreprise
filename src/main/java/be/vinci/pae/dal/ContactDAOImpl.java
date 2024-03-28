@@ -145,6 +145,7 @@ public class ContactDAOImpl implements ContactDAO {
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
             + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
+
     return getCorrespondingContacts(preparedStatement, id);
   }
 
@@ -171,6 +172,7 @@ public class ContactDAOImpl implements ContactDAO {
         contacts.add(contact);
       }
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       System.exit(1);
     } finally {
       try {
@@ -214,20 +216,32 @@ public class ContactDAOImpl implements ContactDAO {
           RETURNING *;
             """;
 
+      System.out.println("Generated SQL query: " + query);
+
       // String tradeName = "N"; // Or any other search term
       // String wildcardTradeName = "%" + tradeName + "%";
       // changer le wildcard en id de l entreprise
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
 
+        System.out.println("2 Generated SQL query : " + query);
+
         ps.setString(1, contactDTO.getTradeName());
         ps.setInt(2, contactDTO.getUserId());
 
+        System.out.println("ContactDAOImpl -------> Enterprise : "
+            + contactDTO.getTradeName());
+        System.out.println("ContactDAOImpl -------> UserId : "
+            + contactDTO.getUserId());
+
+        System.out.println("ContactDAOImpl ----> ps : " + ps);
+        ps.execute();
       }
     } catch (SQLException e) {
       e.printStackTrace();
       throw new FatalException(e);
     }
+    System.out.println("ContactDAOImpl --> contactDTO : " + contactDTO);
     return contactDTO;
   }
 }

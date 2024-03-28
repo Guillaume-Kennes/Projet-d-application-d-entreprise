@@ -52,6 +52,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    *
    * @param sql        The SQL query.
    * @param primaryKey A boolean indicating whether the generated keys are required.
+   *
    * @return A PreparedStatement object.
    * @throws FatalException if a SQLException occurs.
    */
@@ -68,6 +69,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * Overloaded method to retrieve a PreparedStatement object without considering primary keys.
    *
    * @param sql The SQL query.
+   *
    * @return A PreparedStatement object.
    */
   public PreparedStatement getPreparedStatement(String sql) {
@@ -117,7 +119,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         throw new FatalException(e);
       }
     } else {
-      counterThreads.set(counterThreads.get());
+      counterThreads.set(counterThreads.get()); // -1 ?
     }
   }
 
