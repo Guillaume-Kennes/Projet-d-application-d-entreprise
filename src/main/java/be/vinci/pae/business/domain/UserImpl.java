@@ -1,6 +1,8 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -11,12 +13,12 @@ import org.mindrot.jbcrypt.BCrypt;
 class UserImpl implements User {
 
   private String email;
-  //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String password;
   private String lastName;
   private String firstName;
   private String phoneNumber;
-  private String registrationDate;
+  private Date registrationDate;
   private String role;
   private int id;
 
@@ -132,7 +134,7 @@ class UserImpl implements User {
    * @return The registration date of the user.
    */
   @Override
-  public String getRegistrationDate() {
+  public Date getRegistrationDate() {
     return registrationDate;
   }
 
@@ -142,7 +144,7 @@ class UserImpl implements User {
    * @param registrationDate The registration date to set.
    */
   @Override
-  public void setRegistrationDate(String registrationDate) {
+  public void setRegistrationDate(Date registrationDate) {
     this.registrationDate = registrationDate;
   }
 
@@ -197,6 +199,12 @@ class UserImpl implements User {
   public boolean checkPassword(String password) {
     return BCrypt.checkpw(password, this.password);
   }
+
+  @Override
+  public String hashPassword(String password) {
+    return BCrypt.hashpw(password, BCrypt.gensalt());
+  }
+
 
   /**
    * Get a string representation of the UserImpl object.

@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.DomainFactory;
@@ -11,7 +12,8 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.AppBinderTest;
-import be.vinci.pae.utils.exception.UnauthorizedException;
+
+import be.vinci.pae.utils.exception.BusinessException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,7 +25,6 @@ import org.junit.jupiter.api.Test;
 public class UserUCCTest {
 
   private UserUCC userUCC;
-  private DomainFactory myDomainFactory;
   private UserDAO userDAO;
   private UserDTO userDTO;
 
@@ -32,12 +33,12 @@ public class UserUCCTest {
    * Method executed before each test.
    */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new AppBinderTest());
 
     userUCC = locator.getService(UserUCC.class);
     userDAO = locator.getService(UserDAO.class);
-    myDomainFactory = locator.getService(DomainFactory.class);
+    DomainFactory myDomainFactory = locator.getService(DomainFactory.class);
     userDTO = myDomainFactory.getUser();
   }
 
@@ -45,7 +46,7 @@ public class UserUCCTest {
    * Test for successful login.
    */
   @Test
-  public void testLoginSuccess() {
+  void testLoginSuccess() {
     userDTO.setEmail("chuqi.chups@student.vinci.be");
     userDTO.setPassword("$2a$10$3an9aQhFzbmHXVAqS4/o4OYicVWoR/OJBVOZ0052Fhm3T5ycz1MKu");
 
@@ -63,13 +64,13 @@ public class UserUCCTest {
    * Test for login failure due to incorrect password.
    */
   @Test
-  public void testLoginFailureForPassword() {
+  void testLoginFailureForPassword() {
     userDTO.setEmail("chuqi.chups@student.vinci.be");
-    userDTO.setPassword("$2a$10$jTSImXQiYMuPdgtrfA9t1u0lln65JDLUyzvir9t21uENvF0yIX.na");
+    userDTO.setPassword("$2a$10$3an9aQhFzbmHXVAqS4/o4OYicVWoR/OJBVOZ0052Fhm3T5ycz1MKu");
 
     when(userDAO.getUserByEmail("chuqi.chups@student.vinci.be")).thenReturn(userDTO);
 
-    assertThrows(UnauthorizedException.class,
+    assertThrows(BusinessException.class,
         () -> userUCC.login("chuqi.chups@student.vinci.be", "12ksdjkglkjglkjwlkmjgmj3"));
   }
 
@@ -77,9 +78,9 @@ public class UserUCCTest {
    * Test for login failure due to incorrect email.
    */
   @Test
-  public void testLoginFailureForEmail() {
+  void testLoginFailureForEmail() {
     assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
-    assertThrows(UnauthorizedException.class,
+    assertThrows(BusinessException.class,
         () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
   }
 
@@ -87,12 +88,91 @@ public class UserUCCTest {
    * Test for retrieving a user by their ID.
    */
   @Test
-  public void testGetUserById() {
-    userDTO.setId(1);
+  public void getUserByIdTest_Success() {
+    // Arrange
+    int userId = 1;
+    UserDTO expectedUser = mock(UserDTO.class);
+    when(userDAO.getUserById(userId)).thenReturn(expectedUser);
 
-    when(userDAO.getUserById(1)).thenReturn(userDTO);
-    UserDTO result = userUCC.getUserById(1);
-    assertNotNull(result);
-    assertEquals(userDTO.getId(), result.getId());
+    // Act
+    UserDTO result = userUCC.getUserById(userId);
+
+    // Assert
+    assertEquals(expectedUser, result);
   }
+
+  @Test
+  public void getUserByIdTest_Failure() {
+    // Arrange
+    int userId = 1;
+    when(userDAO.getUserById(userId)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userUCC.getUserById(userId);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
+
+  @Test
+  void testRegisterSuccess() {
+    userDTO.setEmail("kawtar.dahman@student.vinci.be");
+    userDTO.setPassword("$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa");
+
+    when(userDAO.getUserByEmail("kawtar.dahman@student.vinci.be")).thenReturn(null);
+    when(userDAO.register(userDTO)).thenReturn(userDTO);
+
+    UserDTO registeredUser = userDAO.register(userDTO);
+
+    assertEquals(userDTO.getEmail(), registeredUser.getEmail());
+    assertEquals(userDTO.getPassword(), registeredUser.getPassword());
+
+  }
+
+
+  @Test
+  void testRegisterFailureEmailExists() {
+    userDTO.setEmail("laurent.leleux@vinci.be");
+    userDTO.setPassword("$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa");
+
+    when(userDAO.getUserByEmail("laurent.leleux@vinci.be")).thenReturn(userDTO);
+
+    assertThrows(BusinessException.class, () -> userUCC.register(userDTO));
+  }
+
+
+ /**
+  * @Test
+  void getAllUsersTest_Succes() {
+    // Arrange
+    List<UserDTO> expecetedUsers = new ArrayList<>();
+    when(userDAO.getAllUsers()).thenReturn(expecetedUsers);
+
+    // Act
+    List<UserDTO> result = userUCC.getAllUsers();
+
+    // Assert
+    assertEquals(expecetedUsers, result);
+  }
+  */
+
+  @Test
+  void getAllUsersTest_Failure() {
+    // Arrange
+    when(userDAO.getAllUsers()).thenThrow(new RuntimeException());
+
+    //Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      userUCC.getAllUsers();
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
 }

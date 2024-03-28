@@ -1,7 +1,9 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.main.Main;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,38 +13,41 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 
 /**
- * Resource class for handling authentication-related requests.
- * This class provides endpoints for user authentication such as login.
+ * Resource class for handling authentication-related requests. This class provides endpoints for
+ * user authentication such as login.
  */
 @Singleton
 @Path("/auths")
 public class AuthsResource {
+
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
-  private ObjectMapper jsonMapper = new ObjectMapper();
+  private final ObjectMapper jsonMapper = new ObjectMapper();
+  private final Logger logger = LogManager.getLogger(Main.class.getName());
 
   @Inject
   private UserUCC myUserUCC;
-  //private TokenServices token;
-
 
   /**
    * Endpoint for user login.
    *
    * @param json The JSON object containing the login credentials.
-   *
    * @return An ObjectNode containing a JWT token and user information upon successful login.
-   *
    * @throws WebApplicationException if login credentials are missing or incorrect.
    */
   @POST
@@ -51,33 +56,83 @@ public class AuthsResource {
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
-      throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
+      logger.error("Absence de login et/ou de mot de passe");
+      throw new WebApplicationException("login or password required", Status.BAD_REQUEST);
     }
     String login = json.get("email").asText();
     String password = json.get("password").asText();
 
     UserDTO publicUser = myUserUCC.login(login, password);
+
     if (publicUser == null) {
+      logger.error("Login ou mot de passe incorrect");
       throw new WebApplicationException("Login or password incorrect",
-          Response.Status.UNAUTHORIZED);
+          Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
-    return jsonMapper.createObjectNode().put("token", token)
-        .put("id", publicUser.getId())
-        .put("email", publicUser.getEmail())
-        .put("lastName", publicUser.getLastName())
-        .put("firstName", publicUser.getFirstName())
-        .put("phoneNumber", publicUser.getPhoneNumber())
-        .put("registrationDate", publicUser.getRegistrationDate())
-        .put("role", publicUser.getRole());
+    ObjectNode responseObject = jsonMapper.createObjectNode();
+    responseObject.put("token", token);
+    responseObject.putPOJO("user", publicUser);
+    logger.info("Connexion réussie. Token de "
+        + publicUser.getLastName() + " " + publicUser.getFirstName());
+    return responseObject;
   }
 
+  /**
+   * Registers a new user. This method is annotated with @POST and @Path("register") for RESTful API
+   * endpoint configuration. It accepts a UserDTO object representing the user to be registered.
+   * Validates the required fields of the user and throws a WebApplicationException if any required
+   * field is missing. Calls the register method of the MyUserUCC instance to perform the
+   * registration.
+   *
+   * @param userDTO The UserDTO object containing user information.
+   * @return A UserDTO object representing the registered user.
+   */
+  @POST
+  @Path("register")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public UserDTO register(UserDTO userDTO) {
+    if (userDTO.getEmail() == null || userDTO.getEmail().isBlank()
+        || userDTO.getPassword() == null || userDTO.getPassword().isBlank()
+        || userDTO.getLastName() == null || userDTO.getLastName().isBlank()
+        || userDTO.getFirstName() == null || userDTO.getFirstName().isBlank()
+        || userDTO.getPhoneNumber() == null || userDTO.getPhoneNumber().isBlank()
+        || userDTO.getRole() == null || userDTO.getRole().isBlank()) {
+      logger.error("Impossible de s'enregistrer, il manque des infos");
+      throw new WebApplicationException("Missing information(s)");
+    }
+    logger.info("Enregistrement du nouvel utilisateur "
+        + userDTO.getFirstName() + " " + userDTO.getLastName());
+    return myUserUCC.register(userDTO);
+  }
+
+  /**
+   * Retrieves the user information from the request context. This method is accessed via HTTP GET
+   * request to the specified path "refresh".
+   *
+   * @param requestContext The context of the container request.
+   * @return The user data transfer object containing user information.
+   * @throws WebApplicationException If the user data is not found in the request context, it throws
+   *                                 an exception with status code 401 (UNAUTHORIZED).
+   */
+  @GET
+  @Path("refresh")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public UserDTO getUser(@Context ContainerRequestContext requestContext) {
+    UserDTO userDTO = (UserDTO) requestContext.getProperty("user");
+
+    if (userDTO == null) {
+      throw new WebApplicationException("user", Status.UNAUTHORIZED);
+    }
+    return jsonMapper.convertValue(userDTO, UserDTO.class);
+  }
 
   /**
    * Creates a JWT token for the given user.
    *
    * @param userDTO The UserDTO object representing the user for whom the token is to be created.
-   *
    * @return A JWT token string.
    */
   public String createToken(UserDTO userDTO) {

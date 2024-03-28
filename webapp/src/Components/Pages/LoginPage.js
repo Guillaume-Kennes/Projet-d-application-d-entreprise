@@ -133,20 +133,27 @@ async function onLogin(e) {
     },
   };
 
-  const response = await fetch(`http://localhost:3000/auths/login`, options);
-  console.log(response);
+  try {
+    const response = await fetch(`http://localhost:3000/auths/login`, options);
 
-  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
 
-  const authenticatedUser = await response.json();
+    const authenticatedUser = await response.json();
 
-  console.log('Authenticated user : ', authenticatedUser);
+    // Stocker le token JWT dans le local storage
+    localStorage.setItem('token', authenticatedUser.token);
 
-  setAuthenticatedUser(authenticatedUser);
+    setAuthenticatedUser(authenticatedUser);
 
-  Navbar();
+    Navbar();
 
-  Navigate('/');
+    Navigate('/');
+  } catch (error) {
+    // Gestion des erreurs existante
+    alert('An error occurred during login. Please try again.');
+    console.error('An error occurred during login:', error);
+  }
 }
-
 export default LoginPage;

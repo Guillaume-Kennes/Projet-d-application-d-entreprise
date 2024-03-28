@@ -13,6 +13,12 @@ import org.glassfish.jersey.server.ResourceConfig;
  * Main class.
  */
 public class Main {
+  /**
+   * The base URI for the application.
+   * This URI represents the root endpoint of the application.
+   * It is used as the base URL for making HTTP requests.
+   * Ensure this URI is properly configured in the application's configuration.
+   */
   public static final String BASE_URI = Config.getProperty("BaseUri");
 
 
@@ -34,11 +40,9 @@ public class Main {
    * Main method to start the Jersey application server.
    *
    * @param args Command-line arguments (not used in this method).
-   *
    * @throws IOException if an I/O error occurs while starting the server.
    */
   public static void main(String[] args) throws IOException {
-    //System.out.println(BCrypt.hashpw("Azertyui1_", BCrypt.gensalt()));
 
     final HttpServer server = startServer();
     System.out.println(String.format("Jersey app started with endpoints available at "
