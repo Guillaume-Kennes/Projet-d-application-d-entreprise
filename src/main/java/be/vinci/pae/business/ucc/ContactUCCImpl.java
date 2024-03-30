@@ -3,6 +3,7 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
+import be.vinci.pae.utils.Config;
 import be.vinci.pae.utils.exception.BusinessException;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
@@ -29,10 +30,12 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
+        dalServices.rollBack();
         throw new BusinessException("Contact not found");
       }
 
       if (place == null) {
+        dalServices.rollBack();
         throw new BusinessException("Place field cannot be null");
       }
 
@@ -41,15 +44,16 @@ public class ContactUCCImpl implements ContactUCC {
         contact.setMeetingPlace(place);
 
         contactDAO.update(contact);
+        dalServices.commit();
+
         return contact;
       } else {
+        dalServices.rollBack();
         throw new BusinessException("Invalid contact state");
       }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -62,12 +66,12 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO getContactById(int idContact) {
     dalServices.start();
     try {
-      return contactDAO.getContactById(idContact);
+      ContactDTO contact = contactDAO.getContactById(idContact);
+      dalServices.commit();
+      return contact;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -81,23 +85,24 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
+        dalServices.rollBack();
         throw new BusinessException("Contact not found");
       }
 
       if (!contact.isFollowed()) {
+        dalServices.rollBack();
         throw new BusinessException("Invalid contact state");
       } else {
         contact.setFollowed(false);
         contact.setState("abandonné");
 
         contactDAO.update(contact);
+        dalServices.commit();
         return contact;
       }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -112,10 +117,12 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
+        dalServices.rollBack();
         throw new BusinessException("Contact not found");
       }
 
       if (reason == null) {
+        dalServices.rollBack();
         throw new BusinessException("Reason field cannot be null");
       }
 
@@ -124,15 +131,15 @@ public class ContactUCCImpl implements ContactUCC {
         contact.setReasonForRefusal(reason);
 
         contactDAO.update(contact);
+        dalServices.commit();
         return contact;
       } else {
+        dalServices.rollBack();
         throw new BusinessException("Invalid contact state");
       }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -146,12 +153,11 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       ArrayList<ContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
+      dalServices.commit();
       return contactDTOS;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -165,15 +171,13 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
+      dalServices.commit();
       return contactDTOS;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
-
 
   /**
    * Adds a new contact.
@@ -185,12 +189,12 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO addContact(ContactDTO contactDTO) {
     dalServices.start();
     try {
-      return contactDAO.insert(contactDTO);
+      ContactDTO contact = contactDAO.insert(contactDTO);
+      dalServices.commit();
+      return contact;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 }

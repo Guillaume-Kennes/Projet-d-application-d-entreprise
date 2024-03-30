@@ -33,14 +33,14 @@ public class UserUCCImpl implements UserUCC {
     try {
       User userFound = (User) userDAO.getUserByEmail(email);
       if (userFound == null || !userFound.checkPassword(password)) {
+        dalServices.rollBack();
         throw new BusinessException("Incorrect Email or Password");
       }
+      dalServices.commit();
       return userFound;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -55,12 +55,11 @@ public class UserUCCImpl implements UserUCC {
     dalServices.start();
     try {
       UserDTO userDTO = userDAO.getUserById(id);
+      dalServices.commit();
       return userDTO;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -74,12 +73,12 @@ public class UserUCCImpl implements UserUCC {
   public List<UserDTO> getAllUsers() {
     dalServices.start();
     try {
-      return userDAO.getAllUsers();
+      List<UserDTO> users = userDAO.getAllUsers();
+      dalServices.commit();
+      return users;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -98,24 +97,26 @@ public class UserUCCImpl implements UserUCC {
     User user = (User) userDTO;
 
     if (userDAO.getUserByEmail(userDTO.getEmail()) != null) {
+      dalServices.rollBack();
       throw new BusinessException("This email already exists in database", Status.CONFLICT);
     } else {
       try {
         if (!userDTO.getEmail().endsWith("@vinci.be")
             && !userDTO.getEmail().endsWith("@student.vinci.be")) {
+          dalServices.rollBack();
           throw new BusinessException(
               "The email address must end with @student.vinci.be or @vinci.be", Status.BAD_REQUEST);
         } else if (userDTO.getEmail().endsWith("@student.vinci.be")) {
           userDTO.setRole("Etudiant");
         }
         userDTO.setPassword(user.hashPassword(userDTO.getPassword()));
-        return userDAO.register(userDTO);
+        UserDTO user1 = userDAO.register(userDTO);
+        dalServices.commit();
+        return user1;
 
       } catch (Exception e) {
         dalServices.rollBack();
         throw e;
-      } finally {
-        dalServices.commit();
       }
     }
   }
