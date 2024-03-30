@@ -71,7 +71,6 @@ public class ContactResource {
     return contact;
   }
 
-
   /**
    * Endpoint for stopping following a contact.
    *

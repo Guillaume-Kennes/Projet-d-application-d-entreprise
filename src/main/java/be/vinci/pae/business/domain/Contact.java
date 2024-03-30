@@ -20,4 +20,5 @@ public interface Contact extends ContactDTO {
    * @return true if the school year is correct, false otherwise.
    */
   boolean correctSchoolYear();
+
 }

@@ -183,6 +183,28 @@ class ContactImpl implements Contact {
     return false;
   }
 
+  /**
+   * Checks if the state is taken.
+   *
+   * @return a boolean stating whether the contact is taken.
+   */
+  public boolean stateIsTaken() {
+    if(this.state.equals("pris"))
+      return true;
+    return false;
+  }
+
+  /**
+   * Checks if the state is initiated.
+   *
+   * @return a boolean stating whether the contact is initiated.
+   */
+  public boolean stateIsInitiated() {
+    if(this.state.equals("initié"))
+      return true;
+    return false;
+  }
+
 
   /**
    * Retrieves the ID of the enterprise associated with the contact.

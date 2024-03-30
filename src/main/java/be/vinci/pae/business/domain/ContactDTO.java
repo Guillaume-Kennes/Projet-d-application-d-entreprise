@@ -148,4 +148,18 @@ public interface ContactDTO {
    * @param tradeName the new trade name associated with the contact.
    */
   void setTradeName(String tradeName);
+
+  /**
+   * Checks if the contact is in the taken state.
+   *
+   * @return true if the contact is taken, false otherwise.
+   */
+  boolean stateIsTaken();
+
+  /**
+   * Checks if the contact is in the initiated state.
+   *
+   * @return true if the contact is initiated, false otherwise.
+   */
+  boolean stateIsInitiated();
 }
