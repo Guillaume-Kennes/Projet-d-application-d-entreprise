@@ -203,7 +203,7 @@ public class ContactDAOImpl implements ContactDAO {
               reason_for_refusal,
               is_followed,
               meeting_place)
-          VALUES ('initiÃ©',
+          VALUES ('initié',
           (SELECT e.id_enterprise
            FROM pae.enterprises e
            WHERE e.trade_name LIKE ?),
