@@ -110,11 +110,9 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_nullPlace() {
-    // arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("initié");
 
-    // act and assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, null);
     });
@@ -126,15 +124,11 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_StateInitiated() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("initié");
     String place = "enterprise";
 
-
-    // Act
     ContactDTO result = contactUCC.meetCompany(contact, place);
-    // Assert
     verify(contact).setState("pris");
     verify(contact).setMeetingPlace(place);
     verify(contactDAO).update(contact);
@@ -147,11 +141,9 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_StateTaken() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("pris");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "enterprise");
     });
@@ -163,11 +155,9 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_StateRefused() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("refusé");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
@@ -179,11 +169,9 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_StateAccepted() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("accepté");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
@@ -195,11 +183,9 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_StateSuspended() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("suspendu");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
@@ -211,11 +197,9 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_StateAbandoned() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("abandonné");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "enterprise");
     });
@@ -226,15 +210,12 @@ public class ContactUCCTest {
    */
   @Test
   public void getContactByIdTest_Success() {
-    // Arrange
     int idContact = 1;
     ContactDTO expectedContact = mock(ContactDTO.class);
     when(contactDAO.getContactById(idContact)).thenReturn(expectedContact);
 
-    // Act
     ContactDTO result = contactUCC.getContactById(idContact);
 
-    // Assert
     assertEquals(expectedContact, result);
   }
 
@@ -244,16 +225,13 @@ public class ContactUCCTest {
    */
   @Test
   public void getContactByIdTest_Failure() {
-    // Arrange
     int idContact = 1;
     when(contactDAO.getContactById(idContact)).thenThrow(new RuntimeException());
 
-    // Act
     Exception exception = assertThrows(RuntimeException.class, () -> {
       contactUCC.getContactById(idContact);
     });
 
-    // Assert
     assertNotNull(exception);
   }
 
@@ -263,7 +241,6 @@ public class ContactUCCTest {
    */
   @Test
   public void stopFollowingTest_nullContact() {
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.stopFollowing(null);
     });
@@ -275,11 +252,9 @@ public class ContactUCCTest {
    */
   @Test
   public void stopFollowingErrorTest() {
-    // arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.isFollowed()).thenReturn(false);
 
-    // act and assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.stopFollowing(contact);
     });
@@ -291,14 +266,10 @@ public class ContactUCCTest {
    */
   @Test
   public void stopFollowingCorrectTest() {
-    // arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.isFollowed()).thenReturn(true);
 
-
-    // act
     ContactDTO result = contactUCC.stopFollowing(contact);
-    // assert
     verify(contact).setFollowed(false);
     verify(contact).setState("abandonné");
     verify(contactDAO).update(contact);
@@ -311,7 +282,6 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_nullContact() {
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(null, "hello");
     });
@@ -324,11 +294,9 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_nullReason() {
-    // arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("pris");
 
-    // act and assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, null);
     });
@@ -340,14 +308,11 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_stateTaken() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("pris");
     String reason = "hello";
 
-    // Act
     ContactDTO result = contactUCC.companyRefusedInternship(contact, reason);
-    // Assert
     verify(contact).setState("refusé");
     verify(contact).setReasonForRefusal(reason);
     verify(contactDAO).update(contact);
@@ -360,11 +325,9 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_stateInitiated() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("initié");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
@@ -376,11 +339,9 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_stateRefused() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("refusé");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
@@ -392,11 +353,9 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_stateAccepted() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("accepté");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
@@ -408,11 +367,9 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_stateSuspended() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("suspendu");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
@@ -424,11 +381,9 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_stateAbandoned() {
-    // Arrange
     ContactDTO contact = mock(ContactDTO.class);
     when(contact.getState()).thenReturn("abandonné");
 
-    // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
@@ -439,14 +394,11 @@ public class ContactUCCTest {
    */
   @Test
   public void addContactTest_Success() {
-    // Arrange
     ContactDTO contactDTO = mock(ContactDTO.class);
     when(contactDAO.insert(contactDTO)).thenReturn(contactDTO);
 
-    // Act
     ContactDTO result = contactUCC.addContact(contactDTO);
 
-    // Assert
     assertEquals(contactDTO, result);
   }
 
@@ -456,16 +408,13 @@ public class ContactUCCTest {
    */
   @Test
   public void addContactTest_Failure() {
-    // Arrange
     ContactDTO contactDTO = mock(ContactDTO.class);
     when(contactDAO.insert(contactDTO)).thenThrow(new RuntimeException());
 
-    // Act
     Exception exception = assertThrows(RuntimeException.class, () -> {
       contactUCC.addContact(contactDTO);
     });
 
-    // Assert
     assertNotNull(exception);
   }
 
@@ -475,15 +424,12 @@ public class ContactUCCTest {
    */
   @Test
   public void getTakenContactsByUserIdTest_Success() {
-    // Arrange
     int userId = 1;
     ArrayList<ContactDTO> expectedContacts = new ArrayList<>();
     when(contactDAO.getTakenContactsByUserId(userId)).thenReturn(expectedContacts);
 
-    // Act
     ArrayList<ContactDTO> result = contactUCC.getTakenContactsByUserId(userId);
 
-    // Assert
     assertEquals(expectedContacts, result);
   }
 
@@ -494,20 +440,17 @@ public class ContactUCCTest {
    */
   @Test
   public void getTakenContactsByUserIdTest_Failure() {
-    // Arrange
     int userId = 1;
     when(contactDAO.getTakenContactsByUserId(userId)).thenThrow(new RuntimeException());
 
-    // Act
     Exception exception = assertThrows(RuntimeException.class, () -> {
       contactUCC.getTakenContactsByUserId(userId);
     });
 
-    // Assert
     assertNotNull(exception);
   }
 
-  /**
+   /**
    * @Test
   public void getContactsByUserIdTest_Success() {
     // Arrange
@@ -530,16 +473,13 @@ public class ContactUCCTest {
    */
   @Test
   public void getContactsByUserIdTest_Failure() {
-    // Arrange
     int userId = 1;
     when(contactDAO.getContactsByUserId(userId)).thenThrow(new RuntimeException());
 
-    // Act
     Exception exception = assertThrows(RuntimeException.class, () -> {
       contactUCC.getContactsByUserId(userId);
     });
 
-    // Assert
     assertNotNull(exception);
   }
 }
