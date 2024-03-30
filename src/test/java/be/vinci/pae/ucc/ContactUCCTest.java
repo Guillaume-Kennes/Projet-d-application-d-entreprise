@@ -309,7 +309,7 @@ public class ContactUCCTest {
   @Test
   public void companyRefusedInternshipTest_stateTaken() {
     ContactDTO contact = mock(ContactDTO.class);
-    when(contact.getState()).thenReturn("pris");
+    when(contact.stateIsTaken()).thenReturn(true);
     String reason = "hello";
 
     ContactDTO result = contactUCC.companyRefusedInternship(contact, reason);
@@ -326,7 +326,7 @@ public class ContactUCCTest {
   @Test
   public void companyRefusedInternshipTest_stateInitiated() {
     ContactDTO contact = mock(ContactDTO.class);
-    when(contact.getState()).thenReturn("initié");
+    when(contact.stateIsInitiated()).thenReturn(true);
 
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
