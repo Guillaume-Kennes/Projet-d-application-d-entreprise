@@ -2,18 +2,18 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
 /**
- * Implementation of the UserDAO interface.
- * Provides methods for retrieving user-related data from the database.
+ * Implementation of the UserDAO interface. Provides methods for retrieving user-related data from
+ * the database.
  */
 public class UserDAOImpl implements UserDAO {
 
@@ -28,7 +28,7 @@ public class UserDAOImpl implements UserDAO {
    *
    * @param email The email address of the user to retrieve.
    * @return a user with the specified email address, or null if not found.
-   * @throws RuntimeException if an SQL exception occurs while accessing the database.
+   * @throws FatalException if an SQL exception occurs while accessing the database.
    */
   public UserDTO getUserByEmail(String email) {
 
@@ -37,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
     try {
       preparedStatement.setString(1, email);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
 
     UserDTO user = myDomainFactory.getUser();
@@ -57,6 +57,7 @@ public class UserDAOImpl implements UserDAO {
         preparedStatement.close();
       } catch (SQLException e) {
         e.printStackTrace();
+        throw new FatalException(e);
       }
     }
     return user;
@@ -78,10 +79,11 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setEmail(resultSet.getString("email"));
       userDTO.setPassword(resultSet.getString("password"));
       userDTO.setPhoneNumber(resultSet.getString("phone_number"));
-      userDTO.setRegistrationDate((Date) resultSet.getDate("registration_date"));
+      userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
     } catch (SQLException e) {
-      e.getMessage();
+      e.printStackTrace();
+      throw new FatalException(e);
     }
 
     return userDTO;
@@ -92,7 +94,7 @@ public class UserDAOImpl implements UserDAO {
    *
    * @param id The ID of the user to retrieve.
    * @return A UserDTO object representing the user with the specified ID, or null if not found.
-   * @throws IllegalArgumentException if the user is not found in the database.
+   * @throws FatalException if the user is not found in the database.
    */
   public UserDTO getUserById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -105,7 +107,8 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      throw new IllegalArgumentException("User not found");
+      e.printStackTrace();
+      throw new FatalException(e);
     }
     return null;
   }
@@ -126,13 +129,13 @@ public class UserDAOImpl implements UserDAO {
         userDTO.setLastName(resultSet.getString("last_name"));
         userDTO.setFirstName(resultSet.getString("first_name"));
         userDTO.setPhoneNumber(resultSet.getString("phone_number"));
-        userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
         userDTO.setRole(resultSet.getString("role"));
         userDTO.setId(resultSet.getInt("id_user"));
         usersList.add(userDTO);
       }
-    } catch (Exception e) {
-      System.exit(1);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new FatalException(e);
     }
     return usersList;
   }
@@ -169,22 +172,16 @@ public class UserDAOImpl implements UserDAO {
           } else {
             userDTO = null;
           }
-        } catch (SQLException e) {
-          e.printStackTrace();
         }
         try (PreparedStatement preparedStatement2 = dalServices.getPreparedStatement(query2)) {
           preparedStatement2.setInt(1, userDTO.getId());
           preparedStatement2.executeQuery();
-        } catch (SQLException e) {
-          e.printStackTrace();
         }
-      } catch (SQLException e) {
-        e.printStackTrace();
       }
-    } catch (Exception e) {
-      System.exit(1);
+    } catch (SQLException e) {
+      e.printStackTrace();
+      throw new FatalException(e);
     }
-
     return userDTO;
   }
 }

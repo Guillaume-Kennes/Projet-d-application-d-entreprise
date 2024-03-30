@@ -29,7 +29,6 @@ public class ViewCompanyUCCImpl implements ViewCompanyUCC {
 
     } catch (Exception e) {
       dalServices.rollBack();
-      System.out.println("e.getMessage() = " + e.getMessage());
       throw e;
     }
   }

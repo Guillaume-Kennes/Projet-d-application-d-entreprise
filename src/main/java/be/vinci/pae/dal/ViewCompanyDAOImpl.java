@@ -57,6 +57,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    *
    * @param resultSet The ResultSet containing company information.
    * @return A ViewCompanyDTO object populated with company information from the ResultSet.
+   * @throws FatalException if the company info is not found in the database.
    */
   public ViewCompanyDTO companyInfos(ResultSet resultSet) {
     ViewCompanyDTO companyDTO = myDomainFactory.getCompany();
@@ -70,6 +71,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
     } catch (SQLException e) { //DEMANDER AU PROF quelle exception
       e.getMessage();
+      throw new FatalException(e);
     }
     return companyDTO;
   }
@@ -79,7 +81,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    *
    * @param id The ID of the company to retrieve.
    * @return A ViewCompanyDTO object representing the company, or null if not found.
-   * @throws IllegalArgumentException if the company is not found in the database.
+   * @throws FatalException if the company is not found in the database.
    */
   public ViewCompanyDTO getCompanyById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -87,7 +89,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
 
     ViewCompanyDTO company = myDomainFactory.getCompany();
@@ -105,6 +107,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
         preparedStatement.close();
       } catch (SQLException e) {
         e.printStackTrace();
+        throw new FatalException(e);
       }
     }
     return company;

@@ -1,6 +1,7 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.utils.Config;
+import be.vinci.pae.utils.exception.FatalException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -48,14 +49,14 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    *
    * @return A PreparedStatement object.
    *
-   * @throws RuntimeException if a SQLException occurs.
+   * @throws FatalException if a SQLException occurs.
    */
   public PreparedStatement getPreparedStatement(String sql, boolean primaryKey) {
     try {
       return connectionThread.get().prepareStatement(sql, primaryKey
           ? Statement.RETURN_GENERATED_KEYS : Statement.NO_GENERATED_KEYS);
     } catch (SQLException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new FatalException(e);
     }
   }
 
@@ -76,7 +77,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * If no transaction is active for the current thread, a new connection is established.
    * Otherwise, the counter for the active transaction is incremented.
    *
-   * @throws RuntimeException if a SQLException occurs.
+   * @throws FatalException if a SQLException occurs.
    */
   public void start() {
     if (counterThreads.get() == null) {
@@ -86,7 +87,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         connection.setAutoCommit(false);
         connectionThread.set(connection);
       } catch (SQLException e) {
-        throw new RuntimeException(e.getMessage());
+        throw new FatalException(e);
       }
     } else {
       counterThreads.set(counterThreads.get() + 1);
@@ -98,7 +99,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * Commits the current transaction.
    * If the transaction is the only active one, the connection is closed after commit.
    *
-   * @throws RuntimeException if a SQLException occurs.
+   * @throws FatalException if a SQLException occurs.
    */
   public void commit() {
     if (counterThreads.get() != null && counterThreads.get() == 1) {
@@ -111,6 +112,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         connection.close();
       } catch (SQLException e) {
         e.printStackTrace();
+        throw new FatalException(e);
       }
     } else {
       counterThreads.set(counterThreads.get());
@@ -121,7 +123,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * Rolls back the current transaction.
    * If no transaction is active, it closes the connection if it exists.
    *
-   * @throws RuntimeException if a SQLException occurs.
+   * @throws FatalException if a SQLException occurs.
    */
   public void rollBack() {
     Connection connection = connectionThread.get();
@@ -133,7 +135,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
           connection.close();
         }
       } catch (SQLException e) {
-        throw new RuntimeException(e.getMessage());
+        throw new FatalException(e);
       }
     } else {
       counterThreads.set(counterThreads.get() - 1);
@@ -143,7 +145,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         counterThreads.remove();
         connection.close();
       } catch (SQLException e) {
-        throw new RuntimeException(e.getMessage());
+        throw new FatalException(e);
       }
     }
   }

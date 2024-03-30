@@ -124,7 +124,7 @@ public class ContactResource {
 
     myContactUcc.companyRefusedInternship(contact, reasonForRefusal);
     logger.info("Le contact numéro " + idContact + " est refusé pour la raison suivante : "
-      + reasonForRefusal);
+        + reasonForRefusal);
     return contact;
   }
 

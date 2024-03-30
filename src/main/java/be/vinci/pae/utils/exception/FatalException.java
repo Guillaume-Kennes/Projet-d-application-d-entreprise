@@ -38,5 +38,11 @@ public class FatalException extends WebApplicationException {
         Response.status(Status.INTERNAL_SERVER_ERROR).entity(cause.getMessage()).type("text/plain")
             .build());
   }
+
+  public FatalException(String message, Status status) {
+    super(Response.status(status).entity(message).type("text/plain").build());
+  }
+
+
 }
 
