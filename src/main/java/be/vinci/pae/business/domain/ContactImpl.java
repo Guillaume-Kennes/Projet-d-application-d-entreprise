@@ -189,8 +189,9 @@ class ContactImpl implements Contact {
    * @return a boolean stating whether the contact is taken.
    */
   public boolean stateIsTaken() {
-    if(this.state.equals("pris"))
+    if(this.state.equals("pris")) {
       return true;
+    }
     return false;
   }
 
@@ -200,8 +201,9 @@ class ContactImpl implements Contact {
    * @return a boolean stating whether the contact is initiated.
    */
   public boolean stateIsInitiated() {
-    if(this.state.equals("initié"))
+    if(this.state.equals("initié")) {
       return true;
+    }
     return false;
   }
 

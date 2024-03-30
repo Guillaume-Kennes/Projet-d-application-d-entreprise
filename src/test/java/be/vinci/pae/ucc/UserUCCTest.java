@@ -154,7 +154,7 @@ public class UserUCCTest {
   }
 
 
-  /**
+  /*
   * @Test
   void getAllUsersTest_Succes() {
     // Arrange
