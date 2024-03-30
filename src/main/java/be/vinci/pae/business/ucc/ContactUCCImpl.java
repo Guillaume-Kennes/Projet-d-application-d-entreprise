@@ -38,7 +38,7 @@ public class ContactUCCImpl implements ContactUCC {
         throw new BusinessException("Place field cannot be null");
       }
 
-      if (contact.getState().equals("initié")) {
+      if (contact.stateIsInitiated()) {
         contact.setState("pris");
         contact.setMeetingPlace(place);
 
@@ -125,7 +125,7 @@ public class ContactUCCImpl implements ContactUCC {
         throw new BusinessException("Reason field cannot be null");
       }
 
-      if (contact.getState().equals("pris")) {
+      if (contact.stateIsTaken()) {
         contact.setState("refusé");
         contact.setReasonForRefusal(reason);
 
