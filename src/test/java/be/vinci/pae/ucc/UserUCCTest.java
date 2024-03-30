@@ -12,8 +12,8 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.AppBinderTest;
-
 import be.vinci.pae.utils.exception.BusinessException;
+
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -101,6 +101,10 @@ public class UserUCCTest {
     assertEquals(expectedUser, result);
   }
 
+  /**
+   * Test for retrieving a user by their ID.
+   * Failure expected.
+   */
   @Test
   public void getUserByIdTest_Failure() {
     // Arrange
@@ -116,8 +120,10 @@ public class UserUCCTest {
     assertNotNull(exception);
   }
 
-
-
+  /**
+   * Test for registering a new user.
+   * Success expected.
+   */
   @Test
   void testRegisterSuccess() {
     userDTO.setEmail("kawtar.dahman@student.vinci.be");
@@ -133,7 +139,11 @@ public class UserUCCTest {
 
   }
 
-
+  /**
+   * Test for registering a new user.
+   * Failure expected because the email address is already
+   * in used.
+   */
   @Test
   void testRegisterFailureEmailExists() {
     userDTO.setEmail("laurent.leleux@vinci.be");
@@ -145,7 +155,7 @@ public class UserUCCTest {
   }
 
 
- /**
+  /**
   * @Test
   void getAllUsersTest_Succes() {
     // Arrange
@@ -160,6 +170,10 @@ public class UserUCCTest {
   }
   */
 
+  /**
+   * Test for getting all users.
+   * Failure expected.
+   */
   @Test
   void getAllUsersTest_Failure() {
     // Arrange
@@ -173,6 +187,4 @@ public class UserUCCTest {
     // Assert
     assertNotNull(exception);
   }
-
-
 }

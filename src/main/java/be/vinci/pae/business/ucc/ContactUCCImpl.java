@@ -3,7 +3,6 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.utils.Config;
 import be.vinci.pae.utils.exception.BusinessException;
 import jakarta.inject.Inject;
 import java.util.ArrayList;

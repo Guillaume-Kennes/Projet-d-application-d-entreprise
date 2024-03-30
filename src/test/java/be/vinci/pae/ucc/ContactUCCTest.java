@@ -95,6 +95,7 @@ public class ContactUCCTest {
 
   /**
    * Test for meeting a company when the contact is null.
+   * Failure expected.
    */
   @Test
   public void meetCompanyTest_nullContact() {
@@ -105,6 +106,7 @@ public class ContactUCCTest {
 
   /**
    * Test for meeting a company when the place is null.
+   * Failure expected.
    */
   @Test
   public void meetCompanyTest_nullPlace() {
@@ -120,6 +122,7 @@ public class ContactUCCTest {
 
   /**
    * Test for meeting a company when the state is initiated.
+   * Success expected.
    */
   @Test
   public void meetCompanyTest_StateInitiated() {
@@ -138,6 +141,10 @@ public class ContactUCCTest {
     assertEquals(contact, result);
   }
 
+  /**
+   * Test for meeting a company when the state is taken.
+   * Failure expected.
+   */
   @Test
   public void meetCompanyTest_StateTaken() {
     // Arrange
@@ -150,6 +157,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for meeting a company when the state is refused.
+   * Failure expected.
+   */
   @Test
   public void meetCompanyTest_StateRefused() {
     // Arrange
@@ -162,6 +173,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for meeting a company when the state is accepted.
+   * Failure expected.
+   */
   @Test
   public void meetCompanyTest_StateAccepted() {
     // Arrange
@@ -174,6 +189,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for meeting a company when the state is suspended.
+   * Failure expected.
+   */
   @Test
   public void meetCompanyTest_StateSuspended() {
     // Arrange
@@ -186,6 +205,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for meeting a company when the state is abandoned.
+   * Failure expected.
+   */
   @Test
   public void meetCompanyTest_StateAbandoned() {
     // Arrange
@@ -198,6 +221,9 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for successfully retrieving a contact by its id.
+   */
   @Test
   public void getContactByIdTest_Success() {
     // Arrange
@@ -212,6 +238,10 @@ public class ContactUCCTest {
     assertEquals(expectedContact, result);
   }
 
+  /**
+   * Test for retrieving a contact by its id.
+   * Failure expected.
+   */
   @Test
   public void getContactByIdTest_Failure() {
     // Arrange
@@ -227,8 +257,10 @@ public class ContactUCCTest {
     assertNotNull(exception);
   }
 
-
-
+  /**
+   * Test for stopping following a contact.
+   * Failure expected because the contact is null.
+   */
   @Test
   public void stopFollowingTest_nullContact() {
     // Act and Assert
@@ -237,6 +269,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for stopping following a contact.
+   * Failure expected.
+   */
   @Test
   public void stopFollowingErrorTest() {
     // arrange
@@ -249,6 +285,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for stopping following a contact.
+   * Success expected.
+   */
   @Test
   public void stopFollowingCorrectTest() {
     // arrange
@@ -265,6 +305,10 @@ public class ContactUCCTest {
     assertEquals(contact, result);
   }
 
+  /**
+   * Test for refusing a contact.
+   * Failure expected because the contact is null.
+   */
   @Test
   public void companyRefusedInternshipTest_nullContact() {
     // Act and Assert
@@ -273,6 +317,11 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for refusing a contact.
+   * Failure expected because the reason
+   * for refusal is null.
+   */
   @Test
   public void companyRefusedInternshipTest_nullReason() {
     // arrange
@@ -285,6 +334,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for refusing a contact with taken state.
+   * Success expected.
+   */
   @Test
   public void companyRefusedInternshipTest_stateTaken() {
     // Arrange
@@ -301,6 +354,10 @@ public class ContactUCCTest {
     assertEquals(contact, result);
   }
 
+  /**
+   * Test for refusing a contact with initiated state.
+   * Failure expected.
+   */
   @Test
   public void companyRefusedInternshipTest_stateInitiated() {
     // Arrange
@@ -313,6 +370,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for refusing a contact with refused state.
+   * Failure expected.
+   */
   @Test
   public void companyRefusedInternshipTest_stateRefused() {
     // Arrange
@@ -325,6 +386,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for refusing a contact with accepted state.
+   * Failure expected.
+   */
   @Test
   public void companyRefusedInternshipTest_stateAccepted() {
     // Arrange
@@ -337,6 +402,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for refusing a contact with suspended state.
+   * Failure expected.
+   */
   @Test
   public void companyRefusedInternshipTest_stateSuspended() {
     // Arrange
@@ -349,6 +418,10 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for refusing a contact with abandoned state.
+   * Failure expected.
+   */
   @Test
   public void companyRefusedInternshipTest_stateAbandoned() {
     // Arrange
@@ -361,6 +434,9 @@ public class ContactUCCTest {
     });
   }
 
+  /**
+   * Test for successfully adding a contact.
+   */
   @Test
   public void addContactTest_Success() {
     // Arrange
@@ -374,6 +450,10 @@ public class ContactUCCTest {
     assertEquals(contactDTO, result);
   }
 
+  /**
+   * Test for adding a contact.
+   * Failure expected.
+   */
   @Test
   public void addContactTest_Failure() {
     // Arrange
@@ -389,7 +469,10 @@ public class ContactUCCTest {
     assertNotNull(exception);
   }
 
-
+  /**
+   * Test for successfully getting a contact from
+   * the id of its user.
+   */
   @Test
   public void getTakenContactsByUserIdTest_Success() {
     // Arrange
@@ -404,6 +487,11 @@ public class ContactUCCTest {
     assertEquals(expectedContacts, result);
   }
 
+  /**
+   * Test for getting a contact from
+   * the id of its user.
+   * Failure expected.
+   */
   @Test
   public void getTakenContactsByUserIdTest_Failure() {
     // Arrange
@@ -418,8 +506,6 @@ public class ContactUCCTest {
     // Assert
     assertNotNull(exception);
   }
-
-
 
   /**
    * @Test
@@ -437,6 +523,11 @@ public class ContactUCCTest {
   }
    */
 
+  /**
+   * Test for getting a contact from
+   * the id of its user.
+   * Failure expected.
+   */
   @Test
   public void getContactsByUserIdTest_Failure() {
     // Arrange
@@ -451,5 +542,4 @@ public class ContactUCCTest {
     // Assert
     assertNotNull(exception);
   }
-
 }

@@ -69,6 +69,9 @@ public class InternshipUCCTest {
     assertNull(result);
   }
 
+  /**
+   * Test for successful retrieving of the internship.
+   */
   @Test
   public void getInternshipByUserIdTest_Success() {
     // Arrange
@@ -83,6 +86,10 @@ public class InternshipUCCTest {
     assertEquals(expectedInternship, result);
   }
 
+  /**
+   * Test for retrieving an internship.
+   * Failure expected.
+   */
   @Test
   public void getInternshipByUserIdTest_Failure() {
     // Arrange
