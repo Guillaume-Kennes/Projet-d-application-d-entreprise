@@ -11,7 +11,7 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
   private String lastName;
   private String phoneNumber;
   private String email;
-  private ViewCompany company;
+  private Company company;
 
   /**
    * Default constructor for InternshipSupervisorImpl.
@@ -51,7 +51,7 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
    *
    * @return The company of the internship supervisor
    */
-  public ViewCompany getCompany() {
+  public Company getCompany() {
     return this.company;
   }
 
@@ -123,7 +123,7 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
    *
    * @param company The company to set.
    */
-  public void setCompany(ViewCompany company) {
+  public void setCompany(Company company) {
     this.company = company;
   }
 }

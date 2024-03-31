@@ -39,8 +39,8 @@ public class DomainFactoryImpl implements DomainFactory {
    *
    * @return A new ViewCompanyDTO instance.
    */
-  public ViewCompanyDTO getCompany() {
-    return new ViewCompanyImpl();
+  public CompanyDTO getCompany() {
+    return new CompanyImpl();
   }
 
   /**
@@ -48,8 +48,8 @@ public class DomainFactoryImpl implements DomainFactory {
    *
    * @return A new ViewUEInscriptionDTO instance.
    */
-  public ViewUEInscriptionDTO getUEInscription() {
-    return new ViewUEInscriptionImpl();
+  public UEInscriptionDTO getUEInscription() {
+    return new UEInscriptionImpl();
   }
 
   /**

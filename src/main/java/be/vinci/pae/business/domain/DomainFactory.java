@@ -31,14 +31,14 @@ public interface DomainFactory {
    *
    * @return a company
    */
-  ViewCompanyDTO getCompany();
+  CompanyDTO getCompany();
 
   /**
    * Gets a UE Inscription.
    *
    * @return a UE Inscription
    */
-  ViewUEInscriptionDTO getUEInscription();
+  UEInscriptionDTO getUEInscription();
 
   /**
    * Gets a contact.

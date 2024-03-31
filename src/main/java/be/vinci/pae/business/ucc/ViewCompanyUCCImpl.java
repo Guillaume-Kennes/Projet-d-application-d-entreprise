@@ -1,6 +1,6 @@
 package be.vinci.pae.business.ucc;
 
-import be.vinci.pae.business.domain.ViewCompanyDTO;
+import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.ViewCompanyDAO;
 import jakarta.inject.Inject;
@@ -17,7 +17,7 @@ public class ViewCompanyUCCImpl implements ViewCompanyUCC {
   private DALServices dalServices;
 
   @Override
-  public ViewCompanyDTO addCompany(ViewCompanyDTO companyDTO) {
+  public CompanyDTO addCompany(CompanyDTO companyDTO) {
     try {
       dalServices.start();
 

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
  * various company-related methods.
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-public class ViewCompanyImpl implements ViewCompany {
+public class CompanyImpl implements Company {
 
   private int id;
   private String tradeName;
@@ -17,7 +17,7 @@ public class ViewCompanyImpl implements ViewCompany {
   private String meansOfCommunication;
 
 
-  public ViewCompanyImpl() {
+  public CompanyImpl() {
   }
 
   @Override

@@ -41,28 +41,28 @@ public interface ContactDTO {
    *
    * @return the enterprise of the contact.
    */
-  ViewCompanyDTO getCompany();
+  CompanyDTO getCompany();
 
   /**
    * Sets the enterprise of the contact.
    *
    * @param enterprise the enterprise of the contact.
    */
-  void setCompany(ViewCompany enterprise);
+  void setCompany(Company enterprise);
 
   /**
    * Gets the inscription UE of the contact.
    *
    * @return the inscription UE of the contact.
    */
-  ViewUEInscription getInscriptionUE();
+  UEInscription getInscriptionUE();
 
   /**
    * Sets the inscription UE of the contact.
    *
    * @param inscriptionUE the inscription UE of the contact.
    */
-  void setInscriptionUE(ViewUEInscription inscriptionUE);
+  void setInscriptionUE(UEInscription inscriptionUE);
 
   /**
    * Gets the reason for refusal of the contact.

@@ -1,6 +1,6 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.domain.ViewCompanyDTO;
+import be.vinci.pae.business.domain.CompanyDTO;
 import java.sql.ResultSet;
 
 /**
@@ -16,7 +16,7 @@ public interface ViewCompanyDAO {
    *                           inserted.
    * @return int of the object created
    */
-  int insert(ViewCompanyDTO companyDTOToInsert);
+  int insert(CompanyDTO companyDTOToInsert);
 
   /**
    * Returns the information of a company.
@@ -25,7 +25,7 @@ public interface ViewCompanyDAO {
    *
    * @return the company corresponding to that result set
    */
-  ViewCompanyDTO companyInfos(ResultSet resultSet);
+  CompanyDTO companyInfos(ResultSet resultSet);
 
   /**
    * Returns the company corresponding to the id.
@@ -34,6 +34,6 @@ public interface ViewCompanyDAO {
    *
    * @return the company corresponding to the id
    */
-  ViewCompanyDTO getCompanyById(int id);
+  CompanyDTO getCompanyById(int id);
 
 }

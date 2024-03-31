@@ -2,10 +2,10 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.ViewCompany;
-import be.vinci.pae.business.domain.ViewCompanyDTO;
-import be.vinci.pae.business.domain.ViewUEInscription;
-import be.vinci.pae.business.domain.ViewUEInscriptionDTO;
+import be.vinci.pae.business.domain.Company;
+import be.vinci.pae.business.domain.CompanyDTO;
+import be.vinci.pae.business.domain.UEInscription;
+import be.vinci.pae.business.domain.UEInscriptionDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response.Status;
@@ -63,8 +63,8 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ContactDTO contactInfos(ResultSet resultSet) {
     ContactDTO contactDTO = myDomainFactory.getContact();
-    ViewCompanyDTO company;
-    ViewUEInscriptionDTO ueInscription;
+    CompanyDTO company;
+    UEInscriptionDTO ueInscription;
 
     try {
       contactDTO.setId(resultSet.getInt("id_contact"));
@@ -73,9 +73,9 @@ public class ContactDAOImpl implements ContactDAO {
       contactDTO.setFollowed(resultSet.getBoolean("is_followed"));
       contactDTO.setMeetingPlace(resultSet.getString("meeting_place"));
       company = companyDAO.companyInfos(resultSet);
-      contactDTO.setCompany((ViewCompany) company);
+      contactDTO.setCompany((Company) company);
       ueInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
-      contactDTO.setInscriptionUE((ViewUEInscription) ueInscription);
+      contactDTO.setInscriptionUE((UEInscription) ueInscription);
     } catch (SQLException e) {
       throw new FatalException(e);
     }
