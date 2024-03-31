@@ -5,7 +5,7 @@ import be.vinci.pae.business.domain.CompanyDTO;
 /**
  * Represents a Company Use Case Controller (UCC) with methods related to company operations.
  */
-public interface ViewCompanyUCC {
+public interface CompanyUCC {
 
   /**
    * Add a new company to the database.
