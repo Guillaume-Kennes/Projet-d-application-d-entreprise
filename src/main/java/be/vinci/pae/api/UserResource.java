@@ -7,7 +7,6 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.main.Main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -19,7 +18,6 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 /**
@@ -30,7 +28,7 @@ import org.apache.log4j.Logger;
 @Path("/users")
 public class UserResource {
 
-  private final Logger logger = LogManager.getLogger(Main.class.getName());
+  private static final Logger logger = Logger.getLogger(UserResource.class);
   private ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private UserUCC myUserUcc;

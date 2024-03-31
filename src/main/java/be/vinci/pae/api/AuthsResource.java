@@ -3,7 +3,6 @@ package be.vinci.pae.api;
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.main.Main;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -25,9 +24,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-
 
 /**
  * Resource class for handling authentication-related requests. This class provides endpoints for
@@ -39,7 +36,7 @@ public class AuthsResource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
-  private final Logger logger = LogManager.getLogger(Main.class.getName());
+  private static final Logger logger = Logger.getLogger(AuthsResource.class);
 
   @Inject
   private UserUCC myUserUCC;

@@ -5,7 +5,6 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.main.Main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -22,7 +21,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 /**
@@ -32,7 +30,7 @@ import org.apache.log4j.Logger;
 @Path("/contacts")
 public class ContactResource {
 
-  private final Logger logger = LogManager.getLogger(Main.class.getName());
+  private static final Logger logger = Logger.getLogger(ContactResource.class);
   private ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private ContactUCC myContactUcc;
