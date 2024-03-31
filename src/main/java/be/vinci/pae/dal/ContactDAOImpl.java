@@ -1,9 +1,9 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.domain.ContactDTO;
-import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.Company;
 import be.vinci.pae.business.domain.CompanyDTO;
+import be.vinci.pae.business.domain.ContactDTO;
+import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UEInscription;
 import be.vinci.pae.business.domain.UEInscriptionDTO;
 import be.vinci.pae.utils.exception.FatalException;
@@ -24,9 +24,9 @@ public class ContactDAOImpl implements ContactDAO {
   @Inject
   private DALBackServices dalServices;
   @Inject
-  private ViewCompanyDAO companyDAO;
+  private CompanyDAO companyDAO;
   @Inject
-  private ViewUEInscriptionDAO inscriptionDAO;
+  private UEInscriptionDAO inscriptionDAO;
 
   /**
    * Retrieves a contact by its ID.

@@ -1,9 +1,9 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.business.domain.Company;
 import be.vinci.pae.business.domain.CompanyDTO;
+import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -21,7 +21,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
   @Inject
   private DALBackServices dalServices;
   @Inject
-  private ViewCompanyDAO companyDAO;
+  private CompanyDAO companyDAO;
 
   /**
    * Method to retrieve supervisor information and map it to a InternshipSupervisorDTO object.

@@ -7,7 +7,7 @@ import java.sql.ResultSet;
  * Represents a Data Access Object (DAO) for managing company-related data.
  * Provides methods to retrieve company information based on ID.
  */
-public interface ViewCompanyDAO {
+public interface CompanyDAO {
 
   /**
    * Inserts a new item in the system.

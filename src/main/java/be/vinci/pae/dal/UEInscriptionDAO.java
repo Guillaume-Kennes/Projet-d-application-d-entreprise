@@ -7,7 +7,7 @@ import java.sql.ResultSet;
  * Represents a Data Access Object (DAO) for managing UE inscription-related data.
  * Provides methods to retrieve UE Inscription information based on ID.
  */
-public interface ViewUEInscriptionDAO {
+public interface UEInscriptionDAO {
 
   /**
    * Returns the information of a UE Inscription.

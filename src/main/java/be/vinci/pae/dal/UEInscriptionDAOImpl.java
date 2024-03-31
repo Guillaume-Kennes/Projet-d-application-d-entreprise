@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Implementation of the ViewUEInscriptionDAO interface. Provides methods for retrieving UE
  * inscription-related data from the database.
  */
-public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
+public class UEInscriptionDAOImpl implements UEInscriptionDAO {
 
   @Inject
   private DomainFactory myDomainFactory;

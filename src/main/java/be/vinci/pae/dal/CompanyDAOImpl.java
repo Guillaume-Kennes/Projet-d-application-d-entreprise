@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * Implementation of the ViewCompanyDAO interface. Provides methods for retrieving company-related
  * data from the database.
  */
-public class ViewCompanyDAOImpl implements ViewCompanyDAO {
+public class CompanyDAOImpl implements CompanyDAO {
 
   @Inject
   private DALBackServices dalServices;

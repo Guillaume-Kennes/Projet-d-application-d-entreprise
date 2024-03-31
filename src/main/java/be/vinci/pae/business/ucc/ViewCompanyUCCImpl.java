@@ -2,7 +2,7 @@ package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.dal.DALServices;
-import be.vinci.pae.dal.ViewCompanyDAO;
+import be.vinci.pae.dal.CompanyDAO;
 import jakarta.inject.Inject;
 
 /**
@@ -12,7 +12,7 @@ import jakarta.inject.Inject;
 public class ViewCompanyUCCImpl implements ViewCompanyUCC {
 
   @Inject
-  private ViewCompanyDAO itemDAO;
+  private CompanyDAO itemDAO;
   @Inject
   private DALServices dalServices;
 
