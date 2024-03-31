@@ -3,6 +3,7 @@ package be.vinci.pae.api;
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -24,7 +25,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
 
 /**
  * Resource class for handling authentication-related requests. This class provides endpoints for
@@ -36,8 +37,6 @@ public class AuthsResource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
-  private static final Logger logger = Logger.getLogger(AuthsResource.class);
-
   @Inject
   private UserUCC myUserUCC;
 
@@ -54,7 +53,7 @@ public class AuthsResource {
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
-      logger.error("Absence de login et/ou de mot de passe");
+      AppLogger.getLogger("Absence de login et/ou de mot de passe");
       throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
     }
     String login = json.get("email").asText();
@@ -63,7 +62,7 @@ public class AuthsResource {
     UserDTO publicUser = myUserUCC.login(login, password);
 
     if (publicUser == null) {
-      logger.error("Login ou mot de passe incorrect");
+      AppLogger.getLogger("Login ou mot de passe incorrect");
       throw new WebApplicationException("Login or password incorrect",
           Response.Status.UNAUTHORIZED);
     }
@@ -71,7 +70,7 @@ public class AuthsResource {
     ObjectNode responseObject = jsonMapper.createObjectNode();
     responseObject.put("token", token);
     responseObject.putPOJO("user", publicUser);
-    logger.info("Connexion réussie. Token de "
+    AppLogger.getLogger("Connexion réussie. Token de "
         + publicUser.getLastName() + " " + publicUser.getFirstName());
     return responseObject;
   }
@@ -100,10 +99,10 @@ public class AuthsResource {
         || userDTO.getFirstName() == null || userDTO.getFirstName().isBlank()
         || userDTO.getPhoneNumber() == null || userDTO.getPhoneNumber().isBlank()
         || userDTO.getRole() == null || userDTO.getRole().isBlank()) {
-      logger.error("Impossible de s'enregistrer, il manque des infos");
+      AppLogger.getLogger("Impossible de s'enregistrer, il manque des infos");
       throw new WebApplicationException("Missing information(s)");
     }
-    logger.info("Enregistrement du nouvel utilisateur "
+    AppLogger.getLogger("Enregistrement du nouvel utilisateur "
         + userDTO.getFirstName() + " " + userDTO.getLastName());
     return myUserUCC.register(userDTO);
   }

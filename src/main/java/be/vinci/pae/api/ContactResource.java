@@ -5,6 +5,7 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.utils.AppLogger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -21,7 +22,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
 
 /**
  * Resource class for managing contacts.
@@ -29,8 +30,6 @@ import org.apache.log4j.Logger;
 @Singleton
 @Path("/contacts")
 public class ContactResource {
-
-  private static final Logger logger = Logger.getLogger(ContactResource.class);
   private ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private ContactUCC myContactUcc;
@@ -52,19 +51,19 @@ public class ContactResource {
   public ContactDTO meetCompany(@PathParam("id_con") int idContact, JsonNode json) {
     ContactDTO contact = myContactUcc.getContactById(idContact);
     if (contact == null) {
-      logger.error("Le contact n'a pas été trouvé");
+      AppLogger.getLogger("Le contact n'a pas été trouvé");
       throw new IllegalArgumentException("Contact not found");
     }
 
     if (json == null) {
-      logger.error("Les infos nécessaires ne sont pas présentes");
+      AppLogger.getLogger("Les infos nécessaires ne sont pas présentes");
       throw new IllegalArgumentException("Request body is missing or not a valid JSON");
     }
 
     String meetLocation = json.get("meetLocation").asText();
 
     myContactUcc.meetCompany(contact, meetLocation);
-    logger.info("Le contact numéro " + idContact + " est passé à l'état pris");
+    AppLogger.getLogger("Le contact numéro " + idContact + " est passé à l'état pris");
 
     return contact;
   }
@@ -83,12 +82,12 @@ public class ContactResource {
   public ContactDTO stopFollowing(@PathParam("id_con") int idContact) {
     ContactDTO contact = myContactUcc.getContactById(idContact);
     if (contact == null) {
-      logger.error("Impossible de trouver le contact");
+      AppLogger.getLogger("Impossible de trouver le contact");
       throw new IllegalArgumentException("Contact not found");
     }
 
     myContactUcc.stopFollowing(contact);
-    logger.info("Le contact numéro " + idContact + " n'est plus suivi");
+    AppLogger.getLogger("Le contact numéro " + idContact + " n'est plus suivi");
     return contact;
   }
 
@@ -107,12 +106,12 @@ public class ContactResource {
   public ContactDTO companyRefusedInternship(@PathParam("id_con") int idContact, JsonNode json) {
     ContactDTO contact = myContactUcc.getContactById(idContact);
     if (contact == null) {
-      logger.error("Contact non trouvé");
+      AppLogger.getLogger("Contact non trouvé");
       throw new IllegalArgumentException("Contact not found");
     }
 
     if (json == null) {
-      logger.error("Pas de raison fournie pour le refus");
+      AppLogger.getLogger("Pas de raison fournie pour le refus");
       throw new IllegalArgumentException("Request body is missing or not a valid JSON");
     }
 
@@ -120,7 +119,7 @@ public class ContactResource {
     System.out.println("reason_for_refusal : " + reasonForRefusal);
 
     myContactUcc.companyRefusedInternship(contact, reasonForRefusal);
-    logger.info("Le contact numéro " + idContact + " est refusé pour la raison suivante : "
+    AppLogger.getLogger("Le contact numéro " + idContact + " est refusé pour la raison suivante : "
         + reasonForRefusal);
     return contact;
   }
@@ -139,7 +138,7 @@ public class ContactResource {
   public ObjectNode getContactsByUserId(@PathParam("id") int id) {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
-      logger.error("Cet utilisateur n'est pas présent");
+      AppLogger.getLogger("Cet utilisateur n'est pas présent");
       throw new IllegalArgumentException("User not found");
     }
 
@@ -162,7 +161,7 @@ public class ContactResource {
     }
 
     response.putPOJO("contacts", contactList);
-    logger.info("Récupération de tous les contacts de l'utilisateur " + id);
+    AppLogger.getLogger("Récupération de tous les contacts de l'utilisateur " + id);
     return response;
   }
 
@@ -184,7 +183,7 @@ public class ContactResource {
     // Validate the new item
     try {
       if (newContactDTO == null) {
-        logger.error("Les données présentes ne permettent pas l'ajout d'un contact");
+        AppLogger.getLogger("Les données présentes ne permettent pas l'ajout d'un contact");
         throw new WebApplicationException("Invalid contact data", Status.BAD_REQUEST);
       }
       // newContactDTO.setUserId(userId);
@@ -192,15 +191,15 @@ public class ContactResource {
       ContactDTO addedContactDTO = myContactUcc.addContact(newContactDTO);
       System.out.println("ContactRessource -------> addedContactDTO" + addedContactDTO);
       if (addedContactDTO == null) {
-        logger.error("Impossible d'ajouter le contact");
+        AppLogger.getLogger("Impossible d'ajouter le contact");
         throw new WebApplicationException("Contact could not be added",
             Status.INTERNAL_SERVER_ERROR);
       }
       System.out.println("ContactResource ---> addedContactDTO : " + addedContactDTO);
-      logger.info("Contact " + newContactDTO.getId() + " ajouté");
+      AppLogger.getLogger("Contact " + newContactDTO.getId() + " ajouté");
       return addedContactDTO;
     } catch (Exception e) {
-      logger.error("Impossible d'ajouter le contact");
+      AppLogger.getLogger("Impossible d'ajouter le contact");
       System.out.println("ContactResource exception");
       throw new WebApplicationException("Failed to add contact", Status.INTERNAL_SERVER_ERROR);
     }
