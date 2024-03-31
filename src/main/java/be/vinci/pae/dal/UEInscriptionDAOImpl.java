@@ -1,9 +1,9 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.business.domain.UEInscriptionDTO;
 import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
-import be.vinci.pae.business.domain.UEInscriptionDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
