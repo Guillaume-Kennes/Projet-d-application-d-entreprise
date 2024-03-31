@@ -19,7 +19,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
 /**
  * Resource class for handling user-related endpoints.
  * This class provides endpoints for retrieving user information.

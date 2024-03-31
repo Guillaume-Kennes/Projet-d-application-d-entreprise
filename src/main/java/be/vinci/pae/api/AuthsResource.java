@@ -25,7 +25,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 /**
  * Resource class for handling authentication-related requests. This class provides endpoints for
