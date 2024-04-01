@@ -1,5 +1,6 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -67,11 +68,14 @@ public class ContactUCCTest {
 
     ArrayList<ContactDTO> result = contactUCC.getContactsByUserId(userId);
 
-    assertNotNull(result);
-    assertEquals(expectedContact1, result.get(0));
-    assertEquals(expectedContact2, result.get(1));
-    assertEquals(expectedContact3, result.get(2));
-    assertEquals(expectedContact4, result.get(3));
+    assertAll(
+        () -> assertNotNull(result),
+        () -> assertEquals(expectedContact1, result.get(0)),
+        () -> assertEquals(expectedContact2, result.get(1)),
+        () -> assertEquals(expectedContact3, result.get(2)),
+        () -> assertEquals(expectedContact4, result.get(3))
+    );
+
   }
 
   /**
@@ -89,8 +93,10 @@ public class ContactUCCTest {
 
     ArrayList<ContactDTO> result = contactUCC.getContactsByUserId(userId);
 
-    assertNotNull(result);
-    assertEquals(expectedContact, result.get(0));
+    assertAll(
+        () -> assertNotNull(result),
+        () -> assertEquals(expectedContact, result.get(0))
+    );
   }
 
   /**

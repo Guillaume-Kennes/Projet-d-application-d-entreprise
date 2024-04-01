@@ -1,5 +1,6 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -53,8 +54,10 @@ public class InternshipUCCTest {
 
     InternshipDTO result = internshipUCC.getInternshipByUserId(userId);
 
-    assertNotNull(result);
-    assertEquals(expectedInternship.getId(), result.getId());
+    assertAll(
+        () -> assertNotNull(result),
+        () -> assertEquals(expectedInternship.getId(), result.getId())
+    );
   }
 
   /**

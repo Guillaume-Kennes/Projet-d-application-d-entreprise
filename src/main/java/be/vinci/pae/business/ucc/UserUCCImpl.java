@@ -5,6 +5,7 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.BusinessException;
+import be.vinci.pae.utils.exception.ConflictException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.List;
@@ -98,7 +99,7 @@ public class UserUCCImpl implements UserUCC {
 
     if (userDAO.getUserByEmail(userDTO.getEmail()) != null) {
       dalServices.rollBack();
-      throw new BusinessException("This email already exists in database", Status.CONFLICT);
+      throw new ConflictException("This email already exists in database");
     } else {
       try {
         if (!userDTO.getEmail().endsWith("@vinci.be")
@@ -110,9 +111,9 @@ public class UserUCCImpl implements UserUCC {
           userDTO.setRole("Etudiant");
         }
         userDTO.setPassword(user.hashPassword(userDTO.getPassword()));
-        UserDTO user1 = userDAO.register(userDTO);
+        UserDTO registeredUser = userDAO.register(userDTO);
         dalServices.commit();
-        return user1;
+        return registeredUser;
 
       } catch (Exception e) {
         dalServices.rollBack();

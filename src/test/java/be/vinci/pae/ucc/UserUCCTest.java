@@ -1,5 +1,6 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -53,10 +54,11 @@ public class UserUCCTest {
 
     UserDTO result = userUCC.login("chuqi.chups@student.vinci.be", "Azertyui1_");
 
-    assertNotNull(result);
-    assertEquals(userDTO.getEmail(), result.getEmail());
-    assertEquals(userDTO.getPassword(), result.getPassword());
-
+    assertAll(
+        () -> assertNotNull(result),
+        () -> assertEquals(userDTO.getEmail(), result.getEmail()),
+        () -> assertEquals(userDTO.getPassword(), result.getPassword())
+    );
   }
 
   /**
@@ -78,9 +80,11 @@ public class UserUCCTest {
    */
   @Test
   void testLoginFailureForEmail() {
-    assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
-    assertThrows(BusinessException.class,
-        () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
+    assertAll(
+        () -> assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be")),
+        () -> assertThrows(BusinessException.class,
+            () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"))
+    );
   }
 
   /**
@@ -133,9 +137,10 @@ public class UserUCCTest {
 
     UserDTO registeredUser = userDAO.register(userDTO);
 
-    assertEquals(userDTO.getEmail(), registeredUser.getEmail());
-    assertEquals(userDTO.getPassword(), registeredUser.getPassword());
-
+    assertAll(
+        () -> assertEquals(userDTO.getEmail(), registeredUser.getEmail()),
+        () -> assertEquals(userDTO.getPassword(), registeredUser.getPassword())
+    );
   }
 
   /**
