@@ -31,6 +31,7 @@ public class AuthorizationRequestFilter {
   @Inject
   private UserUCC userUCC;
 
+
   /**
    * Filters incoming requests to verify authorization.
    *
@@ -38,6 +39,7 @@ public class AuthorizationRequestFilter {
    * @throws IOException if an I/O error occurs while processing the request.
    */
   public void filter(ContainerRequestContext requestContext) throws IOException {
+
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {
       requestContext.abortWith(Response.status(Status.UNAUTHORIZED)
