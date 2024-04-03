@@ -4,6 +4,7 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.utils.exception.BusinessException;
+import be.vinci.pae.utils.exception.NotFoundException;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       if (contact == null) {
         dalServices.rollBack();
-        throw new BusinessException("Contact not found");
+        throw new NotFoundException("Contact not found");
       }
 
       if (place == null) {
@@ -85,7 +86,7 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       if (contact == null) {
         dalServices.rollBack();
-        throw new BusinessException("Contact not found");
+        throw new NotFoundException("Contact not found");
       }
 
       if (!contact.isFollowed()) {
@@ -117,7 +118,7 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       if (contact == null) {
         dalServices.rollBack();
-        throw new BusinessException("Contact not found");
+        throw new NotFoundException("Contact not found");
       }
 
       if (reason == null) {
