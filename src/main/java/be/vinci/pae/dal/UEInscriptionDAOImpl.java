@@ -40,7 +40,6 @@ public class UEInscriptionDAOImpl implements UEInscriptionDAO {
       student = userDAO.userInfos(resultSet);
       inscription.setStudent((User) student);
     } catch (SQLException e) {
-      e.getMessage();
       throw new FatalException(e);
     }
 
@@ -54,7 +53,7 @@ public class UEInscriptionDAOImpl implements UEInscriptionDAO {
    * @return A ViewUEInscriptionDTO object representing the inscription, or null if not found.
    * @throws FatalException if the inscription is not found in the database.
    */
-  public UEInscriptionDTO getUeInscriptionById(int id) {
+  public UEInscriptionDTO getUeInscriptionById(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.users u, pae.inscriptions_UE i"
             + " WHERE i.student = u.id_user AND i.id_inscription_UE = ?");
@@ -71,16 +70,10 @@ public class UEInscriptionDAOImpl implements UEInscriptionDAO {
       } else {
         inscription = null;
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
         preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
     }
     return inscription;
   }

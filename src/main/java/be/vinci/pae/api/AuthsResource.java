@@ -139,7 +139,7 @@ public class AuthsResource {
         System.currentTimeMillis() + TimeUnit.HOURS.toMillis(48)
     );
     return JWT.create().withIssuer("auth0")
-        .withClaim("id", userDTO.getId())
+        .withClaim("idUser", userDTO.getId())
         .withExpiresAt(dateOfExpiration)
         .sign(jwtAlgorithm);
   }

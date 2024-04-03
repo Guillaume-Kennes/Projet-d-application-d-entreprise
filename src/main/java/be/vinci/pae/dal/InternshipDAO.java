@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.InternshipDTO;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Represents a Data Access Object (DAO) for managing internship-related data.
@@ -16,7 +17,7 @@ public interface InternshipDAO {
    *
    * @return the internship corresponding to the given user
    */
-  InternshipDTO getInternshipByUserId(int id);
+  InternshipDTO getInternshipByUserId(int id) throws SQLException;
 
   /**
    * Returns the information of an internship.

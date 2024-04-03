@@ -106,7 +106,7 @@ public class UserUCCImpl implements UserUCC {
             && !userDTO.getEmail().endsWith("@student.vinci.be")) {
           dalServices.rollBack();
           throw new BusinessException(
-              "The email address must end with @student.vinci.be or @vinci.be", Status.BAD_REQUEST);
+              "The email address must end with @student.vinci.be or @vinci.be");
         } else if (userDTO.getEmail().endsWith("@student.vinci.be")) {
           userDTO.setRole("Etudiant");
         }

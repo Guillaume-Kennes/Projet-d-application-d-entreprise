@@ -36,9 +36,8 @@ public class AuthorizationRequestFilter {
    * Filters incoming requests to verify authorization.
    *
    * @param requestContext The request context to filter.
-   * @throws IOException if an I/O error occurs while processing the request.
    */
-  public void filter(ContainerRequestContext requestContext) throws IOException {
+  public void filter(ContainerRequestContext requestContext) {
 
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {
@@ -49,14 +48,14 @@ public class AuthorizationRequestFilter {
       try {
         decodedToken = this.jwtVerifier.verify(token);
       } catch (Exception e) {
-        throw new FatalException(e);
+        throw new FatalException(e); //à vérifier
       }
-      User authenticatedUser = (User) userUCC.getUserById(decodedToken.getClaim("user").asInt());
+      User authenticatedUser = (User) userUCC.getUserById(decodedToken.getClaim("idUser").asInt()); //poser la question au prof
       if (authenticatedUser == null) {
         requestContext.abortWith(Response.status(Status.FORBIDDEN)
             .entity("You are forbidden to access this resource").build());
       }
-      requestContext.setProperty("user", authenticatedUser);
+      requestContext.setProperty("user", authenticatedUser); //user ici comme le STORE_NAME dans auths.js dans le front
     }
   }
 

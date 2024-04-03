@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Represents a Data Access Object (DAO) for managing internship supervisor-related data.
@@ -25,5 +26,5 @@ public interface InternshipSupervisorDAO {
    *
    * @return the supervisor corresponding to the id
    */
-  InternshipSupervisorDTO getSupervisorById(int id);
+  InternshipSupervisorDTO getSupervisorById(int id) throws SQLException;
 }

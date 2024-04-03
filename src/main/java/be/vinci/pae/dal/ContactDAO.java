@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.ContactDTO;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -38,7 +39,7 @@ public interface ContactDAO {
    * @param id the user's id
    * @return a list of the contacts corresponding to the given user
    */
-  ArrayList<ContactDTO> getContactsByUserId(int id);
+  ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException;
 
   /**
    * Returns the contacts in the state "pris" corresponding to the given user.
@@ -46,7 +47,7 @@ public interface ContactDAO {
    * @param id the user's id
    * @return a list of the "pris" contacts corresponding to the given user
    */
-  ArrayList<ContactDTO> getTakenContactsByUserId(int id);
+  ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException;
 
   /**
    * Inserts a new contact into the database.

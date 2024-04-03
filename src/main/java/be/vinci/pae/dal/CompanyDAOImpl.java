@@ -48,7 +48,6 @@ public class CompanyDAOImpl implements CompanyDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println("generatedId = " + generatedId);
     return generatedId;
   }
 
@@ -70,7 +69,6 @@ public class CompanyDAOImpl implements CompanyDAO {
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
     } catch (SQLException e) { //DEMANDER AU PROF quelle exception
-      e.getMessage();
       throw new FatalException(e);
     }
     return companyDTO;
@@ -83,7 +81,7 @@ public class CompanyDAOImpl implements CompanyDAO {
    * @return A ViewCompanyDTO object representing the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
-  public CompanyDTO getCompanyById(int id) {
+  public CompanyDTO getCompanyById(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.entreprises e WHERE e.id_enterprise = ?");
     try {
@@ -99,17 +97,12 @@ public class CompanyDAOImpl implements CompanyDAO {
       } else {
         company = null;
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
         preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
       }
-    }
+
     return company;
   }
 

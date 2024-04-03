@@ -49,7 +49,7 @@ public class ContactDAOImpl implements ContactDAO {
         }
       }
     } catch (SQLException e) {
-      throw new FatalException("Contact not found", Status.BAD_REQUEST);
+      throw new FatalException("Contact not found");
     }
     return null;
   }
@@ -110,7 +110,6 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setString(6, contactDTO.getMeetingPlace());
         ps.setInt(7, contactDTO.getId());
 
-
         ps.execute();
       }
     } catch (SQLException e) {
@@ -125,7 +124,7 @@ public class ContactDAOImpl implements ContactDAO {
    * @return A list of ContactDTO object representing the contacts, or null if not found.
    * @throws FatalException if not found in the database.
    */
-  public ArrayList<ContactDTO> getContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
@@ -141,7 +140,7 @@ public class ContactDAOImpl implements ContactDAO {
    * @return A list of ContactDTO object representing the contacts, or null if not found.
    * @throws FatalException if not found in the database.
    */
-  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
@@ -157,7 +156,8 @@ public class ContactDAOImpl implements ContactDAO {
    * @return A list of ContactDTO object representing the contacts, or null if not found.
    * @throws FatalException if not found in the database.
    */
-  private ArrayList<ContactDTO> getCorrespondingContacts(PreparedStatement ps, int id) {
+  private ArrayList<ContactDTO> getCorrespondingContacts(PreparedStatement ps, int id)
+      throws SQLException {
     try {
       ps.setInt(1, id);
     } catch (SQLException e) {
@@ -171,18 +171,14 @@ public class ContactDAOImpl implements ContactDAO {
         contact = contactInfos(resultSet);
         contacts.add(contact);
       }
-    } catch (Exception e) {
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
-        ps.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
+      ps.close();
     }
     return contacts;
   }
+
 
 
   /**
@@ -227,7 +223,6 @@ public class ContactDAOImpl implements ContactDAO {
 
       }
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
     return contactDTO;

@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.CompanyDTO;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Represents a Data Access Object (DAO) for managing company-related data.
@@ -34,6 +35,6 @@ public interface CompanyDAO {
    *
    * @return the company corresponding to the id
    */
-  CompanyDTO getCompanyById(int id);
+  CompanyDTO getCompanyById(int id) throws SQLException;
 
 }

@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
    * @return a user with the specified email address, or null if not found.
    * @throws FatalException if an SQL exception occurs while accessing the database.
    */
-  public UserDTO getUserByEmail(String email) {
+  public UserDTO getUserByEmail(String email) throws SQLException {
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.users u WHERE u.email = ?");
@@ -49,16 +49,10 @@ public class UserDAOImpl implements UserDAO {
         user = null;
       }
 
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
         preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
     }
     return user;
   }
@@ -82,7 +76,6 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
 
@@ -107,7 +100,6 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
     return null;
@@ -134,7 +126,6 @@ public class UserDAOImpl implements UserDAO {
         usersList.add(userDTO);
       }
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
     return usersList;
@@ -179,7 +170,6 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
     return userDTO;

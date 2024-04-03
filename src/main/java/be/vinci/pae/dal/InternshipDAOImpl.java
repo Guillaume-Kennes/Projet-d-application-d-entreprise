@@ -35,7 +35,7 @@ public class InternshipDAOImpl implements InternshipDAO {
    * @return an internship corresponding to the specified user, or null if not found.
    * @throws FatalException if an SQL exception occurs while accessing the database.
    */
-  public InternshipDTO getInternshipByUserId(int id) {
+  public InternshipDTO getInternshipByUserId(int id) throws SQLException {
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, "
@@ -56,16 +56,10 @@ public class InternshipDAOImpl implements InternshipDAO {
       } else {
         internship = null;
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
         preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
     }
     return internship;
   }
@@ -91,7 +85,6 @@ public class InternshipDAOImpl implements InternshipDAO {
       supervisor = supervisorDAO.supervisorInfos(resultSet);
       internshipDTO.setSupervisor((InternshipSupervisor) supervisor);
     } catch (SQLException e) {
-      e.getMessage();
       throw new FatalException(e);
     }
     return internshipDTO;

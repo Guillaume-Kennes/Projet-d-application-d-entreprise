@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.UserDTO;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public interface UserDAO {
    *
    * @return the user corresponding to the given email
    */
-  UserDTO getUserByEmail(String email);
+  UserDTO getUserByEmail(String email) throws SQLException;
 
 
   /**
