@@ -4,6 +4,7 @@ import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.InternshipDAO;
 import jakarta.inject.Inject;
+import java.sql.SQLException;
 
 /**
  * Implementation of the InternshipUCC interface. Provides methods related to internship
@@ -22,7 +23,7 @@ public class InternshipUCCImpl implements InternshipUCC {
    * @param id the user's id
    * @return the internship corresponding to the user
    */
-  public InternshipDTO getInternshipByUserId(int id) {
+  public InternshipDTO getInternshipByUserId(int id) throws SQLException {
     dalServices.start();
     try {
       InternshipDTO internshipDTO = internshipDAO.getInternshipByUserId(id);

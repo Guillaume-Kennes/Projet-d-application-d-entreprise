@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.UserDTO;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public interface UserUCC {
    * @param password the user's password
    * @return the user's data if the login is successful
    */
-  UserDTO login(String email, String password);
+  UserDTO login(String email, String password) throws SQLException;
 
 
   /**
@@ -43,6 +44,6 @@ public interface UserUCC {
    *
    * @return A UserDTO object representing the registered user, or null if registration fails.
    */
-  UserDTO register(UserDTO userDTO);
+  UserDTO register(UserDTO userDTO) throws SQLException;
 
 }

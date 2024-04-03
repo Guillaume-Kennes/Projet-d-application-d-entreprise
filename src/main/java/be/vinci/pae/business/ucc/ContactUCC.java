@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.ContactDTO;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -48,7 +49,7 @@ public interface ContactUCC {
    * @param id the user's id
    * @return the taken contacts corresponding to the user
    */
-  ArrayList<ContactDTO> getTakenContactsByUserId(int id);
+  ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException;
 
   /**
    * Returns all the contacts of the user corresponding to the id.
@@ -56,7 +57,7 @@ public interface ContactUCC {
    * @param id the user's id
    * @return all the contacts corresponding to the user
    */
-  ArrayList<ContactDTO> getContactsByUserId(int id);
+  ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException;
 
   /**
    * Adds a new contact.

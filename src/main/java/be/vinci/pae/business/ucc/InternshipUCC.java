@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.InternshipDTO;
+import java.sql.SQLException;
 
 /**
  * Represents an Internship Use Case Controller (UCC) with methods related to internship operations.
@@ -14,5 +15,5 @@ public interface InternshipUCC {
    *
    * @return the internship corresponding to the user
    */
-  InternshipDTO getInternshipByUserId(int id);
+  InternshipDTO getInternshipByUserId(int id) throws SQLException;
 }

@@ -8,6 +8,7 @@ import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.ConflictException;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response.Status;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class UserUCCImpl implements UserUCC {
    * @return The UserDTO object representing the authenticated user.
    * @throws BusinessException If the provided email or password is incorrect.
    */
-  public UserDTO login(String email, String password) {
+  public UserDTO login(String email, String password) throws SQLException {
     dalServices.start();
     try {
       User userFound = (User) userDAO.getUserByEmail(email);
@@ -92,7 +93,7 @@ public class UserUCCImpl implements UserUCC {
    * @throws BusinessException If the email already exists in the database or if the email
    *                               address does not end with "@student.vinci.be" or "@vinci.be".
    */
-  public UserDTO register(UserDTO userDTO) {
+  public UserDTO register(UserDTO userDTO) throws SQLException {
     dalServices.start();
 
     User user = (User) userDTO;

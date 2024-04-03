@@ -6,6 +6,7 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.NotFoundException;
 import jakarta.inject.Inject;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -149,7 +150,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param id the user's id
    * @return the taken contacts corresponding to the user
    */
-  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException {
     dalServices.start();
     try {
       ArrayList<ContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
@@ -167,7 +168,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param id the user's id
    * @return all the contacts corresponding to the user
    */
-  public ArrayList<ContactDTO> getContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException {
     dalServices.start();
     try {
       ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
