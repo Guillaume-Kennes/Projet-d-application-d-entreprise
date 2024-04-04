@@ -7,7 +7,6 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.utils.AppLogger;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -51,7 +50,6 @@ public class UserResource {
   public ObjectNode getUserById(@PathParam("id") int id) {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
-      AppLogger.getLogger("Utilisateur inconnu");
       throw new IllegalArgumentException("User not found");
     }
 
@@ -93,7 +91,6 @@ public class UserResource {
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
   public List<UserDTO> getAllUsers() {
-    AppLogger.getLogger("Demande pour voir la liste des utilisateurs");
     return myUserUcc.getAllUsers();
   }
 

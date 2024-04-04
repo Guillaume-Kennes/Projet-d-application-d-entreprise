@@ -108,17 +108,16 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       try {
         connection.commit();
         connection.setAutoCommit(true);
-        connectionThread.remove();
-        connection.close();
       } catch (SQLException e) {
+        e.printStackTrace();
+        throw new FatalException(e);
+      } finally {
         connectionThread.remove();
         try {
           connection.close();
         } catch (SQLException ex) {
           throw new FatalException(ex);
         }
-        e.printStackTrace();
-        throw new FatalException(e);
       }
     } else {
       counterThreads.set(counterThreads.get());

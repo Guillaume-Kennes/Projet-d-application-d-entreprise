@@ -27,9 +27,9 @@ public class CompanyDAOImpl implements CompanyDAO {
               INSERT INTO pae.enterprises (
               trade_name,
               designation,
-              adress,
+              address,
               city,
-              means_of_commlunication,
+              means_of_communication,
               is_black_listed,
               motivation_blacklist)
           VALUES (?, ?, ?, ?, ?, false, null)
@@ -66,7 +66,7 @@ public class CompanyDAOImpl implements CompanyDAO {
       companyDTO.setId(resultSet.getInt("id_enterprise"));
       companyDTO.setTradeName(resultSet.getString("trade_name"));
       companyDTO.setDesignation(resultSet.getString("designation"));
-      companyDTO.setAddress(resultSet.getString("adress"));
+      companyDTO.setAddress(resultSet.getString("address"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
     } catch (SQLException e) { //DEMANDER AU PROF quelle exception
@@ -85,7 +85,7 @@ public class CompanyDAOImpl implements CompanyDAO {
    */
   public CompanyDTO getCompanyById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.entreprises e WHERE e.id_enterprise = ?");
+        "SELECT * FROM pae.enterprises e WHERE e.id_enterprise = ?");
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {
