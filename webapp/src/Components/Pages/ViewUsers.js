@@ -8,7 +8,17 @@ const viewAllUsersPage = async () => {
 async function allUsers() {
   const main = document.querySelector('main');
 
-  const response = await fetch("http://localhost:3000/users/getAllUsers");
+  const options = {
+    method: 'POST',
+    body: JSON.stringify({
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer` ${}  "token"
+    },
+  };
+
+  const response = await fetch("http://localhost:3000/users/getAllUsers", options);
 
   if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`)
 
