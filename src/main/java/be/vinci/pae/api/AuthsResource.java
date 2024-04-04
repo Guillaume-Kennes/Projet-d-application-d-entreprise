@@ -3,7 +3,6 @@ package be.vinci.pae.api;
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -53,7 +52,6 @@ public class AuthsResource {
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) throws SQLException {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
-      AppLogger.getLogger("Absence de login et/ou de mot de passe");
       throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
     }
     String login = json.get("email").asText();
@@ -62,7 +60,6 @@ public class AuthsResource {
     UserDTO publicUser = myUserUCC.login(login, password);
 
     if (publicUser == null) {
-      AppLogger.getLogger("Login ou mot de passe incorrect");
       throw new WebApplicationException("Login or password incorrect",
           Response.Status.UNAUTHORIZED);
     }
@@ -70,8 +67,6 @@ public class AuthsResource {
     ObjectNode responseObject = jsonMapper.createObjectNode();
     responseObject.put("token", token);
     responseObject.putPOJO("user", publicUser);
-    AppLogger.getLogger("Connexion réussie. Token de "
-        + publicUser.getLastName() + " " + publicUser.getFirstName());
     return responseObject;
   }
 
@@ -99,11 +94,8 @@ public class AuthsResource {
         || userDTO.getFirstName() == null || userDTO.getFirstName().isBlank()
         || userDTO.getPhoneNumber() == null || userDTO.getPhoneNumber().isBlank()
         || userDTO.getRole() == null || userDTO.getRole().isBlank()) {
-      AppLogger.getLogger("Impossible de s'enregistrer, il manque des infos");
       throw new WebApplicationException("Missing information(s)");
     }
-    AppLogger.getLogger("Enregistrement du nouvel utilisateur "
-        + userDTO.getFirstName() + " " + userDTO.getLastName());
     return myUserUCC.register(userDTO);
   }
 

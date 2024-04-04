@@ -37,9 +37,9 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ContactDTO getContactById(int contactId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i"
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u "
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
-            + " AND c.id_contact = ?");
+            + " AND u.id_user = i.student AND c.id_contact = ?");
 
     try {
       preparedStatement.setInt(1, contactId);

@@ -4,6 +4,8 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Exception mapper for handling uncaught exceptions thrown by the web application.
@@ -23,6 +25,8 @@ public class WebExceptionMapper implements ExceptionMapper<Throwable> {
   public Response toResponse(Throwable exception) {
     exception.printStackTrace();
     if (exception instanceof WebApplicationException) {
+      Logger log = AppLogger.getLogger(exception.getMessage());
+      log.setLevel(Level.WARNING);
       return Response.status(((WebApplicationException) exception).getResponse().getStatus())
           .entity(exception.getMessage())
           .build();
