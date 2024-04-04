@@ -1,7 +1,7 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.ViewCompanyDTO;
+import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * Implementation of the ViewCompanyDAO interface. Provides methods for retrieving company-related
  * data from the database.
  */
-public class ViewCompanyDAOImpl implements ViewCompanyDAO {
+public class CompanyDAOImpl implements CompanyDAO {
 
   @Inject
   private DALBackServices dalServices;
@@ -20,7 +20,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
   private DomainFactory myDomainFactory;
 
   @Override
-  public int insert(ViewCompanyDTO companyDTO) {
+  public int insert(CompanyDTO companyDTO) {
     int generatedId = 0;
     try {
       String query = """
@@ -58,8 +58,8 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    * @param resultSet The ResultSet containing company information.
    * @return A ViewCompanyDTO object populated with company information from the ResultSet.
    */
-  public ViewCompanyDTO companyInfos(ResultSet resultSet) {
-    ViewCompanyDTO companyDTO = myDomainFactory.getCompany();
+  public CompanyDTO companyInfos(ResultSet resultSet) {
+    CompanyDTO companyDTO = myDomainFactory.getCompany();
 
     try {
       companyDTO.setId(resultSet.getInt("id_enterprise"));
@@ -81,7 +81,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    * @return A ViewCompanyDTO object representing the company, or null if not found.
    * @throws IllegalArgumentException if the company is not found in the database.
    */
-  public ViewCompanyDTO getCompanyById(int id) {
+  public CompanyDTO getCompanyById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.entreprises e WHERE e.id_enterprise = ?");
     try {
@@ -90,7 +90,7 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
       throw new RuntimeException(e);
     }
 
-    ViewCompanyDTO company = myDomainFactory.getCompany();
+    CompanyDTO company = myDomainFactory.getCompany();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         company = companyInfos(resultSet);

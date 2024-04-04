@@ -1,12 +1,15 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import be.vinci.pae.business.domain.Contact;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.ucc.ContactUCC;
@@ -108,7 +111,8 @@ public class ContactUCCTest {
   @Test
   public void meetCompanyTest_nullPlace() {
     // arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("initié");
 
     // act and assert
@@ -123,7 +127,8 @@ public class ContactUCCTest {
   @Test
   public void meetCompanyTest_StateInitiated() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("initié");
     String place = "enterprise";
 
@@ -131,16 +136,19 @@ public class ContactUCCTest {
     ContactDTO result = contactUCC.meetCompany(contact, place);
 
     // Assert
-    verify(contact).setState("pris");
-    verify(contact).setMeetingPlace(place);
-    verify(contactDAO).update(contact);
-    assertEquals(contact, result);
+    assertAll(
+        () -> verify(contact).setState("pris"),
+        () -> verify(contact).setMeetingPlace(place),
+        () -> verify(contactDAO).update(contact),
+        () -> assertEquals(contact, result)
+    );
   }
 
   @Test
   public void meetCompanyTest_StateTaken() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("pris");
 
     // Act and Assert
@@ -152,7 +160,8 @@ public class ContactUCCTest {
   @Test
   public void meetCompanyTest_StateRefused() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("refusé");
 
     // Act and Assert

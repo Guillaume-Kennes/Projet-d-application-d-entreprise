@@ -19,10 +19,10 @@ import be.vinci.pae.dal.InternshipSupervisorDAO;
 import be.vinci.pae.dal.InternshipSupervisorDAOImpl;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.dal.UserDAOImpl;
-import be.vinci.pae.dal.ViewCompanyDAO;
-import be.vinci.pae.dal.ViewCompanyDAOImpl;
-import be.vinci.pae.dal.ViewUEInscriptionDAO;
-import be.vinci.pae.dal.ViewUEInscriptionDAOImpl;
+import be.vinci.pae.dal.CompanyDAO;
+import be.vinci.pae.dal.CompanyDAOImpl;
+import be.vinci.pae.dal.UEInscriptionDAO;
+import be.vinci.pae.dal.UEInscriptionDAOImpl;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
@@ -47,8 +47,8 @@ public class ApplicationBinder extends AbstractBinder {
     bind(ContactDAOImpl.class).to(ContactDAO.class).in(Singleton.class);
     bind(InternshipDAOImpl.class).to(InternshipDAO.class).in(Singleton.class);
     bind(InternshipUCCImpl.class).to(InternshipUCC.class).in(Singleton.class);
-    bind(ViewCompanyDAOImpl.class).to(ViewCompanyDAO.class).in(Singleton.class);
-    bind(ViewUEInscriptionDAOImpl.class).to(ViewUEInscriptionDAO.class).in(Singleton.class);
+    bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
+    bind(UEInscriptionDAOImpl.class).to(UEInscriptionDAO.class).in(Singleton.class);
     bind(InternshipSupervisorDAOImpl.class).to(InternshipSupervisorDAO.class).in(Singleton.class);
   }
 }

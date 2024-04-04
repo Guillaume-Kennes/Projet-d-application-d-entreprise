@@ -28,11 +28,11 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO meetCompany(ContactDTO contact, String place) {
     dalServices.start();
     try {
-      // pour fair un cast comme ca tu dois dabord checker si cest un bon type dinstance
-        Contact contactBiz = (Contact) contact;
-        if (contact == null) {
-          throw new IllegalArgumentException("Contact not found");
-        }
+      if (contact == null) {
+        throw new IllegalArgumentException("Contact not found");
+      }
+
+      Contact contactBiz = (Contact) contact;
 
       if (place == null) {
         throw new IllegalArgumentException("Place field cannot be null");
@@ -82,12 +82,14 @@ public class ContactUCCImpl implements ContactUCC {
    * @return The updated contact after stopping the follow.
    */
   public ContactDTO stopFollowing(ContactDTO contact) {
+    System.out.println("Contact " + contact);
     dalServices.start();
     try {
-      Contact contactBiz = (Contact) contact;
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
       }
+
+      Contact contactBiz = (Contact) contact;
 
       if (!contactBiz.isFollowed(contact)) {
         throw new IllegalArgumentException("Invalid contact state");
@@ -118,7 +120,6 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO companyRefusedInternship(ContactDTO contact, String reason) {
     dalServices.start();
     try {
-      Contact contactBiz = (Contact) contact;
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
       }
@@ -126,6 +127,8 @@ public class ContactUCCImpl implements ContactUCC {
       if (reason == null) {
         throw new IllegalArgumentException("Reason field cannot be null");
       }
+
+      Contact contactBiz = (Contact) getContactsByUserId(contact.getId());
 
       if (contactBiz.prisState(contact)) {
         contact.setState("refusé");

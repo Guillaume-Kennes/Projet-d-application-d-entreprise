@@ -77,5 +77,5 @@ public interface InternshipSupervisorDTO {
    *
    * @param company the supervisor's company to set
    */
-  void setCompany(ViewCompany company);
+  void setCompany(Company company);
 }

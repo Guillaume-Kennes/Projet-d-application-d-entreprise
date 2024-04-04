@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * Represents a UEInscription data transfer object (DTO) with various properties. This interface
  * defines methods for accessing and modifying UEInscription-related information.
  */
-@JsonDeserialize(as = ViewUEInscriptionImpl.class)
-public interface ViewUEInscriptionDTO {
+@JsonDeserialize(as = UEInscriptionImpl.class)
+public interface UEInscriptionDTO {
 
   User getStudent();
 

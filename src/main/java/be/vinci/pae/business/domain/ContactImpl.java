@@ -7,8 +7,8 @@ class ContactImpl implements Contact {
 
   private int id;
   private String state;
-  private ViewCompany company;
-  private ViewUEInscription inscriptionUE;
+  private Company company;
+  private UEInscription inscriptionUE;
   private String reasonForRefusal;
   private boolean isFollowed;
   private String meetingPlace;
@@ -137,7 +137,7 @@ class ContactImpl implements Contact {
    * @return The UE inscription of the contact
    */
   @Override
-  public ViewUEInscription getInscriptionUE() {
+  public UEInscription getInscriptionUE() {
     return this.inscriptionUE;
   }
 
@@ -147,7 +147,7 @@ class ContactImpl implements Contact {
    * @param inscriptionUE The UE inscription to set.
    */
   @Override
-  public void setInscriptionUE(ViewUEInscription inscriptionUE) {
+  public void setInscriptionUE(UEInscription inscriptionUE) {
     this.inscriptionUE = inscriptionUE;
   }
 
@@ -157,7 +157,7 @@ class ContactImpl implements Contact {
    * @return The company of the contact
    */
   @Override
-  public ViewCompanyDTO getCompany() {
+  public CompanyDTO getCompany() {
     return this.company;
   }
 
@@ -167,7 +167,7 @@ class ContactImpl implements Contact {
    * @param company The company to set.
    */
   @Override
-  public void setCompany(ViewCompany company) {
+  public void setCompany(Company company) {
     this.company = company;
   }
 

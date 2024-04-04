@@ -2,8 +2,8 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
-import be.vinci.pae.business.domain.ViewCompany;
-import be.vinci.pae.business.domain.ViewCompanyDTO;
+import be.vinci.pae.business.domain.Company;
+import be.vinci.pae.business.domain.CompanyDTO;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +20,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
   @Inject
   private DALBackServices dalServices;
   @Inject
-  private ViewCompanyDAO companyDAO;
+  private CompanyDAO companyDAO;
 
   /**
    * Method to retrieve supervisor information and map it to a InternshipSupervisorDTO object.
@@ -31,7 +31,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    */
   public InternshipSupervisorDTO supervisorInfos(ResultSet resultSet) {
     InternshipSupervisorDTO internshipSupervisorDTO = myDomainFactory.getInternshipSupervisor();
-    ViewCompanyDTO company;
+    CompanyDTO company;
 
     try {
       internshipSupervisorDTO.setId(resultSet.getInt("id_supervisor"));
@@ -40,7 +40,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
       internshipSupervisorDTO.setFirstName(resultSet.getString("supervisor_first_name"));
       internshipSupervisorDTO.setLastName(resultSet.getString("supervisor_last_name"));
       company = companyDAO.companyInfos(resultSet);
-      internshipSupervisorDTO.setCompany((ViewCompany) company);
+      internshipSupervisorDTO.setCompany((Company) company);
     } catch (SQLException e) {
       e.getMessage();
     }
