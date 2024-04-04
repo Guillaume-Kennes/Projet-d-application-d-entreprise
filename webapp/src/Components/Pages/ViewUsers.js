@@ -14,7 +14,6 @@ async function allUsers() {
     }),
     headers: {
       'Content-Type': 'application/json',
-      'Authorization' : `Bearer` ${}  "token"
     },
   };
 
