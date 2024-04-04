@@ -15,11 +15,20 @@ class ContactImpl implements Contact {
   private int enterprise;
   private int userId;
   private String tradeName;
+  private int versionNumber;
 
   /**
    * Default constructor for ContactImpl.
    */
   public ContactImpl() {
+  }
+
+  public int getVersionNumber() {
+    return versionNumber;
+  }
+
+  public void setVersionNumber(int versionNumber) {
+    this.versionNumber = versionNumber;
   }
 
   /**
@@ -242,5 +251,17 @@ class ContactImpl implements Contact {
    */
   public void setTradeName(String tradeName) {
     this.tradeName = tradeName;
+  }
+
+  public boolean initieState(ContactDTO contact) {
+    return contact.getState().equals("initié");
+  }
+
+  public boolean prisState(ContactDTO contact) {
+    return contact.getState().equals("pris");
+  }
+
+  public boolean isFollowed(ContactDTO contact) {
+    return contact.isFollowed();
   }
 }

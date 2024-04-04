@@ -20,4 +20,9 @@ public interface Contact extends ContactDTO {
    * @return true if the school year is correct, false otherwise.
    */
   boolean correctSchoolYear();
+
+  boolean initieState(ContactDTO contact);
+  boolean prisState(ContactDTO contact);
+
+  boolean isFollowed(ContactDTO contact);
 }

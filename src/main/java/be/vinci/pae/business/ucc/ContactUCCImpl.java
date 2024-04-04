@@ -1,5 +1,6 @@
 package be.vinci.pae.business.ucc;
 
+import be.vinci.pae.business.domain.Contact;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
@@ -27,15 +28,17 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO meetCompany(ContactDTO contact, String place) {
     dalServices.start();
     try {
-      if (contact == null) {
-        throw new IllegalArgumentException("Contact not found");
-      }
+      // pour fair un cast comme ca tu dois dabord checker si cest un bon type dinstance
+        Contact contactBiz = (Contact) contact;
+        if (contact == null) {
+          throw new IllegalArgumentException("Contact not found");
+        }
 
       if (place == null) {
         throw new IllegalArgumentException("Place field cannot be null");
       }
 
-      if (contact.getState().equals("initié")) {
+      if (contactBiz.initieState(contact)) {
         contact.setState("pris");
         contact.setMeetingPlace(place);
 
@@ -81,11 +84,12 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO stopFollowing(ContactDTO contact) {
     dalServices.start();
     try {
+      Contact contactBiz = (Contact) contact;
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
       }
 
-      if (!contact.isFollowed()) {
+      if (!contactBiz.isFollowed(contact)) {
         throw new IllegalArgumentException("Invalid contact state");
       } else {
         contact.setFollowed(false);
@@ -114,6 +118,7 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO companyRefusedInternship(ContactDTO contact, String reason) {
     dalServices.start();
     try {
+      Contact contactBiz = (Contact) contact;
       if (contact == null) {
         throw new IllegalArgumentException("Contact not found");
       }
@@ -122,7 +127,7 @@ public class ContactUCCImpl implements ContactUCC {
         throw new IllegalArgumentException("Reason field cannot be null");
       }
 
-      if (contact.getState().equals("pris")) {
+      if (contactBiz.prisState(contact)) {
         contact.setState("refusé");
         contact.setReasonForRefusal(reason);
 

@@ -70,6 +70,7 @@ public class ContactDAOImpl implements ContactDAO {
       contactDTO.setReasonForRefusal(resultSet.getString("reason_for_refusal"));
       contactDTO.setFollowed(resultSet.getBoolean("is_followed"));
       contactDTO.setMeetingPlace(resultSet.getString("meeting_place"));
+      contactDTO.setVersionNumber(resultSet.getInt("version_contacts"));
       company = companyDAO.companyInfos(resultSet);
       contactDTO.setCompany((ViewCompany) company);
       ueInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
@@ -97,7 +98,8 @@ public class ContactDAOImpl implements ContactDAO {
           reason_for_refusal = ?,
           is_followed = ?,
           meeting_place = ?
-          WHERE id_contact= ?;
+          version_contacts = version_contacts + 1
+          WHERE id_contact= ? AND version_contacts = ? ;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, contactDTO.getState());
@@ -107,10 +109,15 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setBoolean(5, contactDTO.isFollowed());
         ps.setString(6, contactDTO.getMeetingPlace());
         ps.setInt(7, contactDTO.getId());
+        ps.setInt(8, contactDTO.getVersionNumber());
 
         System.out.println("contact DAO IMPL : " + contactDTO.getId());
 
-        ps.execute();
+        int correctVersion = ps.executeUpdate();
+        if (correctVersion == 0) {
+          throw new IllegalArgumentException("Error not the same version");
+        }
+
       }
     } catch (SQLException e) {
       throw new IllegalArgumentException(e);
@@ -202,7 +209,9 @@ public class ContactDAOImpl implements ContactDAO {
               inscription_UE,
               reason_for_refusal,
               is_followed,
-              meeting_place)
+              meeting_place,
+              version_contacts,
+          )
           VALUES ('initié',
           (SELECT e.id_enterprise
            FROM pae.enterprises e
@@ -228,11 +237,14 @@ public class ContactDAOImpl implements ContactDAO {
 
         ps.setString(1, contactDTO.getTradeName());
         ps.setInt(2, contactDTO.getUserId());
+        ps.setInt(3, 1);
 
         System.out.println("ContactDAOImpl -------> Enterprise : "
             + contactDTO.getTradeName());
         System.out.println("ContactDAOImpl -------> UserId : "
             + contactDTO.getUserId());
+        System.out.println("ContactDAOImpl -------> Version Number : "
+            + contactDTO.getVersionNumber());
 
         System.out.println("ContactDAOImpl ----> ps : " + ps);
         ps.execute();

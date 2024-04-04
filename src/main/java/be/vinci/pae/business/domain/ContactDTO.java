@@ -148,4 +148,8 @@ public interface ContactDTO {
    * @param tradeName the new trade name associated with the contact.
    */
   void setTradeName(String tradeName);
+
+  int getVersionNumber();
+
+  void setVersionNumber(int versionNumber);
 }
