@@ -9,7 +9,7 @@ import jakarta.inject.Inject;
  * Implementation of the ViewCompanyUCC interface.
  * Provides methods related to company operations.
  */
-public class ViewCompanyUCCImpl implements ViewCompanyUCC {
+public class ViewCompanyUCCImpl implements CompanyUCC {
 
   @Inject
   private ViewCompanyDAO itemDAO;
