@@ -20,6 +20,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -134,7 +135,7 @@ public class ContactResource {
   @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode getContactsByUserId(@PathParam("id") int id) {
+  public ObjectNode getContactsByUserId(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
       AppLogger.getLogger("Cet utilisateur n'est pas présent");

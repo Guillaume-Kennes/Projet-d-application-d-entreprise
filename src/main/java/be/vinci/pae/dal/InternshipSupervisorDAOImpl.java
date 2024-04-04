@@ -45,7 +45,6 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-
     return internshipSupervisorDTO;
   }
 

@@ -79,7 +79,6 @@ public class ContactDAOImpl implements ContactDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-
     return contactDTO;
   }
 
@@ -217,10 +216,8 @@ public class ContactDAOImpl implements ContactDAO {
       // changer le wildcard en id de l entreprise
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
-
         ps.setString(1, contactDTO.getTradeName());
         ps.setInt(2, contactDTO.getUserId());
-
       }
     } catch (SQLException e) {
       throw new FatalException(e);

@@ -17,6 +17,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class UserResource {
   @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode getUserById(@PathParam("id") int id) {
+  public ObjectNode getUserById(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
       AppLogger.getLogger("Utilisateur inconnu");
@@ -92,6 +93,7 @@ public class UserResource {
   @GET
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
+  @Authorize ({"Professeur", "Administratif"})
   public List<UserDTO> getAllUsers() {
     AppLogger.getLogger("Demande pour voir la liste des utilisateurs");
     return myUserUcc.getAllUsers();

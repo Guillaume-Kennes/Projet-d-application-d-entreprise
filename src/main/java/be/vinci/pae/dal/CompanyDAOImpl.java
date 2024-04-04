@@ -101,8 +101,7 @@ public class CompanyDAOImpl implements CompanyDAO {
       throw new FatalException(e);
     } finally {
         preparedStatement.close();
-      }
-
+    }
     return company;
   }
 

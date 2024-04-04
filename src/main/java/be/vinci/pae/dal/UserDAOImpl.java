@@ -166,7 +166,7 @@ public class UserDAOImpl implements UserDAO {
         }
         try (PreparedStatement preparedStatement2 = dalServices.getPreparedStatement(query2)) {
           preparedStatement2.setInt(1, userDTO.getId());
-          preparedStatement2.executeQuery();
+          preparedStatement2.execute();
         }
       }
     } catch (SQLException e) {

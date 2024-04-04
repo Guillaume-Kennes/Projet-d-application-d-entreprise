@@ -23,6 +23,7 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -50,7 +51,7 @@ public class AuthsResource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode login(JsonNode json) {
+  public ObjectNode login(JsonNode json) throws SQLException {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
       AppLogger.getLogger("Absence de login et/ou de mot de passe");
       throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
@@ -91,7 +92,7 @@ public class AuthsResource {
   @Path("register")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public UserDTO register(UserDTO userDTO) {
+  public UserDTO register(UserDTO userDTO) throws SQLException {
     if (userDTO.getEmail() == null || userDTO.getEmail().isBlank()
         || userDTO.getPassword() == null || userDTO.getPassword().isBlank()
         || userDTO.getLastName() == null || userDTO.getLastName().isBlank()

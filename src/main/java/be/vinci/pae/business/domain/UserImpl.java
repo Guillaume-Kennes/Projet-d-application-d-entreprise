@@ -200,11 +200,17 @@ class UserImpl implements User {
     return BCrypt.checkpw(password, this.password);
   }
 
+  /**
+   * Hashes the provided password using the BCrypt algorithm.
+   *
+   * @param password The password to be hashed.
+   *
+   * @return A hashed representation of the provided password.
+   */
   @Override
   public String hashPassword(String password) {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }
-
 
   /**
    * Get a string representation of the UserImpl object.
