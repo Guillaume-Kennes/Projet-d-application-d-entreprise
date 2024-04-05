@@ -1,6 +1,7 @@
 package be.vinci.pae.api.filters;
 
 import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
 import be.vinci.pae.utils.exception.FatalException;
@@ -51,7 +52,7 @@ public class AuthorizationRequestFilter implements ContainerRequestContext {
       } catch (Exception e) {
         throw new FatalException(e); //à vérifier
       }
-      User authenticatedUser = (User) userUCC.getUserById(decodedToken.getClaim("user").asInt()); //pour avoir l'id du user //poser la question au prof
+      UserDTO authenticatedUser = userUCC.getUserById(decodedToken.getClaim("user").asInt()); //pour avoir l'id du user //poser la question au prof
       if (authenticatedUser == null) {
         requestContext.abortWith(Response.status(Status.FORBIDDEN)
             .entity("You are forbidden to access this resource").build());

@@ -1,6 +1,5 @@
 package be.vinci.pae.api.filters;
 
-import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import jakarta.annotation.Priority;
@@ -15,19 +14,16 @@ import java.io.IOException;
 
 @Singleton
 @Provider
-@isTeacher
+@isAdmin
 @Priority(2)
-public class isTeacherRequestFilter implements ContainerRequestFilter {
+public class isAdminRequestFilter implements ContainerRequestFilter {
 
   @Inject
   private UserUCC userUCC;
-
-
   @Override
   public void filter(ContainerRequestContext requestContext) throws IOException {
-
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (!userUCC.userIsTeacher(authenticatedUser)) {
+    if (!userUCC.userIsAdmin(authenticatedUser)) {
       requestContext.abortWith(Response.status(Status.FORBIDDEN)
           .entity("You are forbidden to access this resource").build());
     }

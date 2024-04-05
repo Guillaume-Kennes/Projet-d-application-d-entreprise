@@ -1,6 +1,7 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
+import be.vinci.pae.api.filters.isTeacher;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
@@ -92,6 +93,7 @@ public class UserResource {
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
+  @isTeacher
   public List<UserDTO> getAllUsers() {
     return myUserUcc.getAllUsers();
   }
