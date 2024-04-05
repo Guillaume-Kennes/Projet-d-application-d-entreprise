@@ -39,17 +39,21 @@ public class InternshipDAOImpl implements InternshipDAO {
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, "
-            + "pae.inscriptions_UE iu, pae.internship_supervisors s "
-            + "WHERE i.contact = c.id_contact AND c.inscription_UE = iu.id_inscription_UE "
+            + "pae.inscriptions_ue iu, pae.internship_supervisors s "
+            + "WHERE i.contact = c.id_contact AND c.inscription_ue = iu.id_inscription_ue "
             + "AND iu.student = u.id_user AND "
             + "i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
+    System.out.println("PrepareStatement" + preparedStatement);
     try {
       preparedStatement.setInt(1, id);
+      System.out.println("Id " + id);
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new FatalException(e);
     }
 
     InternshipDTO internship = myDomainFactory.getInternship();
+    System.out.println("BLABLA" + internship.getId());
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         internship = internshipInfos(resultSet);
@@ -61,7 +65,7 @@ public class InternshipDAOImpl implements InternshipDAO {
     } finally {
         preparedStatement.close();
     }
-    return internship;
+    return (InternshipDTO) preparedStatement;
   }
 
   /**

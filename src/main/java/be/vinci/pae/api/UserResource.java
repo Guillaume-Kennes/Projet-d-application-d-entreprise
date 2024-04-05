@@ -53,7 +53,7 @@ public class UserResource {
     if (user == null) {
       throw new IllegalArgumentException("User not found");
     }
-
+    System.out.println("User" + user);
     ObjectNode response = jsonMapper.createObjectNode();
     response.put("email", user.getEmail());
     response.put("lastName", user.getLastName());
@@ -61,7 +61,7 @@ public class UserResource {
     response.put("phoneNumber", user.getPhoneNumber());
 
     InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
-
+    System.out.println("Internship = " + internship);
     if (internship != null) {
       response.put("internshipTitle", internship.getProject());
       response.put("internshipCompany", internship.getContact().getCompany().getTradeName()
@@ -91,7 +91,7 @@ public class UserResource {
   @GET
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize ({"Professeur", "Administratif"})
+  @Authorize
   public List<UserDTO> getAllUsers() {
     return myUserUcc.getAllUsers();
   }

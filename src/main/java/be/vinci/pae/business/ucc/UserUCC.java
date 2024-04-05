@@ -1,5 +1,6 @@
 package be.vinci.pae.business.ucc;
 
+import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import java.sql.SQLException;
 import java.util.List;
@@ -45,5 +46,23 @@ public interface UserUCC {
    * @return A UserDTO object representing the registered user, or null if registration fails.
    */
   UserDTO register(UserDTO userDTO) throws SQLException;
+
+  /**
+   * Checks whether the specified user has teacher privileges.
+   *
+   * @param userDTO the user data transfer object to check
+   *
+   * @return true if the user has teacher privileges, false otherwise
+   */
+  boolean isTeacher(UserDTO userDTO);
+
+  /**
+   * Checks whether the specified user has administrative privileges.
+   *
+   * @param userDTO the user data transfer object to check
+   *
+   * @return true if the user has administrative privileges, false otherwise
+   */
+  boolean isAdmin(UserDTO userDTO);
 
 }

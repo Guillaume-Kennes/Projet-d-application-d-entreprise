@@ -15,7 +15,6 @@ import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
-import java.io.IOException;
 
 /**
  * Request filter for handling authorization checks. This filter checks for the presence of a JWT
@@ -25,7 +24,7 @@ import java.io.IOException;
 @Provider
 @Authorize
 @Priority(1)
-public class AuthorizationRequestFilter {
+public class AuthorizationRequestFilter implements ContainerRequestContext {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final JWTVerifier jwtVerifier = JWT.require(this.jwtAlgorithm).withIssuer("auth0")
