@@ -54,7 +54,7 @@ public interface UserUCC {
    *
    * @return true if the user has teacher privileges, false otherwise
    */
-  boolean isTeacher(UserDTO userDTO);
+  boolean userIsTeacher(UserDTO userDTO);
 
   /**
    * Checks whether the specified user has administrative privileges.
@@ -63,6 +63,6 @@ public interface UserUCC {
    *
    * @return true if the user has administrative privileges, false otherwise
    */
-  boolean isAdmin(UserDTO userDTO);
+  boolean userIsAdmin(UserDTO userDTO);
 
 }

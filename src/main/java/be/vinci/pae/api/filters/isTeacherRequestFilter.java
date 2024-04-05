@@ -27,6 +27,9 @@ public class isTeacherRequestFilter implements ContainerRequestFilter {
   public void filter(ContainerRequestContext requestContext) throws IOException {
 
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
+    if (!userUCC.userIsTeacher(authenticatedUser)) {
+
+    }
     if (authenticatedUser == null) {
       requestContext.abortWith(Response.status(Status.FORBIDDEN)
           .entity("You are forbidden to access this resource").build());

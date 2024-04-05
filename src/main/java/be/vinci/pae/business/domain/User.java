@@ -23,5 +23,21 @@ public interface User extends UserDTO {
    * @return A string representing the hashed password.
    */
   String hashPassword(String password);
+
+  /**
+   * Checks whether the current user has teacher privileges.
+   *
+   * @return true if the current user has teacher
+   *     privileges, false otherwise
+   */
+  boolean isTeacher();
+
+  /**
+   * Checks whether the current user has administrative privileges.
+   *
+   * @return true if the current user has administrative
+   *     privileges, false otherwise
+   */
+  boolean isAdmin();
 }
 

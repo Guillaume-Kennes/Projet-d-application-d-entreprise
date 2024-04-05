@@ -213,6 +213,26 @@ class UserImpl implements User {
   }
 
   /**
+   * Checks whether the current user has teacher privileges.
+   *
+   * @return true if the current user has teacher privileges, false otherwise
+   */
+  @Override
+  public boolean isTeacher() {
+    return role.equals("Professeur");
+  }
+
+  /**
+   * Checks whether the current user has administrative privileges.
+   *
+   * @return true if the current user has administrative privileges, false otherwise
+   */
+  @Override
+  public boolean isAdmin() {
+    return role.equals("Administratif");
+  }
+
+  /**
    * Get a string representation of the UserImpl object.
    *
    * @return A string representation of the UserImpl object.
