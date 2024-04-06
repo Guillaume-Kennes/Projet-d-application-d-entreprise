@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
@@ -24,7 +25,7 @@ public class isTeacherRequestFilter implements ContainerRequestFilter {
 
 
   @Override
-  public void filter(ContainerRequestContext requestContext) throws IOException {
+  public void filter(@Context ContainerRequestContext requestContext) throws IOException {
 
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (!userUCC.userIsTeacher(authenticatedUser)) {

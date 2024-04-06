@@ -15,14 +15,11 @@ const getAuthenticatedUser = () => {
       ? localStorage.getItem(STORE_NAME)
       : sessionStorage.getItem(STORE_NAME);
 
-  console.log("SERIALIZED USER", serializedUser);
-  console.log(localStorage.getItem(STORE_NAME));
   if (!serializedUser) {
     return undefined;
   }
 
   currentUser = JSON.parse(serializedUser);
-  console.log("CurrentUser", currentUser);
   return currentUser;
 };
 

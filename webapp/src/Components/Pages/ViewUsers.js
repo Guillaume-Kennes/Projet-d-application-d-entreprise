@@ -1,4 +1,5 @@
 import { clearPage } from "../../utils/render";
+import {getAuthenticatedUser} from "../../utils/auths";
 
 const viewAllUsersPage = async () => {
   clearPage();
@@ -9,11 +10,10 @@ async function allUsers() {
   const main = document.querySelector('main');
 
   const options = {
-    method: 'POST',
-    body: JSON.stringify({
-    }),
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      authorization: getAuthenticatedUser().user
     },
   };
 
