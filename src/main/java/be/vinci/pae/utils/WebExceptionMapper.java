@@ -26,7 +26,7 @@ public class WebExceptionMapper implements ExceptionMapper<Throwable> {
     exception.printStackTrace();
     if (exception instanceof WebApplicationException) {
       Logger log = AppLogger.getLogger(exception.getMessage());
-      log.setLevel(Level.WARNING);
+      log.log(Level.WARNING, exception.getMessage());
       return Response.status(((WebApplicationException) exception).getResponse().getStatus())
           .entity(exception.getMessage())
           .build();
