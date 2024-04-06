@@ -24,13 +24,14 @@ public class WebExceptionMapper implements ExceptionMapper<Throwable> {
   @Override
   public Response toResponse(Throwable exception) {
     exception.printStackTrace();
+    Logger log = AppLogger.getLogger(exception.getMessage());
     if (exception instanceof WebApplicationException) {
-      Logger log = AppLogger.getLogger(exception.getMessage());
       log.log(Level.WARNING, exception.getMessage());
       return Response.status(((WebApplicationException) exception).getResponse().getStatus())
           .entity(exception.getMessage())
           .build();
     }
+    log.log(Level.SEVERE, exception.getMessage());
     return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
         .entity(exception.getMessage())
         .build();
