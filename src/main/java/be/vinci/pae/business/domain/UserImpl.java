@@ -19,7 +19,7 @@ class UserImpl implements User {
   private String firstName;
   private String phoneNumber;
   private Date registrationDate;
-  private String role;
+  private String role = " ";
   private int id;
 
   /**
@@ -219,7 +219,7 @@ class UserImpl implements User {
    */
   @Override
   public boolean isTeacher() {
-    return role.equals("Professeur");
+    return this.role.equals("Professeur");
   }
 
   /**
@@ -229,7 +229,7 @@ class UserImpl implements User {
    */
   @Override
   public boolean isAdmin() {
-    return role.equals("Administratif");
+    return this.role.equals("Administratif");
   }
 
   /**

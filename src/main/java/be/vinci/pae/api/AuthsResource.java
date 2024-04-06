@@ -50,9 +50,10 @@ public class AuthsResource {
   @Path("login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode login(JsonNode json) throws SQLException {
-    if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
-      throw new WebApplicationException("login or password required", Response.Status.BAD_REQUEST);
+  public ObjectNode login(JsonNode json) {
+    if (!json.hasNonNull("email") || !json.hasNonNull("password")
+       || json.get("email").asText().isBlank() || json.get("password").asText().isBlank()) {
+      throw new WebApplicationException("login or password required", Status.BAD_REQUEST);
     }
     String login = json.get("email").asText();
     String password = json.get("password").asText();
@@ -61,7 +62,7 @@ public class AuthsResource {
 
     if (publicUser == null) {
       throw new WebApplicationException("Login or password incorrect",
-          Response.Status.UNAUTHORIZED);
+          Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
     ObjectNode responseObject = jsonMapper.createObjectNode();
@@ -132,8 +133,8 @@ public class AuthsResource {
         System.currentTimeMillis() + TimeUnit.HOURS.toMillis(48)
     );
     return JWT.create().withIssuer("auth0")
-        .withClaim("idUser", userDTO.getId())
+        .withClaim("user", userDTO.getId())
         .withExpiresAt(dateOfExpiration)
-        .sign(jwtAlgorithm);
+        .sign(this.jwtAlgorithm);
   }
 }

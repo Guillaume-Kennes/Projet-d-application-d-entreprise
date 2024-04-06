@@ -13,11 +13,11 @@ async function allUsers() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      authorization: getAuthenticatedUser().user
+      authorization: getAuthenticatedUser().token
     },
   };
 
-  const response = await fetch("http://localhost:3000/users/getAllUsers", options);
+  const response = await fetch("http://localhost:3000/users", options);
 
   if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`)
 

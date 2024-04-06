@@ -30,9 +30,9 @@ public class UserUCCImpl implements UserUCC {
    * @return The UserDTO object representing the authenticated user.
    * @throws BusinessException If the provided email or password is incorrect.
    */
-  public UserDTO login(String email, String password) throws SQLException {
-    dalServices.start();
+  public UserDTO login(String email, String password) {
     try {
+      dalServices.start();
       User userFound = (User) userDAO.getUserByEmail(email);
       if (userFound == null || !userFound.checkPassword(password)) {
         dalServices.rollBack();
@@ -121,5 +121,29 @@ public class UserUCCImpl implements UserUCC {
         throw e;
       }
     }
+  }
+
+  /**
+   * Checks whether the specified user has teacher privileges.
+   *
+   * @param userDTO the user data transfer object to check
+   * @return true if the user has teacher privileges, false otherwise
+   */
+  @Override
+  public boolean userIsTeacher(UserDTO userDTO) {
+    User user = (User) userDTO;
+    return user.isTeacher();
+  }
+
+  /**
+   * Checks whether the specified user has administrative privileges.
+   *
+   * @param userDTO the user data transfer object to check
+   * @return true if the user has administrative privileges, false otherwise
+   */
+  @Override
+  public boolean userIsAdmin(UserDTO userDTO) {
+    User user = (User) userDTO;
+    return user.isAdmin();
   }
 }

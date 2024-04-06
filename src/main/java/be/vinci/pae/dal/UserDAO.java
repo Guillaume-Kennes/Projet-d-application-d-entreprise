@@ -18,7 +18,7 @@ public interface UserDAO {
    *
    * @return the user corresponding to the given email
    */
-  UserDTO getUserByEmail(String email) throws SQLException;
+  UserDTO getUserByEmail(String email);
 
 
   /**

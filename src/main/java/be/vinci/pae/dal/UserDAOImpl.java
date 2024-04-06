@@ -30,31 +30,46 @@ public class UserDAOImpl implements UserDAO {
    * @return a user with the specified email address, or null if not found.
    * @throws FatalException if an SQL exception occurs while accessing the database.
    */
-  public UserDTO getUserByEmail(String email) throws SQLException {
+  public UserDTO getUserByEmail(String email) {
 
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.users u WHERE u.email = ?");
+//    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+//        "SELECT * FROM pae.users u WHERE u.email = ?");
+//    try {
+//      preparedStatement.setString(1, email);
+//    } catch (SQLException e) {
+//      throw new FatalException(e);
+//    }
+//
+//    UserDTO user = myDomainFactory.getUser();
+//    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+//
+//      if (resultSet.next()) {
+//        user = userInfos(resultSet);
+//      } else {
+//        user = null;
+//      }
+//
+//    } catch (SQLException e) {
+//      throw new FatalException(e);
+//    }
+//    return user;
     try {
-      preparedStatement.setString(1, email);
-    } catch (SQLException e) {
-      throw new FatalException(e);
-    }
-
-    UserDTO user = myDomainFactory.getUser();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-      if (resultSet.next()) {
-        user = userInfos(resultSet);
-      } else {
-        user = null;
+      String query = """
+          SELECT * 
+          FROM pae.users u 
+          WHERE u.email = ?""";
+      try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+        preparedStatement.setString(1, email);
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+          if (resultSet.next()) {
+            return userInfos(resultSet);
+          }
+        }
       }
-
+      return null;
     } catch (SQLException e) {
       throw new FatalException(e);
-    } finally {
-        preparedStatement.close();
     }
-    return user;
   }
 
   /**

@@ -17,7 +17,7 @@ public interface UserUCC {
    * @param password the user's password
    * @return the user's data if the login is successful
    */
-  UserDTO login(String email, String password) throws SQLException;
+  UserDTO login(String email, String password);
 
 
   /**

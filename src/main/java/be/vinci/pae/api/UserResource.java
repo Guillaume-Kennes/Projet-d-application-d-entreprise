@@ -17,6 +17,8 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -55,7 +57,6 @@ public class UserResource {
     if (user == null) {
       throw new IllegalArgumentException("User not found");
     }
-    System.out.println("User" + user);
     ObjectNode response = jsonMapper.createObjectNode();
     response.put("email", user.getEmail());
     response.put("lastName", user.getLastName());
@@ -63,7 +64,6 @@ public class UserResource {
     response.put("phoneNumber", user.getPhoneNumber());
 
     InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
-    System.out.println("Internship = " + internship);
     if (internship != null) {
       response.put("internshipTitle", internship.getProject());
       response.put("internshipCompany", internship.getContact().getCompany().getTradeName()
@@ -91,12 +91,12 @@ public class UserResource {
   }
 
   @GET
-  @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   @isTeacher
   @isAdmin
-  public List<UserDTO> getAllUsers() {
+  public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
+    UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
     return myUserUcc.getAllUsers();
   }
 
