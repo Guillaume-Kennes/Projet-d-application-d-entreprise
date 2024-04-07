@@ -32,26 +32,26 @@ public class UserDAOImpl implements UserDAO {
    */
   public UserDTO getUserByEmail(String email) {
 
-//    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-//        "SELECT * FROM pae.users u WHERE u.email = ?");
-//    try {
-//      preparedStatement.setString(1, email);
-//    } catch (SQLException e) {
-//      throw new FatalException(e);
-//    }
-//
-//    UserDTO user = myDomainFactory.getUser();
-//    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-//
-//      if (resultSet.next()) {
-//        user = userInfos(resultSet);
-//      } else {
-//        user = null;
-//      }
-//
-//    } catch (SQLException e) {
-//      throw new FatalException(e);
-//    }
+    // PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+    //  "SELECT * FROM pae.users u WHERE u.email = ?");
+    //   try {
+    //     preparedStatement.setString(1, email);
+    //   } catch (SQLException e) {
+    //     throw new FatalException(e);
+    //   }
+    //
+    //   UserDTO user = myDomainFactory.getUser();
+    //   try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    //
+    //     if (resultSet.next()) {
+    //       user = userInfos(resultSet);
+    //     } else {
+    //       user = null;
+    //     }
+    //
+    //   } catch (SQLException e) {
+    //     throw new FatalException(e);
+    //   }
     // return user;
     try {
       String query = """
