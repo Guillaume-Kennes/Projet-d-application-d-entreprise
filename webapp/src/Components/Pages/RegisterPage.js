@@ -2,7 +2,7 @@
 import {
   setAuthenticatedUser,
 } from '../../utils/auths';
-import {clearPage, renderPageTitle} from '../../utils/render';
+import { clearPage, renderPageTitle } from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 
@@ -13,43 +13,28 @@ const RegisterPage = () => {
 };
 
 function renderRegisterForm() {
-  // Définir la fonction createInput
-  function createInput(type, id, placeholder, required = true) {
-    const input = document.createElement('input');
-    input.type = type;
-    input.id = id;
-    input.placeholder = placeholder;
-    input.required = required;
-    input.className = 'form-control mb-3';
-    const inputLabel = createLabel(placeholder);
-    input.appendChild(inputLabel);
-    return input;
-  }
-
-  // Définir la fonction createLabel
-  function createLabel(text){
-    const label = document.createElement('label');
-    label.className = 'form-label';
-    label.textContent = text;
-    return label;
-  }
-
   const main = document.querySelector('main');
   const form = document.createElement('form');
+  form.id = 'registerForm'; // Add an ID for easier styling
+  form.className = 'container register-container'; // Set the form class to match the fixed HTML structure
+  form.style.marginTop = '100px'; // Set the top margin using inline styles
 
-  // Créer les champs de formulaire pour les autres informations
-  const inputAttributes = [
-    { type: 'text', id: 'lastName', placeholder: 'Nom', required: true },
-    { type: 'text', id: 'firstName', placeholder: 'Prénom', required: true },
-    { type: 'email', id: 'email', placeholder: 'Email', required: true },
-    { type: 'password', id: 'password', placeholder: 'Mot de passe', required: true },
-    { type: 'text', id: 'phoneNumber', placeholder: 'Numéro de téléphone', required: true },
-  ];
+  const colDiv1 = document.createElement('div');
+  colDiv1.className = 'col-lg-4 mx-auto';
 
-  inputAttributes.forEach(attr => {
-    const input = createInput(attr.type, attr.id, attr.placeholder, attr.required);
-    form.appendChild(input);
-  });
+  // Create input elements
+  const lastName = createInput('text', 'lastName', 'Nom', true);
+  const firstName = createInput('text', 'firstName', 'Prénom', true);
+  const email = createInput('email', 'email', 'Email', true);
+  const passwordGroup = createPasswordInput();
+  const phoneNumber = createInput('text', 'phoneNumber', 'Numéro de téléphone', true);
+
+  // Append inputs to form
+  colDiv1.appendChild(lastName);
+  colDiv1.appendChild(firstName);
+  colDiv1.appendChild(email);
+  colDiv1.appendChild(passwordGroup);
+  colDiv1.appendChild(phoneNumber);
 
   // Créer les boutons radio pour le choix du rôle
   const roleToggleWrapper = document.createElement('div');
@@ -64,6 +49,7 @@ function renderRegisterForm() {
   professorInput.name = 'role';
   professorInput.value = 'Professeur';
   professorInput.className = 'mr-2';
+  professorInput.id = 'professorRadio';
 
   const administrativeLabel = document.createElement('label');
   administrativeLabel.textContent = 'Administratif';
@@ -78,23 +64,67 @@ function renderRegisterForm() {
   roleToggleWrapper.appendChild(administrativeInput);
   roleToggleWrapper.appendChild(administrativeLabel);
 
-  // Ajouter les boutons radio au formulaire
-  form.appendChild(roleToggleWrapper);
+  colDiv1.appendChild(roleToggleWrapper);
 
-  // Créer le bouton d'inscription
+  const textCenterDiv = document.createElement('div');
+  textCenterDiv.className = 'text-center';
+
   const submit = document.createElement('button');
-  submit.textContent = "S'inscrire";
   submit.type = 'submit';
-  submit.className = 'btn btn-info';
+  submit.className = 'btn btn-primary btn-block btn-light myButton';
+  submit.textContent = "S'inscrire";
 
-  // Ajouter le bouton d'inscription au formulaire
-  form.appendChild(submit);
+  textCenterDiv.appendChild(submit);
+  form.appendChild(colDiv1);
+  form.appendChild(textCenterDiv);
 
-  // Ajouter le formulaire à la page principale
   main.appendChild(form);
-
-  // Ajouter un écouteur d'événements pour gérer l'inscription
   form.addEventListener('submit', onRegister);
+}
+
+// Helper functions to create input elements
+function createInput(type, id, placeholder, required = true) {
+  const input = document.createElement('input');
+  input.type = type;
+  input.id = id;
+  input.placeholder = placeholder;
+  input.required = required;
+  input.className = 'form-control mb-3';
+  return input;
+}
+
+function createPasswordInput() {
+  const passwordGroup = document.createElement('div');
+  passwordGroup.className = 'form-group';
+
+  const passwordInputDiv = document.createElement('div');
+  passwordInputDiv.className = 'input-group';
+
+  const password = createInput('password', 'password', 'Mot de passe', true);
+
+  const togglePasswordBtn = document.createElement('button');
+  togglePasswordBtn.type = 'button';
+  togglePasswordBtn.className = 'btn btn-outline-secondary mb-3';
+  togglePasswordBtn.id = 'togglePasswordBtn';
+  togglePasswordBtn.textContent = 'Afficher/Masquer';
+
+  // Toggle Password Functionality
+  let isPasswordVisible = false;
+  togglePasswordBtn.addEventListener('click', () => {
+    if (isPasswordVisible) {
+      password.type = 'password';
+      isPasswordVisible = false;
+    } else {
+      password.type = 'text';
+      isPasswordVisible = true;
+    }
+  });
+
+  passwordInputDiv.appendChild(password);
+  passwordInputDiv.appendChild(togglePasswordBtn);
+  passwordGroup.appendChild(passwordInputDiv);
+
+  return passwordGroup;
 }
 
 async function onRegister(e) {
@@ -109,7 +139,7 @@ async function onRegister(e) {
   let role;
 
   if (email.endsWith('@vinci.be')) {
-    const professorInput = document.querySelector('input[value="Professeur"]');
+    const professorInput = document.querySelector('#professorRadio');
     role = professorInput.checked ? 'Professeur' : 'Administratif';
   } else if (email.endsWith('@student.vinci.be')) {
     role = 'Etudiant';
@@ -133,13 +163,11 @@ async function onRegister(e) {
   };
 
   try{
-    const response = await fetch(`http://localhost:3000/auths/register`,
-        options);
+    const response = await fetch(`http://localhost:3000/auths/register`, options);
     console.log("RESPONSE", response);
 
     if (!response.ok) {
-      throw new Error(
-          `fetch error : ${response.status} : ${response.statusText}`);
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
 
     const authenticatedUser = await response.json();
@@ -155,7 +183,6 @@ async function onRegister(e) {
     alert('Une erreur est survenue pendant l\'inscription. Réessayez s\'il vous plaît.');
     console.error('Une erreur est survenue pendant l\'inscription : ', error);
   }
-
 }
 
 export default RegisterPage;
