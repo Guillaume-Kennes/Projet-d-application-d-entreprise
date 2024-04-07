@@ -11,18 +11,28 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
-import java.io.IOException;
 
+/**
+ * This filter ensures that only users with administrative or teacher privileges can access the
+ * resources annotated with @IsAdmin.
+ */
 @Singleton
 @Provider
-@isAdmin
+@IsAdmin
 @Priority(2)
-public class isAdminRequestFilter implements ContainerRequestFilter {
+public class IsAdminRequestFilter implements ContainerRequestFilter {
 
   @Inject
   private UserUCC userUCC;
+
+  /**
+   * Filters requests to ensure only users with administrative or teacher privileges can access the
+   * resources.
+   *
+   * @param requestContext The context of the container request being processed.
+   */
   @Override
-  public void filter(@Context ContainerRequestContext requestContext) throws IOException {
+  public void filter(@Context ContainerRequestContext requestContext) {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
     if (!userUCC.userIsAdmin(authenticatedUser) && !userUCC.userIsTeacher(authenticatedUser)) {
       requestContext.abortWith(Response.status(Status.FORBIDDEN)
