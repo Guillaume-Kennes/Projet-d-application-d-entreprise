@@ -52,12 +52,13 @@ public class UserDAOImpl implements UserDAO {
 //    } catch (SQLException e) {
 //      throw new FatalException(e);
 //    }
-//    return user;
+    // return user;
     try {
       String query = """
-          SELECT * 
-          FROM pae.users u 
-          WHERE u.email = ?""";
+          SELECT *
+          FROM pae.users u
+          WHERE u.email = ?
+          """;
       try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
         preparedStatement.setString(1, email);
         try (ResultSet resultSet = preparedStatement.executeQuery()) {

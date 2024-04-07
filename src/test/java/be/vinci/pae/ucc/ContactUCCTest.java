@@ -270,8 +270,10 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_nullContact() {
-    // assertThrows(BusinessException.class, () -> contactUCC.companyRefusedInternship(null, "hello"));
-    assertThrows(NotFoundException.class, () -> contactUCC.companyRefusedInternship(null, "hello"));
+    // assertThrows(BusinessException.class, ()
+    // -> contactUCC.companyRefusedInternship(null, "hello"));
+    assertThrows(NotFoundException.class, ()
+        -> contactUCC.companyRefusedInternship(null, "hello"));
   }
 
   /**
