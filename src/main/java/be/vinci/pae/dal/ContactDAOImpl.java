@@ -8,7 +8,6 @@ import be.vinci.pae.business.domain.UEInscription;
 import be.vinci.pae.business.domain.UEInscriptionDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response.Status;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -179,7 +178,6 @@ public class ContactDAOImpl implements ContactDAO {
   }
 
 
-
   /**
    * Inserts a new contact into the database.
    *
@@ -197,7 +195,8 @@ public class ContactDAOImpl implements ContactDAO {
               inscription_ue,
               reason_for_refusal,
               is_followed,
-              meeting_place)
+              meeting_place,
+              version_contacts)
           VALUES ('initié',
           (SELECT e.id_enterprise
            FROM pae.enterprises e
@@ -206,10 +205,9 @@ public class ContactDAOImpl implements ContactDAO {
            FROM pae.users u, pae.inscriptions_ue i
            WHERE u.id_user = i.student
            AND u.id_user =  ?),
-          null, true, null)
+          null, true, null, 1)
           RETURNING *;
-            """;
-
+          """;
 
       // String tradeName = "N"; // Or any other search term
       // String wildcardTradeName = "%" + tradeName + "%";
@@ -218,10 +216,22 @@ public class ContactDAOImpl implements ContactDAO {
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, contactDTO.getTradeName());
         ps.setInt(2, contactDTO.getUserId());
+        System.out.println("ContactDAOImpl ps : " + ps);
+        ps.executeQuery(); // ou ps.execute() ?
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
+    System.out.println(
+        "ContactDAOImpl contactDTO : " + "\n"
+            + "State : " + contactDTO.getState() + "\n"
+            + "Enterprise : " + contactDTO.getTradeName() + "\n"
+            + "UserId : " + contactDTO.getUserId() + "\n"
+            + "ReasonForRefusal : " + contactDTO.getReasonForRefusal() + "\n"
+            + "MeetingPlace : " + contactDTO.getMeetingPlace() + "\n"
+            + "VersionContacts : " + contactDTO.getVersionContacts() + "\n"
+    );
+    System.out.println("ContactDAOImpl insert : " + contactDTO);
     return contactDTO;
   }
 }
