@@ -7,7 +7,6 @@ import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.ConflictException;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response.Status;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -70,7 +69,7 @@ public class UserUCCImpl implements UserUCC {
    * Returns the list of all users available in the system.
    *
    * @return A list containing UserDTO objects representing all users. If no users are found, the
-   *     list will be empty.
+   * list will be empty.
    */
   public List<UserDTO> getAllUsers() {
     dalServices.start();
@@ -90,8 +89,8 @@ public class UserUCCImpl implements UserUCC {
    *
    * @param userDTO The user data transfer object containing user information.
    * @return The registered user data transfer object.
-   * @throws BusinessException If the email already exists in the database or if the email
-   *                               address does not end with "@student.vinci.be" or "@vinci.be".
+   * @throws BusinessException If the email already exists in the database or if the email address
+   *                           does not end with "@student.vinci.be" or "@vinci.be".
    */
   public UserDTO register(UserDTO userDTO) throws SQLException {
     dalServices.start();
