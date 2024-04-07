@@ -16,7 +16,9 @@ public class CompanyImpl implements Company {
   private String city;
   private String meansOfCommunication;
 
-
+  /**
+   * Constructs a new CompanyImpl object.
+   */
   public CompanyImpl() {
   }
 
