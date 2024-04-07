@@ -14,6 +14,7 @@ import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.utils.AppBinderTest;
 import be.vinci.pae.utils.exception.BusinessException;
+import be.vinci.pae.utils.exception.NotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -106,7 +107,8 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_nullContact() {
-    assertThrows(BusinessException.class, () -> contactUCC.meetCompany(null, "enterprise"));
+    // assertThrows(BusinessException.class, () -> contactUCC.meetCompany(null, "enterprise"));
+    assertThrows(NotFoundException.class, () -> contactUCC.meetCompany(null, "enterprise"));
   }
 
   /**
@@ -231,8 +233,8 @@ public class ContactUCCTest {
    */
   @Test
   public void stopFollowingTest_nullContact() {
-    assertThrows(BusinessException.class, () ->
-        contactUCC.stopFollowing(null));
+    // assertThrows(BusinessException.class, () -> contactUCC.stopFollowing(null));
+    assertThrows(NotFoundException.class, () -> contactUCC.stopFollowing(null));
   }
 
   /**
@@ -268,8 +270,8 @@ public class ContactUCCTest {
    */
   @Test
   public void companyRefusedInternshipTest_nullContact() {
-    assertThrows(BusinessException.class, () ->
-        contactUCC.companyRefusedInternship(null, "hello"));
+    // assertThrows(BusinessException.class, () -> contactUCC.companyRefusedInternship(null, "hello"));
+    assertThrows(NotFoundException.class, () -> contactUCC.companyRefusedInternship(null, "hello"));
   }
 
   /**
