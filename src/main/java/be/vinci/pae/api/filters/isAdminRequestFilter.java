@@ -24,7 +24,7 @@ public class isAdminRequestFilter implements ContainerRequestFilter {
   @Override
   public void filter(@Context ContainerRequestContext requestContext) throws IOException {
     UserDTO authenticatedUser = (UserDTO) requestContext.getProperty("user");
-    if (!userUCC.userIsAdmin(authenticatedUser)) {
+    if (!userUCC.userIsAdmin(authenticatedUser) && !userUCC.userIsTeacher(authenticatedUser)) {
       requestContext.abortWith(Response.status(Status.FORBIDDEN)
           .entity("You are forbidden to access this resource").build());
     }

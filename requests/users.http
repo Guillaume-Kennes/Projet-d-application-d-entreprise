@@ -9,7 +9,7 @@ Content-Type: application/json
   "password":"mdpuser.1"
 }
 > {%
-  client.global.set("carolineToken", response.body.user);
+  client.global.set("carolineToken", response.body.token);
 %}
 
 ### Login another user
@@ -21,7 +21,7 @@ Content-Type: application/json
   "password": "Prof24,z"
 }
 > {%
-  client.global.set("baroniToken", response.body.user);
+  client.global.set("baroniToken", response.body.token);
 %}
 
 ### Get an user by it's id

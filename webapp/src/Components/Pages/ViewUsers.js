@@ -17,13 +17,16 @@ async function allUsers() {
     },
   };
 
-  const response = await fetch("http://localhost:3000/users", options);
+  const response = await fetch("http://localhost:3000/users/getAllUsers",
+      options);
+  try {
 
-  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`)
+    if (!response.ok) throw new Error(
+        `fetch error : ${response.status} : ${response.statusText}`)
 
-  const users = await response.json();
+    const users = await response.json();
 
-  const userElements = users.map(user => `
+    const userElements = users.map(user => `
       <div>
         <h2>${user.id}</h2>
         <p>${user.email}</p>
@@ -34,8 +37,13 @@ async function allUsers() {
       </div>
     `);
 
-  main.innerHTML = userElements.join('');
-
+    main.innerHTML = userElements.join('');
+  } catch (error) {
+    // Gestion des erreurs existante
+    alert(
+        'Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
+    console.error('Une erreur est survenue : ', error);
+  }
 }
 
 export default viewAllUsersPage;
