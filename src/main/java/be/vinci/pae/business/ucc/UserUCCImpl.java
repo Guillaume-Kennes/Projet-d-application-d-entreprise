@@ -102,15 +102,17 @@ public class UserUCCImpl implements UserUCC {
       throw new ConflictException("This email already exists in database");
     } else {
       try {
-        if (!userDTO.getEmail().endsWith("@vinci.be")
-            && !userDTO.getEmail().endsWith("@student.vinci.be")) {
+        String email = userDTO.getEmail();
+        if (!user.emailIsStudent(email)
+            && !user.emailIsStudent(email)) {
           dalServices.rollBack();
           throw new BusinessException(
               "The email address must end with @student.vinci.be or @vinci.be");
-        } else if (userDTO.getEmail().endsWith("@student.vinci.be")) {
+        } else if (user.emailIsStudent(email)) {
           userDTO.setRole("Etudiant");
         }
         userDTO.setPassword(user.hashPassword(userDTO.getPassword()));
+        userDTO.setVersionNumber(1);
         UserDTO registeredUser = userDAO.register(userDTO);
         dalServices.commit();
         return registeredUser;

@@ -21,6 +21,7 @@ class UserImpl implements User {
   private Date registrationDate;
   private String role = " ";
   private int id;
+  private int versionNumber;
 
   /**
    * Default constructor for UserImpl.
@@ -189,6 +190,28 @@ class UserImpl implements User {
   }
 
   /**
+   * Retrieves the version number.
+   *
+   * @return The current version number.
+   */
+  @Override
+  public int getVersionNumber() {
+    return this.versionNumber;
+  }
+
+  /**
+   * Sets the version number to the specified value.
+   *
+   * @param versionNumber The version number to set.
+   * @return The updated version number after setting.
+   */
+  @Override
+  public int setVersionNumber(int versionNumber) {
+    return this.versionNumber = versionNumber;
+  }
+
+
+  /**
    * Check if the provided password matches the user's password.
    *
    * @param password The password to check.
@@ -231,6 +254,29 @@ class UserImpl implements User {
   public boolean isAdmin() {
     return this.role.equals("Administratif");
   }
+
+  /**
+   * Checks if the provided email belongs to a Vinci member.
+   *
+   * @param email The email address to be checked.
+   * @return true if the email belongs to a Vinci member, false otherwise.
+   */
+  @Override
+  public boolean emailIsVinci(String email) {
+    return email.endsWith("@vinci.be");
+  }
+
+  /**
+   * Checks if the provided email belongs to a student.
+   *
+   * @param email The email address to be checked.
+   * @return true if the email belongs to a student, false otherwise.
+   */
+  @Override
+  public boolean emailIsStudent(String email) {
+    return email.endsWith("@student.vinci.be");
+  }
+
 
   /**
    * Get a string representation of the UserImpl object.

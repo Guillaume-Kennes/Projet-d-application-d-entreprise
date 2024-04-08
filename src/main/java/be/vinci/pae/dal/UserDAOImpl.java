@@ -157,11 +157,11 @@ public class UserDAOImpl implements UserDAO {
 
     try {
       String query = "INSERT INTO pae.users (email, password, last_name, first_name, "
-          + "phone_number, registration_date, role) "
-          + "VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
+          + "phone_number, registration_date, role, version_users) "
+          + "VALUES(?, ?, ?, ?, ?, NOW(), ?, ?) RETURNING *";
 
-      String query2 = "INSERT INTO pae.inscriptions_ue (student, school_year) "
-          + "VALUES(?, '2023-2024')";
+      String query2 = "INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue) "
+          + "VALUES(?, '2023-2024', ?)";
       // schoolyear hardcodée mais à changer dans le futur
 
       try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
@@ -171,6 +171,7 @@ public class UserDAOImpl implements UserDAO {
         preparedStatement.setString(4, userDTO.getFirstName());
         preparedStatement.setString(5, userDTO.getPhoneNumber());
         preparedStatement.setString(6, userDTO.getRole());
+        preparedStatement.setInt(7, userDTO.getVersionNumber());
 
         try (ResultSet resultSet = preparedStatement.executeQuery()) {
           if (resultSet.next()) {
@@ -182,6 +183,7 @@ public class UserDAOImpl implements UserDAO {
         }
         try (PreparedStatement preparedStatement2 = dalServices.getPreparedStatement(query2)) {
           preparedStatement2.setInt(1, userDTO.getId());
+          preparedStatement2.setInt(2, userDTO.getVersionNumber());
           preparedStatement2.execute();
         }
       }
