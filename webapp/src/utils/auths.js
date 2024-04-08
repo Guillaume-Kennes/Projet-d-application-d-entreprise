@@ -80,6 +80,14 @@ const refreshAuthenticatedUser = async () => {
   }
 };
 
+
+const isProfessor = () => {
+  const authenticatedUser = getAuthenticatedUser();
+  const prof = authenticatedUser?.user?.role;
+  return prof === 'Professeur';
+};
+
+
 export {
   getAuthenticatedUser,
   setAuthenticatedUser,
@@ -88,4 +96,5 @@ export {
   getRememberMe,
   setRememberMe,
   refreshAuthenticatedUser,
+    isProfessor,
 };

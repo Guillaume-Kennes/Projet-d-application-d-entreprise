@@ -34,7 +34,7 @@ public class CompanyDAOImpl implements CompanyDAO {
               motivation_blacklist)
             VALUES (?, ?, ?, ?, ?, false, null)
             RETURNING id_enterprise;
-            """;
+          """;
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
 
@@ -100,7 +100,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     } finally {
-        preparedStatement.close();
+      preparedStatement.close();
     }
     return company;
   }

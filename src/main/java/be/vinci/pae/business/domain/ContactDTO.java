@@ -122,6 +122,21 @@ public interface ContactDTO {
   void setEnterprise(int enterprise);
 
   /**
+   * Checks if the contact is in the taken state.
+   *
+   * @return true if the contact is taken, false otherwise.
+   */
+  boolean stateIsTaken();
+
+  /**
+   * Checks if the contact is in the initiated state.
+   *
+   * @return true if the contact is initiated, false otherwise.
+   */
+  boolean stateIsInitiated();
+
+
+  /**
    * Returns the ID of the user associated with the contact.
    *
    * @return The ID of the user associated with the contact.
@@ -149,17 +164,7 @@ public interface ContactDTO {
    */
   void setTradeName(String tradeName);
 
-  /**
-   * Checks if the contact is in the taken state.
-   *
-   * @return true if the contact is taken, false otherwise.
-   */
-  boolean stateIsTaken();
+  int getVersionContacts();
 
-  /**
-   * Checks if the contact is in the initiated state.
-   *
-   * @return true if the contact is initiated, false otherwise.
-   */
-  boolean stateIsInitiated();
+  void setVersionContacts(int versionContacts);
 }

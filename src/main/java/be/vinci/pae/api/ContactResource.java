@@ -29,6 +29,7 @@ import java.util.HashMap;
 @Singleton
 @Path("/contacts")
 public class ContactResource {
+
   private ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private ContactUCC myContactUcc;
@@ -163,7 +164,6 @@ public class ContactResource {
   @Path("/add")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
-  @Authorize
   public ContactDTO addContact(ContactDTO newContactDTO) {
     int userId = newContactDTO.getUserId();
     System.out.println("ContactResource -------> newContactDTO : " + newContactDTO);
@@ -176,12 +176,14 @@ public class ContactResource {
       // newContactDTO.setUserId(userId);
       // Add the new item
       ContactDTO addedContactDTO = myContactUcc.addContact(newContactDTO);
-      System.out.println("ContactRessource -------> addedContactDTO" + addedContactDTO);
+      System.out.println(
+          "ContactRessource -------> addedContactDTO userId : " + addedContactDTO.getUserId());
       if (addedContactDTO == null) {
         throw new WebApplicationException("Contact could not be added",
             Status.INTERNAL_SERVER_ERROR);
       }
-      System.out.println("ContactResource ---> addedContactDTO : " + addedContactDTO);
+      System.out.println(
+          "ContactResource ---> addedContactDTO tradeName : " + addedContactDTO.getTradeName());
       return addedContactDTO;
     } catch (Exception e) {
       System.out.println("ContactResource exception");

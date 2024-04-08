@@ -169,8 +169,8 @@ public class ContactUCCImpl implements ContactUCC {
    * @return all the contacts corresponding to the user
    */
   public ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException {
-    dalServices.start();
     try {
+      dalServices.start();
       ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
       dalServices.commit();
       return contactDTOS;
@@ -190,12 +190,12 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO addContact(ContactDTO contactDTO) {
     dalServices.start();
     try {
-      ContactDTO contact = contactDAO.insert(contactDTO);
-      dalServices.commit();
-      return contact;
+      return contactDAO.insert(contactDTO);
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
+    } finally {
+      dalServices.commit();
     }
   }
 }

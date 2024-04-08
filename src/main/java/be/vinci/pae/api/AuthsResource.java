@@ -20,7 +20,6 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import java.sql.SQLException;
 import java.util.Date;
@@ -52,7 +51,7 @@ public class AuthsResource {
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
     if (!json.hasNonNull("email") || !json.hasNonNull("password")
-       || json.get("email").asText().isBlank() || json.get("password").asText().isBlank()) {
+        || json.get("email").asText().isBlank() || json.get("password").asText().isBlank()) {
       throw new WebApplicationException("login or password required", Status.BAD_REQUEST);
     }
     String login = json.get("email").asText();
@@ -72,16 +71,13 @@ public class AuthsResource {
   }
 
   /**
-   * Registers a new user.
-   * This method is annotated with @POST and @Path("register")
-   *     for RESTful API endpoint configuration.
-   * It accepts a UserDTO object representing the user to be registered.
-   * Validates the required fields of the user and throws
-   *     a WebApplicationException if any required field is missing.
-   * Calls the register method of the MyUserUCC instance to perform the registration.
+   * Registers a new user. This method is annotated with @POST and @Path("register") for RESTful API
+   * endpoint configuration. It accepts a UserDTO object representing the user to be registered.
+   * Validates the required fields of the user and throws a WebApplicationException if any required
+   * field is missing. Calls the register method of the MyUserUCC instance to perform the
+   * registration.
    *
    * @param userDTO The UserDTO object containing user information.
-   *
    * @return A UserDTO object representing the registered user.
    */
   @POST
@@ -101,13 +97,13 @@ public class AuthsResource {
   }
 
   /**
-   * Retrieves the user information from the request context.
-   * This method is accessed via HTTP GET request to the specified path "refresh".
+   * Retrieves the user information from the request context. This method is accessed via HTTP GET
+   * request to the specified path "refresh".
    *
    * @param requestContext The context of the container request.
    * @return The user data transfer object containing user information.
-   * @throws WebApplicationException If the user data is not found in the request context,
-   *                                 it throws an exception with status code 401 (UNAUTHORIZED).
+   * @throws WebApplicationException If the user data is not found in the request context, it throws
+   *                                 an exception with status code 401 (UNAUTHORIZED).
    */
   @GET
   @Path("refresh")

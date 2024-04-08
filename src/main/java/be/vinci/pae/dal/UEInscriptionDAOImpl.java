@@ -73,7 +73,7 @@ public class UEInscriptionDAOImpl implements UEInscriptionDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     } finally {
-        preparedStatement.close();
+      preparedStatement.close();
     }
     return inscription;
   }
