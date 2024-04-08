@@ -101,6 +101,7 @@ public class UserResource {
   @IsAdmin
   public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
     UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
+    System.out.println(authentificatedUser); //juste pour Jenkins
     return myUserUcc.getAllUsers();
   }
 

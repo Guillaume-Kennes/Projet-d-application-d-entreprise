@@ -39,9 +39,9 @@ public class InternshipDAOImpl implements InternshipDAO {
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, "
-            + "pae.inscriptions_ue iu, pae.internship_supervisors s "
+            + "pae.inscriptions_ue iu, pae.internship_supervisors s, pae.enterprises e "
             + "WHERE i.contact = c.id_contact AND c.inscription_ue = iu.id_inscription_ue "
-            + "AND iu.student = u.id_user AND "
+            + "AND iu.student = u.id_user AND c.enterprise = e.id_enterprise AND "
             + "i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
     System.out.println("PrepareStatement" + preparedStatement);
     try {
@@ -65,7 +65,7 @@ public class InternshipDAOImpl implements InternshipDAO {
     } finally {
       preparedStatement.close();
     }
-    return (InternshipDTO) preparedStatement;
+    return (InternshipDTO) internship;
   }
 
   /**
