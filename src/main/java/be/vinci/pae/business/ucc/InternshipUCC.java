@@ -4,16 +4,17 @@ import be.vinci.pae.business.domain.InternshipDTO;
 import java.sql.SQLException;
 
 /**
- * Represents an Internship Use Case Controller (UCC) with methods related to internship operations.
+ * Represents an Internship Use Case Controller (UCC) with methods related to internship
+ * operations.
  */
 public interface InternshipUCC {
 
   /**
-   * Returns the internship of the user corresponding to the id.
+   * Retrieves the internship associated with a user identified by their ID.
    *
-   * @param id the user's id
-   *
-   * @return the internship corresponding to the user
+   * @param id The ID of the user for whom to retrieve the internship.
+   * @return An InternshipDTO object representing the internship associated with the user.
+   * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
   InternshipDTO getInternshipByUserId(int id) throws SQLException;
 }

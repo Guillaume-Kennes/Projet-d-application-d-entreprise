@@ -40,10 +40,11 @@ public class UserResource {
   private ContactUCC myContactUcc;
 
   /**
-   * Retrieves a user by their ID.
+   * Retrieves user information by their ID.
    *
-   * @param id The ID of the user to retrieve.
-   * @return An ObjectNode object containing all the data to be displayed on the user profile
+   * @param id The ID of the user to retrieve information for.
+   * @return An ObjectNode containing the user information formatted as JSON.
+   * @throws SQLException             if an SQL exception occurs during the retrieval process.
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET

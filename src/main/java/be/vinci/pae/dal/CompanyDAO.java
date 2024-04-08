@@ -5,8 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Represents a Data Access Object (DAO) for managing company-related data.
- * Provides methods to retrieve company information based on ID.
+ * Represents a Data Access Object (DAO) for managing company-related data. Provides methods to
+ * retrieve company information based on ID.
  */
 public interface CompanyDAO {
 
@@ -23,17 +23,16 @@ public interface CompanyDAO {
    * Returns the information of a company.
    *
    * @param resultSet the given resultSet
-   *
    * @return the company corresponding to that result set
    */
   CompanyDTO companyInfos(ResultSet resultSet);
 
   /**
-   * Returns the company corresponding to the id.
+   * Retrieves the company information associated with the specified company ID.
    *
-   * @param id the company's id
-   *
-   * @return the company corresponding to the id
+   * @param id The ID of the company to retrieve information for.
+   * @return A CompanyDTO object representing the company information.
+   * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
   CompanyDTO getCompanyById(int id) throws SQLException;
 

@@ -164,7 +164,17 @@ public interface ContactDTO {
    */
   void setTradeName(String tradeName);
 
+  /**
+   * Retrieves the version of the contacts.
+   *
+   * @return The version of the contacts.
+   */
   int getVersionContacts();
 
+  /**
+   * Sets the version of the contacts.
+   *
+   * @param versionContacts The new version of the contacts.
+   */
   void setVersionContacts(int versionContacts);
 }

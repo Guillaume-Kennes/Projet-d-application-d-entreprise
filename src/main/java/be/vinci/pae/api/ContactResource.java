@@ -30,7 +30,7 @@ import java.util.HashMap;
 @Path("/contacts")
 public class ContactResource {
 
-  private ObjectMapper jsonMapper = new ObjectMapper();
+  private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private ContactUCC myContactUcc;
   @Inject
@@ -116,10 +116,11 @@ public class ContactResource {
   }
 
   /**
-   * Retrieves contacts corresponding to a user's ID.
+   * Retrieves contacts associated with a user by their ID.
    *
-   * @param id The ID of the user.
-   * @return An ObjectNode object containing all the data to be displayed
+   * @param id The ID of the user whose contacts are to be retrieved.
+   * @return An ObjectNode containing the contacts associated with the user, formatted as JSON.
+   * @throws SQLException             if an SQL exception occurs during the retrieval process.
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET

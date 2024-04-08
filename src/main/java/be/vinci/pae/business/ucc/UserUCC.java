@@ -37,10 +37,11 @@ public interface UserUCC {
 
 
   /**
-   * Registers a new user in the database.
+   * Registers a new user with the provided user data.
    *
-   * @param userDTO The UserDTO object containing user information.
-   * @return A UserDTO object representing the registered user, or null if registration fails.
+   * @param userDTO The UserDTO object containing the data of the user to register.
+   * @return The UserDTO object representing the registered user.
+   * @throws SQLException if an SQL exception occurs during the registration process.
    */
   UserDTO register(UserDTO userDTO) throws SQLException;
 
