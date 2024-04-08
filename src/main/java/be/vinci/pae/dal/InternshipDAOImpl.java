@@ -37,56 +37,35 @@ public class InternshipDAOImpl implements InternshipDAO {
    */
   public InternshipDTO getInternshipByUserId(int id) throws SQLException {
 
-//    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-//        "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, "
-//            + "pae.inscriptions_ue iu, pae.internship_supervisors s "
-//            + "WHERE i.contact = c.id_contact AND c.inscription_ue = iu.id_inscription_ue "
-//            + "AND iu.student = u.id_user AND "
-//            + "i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
-//    System.out.println("PrepareStatement" + preparedStatement);
-//    try {
-//      preparedStatement.setInt(1, id);
-//      System.out.println("Id " + id);
-//    } catch (SQLException e) {
-//      e.printStackTrace();
-//      throw new FatalException(e);
-//    }
-//
-//    InternshipDTO internship = myDomainFactory.getInternship();
-//    System.out.println("BLABLA" + internship.getId());
-//    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-//      if (resultSet.next()) {
-//        internship = internshipInfos(resultSet);
-//        System.out.println("INTERNSHIP" + internship);
-//      } else {
-//        internship = null;
-//      }
-//    } catch (SQLException e) {
-//      throw new FatalException(e);
-//    } finally {
-//        preparedStatement.close();
-//    }
-//    return (InternshipDTO) preparedStatement;
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, "
+            + "pae.inscriptions_ue iu, pae.internship_supervisors s, pae.enterprises e "
+            + "WHERE i.contact = c.id_contact AND c.inscription_ue = iu.id_inscription_ue "
+            + "AND iu.student = u.id_user AND c.enterprise = e.id_enterprise AND "
+            + "i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
+    System.out.println("PrepareStatement" + preparedStatement);
     try {
-      String query = """
-          SELECT * FROM pae.internships i, pae.contacts c, pae.users u, "
-                      + "pae.inscriptions_ue iu, pae.internship_supervisors s "
-                      + "WHERE i.contact = c.id_contact AND c.inscription_ue = iu.id_inscription_ue "
-                      + "AND iu.student = u.id_user AND "
-                      + "i.internship_supervisor = s.id_supervisor AND u.id_user = ?
-          """;
-      try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
-        preparedStatement.setInt(1, id);
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-          if (resultSet.next()) {
-            return internshipInfos(resultSet);
-          }
-        }
-      }
-      return null;
+      preparedStatement.setInt(1, id);
+      System.out.println("Id " + id);
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new FatalException(e);
     }
+
+    InternshipDTO internship = myDomainFactory.getInternship();
+    System.out.println("BLABLA" + internship.getId());
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      if (resultSet.next()) {
+        internship = internshipInfos(resultSet);
+      } else {
+        internship = null;
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    } finally {
+      preparedStatement.close();
+    }
+    return (InternshipDTO) internship;
   }
 
   /**

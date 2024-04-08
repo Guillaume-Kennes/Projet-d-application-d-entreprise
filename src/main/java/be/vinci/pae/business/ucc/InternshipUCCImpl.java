@@ -28,12 +28,11 @@ public class InternshipUCCImpl implements InternshipUCC {
     try {
       InternshipDTO internshipDTO = internshipDAO.getInternshipByUserId(id);
       System.out.println("Ucc Internship : " + internshipDTO);
+      dalServices.commit();
       return internshipDTO;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 }
