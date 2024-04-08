@@ -4,13 +4,13 @@ import jakarta.ws.rs.NameBinding;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+
 /**
- * Marks elements relevant to teacher roles.
- * This annotation is applied to classes, methods, or other program
- *     elements specifically related to teachers.
+ * Marks elements relevant to administrative roles. This annotation is applied to classes, methods,
+ * or other program elements specifically related to administrative tasks.
  */
 @NameBinding
 @Retention(RetentionPolicy.RUNTIME)
-public @interface isTeacher {
+public @interface IsAdmin {
 
 }

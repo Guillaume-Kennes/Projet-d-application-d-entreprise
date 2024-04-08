@@ -190,12 +190,12 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO addContact(ContactDTO contactDTO) {
     dalServices.start();
     try {
-      ContactDTO contact = contactDAO.insert(contactDTO);
-      dalServices.commit();
-      return contact;
+      return contactDAO.insert(contactDTO);
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
+    } finally {
+      dalServices.commit();
     }
   }
 }

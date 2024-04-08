@@ -9,6 +9,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @JsonDeserialize(as = UEInscriptionImpl.class)
 public interface UEInscriptionDTO {
 
+  /**
+   * Retrieves the student associated with this entity.
+   *
+   * @return The User object representing the student associated with this entity.
+   */
   User getStudent();
 
   /**
@@ -18,6 +23,11 @@ public interface UEInscriptionDTO {
    */
   void setStudent(User student);
 
+  /**
+   * Retrieves the school year associated with this entity.
+   *
+   * @return The school year associated with this entity as a String.
+   */
   String getSchoolYear();
 
   /**

@@ -63,7 +63,7 @@ public class InternshipDAOImpl implements InternshipDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     } finally {
-        preparedStatement.close();
+      preparedStatement.close();
     }
     return (InternshipDTO) preparedStatement;
   }

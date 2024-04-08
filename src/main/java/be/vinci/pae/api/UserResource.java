@@ -1,8 +1,7 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
-import be.vinci.pae.api.filters.isAdmin;
-import be.vinci.pae.api.filters.isTeacher;
+import be.vinci.pae.api.filters.IsAdmin;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
@@ -17,19 +16,22 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Resource class for handling user-related endpoints.
- * This class provides endpoints for retrieving user information.
+ * Resource class for handling user-related endpoints. This class provides endpoints for retrieving
+ * user information.
  */
 @Singleton
 @Path("/users")
 public class UserResource {
-  private ObjectMapper jsonMapper = new ObjectMapper();
+
+  private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private UserUCC myUserUcc;
   @Inject
@@ -41,9 +43,7 @@ public class UserResource {
    * Retrieves a user by their ID.
    *
    * @param id The ID of the user to retrieve.
-   *
    * @return An ObjectNode object containing all the data to be displayed on the user profile
-   *
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
@@ -55,7 +55,6 @@ public class UserResource {
     if (user == null) {
       throw new IllegalArgumentException("User not found");
     }
-    System.out.println("User" + user);
     ObjectNode response = jsonMapper.createObjectNode();
     response.put("email", user.getEmail());
     response.put("lastName", user.getLastName());
@@ -63,7 +62,6 @@ public class UserResource {
     response.put("phoneNumber", user.getPhoneNumber());
 
     InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
-    System.out.println("Internship = " + internship);
     if (internship != null) {
       response.put("internshipTitle", internship.getProject());
       response.put("internshipCompany", internship.getContact().getCompany().getTradeName()
@@ -90,13 +88,19 @@ public class UserResource {
     return response;
   }
 
+  /**
+   * Retrieves a list of all users.
+   *
+   * @param requestContext The request context containing authentication information.
+   * @return A list of UserDTO objects representing all users.
+   */
   @GET
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  @isTeacher
-  @isAdmin
-  public List<UserDTO> getAllUsers() {
+  @IsAdmin
+  public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
+    UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
     return myUserUcc.getAllUsers();
   }
 

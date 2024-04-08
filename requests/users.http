@@ -8,6 +8,9 @@ Content-Type: application/json
   "email":"Caroline.line@student.vinci.be",
   "password":"mdpuser.1"
 }
+> {%
+  client.global.set("carolineToken", response.body.token);
+%}
 
 ### Login another user
 POST {{baseUrl}}/auths/login
@@ -17,16 +20,29 @@ Content-Type: application/json
   "email":"raphael.baroni@vinci.be" ,
   "password": "Prof24,z"
 }
+> {%
+  client.global.set("baroniToken", response.body.token);
+%}
 
 ### Get an user by it's id
 GET {{baseUrl}}/users/7
+
+### Get all users with a teacher token
+GET {{baseUrl}}/users
+Authorization: {{baroniToken}}
+
+### Get all users with a student token
+GET {{baseUrl}}/users
+Authorization: {{carolineToken}}
+
+
 
 ### Register an user
 POST {{baseUrl}}/auths/register
 Content-Type: application/json
 
 {
-  "email": "r@student.vinci.be",
+  "email": "rer@student.vinci.be",
   "password": "mdp1",
   "lastName": "test",
   "firstName": "TEST",

@@ -15,6 +15,7 @@ class ContactImpl implements Contact {
   private int enterprise;
   private int userId;
   private String tradeName;
+  private int versionContacts;
 
   /**
    * Default constructor for ContactImpl.
@@ -266,5 +267,15 @@ class ContactImpl implements Contact {
    */
   public void setTradeName(String tradeName) {
     this.tradeName = tradeName;
+  }
+
+  @Override
+  public int getVersionContacts() {
+    return versionContacts;
+  }
+
+  @Override
+  public void setVersionContacts(int versionContacts) {
+    this.versionContacts = versionContacts;
   }
 }

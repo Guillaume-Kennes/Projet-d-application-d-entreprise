@@ -130,7 +130,6 @@ async function onLogin(e) {
     }),
     headers: {
       'Content-Type': 'application/json',
-
     },
   };
 

@@ -5,10 +5,9 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 /**
- * Custom exception class representing a fatal error in the web application.
- * It inherits from the WebApplicationException class in order to deliver
- *     an HTTP response with a status code of 500 (Internal Server Error)
- * along with an optional message clarifying the error encountered.
+ * Custom exception class representing a fatal error in the web application. It inherits from the
+ * WebApplicationException class in order to deliver an HTTP response with a status code of 500
+ * (Internal Server Error) along with an optional message clarifying the error encountered.
  */
 public class FatalException extends WebApplicationException {
 
@@ -39,6 +38,12 @@ public class FatalException extends WebApplicationException {
             .build());
   }
 
+  /**
+   * Constructs a new FatalException with the specified error message and HTTP status.
+   *
+   * @param message The error message associated with the FatalException.
+   * @param status  The HTTP status associated with the FatalException.
+   */
   public FatalException(String message, Status status) {
     super(Response.status(status).entity(message).type("text/plain").build());
   }

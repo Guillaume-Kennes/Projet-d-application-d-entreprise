@@ -14,6 +14,7 @@ import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.AppBinderTest;
 import be.vinci.pae.utils.exception.BusinessException;
+import be.vinci.pae.utils.exception.ConflictException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -105,8 +106,7 @@ public class UserUCCTest {
   }
 
   /**
-   * Test for retrieving a user by their ID.
-   * Failure expected.
+   * Test for retrieving a user by their ID. Failure expected.
    */
   @Test
   public void getUserByIdTest_Failure() {
@@ -115,17 +115,15 @@ public class UserUCCTest {
     when(userDAO.getUserById(userId)).thenThrow(new RuntimeException());
 
     // Act
-    Exception exception = assertThrows(RuntimeException.class, () -> {
-      userUCC.getUserById(userId);
-    });
+    Exception exception = assertThrows(RuntimeException.class, () ->
+        userUCC.getUserById(userId));
 
     // Assert
     assertNotNull(exception);
   }
 
   /**
-   * Test for registering a new user.
-   * Success expected.
+   * Test for registering a new user. Success expected.
    */
   @Test
   void testRegisterSuccess() {
@@ -144,9 +142,8 @@ public class UserUCCTest {
   }
 
   /**
-   * Test for registering a new user.
-   * Failure expected because the email address is already
-   * in used.
+   * Test for registering a new user. Failure expected because the email address is already in
+   * used.
    */
   @Test
   void testRegisterFailureEmailExists() {
@@ -155,7 +152,8 @@ public class UserUCCTest {
 
     when(userDAO.getUserByEmail("laurent.leleux@vinci.be")).thenReturn(userDTO);
 
-    assertThrows(BusinessException.class, () -> userUCC.register(userDTO));
+    // assertThrows(BusinessException.class, () -> userUCC.register(userDTO));
+    assertThrows(ConflictException.class, () -> userUCC.register(userDTO));
   }
 
 
@@ -175,8 +173,7 @@ public class UserUCCTest {
   */
 
   /**
-   * Test for getting all users.
-   * Failure expected.
+   * Test for getting all users. Failure expected.
    */
   @Test
   void getAllUsersTest_Failure() {
@@ -184,9 +181,8 @@ public class UserUCCTest {
     when(userDAO.getAllUsers()).thenThrow(new RuntimeException());
 
     //Act
-    Exception exception = assertThrows(RuntimeException.class, () -> {
-      userUCC.getAllUsers();
-    });
+    Exception exception = assertThrows(RuntimeException.class, () ->
+        userUCC.getAllUsers());
 
     // Assert
     assertNotNull(exception);

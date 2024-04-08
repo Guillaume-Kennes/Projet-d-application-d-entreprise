@@ -75,7 +75,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     } finally {
-        preparedStatement.close();
+      preparedStatement.close();
     }
     return supervisor;
   }
