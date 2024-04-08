@@ -176,7 +176,6 @@ async function getValues() {
   const id = authenticatedUser?.user?.id;
   console.log("CONTACTS --> authenticatedUserId : ", id);
 
-  console.log("IDTOKEN", id);
   const options = {
     method: 'GET',
     headers: {
