@@ -122,4 +122,14 @@ public class UserUCCImpl implements UserUCC {
       }
     }
   }
+
+  @Override
+  public boolean userIsTeacher(UserDTO userDTO) {
+    return false;
+  }
+
+  @Override
+  public boolean userIsAdmin(UserDTO userDTO) {
+    return false;
+  }
 }
