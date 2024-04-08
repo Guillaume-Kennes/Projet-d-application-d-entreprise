@@ -2,8 +2,9 @@ import { clearPage } from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
 import {
   getToken,
-  getUserIdFromToken,
 } from "../../utils/user";
+import {getAuthenticatedUser} from "../../utils/auths";
+
 
 const ContactsPage = async () => {
   clearPage();
@@ -171,13 +172,15 @@ async function stopFollowing(idContact) {
   }
 }
 async function getValues() {
-  const token = getToken();
-  const id = getUserIdFromToken();
+  const authenticatedUser = getAuthenticatedUser();
+  const id = authenticatedUser?.user?.id;
+  console.log("CONTACTS --> authenticatedUserId : ", id);
+
   const options = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,
+      Authorization: getAuthenticatedUser().token,
     },
   };
   let contacts;

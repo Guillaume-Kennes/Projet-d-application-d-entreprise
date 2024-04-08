@@ -24,7 +24,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     int generatedId = 0;
     try {
       String query = """
-              INSERT INTO pae.enterprises (
+            INSERT INTO pae.enterprises (
               trade_name,
               designation,
               address,
@@ -32,7 +32,7 @@ public class CompanyDAOImpl implements CompanyDAO {
               means_of_communication,
               is_black_listed,
               motivation_blacklist)
-          VALUES (?, ?, ?, ?, ?, false, null)
+            VALUES (?, ?, ?, ?, ?, false, null)
             RETURNING id_enterprise;
           """;
 
@@ -68,7 +68,7 @@ public class CompanyDAOImpl implements CompanyDAO {
       companyDTO.setAddress(resultSet.getString("address"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
-    } catch (SQLException e) { //DEMANDER AU PROF quelle exception
+    } catch (SQLException e) {
       throw new FatalException(e);
     }
     return companyDTO;
