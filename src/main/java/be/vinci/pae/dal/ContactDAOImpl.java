@@ -1,9 +1,9 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.ContactDTO;
-import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.Company;
 import be.vinci.pae.business.domain.CompanyDTO;
+import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UEInscription;
 import be.vinci.pae.business.domain.UEInscriptionDTO;
 import be.vinci.pae.utils.exception.FatalException;
@@ -115,14 +115,13 @@ public class ContactDAOImpl implements ContactDAO {
 
         int correctVersion = ps.executeUpdate();
         if (correctVersion == 0) {
-          if(getContactById(contactDTO.getId()) == null){
+          if (getContactById(contactDTO.getId()) == null) {
             throw new FatalException("Contact not found");
           }
           else {
             throw new IllegalArgumentException("Error not the same version");
           }
         }
-
       }
     } catch (SQLException e) {
       throw new IllegalArgumentException(e);
