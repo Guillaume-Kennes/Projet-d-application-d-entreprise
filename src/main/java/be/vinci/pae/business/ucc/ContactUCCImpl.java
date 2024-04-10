@@ -128,7 +128,7 @@ public class ContactUCCImpl implements ContactUCC {
         throw new IllegalArgumentException("Reason field cannot be null");
       }
 
-      Contact contactBiz = (Contact) getContactsByUserId(contact.getId());
+      Contact contactBiz = (Contact) contact;
 
       if (contactBiz.prisState(contact)) {
         contact.setState("refusé");

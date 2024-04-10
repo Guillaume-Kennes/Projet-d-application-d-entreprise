@@ -99,7 +99,7 @@ public class ContactUCCTest {
    * Test for meeting a company when the contact is null.
    */
   @Test
-  public void meetCompanyTest_nullContact() {
+  public void meetCompanyTest_nullContact_fail() {
     assertThrows(IllegalArgumentException.class, () -> {
       contactUCC.meetCompany(null, "enterprise");
     });
@@ -109,7 +109,7 @@ public class ContactUCCTest {
    * Test for meeting a company when the place is null.
    */
   @Test
-  public void meetCompanyTest_nullPlace() {
+  public void meetCompanyTest_nullPlace_fail() {
     // arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
@@ -125,7 +125,7 @@ public class ContactUCCTest {
    * Test for meeting a company when the state is initiated.
    */
   @Test
-  public void meetCompanyTest_StateInitiated() {
+  public void meetCompanyTest_StateInitiated_success() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
@@ -145,7 +145,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void meetCompanyTest_StateTaken() {
+  public void meetCompanyTest_StateTaken_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
@@ -158,7 +158,7 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void meetCompanyTest_StateRefused() {
+  public void meetCompanyTest_StateRefused_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
@@ -171,9 +171,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void meetCompanyTest_StateAccepted() {
+  public void meetCompanyTest_StateAccepted_fail() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("accepté");
 
     // Act and Assert
@@ -183,9 +184,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void meetCompanyTest_StateSuspended() {
+  public void meetCompanyTest_StateSuspended_fail() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("suspendu");
 
     // Act and Assert
@@ -195,9 +197,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void meetCompanyTest_StateAbandoned() {
+  public void meetCompanyTest_StateAbandoned_fail() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("abandonné");
 
     // Act and Assert
@@ -217,12 +220,14 @@ public class ContactUCCTest {
     ContactDTO result = contactUCC.getContactById(idContact);
 
     // Assert
-    verify(contactDAO).getContactById(idContact);
-    assertEquals(expectedContact, result);
+    assertAll(
+        () -> verify(contactDAO).getContactById(idContact),
+        () -> assertEquals(expectedContact, result)
+    );
   }
 
   @Test
-  public void stopFollowingTest_nullContact() {
+  public void stopFollowingTest_nullContact_fail() {
     // Act and Assert
     assertThrows(IllegalArgumentException.class, () -> {
       contactUCC.stopFollowing(null);
@@ -230,9 +235,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void stopFollowingErrorTest() {
+  public void stopFollowingErrorTest_fail() {
     // arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.isFollowed()).thenReturn(false);
 
     // act and assert
@@ -242,23 +248,25 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void stopFollowingCorrectTest() {
-    // arrange
-    ContactDTO contact = mock(ContactDTO.class);
+  public void stopFollowingCorrectTest_success() {
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.isFollowed()).thenReturn(true);
 
     // act
     ContactDTO result = contactUCC.stopFollowing(contact);
 
     // assert
-    verify(contact).setFollowed(false);
-    verify(contact).setState("abandonné");
-    verify(contactDAO).update(contact);
-    assertEquals(contact, result);
+    assertAll(
+        () -> verify(contact).setFollowed(false),
+        () -> verify(contact).setState("abandonné"),
+        () -> verify(contactDAO).update(contact),
+        () -> assertEquals(contact, result)
+    );
   }
 
   @Test
-  public void companyRefusedInternshipTest_nullContact() {
+  public void companyRefusedInternshipTest_nullContact_fail() {
     // Act and Assert
     assertThrows(IllegalArgumentException.class, () -> {
       contactUCC.companyRefusedInternship(null, "hello");
@@ -266,9 +274,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void companyRefusedInternshipTest_nullReason() {
+  public void companyRefusedInternshipTest_nullReason_fail() {
     // arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("pris");
 
     // act and assert
@@ -278,9 +287,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void companyRefusedInternshipTest_stateTaken() {
+  public void companyRefusedInternshipTest_stateTaken_success() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("pris");
     String reason = "hello";
 
@@ -288,16 +298,19 @@ public class ContactUCCTest {
     ContactDTO result = contactUCC.companyRefusedInternship(contact, reason);
 
     // Assert
-    verify(contact).setState("refusé");
-    verify(contact).setReasonForRefusal(reason);
-    verify(contactDAO).update(contact);
-    assertEquals(contact, result);
+    assertAll(
+        () -> verify(contact).setState("refusé"),
+        () -> verify(contact).setReasonForRefusal(reason),
+        () -> verify(contactDAO).update(contact),
+        () -> assertEquals(contact, result)
+    );
   }
 
   @Test
-  public void companyRefusedInternshipTest_stateInitiated() {
+  public void companyRefusedInternshipTest_stateInitiated_fail() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("initié");
 
     // Act and Assert
@@ -307,9 +320,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void companyRefusedInternshipTest_stateRefused() {
+  public void companyRefusedInternshipTest_stateRefused_fail() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("refusé");
 
     // Act and Assert
@@ -319,9 +333,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void companyRefusedInternshipTest_stateAccepted() {
+  public void companyRefusedInternshipTest_stateAccepted_fail() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("accepté");
 
     // Act and Assert
@@ -331,9 +346,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void companyRefusedInternshipTest_stateSuspended() {
+  public void companyRefusedInternshipTest_stateSuspended_fail() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("suspendu");
 
     // Act and Assert
@@ -343,9 +359,10 @@ public class ContactUCCTest {
   }
 
   @Test
-  public void companyRefusedInternshipTest_stateAbandoned() {
+  public void companyRefusedInternshipTest_stateAbandoned_fail() {
     // Arrange
-    ContactDTO contact = mock(ContactDTO.class);
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("abandonné");
 
     // Act and Assert
