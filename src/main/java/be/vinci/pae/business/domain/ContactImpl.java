@@ -256,7 +256,6 @@ class ContactImpl implements Contact {
 
   /**
    * Checks if the state of the contact is "initié".
-   *
    * This method checks if the state of the given contact is "initié".
    *
    * @param contact The contact to check.
@@ -269,7 +268,6 @@ class ContactImpl implements Contact {
 
   /**
    * Checks if the state of the contact is "pris".
-   *
    * This method checks if the state of the given contact is "pris".
    *
    * @param contact The contact to check.
@@ -282,7 +280,6 @@ class ContactImpl implements Contact {
 
   /**
    * Checks if the contact is followed.
-   *
    * This method checks if the given contact is followed.
    *
    * @param contact The contact to check.

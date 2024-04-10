@@ -31,7 +31,6 @@ public class BusinessException extends WebApplicationException {
 
   /**
    * Constructs a new BusinessException with the specified error message and HTTP status.
-   *
    * This constructor creates a new BusinessException with the given error message and
    * HTTP status. It constructs a Response object using the provided status and message,
    * and passes it to the superclass constructor of Throwable.

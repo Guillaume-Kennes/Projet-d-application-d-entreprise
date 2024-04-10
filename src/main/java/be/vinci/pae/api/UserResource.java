@@ -95,7 +95,6 @@ public class UserResource {
 
   /**
    * Retrieves a list of all users.
-   *
    * This method sends a request to retrieve the list of all users and returns it as a
    * JSON-formatted list of UserDTO objects. It logs an informational message indicating
    * the request to view the list of users.

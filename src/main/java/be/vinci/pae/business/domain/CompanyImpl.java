@@ -19,7 +19,6 @@ public class CompanyImpl implements Company {
 
   /**
    * Constructs a new CompanyImpl object with default values.
-   *
    * This constructor initializes a new CompanyImpl object with default values for all fields.
    * The default values for numeric fields are typically 0, and for String fields, null.
    */
@@ -154,13 +153,13 @@ public class CompanyImpl implements Company {
    */
   @Override
   public String toString() {
-    return "CompanyImpl{" +
-        "tradeName='" + tradeName + '\'' +
-        ", designation='" + designation + '\'' +
-        ", address='" + address + '\'' +
-        ", city='" + city + '\'' +
-        ", meansOfCommunication='" + meansOfCommunication + '\'' +
-        '}';
+    return "CompanyImpl{"
+        + "tradeName='" + tradeName + '\''
+        + ", designation='" + designation + '\''
+        + ", address='" + address + '\''
+        + ", city='" + city + '\''
+        + ", meansOfCommunication='" + meansOfCommunication + '\''
+        + '}';
   }
 }
 

@@ -41,7 +41,6 @@ public class FatalException extends WebApplicationException {
 
   /**
    * Constructs a new FatalException with the specified error message and HTTP status.
-   *
    * This constructor creates a new FatalException with the given error message and
    * HTTP status. It constructs a Response object using the provided status and message,
    * and passes it to the superclass constructor of Throwable.
