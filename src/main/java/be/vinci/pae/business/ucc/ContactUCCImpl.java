@@ -45,6 +45,7 @@ public class ContactUCCImpl implements ContactUCC {
         System.out.println("contact ucc : " + contact);
 
         contactDAO.update(contact);
+        dalServices.commit();
         return contact;
       } else {
         throw new IllegalArgumentException("Invalid contact state");
@@ -52,8 +53,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -66,12 +65,11 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO getContactById(int idContact) {
     dalServices.start();
     try {
+      dalServices.commit();
       return contactDAO.getContactById(idContact);
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -100,13 +98,12 @@ public class ContactUCCImpl implements ContactUCC {
         System.out.println("contact ucc stop following : " + contact);
 
         contactDAO.update(contact);
+        dalServices.commit();
         return contact;
       }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -137,6 +134,7 @@ public class ContactUCCImpl implements ContactUCC {
         System.out.println("contact ucc company refused internship : " + contact);
 
         contactDAO.update(contact);
+        dalServices.commit();
         return contact;
       } else {
         throw new IllegalArgumentException("Invalid contact state");
@@ -144,8 +142,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -159,14 +155,14 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       ArrayList<ContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
+
+      System.out.println("ContactUCCImpl -----> COMMITT");
+      dalServices.commit();
       return contactDTOS;
     } catch (Exception e) {
       System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
-    } finally {
-      System.out.println("ContactUCCImpl -----> COMMITT");
-      dalServices.commit();
     }
   }
 
@@ -180,14 +176,14 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
+
+      System.out.println("ContactUCCImpl -----> COMMITT");
+      dalServices.commit();
       return contactDTOS;
     } catch (Exception e) {
       System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
-    } finally {
-      System.out.println("ContactUCCImpl -----> COMMITT");
-      dalServices.commit();
     }
   }
 
@@ -204,14 +200,14 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
+
+      dalServices.commit();
       return contactDAO.insert(contactDTO);
 
     } catch (Exception e) {
       dalServices.rollBack();
       System.out.println("ContactUCCImpl ----> e.getMessage() = " + e.getMessage());
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 }
