@@ -7,19 +7,28 @@ class ContactImpl implements Contact {
 
   private int id;
   private String state;
-  private ViewCompany company;
-  private ViewUEInscription inscriptionUE;
+  private Company company;
+  private UEInscription inscriptionUE;
   private String reasonForRefusal;
   private boolean isFollowed;
   private String meetingPlace;
   private int enterprise;
   private int userId;
   private String tradeName;
+  private int versionNumber;
 
   /**
    * Default constructor for ContactImpl.
    */
   public ContactImpl() {
+  }
+
+  public int getVersionNumber() {
+    return versionNumber;
+  }
+
+  public void setVersionNumber(int versionNumber) {
+    this.versionNumber = versionNumber;
   }
 
   /**
@@ -128,7 +137,7 @@ class ContactImpl implements Contact {
    * @return The UE inscription of the contact
    */
   @Override
-  public ViewUEInscription getInscriptionUE() {
+  public UEInscription getInscriptionUE() {
     return this.inscriptionUE;
   }
 
@@ -138,7 +147,7 @@ class ContactImpl implements Contact {
    * @param inscriptionUE The UE inscription to set.
    */
   @Override
-  public void setInscriptionUE(ViewUEInscription inscriptionUE) {
+  public void setInscriptionUE(UEInscription inscriptionUE) {
     this.inscriptionUE = inscriptionUE;
   }
 
@@ -148,7 +157,7 @@ class ContactImpl implements Contact {
    * @return The company of the contact
    */
   @Override
-  public ViewCompanyDTO getCompany() {
+  public CompanyDTO getCompany() {
     return this.company;
   }
 
@@ -158,7 +167,7 @@ class ContactImpl implements Contact {
    * @param company The company to set.
    */
   @Override
-  public void setCompany(ViewCompany company) {
+  public void setCompany(Company company) {
     this.company = company;
   }
 
@@ -243,4 +252,42 @@ class ContactImpl implements Contact {
   public void setTradeName(String tradeName) {
     this.tradeName = tradeName;
   }
+
+
+  /**
+   * Checks if the state of the contact is "initié".
+   * This method checks if the state of the given contact is "initié".
+   *
+   * @param contact The contact to check.
+   *
+   * @return true if the state of the contact is "initié", false otherwise.
+   */
+  public boolean initieState(ContactDTO contact) {
+    return contact.getState().equals("initié");
+  }
+
+  /**
+   * Checks if the state of the contact is "pris".
+   * This method checks if the state of the given contact is "pris".
+   *
+   * @param contact The contact to check.
+   *
+   * @return true if the state of the contact is "pris", false otherwise.
+   */
+  public boolean prisState(ContactDTO contact) {
+    return contact.getState().equals("pris");
+  }
+
+  /**
+   * Checks if the contact is followed.
+   * This method checks if the given contact is followed.
+   *
+   * @param contact The contact to check.
+   *
+   * @return true if the contact is followed, false otherwise.
+   */
+  public boolean isFollowed(ContactDTO contact) {
+    return contact.isFollowed();
+  }
+
 }

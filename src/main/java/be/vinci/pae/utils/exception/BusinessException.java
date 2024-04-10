@@ -30,10 +30,14 @@ public class BusinessException extends WebApplicationException {
   }
 
   /**
-   * This exception represents a business exception in a web application
-   *     with a specified HTTP status and custom message.
-   * It extends the WebApplicationException class and provides a constructor
-   *     to create instances of BusinessException with a custom message and HTTP status.
+   * Constructs a new BusinessException with the specified error message and HTTP status.
+   * This constructor creates a new BusinessException with the given error message and
+   * HTTP status. It constructs a Response object using the provided status and message,
+   * and passes it to the superclass constructor of Throwable.
+   *
+   * @param message The error message associated with the exception.
+   *
+   * @param status The HTTP status code associated with the exception.
    */
   public BusinessException(String message, Status status) {
     super(Response.status(status).entity(message).type("text/plain").build());

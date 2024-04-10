@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
  * Represents a company data transfer object (DTO) with various properties. This interface defines
  * methods for accessing and modifying company-related information.
  */
-@JsonDeserialize(as = ViewCompanyImpl.class)
-public interface ViewCompanyDTO {
+@JsonDeserialize(as = CompanyImpl.class)
+public interface CompanyDTO {
 
   /**
    * Retrieves the ID of the item.
