@@ -43,25 +43,22 @@ public class ContactUCCImpl implements ContactUCC {
         throw new BusinessException("Place field cannot be null");
       }
 
-      if (contact.stateIsInitiated()) {
-        if (contactBiz.initieState(contact)) {
-          contact.setState("pris");
-          contact.setMeetingPlace(place);
+      if (contactBiz.initieState(contact)) {
+        contact.setState("pris");
+        contact.setMeetingPlace(place);
 
-          contactDAO.update(contact);
-          dalServices.commit();
+        contactDAO.update(contact);
+        dalServices.commit();
 
-          return contact;
-        } else {
-          dalServices.rollBack();
-          throw new BusinessException("Invalid contact state");
-        }
+        return contact;
+      } else {
+        dalServices.rollBack();
+        throw new BusinessException("Invalid contact state");
       }
     } catch(Exception e){
       dalServices.rollBack();
       throw e;
     }
-    return null;
   }
 
   /**
@@ -96,26 +93,25 @@ public class ContactUCCImpl implements ContactUCC {
         dalServices.rollBack();
         throw new NotFoundException("Contact not found");
       }
-      if (!contact.isFollowed()) {
+
+      Contact contactBiz = (Contact) contact;
+
+      if (!contactBiz.isFollowed(contact)) {
         dalServices.rollBack();
-        Contact contactBiz = (Contact) contact;
-        if (!contactBiz.isFollowed(contact)) {
-          throw new BusinessException("Invalid contact state");
+        throw new BusinessException("Invalid contact state");
 
-        } else {
-          contact.setFollowed(false);
-          contact.setState("abandonné");
+      } else {
+        contact.setFollowed(false);
+        contact.setState("abandonné");
 
-          contactDAO.update(contact);
-          dalServices.commit();
-          return contact;
-        }
+        contactDAO.update(contact);
+        dalServices.commit();
+        return contact;
       }
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
     }
-    return null;
   }
 
   /**
@@ -138,10 +134,9 @@ public class ContactUCCImpl implements ContactUCC {
         throw new BusinessException("Reason field cannot be null");
       }
 
-      if (contact.stateIsTaken()) {
-        Contact contactBiz = (Contact) contact;
+      Contact contactBiz = (Contact) contact;
 
-        if (contactBiz.prisState(contact)) {
+      if (contactBiz.prisState(contact)) {
           contact.setState("refusé");
           contact.setReasonForRefusal(reason);
 
@@ -152,12 +147,10 @@ public class ContactUCCImpl implements ContactUCC {
           dalServices.rollBack();
           throw new BusinessException("Invalid contact state");
         }
-      }
     } catch(Exception e) {
         dalServices.rollBack();
         throw e;
     }
-    return null;
   }
 
   /**

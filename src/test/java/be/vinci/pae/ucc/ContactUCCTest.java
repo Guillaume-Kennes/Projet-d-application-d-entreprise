@@ -9,7 +9,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import be.vinci.pae.business.domain.Contact;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.ucc.ContactUCC;
@@ -109,7 +108,7 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_nullContact_fail() {
-    assertThrows(BusinessException.class, () -> {
+    assertThrows(NotFoundException.class, () -> {
 
       contactUCC.meetCompany(null, "enterprise");
     });
@@ -189,8 +188,9 @@ public class ContactUCCTest {
     ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("accepté");
 
-    assertThrows(BusinessException.class, () ->
-        contactUCC.meetCompany(contact, "distance"));
+    assertThrows(BusinessException.class, () -> {
+      contactUCC.meetCompany(contact, "distance");
+    });
   }
 
   /**
@@ -260,7 +260,7 @@ public class ContactUCCTest {
   @Test
   public void stopFollowingTest_nullContact_fail() {
     // Act and Assert
-    assertThrows(BusinessException.class, () -> {
+    assertThrows(NotFoundException.class, () -> {
       contactUCC.stopFollowing(null);
     });
   }
@@ -306,7 +306,7 @@ public class ContactUCCTest {
   @Test
   public void companyRefusedInternshipTest_nullContact_fail() {
     // Act and Assert
-    assertThrows(BusinessException.class, () -> {
+    assertThrows(NotFoundException.class, () -> {
       contactUCC.companyRefusedInternship(null, "hello");
     });
   }
