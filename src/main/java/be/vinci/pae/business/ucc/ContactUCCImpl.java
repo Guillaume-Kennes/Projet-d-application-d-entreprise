@@ -4,6 +4,7 @@ import be.vinci.pae.business.domain.Contact;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
+import be.vinci.pae.utils.exception.BusinessException;
 import jakarta.inject.Inject;
 import java.util.ArrayList;
 
@@ -29,26 +30,24 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
-        throw new IllegalArgumentException("Contact not found");
+        throw new BusinessException("Contact not found");
       }
 
       Contact contactBiz = (Contact) contact;
 
       if (place == null) {
-        throw new IllegalArgumentException("Place field cannot be null");
+        throw new BusinessException("Place field cannot be null");
       }
 
       if (contactBiz.initieState(contact)) {
         contact.setState("pris");
         contact.setMeetingPlace(place);
 
-        System.out.println("contact ucc : " + contact);
-
         contactDAO.update(contact);
         dalServices.commit();
         return contact;
       } else {
-        throw new IllegalArgumentException("Invalid contact state");
+        throw new BusinessException("Invalid contact state");
       }
     } catch (Exception e) {
       dalServices.rollBack();
@@ -84,18 +83,17 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
-        throw new IllegalArgumentException("Contact not found");
+        throw new BusinessException("Contact not found");
       }
 
       Contact contactBiz = (Contact) contact;
 
       if (!contactBiz.isFollowed(contact)) {
-        throw new IllegalArgumentException("Invalid contact state");
+        throw new BusinessException("Invalid contact state");
+
       } else {
         contact.setFollowed(false);
         contact.setState("abandonné");
-
-        System.out.println("contact ucc stop following : " + contact);
 
         contactDAO.update(contact);
         dalServices.commit();
@@ -118,11 +116,11 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
-        throw new IllegalArgumentException("Contact not found");
+        throw new BusinessException("Contact not found");
       }
 
       if (reason == null) {
-        throw new IllegalArgumentException("Reason field cannot be null");
+        throw new BusinessException("Reason field cannot be null");
       }
 
       Contact contactBiz = (Contact) contact;
@@ -131,13 +129,11 @@ public class ContactUCCImpl implements ContactUCC {
         contact.setState("refusé");
         contact.setReasonForRefusal(reason);
 
-        System.out.println("contact ucc company refused internship : " + contact);
-
         contactDAO.update(contact);
         dalServices.commit();
         return contact;
       } else {
-        throw new IllegalArgumentException("Invalid contact state");
+        throw new BusinessException("Invalid contact state");
       }
     } catch (Exception e) {
       dalServices.rollBack();
@@ -160,7 +156,6 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.commit();
       return contactDTOS;
     } catch (Exception e) {
-      System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
     }
@@ -181,7 +176,6 @@ public class ContactUCCImpl implements ContactUCC {
       dalServices.commit();
       return contactDTOS;
     } catch (Exception e) {
-      System.out.println("ROLLBACK");
       dalServices.rollBack();
       throw e;
     }
@@ -196,17 +190,15 @@ public class ContactUCCImpl implements ContactUCC {
    */
   @Override
   public ContactDTO addContact(ContactDTO contactDTO) {
-    System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
     dalServices.start();
     try {
       System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
 
       dalServices.commit();
-      return contactDAO.insert(contactDTO);
 
+      return contactDAO.insert(contactDTO);
     } catch (Exception e) {
       dalServices.rollBack();
-      System.out.println("ContactUCCImpl ----> e.getMessage() = " + e.getMessage());
       throw e;
     }
   }

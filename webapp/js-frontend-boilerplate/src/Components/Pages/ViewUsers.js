@@ -21,7 +21,6 @@ async function allUsers() {
         <p>${user.lastName}</p>
         <p>${user.firstName}</p>
         <p>${user.phoneNumber}</p>
-        <p>${user.registrationDate}</p>
         <p>${user.role}</p>
       </div>
     `);

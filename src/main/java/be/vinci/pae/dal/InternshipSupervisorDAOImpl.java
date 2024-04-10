@@ -4,14 +4,15 @@ import be.vinci.pae.business.domain.Company;
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
+import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Implementation of the InternshipSupervisorDAO interface.
- * Provides methods for retrieving internship supervisor-related data from the database.
+ * Implementation of the InternshipSupervisorDAO interface. Provides methods for retrieving
+ * internship supervisor-related data from the database.
  */
 public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
 
@@ -26,8 +27,8 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    * Method to retrieve supervisor information and map it to a InternshipSupervisorDTO object.
    *
    * @param resultSet The ResultSet containing supervisor information.
-   *
    * @return A InternshipSupervisorDTO object populated with supervisor info.
+   * @throws FatalException if the supervisor info is not found in the database.
    */
   public InternshipSupervisorDTO supervisorInfos(ResultSet resultSet) {
     InternshipSupervisorDTO internshipSupervisorDTO = myDomainFactory.getInternshipSupervisor();
@@ -43,6 +44,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
       internshipSupervisorDTO.setCompany((Company) company);
     } catch (SQLException e) {
       e.getMessage();
+      throw new FatalException(e);
     }
 
     return internshipSupervisorDTO;
@@ -52,10 +54,8 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    * Method to retrieve a supervisor by their ID.
    *
    * @param id The ID of the supervisor to retrieve.
-   *
    * @return A InternshipSupervisorDTO object representing the supervisor, or null if not found.
-   *
-   * @throws IllegalArgumentException if the supervisor is not found in the database.
+   * @throws FatalException if the supervisor is not found in the database.
    */
   public InternshipSupervisorDTO getSupervisorById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -64,7 +64,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {
-      throw new RuntimeException(e);
+      throw new FatalException(e);
     }
 
     InternshipSupervisorDTO supervisor = myDomainFactory.getInternshipSupervisor();
@@ -82,6 +82,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
         preparedStatement.close();
       } catch (SQLException e) {
         e.printStackTrace();
+        throw new FatalException(e);
       }
     }
     return supervisor;

@@ -19,14 +19,15 @@ const ContactCompanyPage = () => {
 };
 
 function renderContactCompanyForm() {
+  const authenticatedUser = getAuthenticatedUser();
   const main = document.querySelector('main');
   const form = document.createElement('form');
   form.id = 'contactCompanyForm'; // Add an ID for easier styling
   form.className = 'col-lg-4 mx-auto'; // Set the form class to match the fixed HTML structure
   form.style.marginTop = '100px'; // Set the top margin using inline styles
 
-  const authenticatedUser = getAuthenticatedUser();
   const authenticatedUserId = authenticatedUser?.user?.id;
+  console.log(`111111111 authenticatedUserId -----> ${authenticatedUserId}`);
 
   const tradeName = document.createElement('input');
   tradeName.type = 'text';
@@ -131,6 +132,7 @@ function renderContactCompanyForm() {
       });
 
       if (response.ok) {
+        console.log(`authenticatedUserId -----> ${authenticatedUserId}`);
         // Enterprise submission successful, handle response accordingly
       } else {
         // Enterprise submission failed, handle error response

@@ -15,6 +15,7 @@ import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.utils.AppBinderTest;
+import be.vinci.pae.utils.exception.BusinessException;
 import java.util.ArrayList;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
@@ -100,7 +101,8 @@ public class ContactUCCTest {
    */
   @Test
   public void meetCompanyTest_nullContact_fail() {
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
+
       contactUCC.meetCompany(null, "enterprise");
     });
   }
@@ -116,7 +118,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("initié");
 
     // act and assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, null);
     });
   }
@@ -132,9 +134,9 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("initié");
     String place = "enterprise";
 
+
     // Act
     ContactDTO result = contactUCC.meetCompany(contact, place);
-
     // Assert
     assertAll(
         () -> verify(contact).setState("pris"),
@@ -152,7 +154,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("pris");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "enterprise");
     });
   }
@@ -165,7 +167,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("refusé");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
   }
@@ -178,7 +180,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("accepté");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
   }
@@ -191,7 +193,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("suspendu");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "distance");
     });
   }
@@ -204,13 +206,13 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("abandonné");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.meetCompany(contact, "enterprise");
     });
   }
 
   @Test
-  public void getContactByIdTest() {
+  public void getContactByIdTest_Success() {
     // Arrange
     int idContact = 1;
     ContactDTO expectedContact = mock(ContactDTO.class);
@@ -227,9 +229,25 @@ public class ContactUCCTest {
   }
 
   @Test
+  public void getContactByIdTest_Failure() {
+    // Arrange
+    int idContact = 1;
+    when(contactDAO.getContactById(idContact)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.getContactById(idContact);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
+  @Test
   public void stopFollowingTest_nullContact_fail() {
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.stopFollowing(null);
     });
   }
@@ -242,7 +260,7 @@ public class ContactUCCTest {
     when(contact.isFollowed()).thenReturn(false);
 
     // act and assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.stopFollowing(contact);
     });
   }
@@ -253,9 +271,9 @@ public class ContactUCCTest {
     ContactDTO contact = spy(realContact);
     when(contact.isFollowed()).thenReturn(true);
 
+
     // act
     ContactDTO result = contactUCC.stopFollowing(contact);
-
     // assert
     assertAll(
         () -> verify(contact).setFollowed(false),
@@ -268,7 +286,7 @@ public class ContactUCCTest {
   @Test
   public void companyRefusedInternshipTest_nullContact_fail() {
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(null, "hello");
     });
   }
@@ -281,7 +299,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("pris");
 
     // act and assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, null);
     });
   }
@@ -296,7 +314,6 @@ public class ContactUCCTest {
 
     // Act
     ContactDTO result = contactUCC.companyRefusedInternship(contact, reason);
-
     // Assert
     assertAll(
         () -> verify(contact).setState("refusé"),
@@ -314,7 +331,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("initié");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
@@ -327,7 +344,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("refusé");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
@@ -340,7 +357,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("accepté");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
@@ -353,7 +370,7 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("suspendu");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
@@ -366,8 +383,100 @@ public class ContactUCCTest {
     when(contact.getState()).thenReturn("abandonné");
 
     // Act and Assert
-    assertThrows(IllegalArgumentException.class, () -> {
+    assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(contact, "hello");
     });
   }
+
+  @Test
+  public void addContactTest_Success() {
+    // Arrange
+    ContactDTO contactDTO = mock(ContactDTO.class);
+    when(contactDAO.insert(contactDTO)).thenReturn(contactDTO);
+
+    // Act
+    ContactDTO result = contactUCC.addContact(contactDTO);
+
+    // Assert
+    assertEquals(contactDTO, result);
+  }
+
+  @Test
+  public void addContactTest_Failure() {
+    // Arrange
+    ContactDTO contactDTO = mock(ContactDTO.class);
+    when(contactDAO.insert(contactDTO)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.addContact(contactDTO);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
+  @Test
+  public void getTakenContactsByUserIdTest_Success() {
+    // Arrange
+    int userId = 1;
+    ArrayList<ContactDTO> expectedContacts = new ArrayList<>();
+    when(contactDAO.getTakenContactsByUserId(userId)).thenReturn(expectedContacts);
+
+    // Act
+    ArrayList<ContactDTO> result = contactUCC.getTakenContactsByUserId(userId);
+
+    // Assert
+    assertEquals(expectedContacts, result);
+  }
+
+  @Test
+  public void getTakenContactsByUserIdTest_Failure() {
+    // Arrange
+    int userId = 1;
+    when(contactDAO.getTakenContactsByUserId(userId)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.getTakenContactsByUserId(userId);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+
+
+  /**
+   * @Test
+  public void getContactsByUserIdTest_Success() {
+    // Arrange
+    int userId = 1;
+    ArrayList<ContactDTO> expectedContacts = new ArrayList<>();
+    when(contactDAO.getContactsByUserId(userId)).thenReturn(expectedContacts);
+
+    // Act
+    ArrayList<ContactDTO> result = contactUCC.getContactsByUserId(userId);
+
+    // Assert
+    assertEquals(expectedContacts, result);
+  }
+   */
+
+  @Test
+  public void getContactsByUserIdTest_Failure() {
+    // Arrange
+    int userId = 1;
+    when(contactDAO.getContactsByUserId(userId)).thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      contactUCC.getContactsByUserId(userId);
+    });
+
+    // Assert
+    assertNotNull(exception);
+  }
+
 }

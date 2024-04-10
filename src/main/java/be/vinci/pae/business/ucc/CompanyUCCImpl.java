@@ -29,7 +29,6 @@ public class CompanyUCCImpl implements CompanyUCC {
 
     } catch (Exception e) {
       dalServices.rollBack();
-      System.out.println("e.getMessage() = " + e.getMessage());
       throw e;
     }
   }
