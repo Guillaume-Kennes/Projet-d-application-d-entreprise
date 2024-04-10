@@ -149,7 +149,22 @@ public interface ContactDTO {
    */
   void setTradeName(String tradeName);
 
+  /**
+   * Obtient le numéro de version de l'entité.
+   *
+   * Cette méthode retourne le numéro de version de l'entité.
+   *
+   * @return Le numéro de version de l'entité.
+   */
   int getVersionNumber();
 
+  /**
+   * Définit le numéro de version de l'entité.
+   *
+   * Cette méthode définit le numéro de version de l'entité avec la valeur spécifiée.
+   *
+   * @param versionNumber Le numéro de version à définir pour l'entité.
+   */
   void setVersionNumber(int versionNumber);
+
 }
