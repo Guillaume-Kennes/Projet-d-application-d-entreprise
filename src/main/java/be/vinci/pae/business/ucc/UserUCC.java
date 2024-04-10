@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.utils.exception.ConflictException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public interface UserUCC {
    * @return The UserDTO object representing the registered user.
    * @throws SQLException if an SQL exception occurs during the registration process.
    */
-  UserDTO register(UserDTO userDTO) throws SQLException;
+  UserDTO register(UserDTO userDTO) throws ConflictException;
 
   /**
    * Checks whether the specified user has teacher privileges.

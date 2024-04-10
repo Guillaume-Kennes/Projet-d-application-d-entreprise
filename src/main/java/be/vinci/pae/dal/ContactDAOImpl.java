@@ -71,6 +71,7 @@ public class ContactDAOImpl implements ContactDAO {
       contactDTO.setReasonForRefusal(resultSet.getString("reason_for_refusal"));
       contactDTO.setFollowed(resultSet.getBoolean("is_followed"));
       contactDTO.setMeetingPlace(resultSet.getString("meeting_place"));
+      contactDTO.setVersionNumber(resultSet.getInt("version_contacts"));
       company = companyDAO.companyInfos(resultSet);
       contactDTO.setCompany((Company) company);
       ueInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
@@ -97,7 +98,8 @@ public class ContactDAOImpl implements ContactDAO {
           reason_for_refusal = ?,
           is_followed = ?,
           meeting_place = ?
-          WHERE id_contact= ?;
+          version_contacts = version_contacts + 1
+          WHERE id_contact= ? AND version_contacts = ? ;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, contactDTO.getState());
@@ -107,8 +109,18 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setBoolean(5, contactDTO.isFollowed());
         ps.setString(6, contactDTO.getMeetingPlace());
         ps.setInt(7, contactDTO.getId());
+        ps.setInt(8, contactDTO.getVersionNumber());
 
         ps.execute();
+
+        int correctVersion = ps.executeUpdate();
+        if (correctVersion == 0) {
+          if (getContactById(contactDTO.getId()) == null) {
+            throw new FatalException("Contact not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
+        }
       }
     } catch (SQLException e) {
       throw new FatalException(e);
@@ -218,6 +230,16 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setInt(2, contactDTO.getUserId());
         System.out.println("ContactDAOImpl ps : " + ps);
         ps.executeQuery(); // ou ps.execute() ?
+        // ps.setInt(3, 1);
+
+        System.out.println("ContactDAOImpl -------> Enterprise : "
+            + contactDTO.getTradeName());
+        System.out.println("ContactDAOImpl -------> UserId : "
+            + contactDTO.getUserId());
+        System.out.println("ContactDAOImpl -------> Version Number : "
+            + contactDTO.getVersionNumber());
+
+        System.out.println("ContactDAOImpl ----> ps : " + ps);
       }
     } catch (SQLException e) {
       throw new FatalException(e);

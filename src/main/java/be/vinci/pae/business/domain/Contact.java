@@ -21,4 +21,9 @@ public interface Contact extends ContactDTO {
    */
   boolean correctSchoolYear();
 
+  boolean initieState(ContactDTO contact);
+
+  boolean prisState(ContactDTO contact);
+
+  boolean isFollowed(ContactDTO contact);
 }

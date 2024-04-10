@@ -92,7 +92,7 @@ public class UserUCCImpl implements UserUCC {
    * @throws BusinessException If the email already exists in the database or if the email address
    *                           does not end with "@student.vinci.be" or "@vinci.be".
    */
-  public UserDTO register(UserDTO userDTO) throws SQLException {
+  public UserDTO register(UserDTO userDTO) {
     dalServices.start();
 
     User user = (User) userDTO;
@@ -103,7 +103,7 @@ public class UserUCCImpl implements UserUCC {
     } else {
       try {
         String email = userDTO.getEmail();
-        if (!user.emailIsStudent(email)
+        if (!user.emailIsVinci(email)
             && !user.emailIsStudent(email)) {
           dalServices.rollBack();
           throw new BusinessException(

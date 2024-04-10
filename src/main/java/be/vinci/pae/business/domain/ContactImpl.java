@@ -16,11 +16,20 @@ class ContactImpl implements Contact {
   private int userId;
   private String tradeName;
   private int versionContacts;
+  private int versionNumber;
 
   /**
    * Default constructor for ContactImpl.
    */
   public ContactImpl() {
+  }
+
+  public int getVersionNumber() {
+    return versionNumber;
+  }
+
+  public void setVersionNumber(int versionNumber) {
+    this.versionNumber = versionNumber;
   }
 
   /**
@@ -278,4 +287,41 @@ class ContactImpl implements Contact {
   public void setVersionContacts(int versionContacts) {
     this.versionContacts = versionContacts;
   }
+
+  /**
+   * Checks if the state of the contact is "initié".
+   * This method checks if the state of the given contact is "initié".
+   *
+   * @param contact The contact to check.
+   *
+   * @return true if the state of the contact is "initié", false otherwise.
+   */
+  public boolean initieState(ContactDTO contact) {
+    return contact.getState().equals("initié");
+  }
+
+  /**
+   * Checks if the state of the contact is "pris".
+   * This method checks if the state of the given contact is "pris".
+   *
+   * @param contact The contact to check.
+   *
+   * @return true if the state of the contact is "pris", false otherwise.
+   */
+  public boolean prisState(ContactDTO contact) {
+    return contact.getState().equals("pris");
+  }
+
+  /**
+   * Checks if the contact is followed.
+   * This method checks if the given contact is followed.
+   *
+   * @param contact The contact to check.
+   *
+   * @return true if the contact is followed, false otherwise.
+   */
+  public boolean isFollowed(ContactDTO contact) {
+    return contact.isFollowed();
+  }
+
 }

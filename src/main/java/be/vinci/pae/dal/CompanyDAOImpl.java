@@ -81,6 +81,7 @@ public class CompanyDAOImpl implements CompanyDAO {
    * @return A ViewCompanyDTO object representing the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
+
   public CompanyDTO getCompanyById(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.enterprises e WHERE e.id_enterprise = ?");

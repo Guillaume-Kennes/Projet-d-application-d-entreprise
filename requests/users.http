@@ -42,7 +42,7 @@ POST {{baseUrl}}/auths/register
 Content-Type: application/json
 
 {
-  "email": "ryuer@student.vinci.be",
+  "email": "ryuyuer@student.vinci.be",
   "password": "mdp1",
   "lastName": "test",
   "firstName": "TEST",
