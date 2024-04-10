@@ -108,32 +108,21 @@ public class ContactUCCTest {
    * Test for meeting a company when the contact is null. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void meetCompanyTest_nullContact() {
-    // assertThrows(BusinessException.class, () -> contactUCC.meetCompany(null, "enterprise"));
-    assertThrows(NotFoundException.class, () -> contactUCC.meetCompany(null, "enterprise"));
-=======
   public void meetCompanyTest_nullContact_fail() {
     assertThrows(BusinessException.class, () -> {
 
       contactUCC.meetCompany(null, "enterprise");
     });
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
   }
 
   /**
    * Test for meeting a company when the place is null. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void meetCompanyTest_nullPlace() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void meetCompanyTest_nullPlace_fail() {
     // arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("initié");
 
     assertThrows(BusinessException.class, () ->
@@ -144,27 +133,15 @@ public class ContactUCCTest {
    * Test for meeting a company when the state is initiated. Success expected.
    */
   @Test
-<<<<<<< HEAD
-  public void meetCompanyTest_StateInitiated() {
-    ContactDTO contact = mock(ContactDTO.class);
-    when(contact.stateIsInitiated()).thenReturn(true);
-=======
   public void meetCompanyTest_StateInitiated_success() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("initié");
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     String place = "enterprise";
 
     ContactDTO result = contactUCC.meetCompany(contact, place);
-<<<<<<< HEAD
 
-    verify(contact).setState("pris");
-    verify(contact).setMeetingPlace(place);
-    verify(contactDAO).update(contact);
-    assertEquals(contact, result);
-=======
     // Assert
     assertAll(
         () -> verify(contact).setState("pris"),
@@ -172,24 +149,17 @@ public class ContactUCCTest {
         () -> verify(contactDAO).update(contact),
         () -> assertEquals(contact, result)
     );
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
   }
 
   /**
    * Test for meeting a company when the state is taken. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void meetCompanyTest_StateTaken() {
-    ContactDTO contact = mock(ContactDTO.class);
-    when(contact.stateIsTaken()).thenReturn(true);
-=======
   public void meetCompanyTest_StateTaken_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("pris");
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
 
     assertThrows(BusinessException.class, () ->
         contactUCC.meetCompany(contact, "enterprise"));
@@ -199,15 +169,10 @@ public class ContactUCCTest {
    * Test for meeting a company when the state is refused. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void meetCompanyTest_StateRefused() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void meetCompanyTest_StateRefused_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("refusé");
 
     assertThrows(BusinessException.class, () ->
@@ -218,15 +183,10 @@ public class ContactUCCTest {
    * Test for meeting a company when the state is accepted. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void meetCompanyTest_StateAccepted() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void meetCompanyTest_StateAccepted_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("accepté");
 
     assertThrows(BusinessException.class, () ->
@@ -237,15 +197,10 @@ public class ContactUCCTest {
    * Test for meeting a company when the state is suspended. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void meetCompanyTest_StateSuspended() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void meetCompanyTest_StateSuspended_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("suspendu");
 
     assertThrows(BusinessException.class, () ->
@@ -256,15 +211,10 @@ public class ContactUCCTest {
    * Test for meeting a company when the state is abandoned. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void meetCompanyTest_StateAbandoned() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void meetCompanyTest_StateAbandoned_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("abandonné");
 
     assertThrows(BusinessException.class, () ->
@@ -282,15 +232,11 @@ public class ContactUCCTest {
 
     ContactDTO result = contactUCC.getContactById(idContact);
 
-<<<<<<< HEAD
-    assertEquals(expectedContact, result);
-=======
     // Assert
     assertAll(
         () -> verify(contactDAO).getContactById(idContact),
         () -> assertEquals(expectedContact, result)
     );
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
   }
 
   /**
@@ -307,38 +253,27 @@ public class ContactUCCTest {
     assertNotNull(exception);
   }
 
-<<<<<<< HEAD
+
   /**
    * Test for stopping following a contact. Failure expected because the contact is null.
    */
-  @Test
-  public void stopFollowingTest_nullContact() {
-    // assertThrows(BusinessException.class, () -> contactUCC.stopFollowing(null));
-    assertThrows(NotFoundException.class, () -> contactUCC.stopFollowing(null));
-=======
-
   @Test
   public void stopFollowingTest_nullContact_fail() {
     // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.stopFollowing(null);
     });
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
   }
 
   /**
    * Test for stopping following a contact. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void stopFollowingErrorTest() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
+
   public void stopFollowingErrorTest_fail() {
     // arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.isFollowed()).thenReturn(false);
 
     assertThrows(BusinessException.class, () ->
@@ -349,24 +284,13 @@ public class ContactUCCTest {
    * Test for stopping following a contact. Success expected.
    */
   @Test
-<<<<<<< HEAD
-  public void stopFollowingCorrectTest() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void stopFollowingCorrectTest_success() {
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.isFollowed()).thenReturn(true);
 
     ContactDTO result = contactUCC.stopFollowing(contact);
-<<<<<<< HEAD
 
-    verify(contact).setFollowed(false);
-    verify(contact).setState("abandonné");
-    verify(contactDAO).update(contact);
-    assertEquals(contact, result);
-=======
     // assert
     assertAll(
         () -> verify(contact).setFollowed(false),
@@ -374,41 +298,27 @@ public class ContactUCCTest {
         () -> verify(contactDAO).update(contact),
         () -> assertEquals(contact, result)
     );
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
   }
 
   /**
    * Test for refusing a contact. Failure expected because the contact is null.
    */
   @Test
-<<<<<<< HEAD
-  public void companyRefusedInternshipTest_nullContact() {
-    // assertThrows(BusinessException.class, ()
-    // -> contactUCC.companyRefusedInternship(null, "hello"));
-    assertThrows(NotFoundException.class, ()
-        -> contactUCC.companyRefusedInternship(null, "hello"));
-=======
   public void companyRefusedInternshipTest_nullContact_fail() {
     // Act and Assert
     assertThrows(BusinessException.class, () -> {
       contactUCC.companyRefusedInternship(null, "hello");
     });
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
   }
 
   /**
    * Test for refusing a contact. Failure expected because the reason for refusal is null.
    */
   @Test
-<<<<<<< HEAD
-  public void companyRefusedInternshipTest_nullReason() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void companyRefusedInternshipTest_nullReason_fail() {
     // arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("pris");
 
     assertThrows(BusinessException.class, () ->
@@ -419,27 +329,15 @@ public class ContactUCCTest {
    * Test for refusing a contact with taken state. Success expected.
    */
   @Test
-<<<<<<< HEAD
-  public void companyRefusedInternshipTest_stateTaken() {
-    ContactDTO contact = mock(ContactDTO.class);
-    when(contact.stateIsTaken()).thenReturn(true);
-=======
   public void companyRefusedInternshipTest_stateTaken_success() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("pris");
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     String reason = "hello";
 
     ContactDTO result = contactUCC.companyRefusedInternship(contact, reason);
-<<<<<<< HEAD
 
-    verify(contact).setState("refusé");
-    verify(contact).setReasonForRefusal(reason);
-    verify(contactDAO).update(contact);
-    assertEquals(contact, result);
-=======
     // Assert
     assertAll(
         () -> verify(contact).setState("refusé"),
@@ -447,24 +345,17 @@ public class ContactUCCTest {
         () -> verify(contactDAO).update(contact),
         () -> assertEquals(contact, result)
     );
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
   }
 
   /**
    * Test for refusing a contact with initiated state. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void companyRefusedInternshipTest_stateInitiated() {
-    ContactDTO contact = mock(ContactDTO.class);
-    when(contact.stateIsInitiated()).thenReturn(true);
-=======
   public void companyRefusedInternshipTest_stateInitiated_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
     when(contact.getState()).thenReturn("initié");
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
 
     assertThrows(BusinessException.class, () ->
         contactUCC.companyRefusedInternship(contact, "hello"));
@@ -474,15 +365,10 @@ public class ContactUCCTest {
    * Test for refusing a contact with refused state. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void companyRefusedInternshipTest_stateRefused() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void companyRefusedInternshipTest_stateRefused_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("refusé");
 
     assertThrows(BusinessException.class, () ->
@@ -493,15 +379,10 @@ public class ContactUCCTest {
    * Test for refusing a contact with accepted state. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void companyRefusedInternshipTest_stateAccepted() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void companyRefusedInternshipTest_stateAccepted_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("accepté");
 
     assertThrows(BusinessException.class, () ->
@@ -512,15 +393,10 @@ public class ContactUCCTest {
    * Test for refusing a contact with suspended state. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void companyRefusedInternshipTest_stateSuspended() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void companyRefusedInternshipTest_stateSuspended_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("suspendu");
 
     assertThrows(BusinessException.class, () ->
@@ -531,15 +407,10 @@ public class ContactUCCTest {
    * Test for refusing a contact with abandoned state. Failure expected.
    */
   @Test
-<<<<<<< HEAD
-  public void companyRefusedInternshipTest_stateAbandoned() {
-    ContactDTO contact = mock(ContactDTO.class);
-=======
   public void companyRefusedInternshipTest_stateAbandoned_fail() {
     // Arrange
     ContactDTO realContact = domainFactory.getContact();
     ContactDTO contact = spy(realContact);
->>>>>>> 17e04f3fd7228831c87fda92e02cb527005c649c
     when(contact.getState()).thenReturn("abandonné");
 
     assertThrows(BusinessException.class, () ->
