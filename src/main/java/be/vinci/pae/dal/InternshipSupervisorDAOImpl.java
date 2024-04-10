@@ -43,10 +43,8 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
       company = companyDAO.companyInfos(resultSet);
       internshipSupervisorDTO.setCompany((Company) company);
     } catch (SQLException e) {
-      e.getMessage();
       throw new FatalException(e);
     }
-
     return internshipSupervisorDTO;
   }
 
@@ -57,7 +55,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    * @return A InternshipSupervisorDTO object representing the supervisor, or null if not found.
    * @throws FatalException if the supervisor is not found in the database.
    */
-  public InternshipSupervisorDTO getSupervisorById(int id) {
+  public InternshipSupervisorDTO getSupervisorById(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.internship_supervisors s, pae.enterprises e"
             + " WHERE s.enterprise = e.id_enterprise AND s.id_supervisor = ?");
@@ -74,16 +72,10 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
       } else {
         supervisor = null;
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
-        preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
+      preparedStatement.close();
     }
     return supervisor;
   }

@@ -16,7 +16,6 @@ public class CompanyImpl implements Company {
   private String city;
   private String meansOfCommunication;
 
-
   /**
    * Constructs a new CompanyImpl object with default values.
    * This constructor initializes a new CompanyImpl object with default values for all fields.
@@ -46,6 +45,7 @@ public class CompanyImpl implements Company {
     this.id = id;
   }
 
+
   /**
    * Returns the trade name of the company.
    *
@@ -55,6 +55,7 @@ public class CompanyImpl implements Company {
   public String getTradeName() {
     return tradeName;
   }
+
 
   /**
    * Sets the trade name of the company.
@@ -66,6 +67,7 @@ public class CompanyImpl implements Company {
     this.tradeName = tradeName;
   }
 
+
   /**
    * Returns the designation of the company.
    *
@@ -75,6 +77,7 @@ public class CompanyImpl implements Company {
   public String getDesignation() {
     return designation;
   }
+
 
   /**
    * Sets the designation of the company.
@@ -86,6 +89,7 @@ public class CompanyImpl implements Company {
     this.designation = designation;
   }
 
+
   /**
    * Returns the address of the company.
    *
@@ -95,6 +99,7 @@ public class CompanyImpl implements Company {
   public String getAddress() {
     return address;
   }
+
 
   /**
    * Sets the address of the company.
@@ -106,6 +111,7 @@ public class CompanyImpl implements Company {
     this.address = address;
   }
 
+
   /**
    * Returns the city of the company.
    *
@@ -115,6 +121,7 @@ public class CompanyImpl implements Company {
   public String getCity() {
     return city;
   }
+
 
   /**
    * Sets the city of the company.
@@ -126,6 +133,7 @@ public class CompanyImpl implements Company {
     this.city = city;
   }
 
+
   /**
    * Returns the means of communication of the company.
    *
@@ -135,6 +143,7 @@ public class CompanyImpl implements Company {
   public String getMeansOfCommunication() {
     return meansOfCommunication;
   }
+
 
   /**
    * Sets the means of communication of the company.

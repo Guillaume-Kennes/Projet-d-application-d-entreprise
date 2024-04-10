@@ -1,13 +1,13 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
+import be.vinci.pae.api.filters.IsAdmin;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.main.Main;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -16,22 +16,22 @@ import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 
 /**
- * Resource class for handling user-related endpoints.
- * This class provides endpoints for retrieving user information.
+ * Resource class for handling user-related endpoints. This class provides endpoints for retrieving
+ * user information.
  */
 @Singleton
 @Path("/users")
 public class UserResource {
 
-  private final Logger logger = LogManager.getLogger(Main.class.getName());
-  private ObjectMapper jsonMapper = new ObjectMapper();
+  private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private UserUCC myUserUcc;
   @Inject
@@ -40,25 +40,22 @@ public class UserResource {
   private ContactUCC myContactUcc;
 
   /**
-   * Retrieves a user by their ID.
+   * Retrieves user information by their ID.
    *
-   * @param id The ID of the user to retrieve.
-   *
-   * @return An ObjectNode object containing all the data to be displayed on the user profile
-   *
+   * @param id The ID of the user to retrieve information for.
+   * @return An ObjectNode containing the user information formatted as JSON.
+   * @throws SQLException             if an SQL exception occurs during the retrieval process.
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
   @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  public ObjectNode getUserById(@PathParam("id") int id) {
+  public ObjectNode getUserById(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
-      logger.error("Utilisateur inconnu");
       throw new IllegalArgumentException("User not found");
     }
-
     ObjectNode response = jsonMapper.createObjectNode();
     response.put("email", user.getEmail());
     response.put("lastName", user.getLastName());
@@ -66,7 +63,6 @@ public class UserResource {
     response.put("phoneNumber", user.getPhoneNumber());
 
     InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
-
     if (internship != null) {
       response.put("internshipTitle", internship.getProject());
       response.put("internshipCompany", internship.getContact().getCompany().getTradeName()
@@ -94,18 +90,22 @@ public class UserResource {
   }
 
   /**
-   * Retrieves a list of all users.
    * This method sends a request to retrieve the list of all users and returns it as a
    * JSON-formatted list of UserDTO objects. It logs an informational message indicating
    * the request to view the list of users.
+   *
+   * @param requestContext The request context containing authentication information.
    *
    * @return A list of UserDTO objects representing all users.
    */
   @GET
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
-  public List<UserDTO> getAllUsers() {
-    logger.info("Demande pour voir la liste des utilisateurs");
+  @Authorize
+  @IsAdmin
+  public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
+    UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
+    System.out.println(authentificatedUser); //juste pour Jenkins
     return myUserUcc.getAllUsers();
   }
 

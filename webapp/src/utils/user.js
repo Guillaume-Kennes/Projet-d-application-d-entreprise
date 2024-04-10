@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
 function getToken(){
-  const token = localStorage.getItem('user');
+  const token = localStorage.getItem('token');
   if(!token){
     return null;
   }
@@ -27,7 +27,7 @@ function getUserIdFromToken() {
     const payload = JSON.parse(decodedPayload);
 
     // Extract the 'id' claim from the payload
-    const userId = payload.id;
+    const userId = payload.user;
 
     return userId;
   } catch (error) {

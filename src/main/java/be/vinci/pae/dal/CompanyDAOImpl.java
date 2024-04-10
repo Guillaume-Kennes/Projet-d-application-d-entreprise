@@ -24,17 +24,17 @@ public class CompanyDAOImpl implements CompanyDAO {
     int generatedId = 0;
     try {
       String query = """
-              INSERT INTO pae.enterprises (
+            INSERT INTO pae.enterprises (
               trade_name,
               designation,
-              adress,
+              address,
               city,
-              means_of_commlunication,
+              means_of_communication,
               is_black_listed,
               motivation_blacklist)
-          VALUES (?, ?, ?, ?, ?, false, null)
+            VALUES (?, ?, ?, ?, ?, false, null)
             RETURNING id_enterprise;
-            """;
+          """;
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
 
@@ -48,7 +48,6 @@ public class CompanyDAOImpl implements CompanyDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println("generatedId = " + generatedId);
     return generatedId;
   }
 
@@ -66,11 +65,10 @@ public class CompanyDAOImpl implements CompanyDAO {
       companyDTO.setId(resultSet.getInt("id_enterprise"));
       companyDTO.setTradeName(resultSet.getString("trade_name"));
       companyDTO.setDesignation(resultSet.getString("designation"));
-      companyDTO.setAddress(resultSet.getString("adress"));
+      companyDTO.setAddress(resultSet.getString("address"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
-    } catch (SQLException e) { //DEMANDER AU PROF quelle exception
-      e.getMessage();
+    } catch (SQLException e) {
       throw new FatalException(e);
     }
     return companyDTO;
@@ -83,9 +81,10 @@ public class CompanyDAOImpl implements CompanyDAO {
    * @return A ViewCompanyDTO object representing the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
-  public CompanyDTO getCompanyById(int id) {
+
+  public CompanyDTO getCompanyById(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.entreprises e WHERE e.id_enterprise = ?");
+        "SELECT * FROM pae.enterprises e WHERE e.id_enterprise = ?");
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {
@@ -99,16 +98,10 @@ public class CompanyDAOImpl implements CompanyDAO {
       } else {
         company = null;
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
-        preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
+      preparedStatement.close();
     }
     return company;
   }

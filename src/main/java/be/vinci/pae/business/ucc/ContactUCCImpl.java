@@ -5,7 +5,9 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.utils.exception.BusinessException;
+import be.vinci.pae.utils.exception.NotFoundException;
 import jakarta.inject.Inject;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -30,12 +32,14 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
-        throw new BusinessException("Contact not found");
+        dalServices.rollBack();
+        throw new NotFoundException("Contact not found");
       }
 
       Contact contactBiz = (Contact) contact;
 
       if (place == null) {
+        dalServices.rollBack();
         throw new BusinessException("Place field cannot be null");
       }
 
@@ -45,8 +49,10 @@ public class ContactUCCImpl implements ContactUCC {
 
         contactDAO.update(contact);
         dalServices.commit();
+
         return contact;
       } else {
+        dalServices.rollBack();
         throw new BusinessException("Invalid contact state");
       }
     } catch (Exception e) {
@@ -64,8 +70,9 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO getContactById(int idContact) {
     dalServices.start();
     try {
+      ContactDTO contact = contactDAO.getContactById(idContact);
       dalServices.commit();
-      return contactDAO.getContactById(idContact);
+      return contact;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
@@ -83,12 +90,14 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
-        throw new BusinessException("Contact not found");
+        dalServices.rollBack();
+        throw new NotFoundException("Contact not found");
       }
 
       Contact contactBiz = (Contact) contact;
 
       if (!contactBiz.isFollowed(contact)) {
+        dalServices.rollBack();
         throw new BusinessException("Invalid contact state");
 
       } else {
@@ -116,10 +125,12 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       if (contact == null) {
-        throw new BusinessException("Contact not found");
+        dalServices.rollBack();
+        throw new NotFoundException("Contact not found");
       }
 
       if (reason == null) {
+        dalServices.rollBack();
         throw new BusinessException("Reason field cannot be null");
       }
 
@@ -133,6 +144,7 @@ public class ContactUCCImpl implements ContactUCC {
         dalServices.commit();
         return contact;
       } else {
+        dalServices.rollBack();
         throw new BusinessException("Invalid contact state");
       }
     } catch (Exception e) {
@@ -147,7 +159,7 @@ public class ContactUCCImpl implements ContactUCC {
    * @param id the user's id
    * @return the taken contacts corresponding to the user
    */
-  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException {
     dalServices.start();
     try {
       ArrayList<ContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
@@ -167,11 +179,10 @@ public class ContactUCCImpl implements ContactUCC {
    * @param id the user's id
    * @return all the contacts corresponding to the user
    */
-  public ArrayList<ContactDTO> getContactsByUserId(int id) {
-    dalServices.start();
+  public ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException {
     try {
+      dalServices.start();
       ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
-
       System.out.println("ContactUCCImpl -----> COMMITT");
       dalServices.commit();
       return contactDTOS;
@@ -180,7 +191,6 @@ public class ContactUCCImpl implements ContactUCC {
       throw e;
     }
   }
-
 
   /**
    * Adds a new contact.

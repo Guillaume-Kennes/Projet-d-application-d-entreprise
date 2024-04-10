@@ -23,5 +23,39 @@ public interface User extends UserDTO {
    * @return A string representing the hashed password.
    */
   String hashPassword(String password);
+
+  /**
+   * Checks whether the current user has teacher privileges.
+   *
+   * @return true if the current user has teacher
+   *     privileges, false otherwise
+   */
+  boolean isTeacher();
+
+  /**
+   * Checks whether the current user has administrative privileges.
+   *
+   * @return true if the current user has administrative
+   *     privileges, false otherwise
+   */
+  boolean isAdmin();
+
+  /**
+   * Checks if the provided email belongs to a Vinci member.
+   *
+   * @param email The email address to be checked.
+   *
+   * @return true if the email belongs to a Vinci member, false otherwise.
+   */
+  boolean emailIsVinci(String email);
+
+  /**
+   * Checks if the provided email belongs to a student.
+   *
+   * @param email The email address to be checked.
+   *
+   * @return true if the email belongs to a student, false otherwise.
+   */
+  boolean emailIsStudent(String email);
 }
 

@@ -152,8 +152,8 @@ async function onLogin(e) {
     Navigate('/');
   } catch (error) {
     // Gestion des erreurs existante
-    alert('An error occurred during login. Please try again.');
-    console.error('An error occurred during login:', error);
+    alert('Une erreur est survenue pendant la connexion. Réessayez s\'il vous plaît.');
+    console.error('Une erreur est survenue pendant la connexion : ', error);
   }
 }
 export default LoginPage;

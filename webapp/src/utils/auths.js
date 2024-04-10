@@ -15,14 +15,11 @@ const getAuthenticatedUser = () => {
       ? localStorage.getItem(STORE_NAME)
       : sessionStorage.getItem(STORE_NAME);
 
-  console.log("SERIALIZED USER", serializedUser);
-  console.log(localStorage.getItem(STORE_NAME));
   if (!serializedUser) {
     return undefined;
   }
 
   currentUser = JSON.parse(serializedUser);
-  console.log("CurrentUser", currentUser);
   return currentUser;
 };
 
@@ -83,6 +80,14 @@ const refreshAuthenticatedUser = async () => {
   }
 };
 
+
+const isProfessor = () => {
+  const authenticatedUser = getAuthenticatedUser();
+  const prof = authenticatedUser?.user?.role;
+  return prof === 'Professeur';
+};
+
+
 export {
   getAuthenticatedUser,
   setAuthenticatedUser,
@@ -91,4 +96,5 @@ export {
   getRememberMe,
   setRememberMe,
   refreshAuthenticatedUser,
+    isProfessor,
 };

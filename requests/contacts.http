@@ -21,6 +21,6 @@ POST {{baseurl}}/contacts/companyrefused/9
 Content-Type: application/json
 
 {
-  "reason_for_refusal": "On n'a plus de place"
+  "reasonRefusal": "On n'a plus de place"
 }
 

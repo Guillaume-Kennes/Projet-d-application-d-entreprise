@@ -28,6 +28,8 @@ function renderContactCompanyForm() {
 
   const authenticatedUserId = authenticatedUser?.user?.id;
   console.log(`111111111 authenticatedUserId -----> ${authenticatedUserId}`);
+  const prof = authenticatedUser?.user?.role;
+  console.log(`---------------> role : ${prof}`);
 
   const tradeName = document.createElement('input');
   tradeName.type = 'text';
@@ -133,6 +135,7 @@ function renderContactCompanyForm() {
 
       if (response.ok) {
         console.log(`authenticatedUserId -----> ${authenticatedUserId}`);
+        console.log(`enterpriseName -------> ${enterpriseName}`);
         // Enterprise submission successful, handle response accordingly
       } else {
         // Enterprise submission failed, handle error response

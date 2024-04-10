@@ -37,7 +37,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionBDS.setUsername(Config.getProperty("DatabaseUser"));
     connectionBDS.setPassword(Config.getProperty("DatabasePassword"));
     connectionBDS.setDriverClassName("org.postgresql.Driver");
-    connectionBDS.setMaxTotal(1);
+    connectionBDS.setMaxTotal(5);
   }
 
 
@@ -108,11 +108,16 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       try {
         connection.commit();
         connection.setAutoCommit(true);
-        connectionThread.remove();
-        connection.close();
       } catch (SQLException e) {
         e.printStackTrace();
         throw new FatalException(e);
+      } finally {
+        connectionThread.remove();
+        try {
+          connection.close();
+        } catch (SQLException ex) {
+          throw new FatalException(ex);
+        }
       }
     } else {
       counterThreads.set(counterThreads.get());

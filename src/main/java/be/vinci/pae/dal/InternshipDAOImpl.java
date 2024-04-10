@@ -35,39 +35,37 @@ public class InternshipDAOImpl implements InternshipDAO {
    * @return an internship corresponding to the specified user, or null if not found.
    * @throws FatalException if an SQL exception occurs while accessing the database.
    */
-  public InternshipDTO getInternshipByUserId(int id) {
+  public InternshipDTO getInternshipByUserId(int id) throws SQLException {
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.internships i, pae.contacts c, pae.users u, "
-            + "pae.inscriptions_UE iu, pae.internship_supervisors s "
-            + "WHERE i.contact = c.id_contact AND c.inscription_UE = iu.id_inscription_UE "
-            + "AND iu.student = u.id_user AND "
+            + "pae.inscriptions_ue iu, pae.internship_supervisors s, pae.enterprises e "
+            + "WHERE i.contact = c.id_contact AND c.inscription_ue = iu.id_inscription_ue "
+            + "AND iu.student = u.id_user AND c.enterprise = e.id_enterprise AND "
             + "i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
+    System.out.println("PrepareStatement" + preparedStatement);
     try {
       preparedStatement.setInt(1, id);
+      System.out.println("Id " + id);
     } catch (SQLException e) {
+      e.printStackTrace();
       throw new FatalException(e);
     }
 
     InternshipDTO internship = myDomainFactory.getInternship();
+    System.out.println("BLABLA" + internship.getId());
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         internship = internshipInfos(resultSet);
       } else {
         internship = null;
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
-        preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
+      preparedStatement.close();
     }
-    return internship;
+    return (InternshipDTO) internship;
   }
 
   /**
@@ -91,7 +89,6 @@ public class InternshipDAOImpl implements InternshipDAO {
       supervisor = supervisorDAO.supervisorInfos(resultSet);
       internshipDTO.setSupervisor((InternshipSupervisor) supervisor);
     } catch (SQLException e) {
-      e.getMessage();
       throw new FatalException(e);
     }
     return internshipDTO;

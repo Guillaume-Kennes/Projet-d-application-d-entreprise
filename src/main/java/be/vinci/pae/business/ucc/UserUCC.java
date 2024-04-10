@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.UserDTO;
+import be.vinci.pae.utils.exception.ConflictException;
 import java.util.List;
 
 /**
@@ -22,7 +23,6 @@ public interface UserUCC {
    * Returns the user corresponding to the id.
    *
    * @param id the user's id
-   *
    * @return the user corresponding to the id
    */
   UserDTO getUserById(int id);
@@ -30,19 +30,37 @@ public interface UserUCC {
   /**
    * Retrieves the list of all users available in the system.
    *
-   * @return A list containing UserDTO objects representing all users.
-   *     If no users are found, the list will be empty.
+   * @return A list containing UserDTO objects representing all users. If no users are found, the
+   * list will be empty.
    */
   List<UserDTO> getAllUsers();
 
 
   /**
-   * Registers a new user in the database.
+   * Registers a new user with the system.
    *
-   * @param userDTO The UserDTO object containing user information.
+   * @param userDTO The {@code UserDTO} object containing the details of the user to be registered.
    *
-   * @return A UserDTO object representing the registered user, or null if registration fails.
+   * @return A {@code UserDTO} object representing the registered user.
+   *
+   * @throws ConflictException If the user already exists in the system and registration cannot proceed due to conflict.
    */
-  UserDTO register(UserDTO userDTO);
+  UserDTO register(UserDTO userDTO) throws ConflictException;
+
+  /**
+   * Checks whether the specified user has teacher privileges.
+   *
+   * @param userDTO the user data transfer object to check
+   * @return true if the user has teacher privileges, false otherwise
+   */
+  boolean userIsTeacher(UserDTO userDTO);
+
+  /**
+   * Checks whether the specified user has administrative privileges.
+   *
+   * @param userDTO the user data transfer object to check
+   * @return true if the user has administrative privileges, false otherwise
+   */
+  boolean userIsAdmin(UserDTO userDTO);
 
 }

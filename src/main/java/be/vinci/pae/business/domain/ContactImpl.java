@@ -15,6 +15,7 @@ class ContactImpl implements Contact {
   private int enterprise;
   private int userId;
   private String tradeName;
+  private int versionContacts;
   private int versionNumber;
 
   /**
@@ -192,6 +193,30 @@ class ContactImpl implements Contact {
     return false;
   }
 
+  /**
+   * Checks if the state is taken.
+   *
+   * @return a boolean stating whether the contact is taken.
+   */
+  public boolean stateIsTaken() {
+    if (this.state.equals("pris")) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Checks if the state is initiated.
+   *
+   * @return a boolean stating whether the contact is initiated.
+   */
+  public boolean stateIsInitiated() {
+    if (this.state.equals("initié")) {
+      return true;
+    }
+    return false;
+  }
+
 
   /**
    * Retrieves the ID of the enterprise associated with the contact.
@@ -253,6 +278,15 @@ class ContactImpl implements Contact {
     this.tradeName = tradeName;
   }
 
+  @Override
+  public int getVersionContacts() {
+    return versionContacts;
+  }
+
+  @Override
+  public void setVersionContacts(int versionContacts) {
+    this.versionContacts = versionContacts;
+  }
 
   /**
    * Checks if the state of the contact is "initié".

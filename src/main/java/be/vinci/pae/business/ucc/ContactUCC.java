@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.ContactDTO;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -43,20 +44,22 @@ public interface ContactUCC {
   ContactDTO companyRefusedInternship(ContactDTO contact, String reason);
 
   /**
-   * Returns the taken contacts of the user corresponding to the id.
+   * Retrieves the list of contacts taken by a user identified by their ID.
    *
-   * @param id the user's id
-   * @return the taken contacts corresponding to the user
+   * @param id The ID of the user for whom to retrieve the taken contacts.
+   * @return An ArrayList of ContactDTO objects representing the contacts taken by the user.
+   * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
-  ArrayList<ContactDTO> getTakenContactsByUserId(int id);
+  ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException;
 
   /**
-   * Returns all the contacts of the user corresponding to the id.
+   * Retrieves the list of contacts associated with a user identified by their ID.
    *
-   * @param id the user's id
-   * @return all the contacts corresponding to the user
+   * @param id The ID of the user for whom to retrieve the contacts.
+   * @return An ArrayList of ContactDTO objects representing the contacts associated with the user.
+   * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
-  ArrayList<ContactDTO> getContactsByUserId(int id);
+  ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException;
 
   /**
    * Adds a new contact.
