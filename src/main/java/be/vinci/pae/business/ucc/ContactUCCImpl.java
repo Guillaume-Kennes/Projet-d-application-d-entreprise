@@ -55,7 +55,7 @@ public class ContactUCCImpl implements ContactUCC {
         dalServices.rollBack();
         throw new BusinessException("Invalid contact state");
       }
-    } catch(Exception e){
+    } catch (Exception e) {
       dalServices.rollBack();
       throw e;
     }
@@ -137,19 +137,19 @@ public class ContactUCCImpl implements ContactUCC {
       Contact contactBiz = (Contact) contact;
 
       if (contactBiz.prisState(contact)) {
-          contact.setState("refusé");
-          contact.setReasonForRefusal(reason);
+        contact.setState("refusé");
+        contact.setReasonForRefusal(reason);
 
-          contactDAO.update(contact);
-          dalServices.commit();
-          return contact;
-        } else {
-          dalServices.rollBack();
-          throw new BusinessException("Invalid contact state");
-        }
-    } catch(Exception e) {
+        contactDAO.update(contact);
+        dalServices.commit();
+        return contact;
+      } else {
         dalServices.rollBack();
-        throw e;
+        throw new BusinessException("Invalid contact state");
+      }
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
     }
   }
 

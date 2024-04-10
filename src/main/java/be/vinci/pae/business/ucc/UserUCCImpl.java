@@ -7,7 +7,6 @@ import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.ConflictException;
 import jakarta.inject.Inject;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
