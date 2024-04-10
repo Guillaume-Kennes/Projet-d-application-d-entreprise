@@ -31,11 +31,13 @@ public interface CompanyDAO {
 
 
   /**
-   * Returns the company corresponding to the id.
+   * Retrieves information of the company corresponding to the specified identifier.
    *
-   * @param id the company's id
+   * @param id The identifier of the company to retrieve.
    *
-   * @return the company corresponding to the id
+   * @return A {@code CompanyDTO} object representing the information of the found company.
+   *
+   * @throws SQLException If an error occurs while accessing the database.
    */
   CompanyDTO getCompanyById(int id) throws SQLException;
 
