@@ -38,11 +38,13 @@ public interface UserUCC {
 
 
   /**
-   * Registers a new user with the provided user data.
+   * Registers a new user with the system.
    *
-   * @param userDTO The UserDTO object containing the data of the user to register.
-   * @return The UserDTO object representing the registered user.
-   * @throws SQLException if an SQL exception occurs during the registration process.
+   * @param userDTO The {@code UserDTO} object containing the details of the user to be registered.
+   *
+   * @return A {@code UserDTO} object representing the registered user.
+   *
+   * @throws ConflictException If the user already exists in the system and registration cannot proceed due to conflict.
    */
   UserDTO register(UserDTO userDTO) throws ConflictException;
 
