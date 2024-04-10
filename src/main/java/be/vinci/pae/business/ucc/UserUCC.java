@@ -2,7 +2,6 @@ package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.utils.exception.ConflictException;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
