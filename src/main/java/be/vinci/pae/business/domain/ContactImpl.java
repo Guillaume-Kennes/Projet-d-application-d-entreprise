@@ -253,12 +253,15 @@ class ContactImpl implements Contact {
     this.tradeName = tradeName;
   }
 
+
   public boolean initieState(ContactDTO contact) {
     return contact.getState().equals("initié");
   }
+
   public boolean prisState(ContactDTO contact) {
     return contact.getState().equals("pris");
   }
+
   public boolean isFollowed(ContactDTO contact) {
     return contact.isFollowed();
   }
