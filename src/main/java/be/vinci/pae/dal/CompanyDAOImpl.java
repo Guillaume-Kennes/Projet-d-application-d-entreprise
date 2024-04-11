@@ -109,6 +109,13 @@ public class CompanyDAOImpl implements CompanyDAO {
     return company;
   }
 
+
+  /**
+   * Retrieves a list of all enterprises from the database.
+   *
+   * @return A list of CompanyDTO objects representing all enterprises.
+   * @throws FatalException If an error occurs during database access or processing.
+   */
   public List<CompanyDTO> getAllEnterprises() {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
