@@ -14,6 +14,9 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
+/**
+ * The Class CompanyResource.
+ */
 @Singleton
 @Path("/companies")
 public class CompanyResource {

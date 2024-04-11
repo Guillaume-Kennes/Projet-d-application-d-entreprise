@@ -43,7 +43,8 @@ public interface UserUCC {
    *
    * @return A {@code UserDTO} object representing the registered user.
    *
-   * @throws ConflictException If the user already exists in the system and registration cannot proceed due to conflict.
+   * @throws ConflictException If the user already exists in the
+   *     system and registration cannot proceed due to conflict.
    */
   UserDTO register(UserDTO userDTO) throws ConflictException;
 

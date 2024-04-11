@@ -16,24 +16,33 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * The Class CompanyUCCTest.
+ */
 public class CompanyUCCTest {
   private CompanyUCC companyUCC;
   private CompanyDAO companyDAO;
-  private CompanyDTO companyDTO;
 
+  /**
+   * Method executed before each test.
+   */
   @BeforeEach
   void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new AppBinderTest());
     companyUCC = locator.getService(CompanyUCC.class);
     companyDAO = locator.getService(CompanyDAO.class);
-    DomainFactory myDomainFactory = locator.getService(DomainFactory.class);
-    companyDTO = myDomainFactory.getCompany();
   }
 
+
+  /**
+   * Test method for retrieving all enterprises when the operation fails.
+   */
   @Test
   void getALlEnterprisesTest_Failure() {
-    when(companyDAO.getAllEnterprises()).thenThrow(new BusinessException("Error while retrieving enterprises"));
-    Exception exception = assertThrows(BusinessException.class, () -> companyUCC.getAllEnterprises());
+    when(companyDAO.getAllEnterprises()).thenThrow(new BusinessException
+        ("Error while retrieving enterprises"));
+    Exception exception = assertThrows(BusinessException.class, () ->
+        companyUCC.getAllEnterprises());
 
     assertNotNull(exception);
   }

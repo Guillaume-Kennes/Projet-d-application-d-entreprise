@@ -1,6 +1,5 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.domain.Company;
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.utils.exception.FatalException;
