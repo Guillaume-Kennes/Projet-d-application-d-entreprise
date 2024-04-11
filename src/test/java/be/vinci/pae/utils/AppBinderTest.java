@@ -2,12 +2,16 @@ package be.vinci.pae.utils;
 
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.DomainFactoryImpl;
+import be.vinci.pae.business.ucc.CompanyUCC;
+import be.vinci.pae.business.ucc.CompanyUCCImpl;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.ContactUCCImpl;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.InternshipUCCImpl;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.business.ucc.UserUCCImpl;
+import be.vinci.pae.dal.CompanyDAO;
+import be.vinci.pae.dal.CompanyDAOImpl;
 import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.ContactDAOImpl;
 import be.vinci.pae.dal.DALBackServices;
@@ -35,12 +39,19 @@ public class AppBinderTest extends AbstractBinder {
   @Override
   protected void configure() {
     bind(DomainFactoryImpl.class).to(DomainFactory.class);
+
     bind(UserUCCImpl.class).to(UserUCC.class);
     bind(Mockito.mock(UserDAOImpl.class)).to(UserDAO.class);
+
     bind(Mockito.mock(DALServicesImpl.class)).to(DALBackServices.class).to(DALServices.class);
+
     bind(InternshipUCCImpl.class).to(InternshipUCC.class);
     bind(Mockito.mock(InternshipDAOImpl.class)).to(InternshipDAO.class);
+
     bind(ContactUCCImpl.class).to(ContactUCC.class);
     bind(Mockito.mock(ContactDAOImpl.class)).to(ContactDAO.class);
+
+    bind(CompanyUCCImpl.class).to(CompanyUCC.class);
+    bind(Mockito.mock(CompanyDAOImpl.class)).to(CompanyDAO.class);
   }
 }
