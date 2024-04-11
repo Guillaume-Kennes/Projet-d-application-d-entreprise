@@ -42,6 +42,11 @@ public interface CompanyDAO {
    */
   CompanyDTO getCompanyById(int id) throws SQLException;
 
-
+  /**
+   * Retrieves the list of all companies available in the system.
+   *
+   * @return A list containing CompanyDTO objects representing all companies.
+   *     If no companies are found, the list will be empty.
+   */
   List<CompanyDTO> getAllEnterprises();
 }

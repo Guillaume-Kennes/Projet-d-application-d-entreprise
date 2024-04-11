@@ -41,11 +41,12 @@ public class CompanyUCCImpl implements CompanyUCC {
     }
   }
 
-  /**
-   * Retrieves a list of all enterprises from the database.
-   *
-   * @return A list of CompanyDTO objects representing all enterprises.
-   */
+ /**
+    * Retrieves the information of a company based on its identifier.
+    *
+    * @return The CompanyDTO object representing the company information.
+    * @throws Exception If an error occurs during database access or processing.
+    */
   @Override
   public List<CompanyDTO> getAllEnterprises() {
     dalServices.start();

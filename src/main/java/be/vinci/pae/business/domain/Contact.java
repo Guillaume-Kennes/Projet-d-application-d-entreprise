@@ -21,9 +21,27 @@ public interface Contact extends ContactDTO {
    */
   boolean correctSchoolYear();
 
+   /**
+    * Checks if the user is a student.
+    *
+    * @param contact The contact to check.
+    * @return true if the user is a student, false otherwise.
+    */
   boolean initieState(ContactDTO contact);
 
+   /**
+    * Checks if the user is a student.
+    *
+    * @param contact The contact to check.
+    * @return true if the user is a student, false otherwise.
+    */
   boolean prisState(ContactDTO contact);
 
+  /**
+   * Checks if the user is a student.
+   *
+   * @param contact The contact to check.
+   * @return true if the user is a student, false otherwise.
+   */
   boolean isFollowed(ContactDTO contact);
 }
