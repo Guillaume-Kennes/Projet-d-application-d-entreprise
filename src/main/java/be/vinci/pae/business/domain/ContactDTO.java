@@ -55,14 +55,14 @@ public interface ContactDTO {
    *
    * @return the inscription UE of the contact.
    */
-  ViewUEInscription getInscriptionUE();
+  UEInscription getInscriptionUE();
 
   /**
    * Sets the inscription UE of the contact.
    *
    * @param inscriptionUE the inscription UE of the contact.
    */
-  void setInscriptionUE(ViewUEInscription inscriptionUE);
+  void setInscriptionUE(UEInscription inscriptionUE);
 
   /**
    * Gets the reason for refusal of the contact.

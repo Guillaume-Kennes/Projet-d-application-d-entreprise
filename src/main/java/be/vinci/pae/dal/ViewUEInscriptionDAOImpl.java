@@ -1,9 +1,9 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.business.domain.UEInscriptionDTO;
 import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
-import be.vinci.pae.business.domain.ViewUEInscriptionDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -30,8 +30,8 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
    * @return A ViewUEInscriptionDTO object populated with UE inscription info.
    * @throws FatalException if the inscription info is not found in the database.
    */
-  public ViewUEInscriptionDTO ueInscriptionInfos(ResultSet resultSet) {
-    ViewUEInscriptionDTO inscription = myDomainFactory.getUEInscription();
+  public UEInscriptionDTO ueInscriptionInfos(ResultSet resultSet) {
+    UEInscriptionDTO inscription = myDomainFactory.getUEInscription();
     UserDTO student;
 
     try {
@@ -54,7 +54,7 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
    * @return A ViewUEInscriptionDTO object representing the inscription, or null if not found.
    * @throws FatalException if the inscription is not found in the database.
    */
-  public ViewUEInscriptionDTO getUeInscriptionById(int id) {
+  public UEInscriptionDTO getUeInscriptionById(int id) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.users u, pae.inscriptions_UE i"
             + " WHERE i.student = u.id_user AND i.id_inscription_UE = ?");
@@ -64,7 +64,7 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
       throw new FatalException(e);
     }
 
-    ViewUEInscriptionDTO inscription = myDomainFactory.getUEInscription();
+    UEInscriptionDTO inscription = myDomainFactory.getUEInscription();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         inscription = ueInscriptionInfos(resultSet);
