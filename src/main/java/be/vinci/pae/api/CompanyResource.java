@@ -24,7 +24,7 @@ public class CompanyResource {
   @GET
   @Path("/getEntreprises")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize (value = {"Professeur"})
   public List<CompanyDTO> getAllEnterprises(@Context ContainerRequestContext requestContext) {
     UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
     System.out.println(authentificatedUser); //juste pour Jenkins

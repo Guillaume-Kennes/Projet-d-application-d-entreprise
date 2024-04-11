@@ -100,7 +100,7 @@ public class UserResource {
   @GET
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize (value = {"Professeur", "Administratif"})
   public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
     UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
     System.out.println(authentificatedUser); //juste pour Jenkins
