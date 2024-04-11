@@ -16,6 +16,13 @@ public class CompanyUCCImpl implements CompanyUCC {
   @Inject
   private DALServices dalServices;
 
+  /**
+   * Adds a new company to the database.
+   *
+   * @param companyDTO The CompanyDTO object representing the company to be added.
+   * @return The CompanyDTO object representing the added company with the assigned ID.
+   * @throws Exception If an error occurs during database access or processing.
+   */
   @Override
   public CompanyDTO addCompany(CompanyDTO companyDTO) {
     try {
@@ -32,4 +39,6 @@ public class CompanyUCCImpl implements CompanyUCC {
       throw e;
     }
   }
+
+
 }
