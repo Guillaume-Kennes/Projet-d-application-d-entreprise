@@ -3,6 +3,7 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.CompanyDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
@@ -41,4 +42,6 @@ public interface CompanyDAO {
    */
   CompanyDTO getCompanyById(int id) throws SQLException;
 
+
+  List<CompanyDTO> getAllEnterprises();
 }

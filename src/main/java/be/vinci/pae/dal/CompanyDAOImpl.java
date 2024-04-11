@@ -1,5 +1,6 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.business.domain.Company;
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.utils.exception.FatalException;
@@ -7,6 +8,8 @@ import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the ViewCompanyDAO interface. Provides methods for retrieving company-related
@@ -106,4 +109,25 @@ public class CompanyDAOImpl implements CompanyDAO {
     return company;
   }
 
+  public List<CompanyDTO> getAllEnterprises() {
+    List<CompanyDTO> enterprisesList = new ArrayList<>();
+
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.enterprises"
+    );
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
+        CompanyDTO companyDTO = myDomainFactory.getCompany();
+        companyDTO.setTradeName(resultSet.getString("trade_name"));
+        companyDTO.setDesignation(resultSet.getString("designation"));
+        companyDTO.setAddress(resultSet.getString("address"));
+        companyDTO.setCity(resultSet.getString("city"));
+        companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
+        enterprisesList.add(companyDTO);
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return enterprisesList;
+  }
 }

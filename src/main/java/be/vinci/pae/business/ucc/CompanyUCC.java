@@ -15,4 +15,7 @@ public interface CompanyUCC {
    * @return the added company
    */
   CompanyDTO addCompany(CompanyDTO companyDTO);
+
+
+
 }
