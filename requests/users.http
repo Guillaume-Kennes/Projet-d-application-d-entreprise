@@ -37,6 +37,7 @@ Content-Type: application/json
 %}
 
 
+
 ### Get an user by it's id
 GET {{baseUrl}}/users/7
 

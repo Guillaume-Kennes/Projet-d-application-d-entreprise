@@ -125,6 +125,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
         CompanyDTO companyDTO = myDomainFactory.getCompany();
+        companyDTO.setId(resultSet.getInt("id_enterprise"));
         companyDTO.setTradeName(resultSet.getString("trade_name"));
         companyDTO.setDesignation(resultSet.getString("designation"));
         companyDTO.setAddress(resultSet.getString("address"));

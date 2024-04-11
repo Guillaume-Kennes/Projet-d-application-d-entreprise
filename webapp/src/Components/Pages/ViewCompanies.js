@@ -63,4 +63,4 @@ async function allCompanies() {
   }
 }
 
-export default viewAllCompaniesPage();
+export default viewAllCompaniesPage;

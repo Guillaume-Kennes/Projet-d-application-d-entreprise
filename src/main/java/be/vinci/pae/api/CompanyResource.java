@@ -21,6 +21,12 @@ public class CompanyResource {
   @Inject
   private CompanyUCC companyUCC;
 
+  /**
+   * Get all enterprises.
+   *
+   * @param requestContext the request context
+   * @return the list of all enterprises
+   */
   @GET
   @Path("/getEntreprises")
   @Produces(MediaType.APPLICATION_JSON)
