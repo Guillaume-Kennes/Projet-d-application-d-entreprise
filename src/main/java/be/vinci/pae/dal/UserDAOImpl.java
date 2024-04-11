@@ -160,7 +160,8 @@ public class UserDAOImpl implements UserDAO {
           + "phone_number, registration_date, role, version_users) "
           + "VALUES(?, ?, ?, ?, ?, NOW(), ?, ?) RETURNING *";
 
-      String query2 = "INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue) "
+      String query2 = "INSERT INTO pae.inscriptions_ue "
+          + "(student, school_year, version_inscriptions_ue) "
           + "VALUES(?, '2023-2024', ?)";
       // schoolyear hardcodée mais à changer dans le futur
 

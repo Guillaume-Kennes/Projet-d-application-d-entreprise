@@ -2,6 +2,8 @@ package be.vinci.pae.utils;
 
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.DomainFactoryImpl;
+import be.vinci.pae.business.ucc.CompanyUCC;
+import be.vinci.pae.business.ucc.CompanyUCCImpl;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.ContactUCCImpl;
 import be.vinci.pae.business.ucc.InternshipUCC;
@@ -50,5 +52,7 @@ public class ApplicationBinder extends AbstractBinder {
     bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
     bind(UEInscriptionDAOImpl.class).to(UEInscriptionDAO.class).in(Singleton.class);
     bind(InternshipSupervisorDAOImpl.class).to(InternshipSupervisorDAO.class).in(Singleton.class);
+    bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
+    bind(CompanyUCCImpl.class).to(CompanyUCC.class).in(Singleton.class);
   }
 }
