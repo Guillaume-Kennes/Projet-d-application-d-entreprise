@@ -1,5 +1,5 @@
 import {clearPage} from "../../utils/render";
-import {getAuthenticatedUser} from "../../utils/auths";
+import {getToken} from "../../utils/user";
 
 const viewAllCompaniesPage = async () => {
   clearPage();
@@ -7,17 +7,19 @@ const viewAllCompaniesPage = async () => {
 }
 
 async function allCompanies() {
+  const token = getToken();
+
   const main = document.querySelector('main');
 
   const options = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      authorization: getAuthenticatedUser().token
+      Authorization: token
     },
   };
 
-  const response = await fetch("http://localhost:3000/companies/getAllEnterprises",
+  const response = await fetch("http://localhost:3000/companies/getEntreprises",
       options);
 
   try {

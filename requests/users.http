@@ -24,6 +24,19 @@ Content-Type: application/json
   client.global.set("baroniToken", response.body.token);
 %}
 
+### Login another user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email":"laurent.leleux@vinci.be" ,
+  "password": "Prof24,z"
+}
+> {%
+  client.global.set("leleuxToken", response.body.token);
+%}
+
+
 ### Get an user by it's id
 GET {{baseUrl}}/users/7
 
