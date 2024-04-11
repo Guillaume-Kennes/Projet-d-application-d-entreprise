@@ -48,6 +48,16 @@ public class CompanyUCCImpl implements CompanyUCC {
    */
   @Override
   public List<CompanyDTO> getAllEnterprises() {
+    dalServices.start();
+    try {
+      List<CompanyDTO> companiesList = itemDAO.getAllEnterprises();
+
+      dalServices.commit();
+      return companiesList;
+
+    } catch (Exception e) {
+      dalServices.rollBack();
+    }
     return null;
   }
 
