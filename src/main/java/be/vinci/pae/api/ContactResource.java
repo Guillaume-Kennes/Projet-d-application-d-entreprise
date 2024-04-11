@@ -49,6 +49,7 @@ public class ContactResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
   public ContactDTO meetCompany(@PathParam("id_con") int idContact, JsonNode json) {
+    System.out.println("est-ce qu'on passe par ici ?");
     ContactDTO contact = myContactUcc.getContactById(idContact);
     if (contact == null) {
       throw new IllegalArgumentException("Contact not found");
@@ -177,8 +178,7 @@ public class ContactResource {
       // newContactDTO.setUserId(userId);
       // Add the new item
       ContactDTO addedContactDTO = myContactUcc.addContact(newContactDTO);
-      System.out.println(
-          "ContactRessource -------> addedContactDTO userId : " + addedContactDTO.getUserId());
+      System.out.println("ContactResource ---> addedContactDTO : " + addedContactDTO);
       if (addedContactDTO == null) {
         throw new WebApplicationException("Contact could not be added",
             Status.INTERNAL_SERVER_ERROR);

@@ -48,8 +48,6 @@ public class ContactUCCImpl implements ContactUCC {
         contact.setMeetingPlace(place);
 
         contactDAO.update(contact);
-        dalServices.commit();
-
         return contact;
       } else {
         dalServices.rollBack();
@@ -58,6 +56,8 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
+    } finally {
+      dalServices.commit();
     }
   }
 
@@ -180,8 +180,8 @@ public class ContactUCCImpl implements ContactUCC {
    * @return all the contacts corresponding to the user
    */
   public ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException {
+    dalServices.start();
     try {
-      dalServices.start();
       ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
       System.out.println("ContactUCCImpl -----> COMMITT");
       dalServices.commit();
@@ -204,9 +204,10 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
 
+      ContactDTO contact = contactDAO.insert(contactDTO);
       dalServices.commit();
 
-      return contactDAO.insert(contactDTO);
+      return contact;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
