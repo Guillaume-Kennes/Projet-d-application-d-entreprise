@@ -180,8 +180,8 @@ public class ContactUCCImpl implements ContactUCC {
    * @return all the contacts corresponding to the user
    */
   public ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException {
+    dalServices.start();
     try {
-      dalServices.start();
       ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
       System.out.println("ContactUCCImpl -----> COMMITT");
       dalServices.commit();
