@@ -41,14 +41,14 @@ public interface ContactDTO {
    *
    * @return the enterprise of the contact.
    */
-  ViewCompanyDTO getCompany();
+  CompanyDTO getCompany();
 
   /**
    * Sets the enterprise of the contact.
    *
    * @param enterprise the enterprise of the contact.
    */
-  void setCompany(ViewCompany enterprise);
+  void setCompany(Company enterprise);
 
   /**
    * Gets the inscription UE of the contact.
@@ -122,6 +122,21 @@ public interface ContactDTO {
   void setEnterprise(int enterprise);
 
   /**
+   * Checks if the contact is in the taken state.
+   *
+   * @return true if the contact is taken, false otherwise.
+   */
+  boolean stateIsTaken();
+
+  /**
+   * Checks if the contact is in the initiated state.
+   *
+   * @return true if the contact is initiated, false otherwise.
+   */
+  boolean stateIsInitiated();
+
+
+  /**
    * Returns the ID of the user associated with the contact.
    *
    * @return The ID of the user associated with the contact.
@@ -148,4 +163,35 @@ public interface ContactDTO {
    * @param tradeName the new trade name associated with the contact.
    */
   void setTradeName(String tradeName);
+
+  /**
+   * Retrieves the version of the contacts.
+   *
+   * @return The version of the contacts.
+   */
+  int getVersionContacts();
+
+  /**
+   * Sets the version of the contacts.
+   *
+   * @param versionContacts The new version of the contacts.
+   */
+  void setVersionContacts(int versionContacts);
+
+  /**
+   * Obtient le numéro de version de l'entité.
+   * Cette méthode retourne le numéro de version de l'entité.
+   *
+   * @return Le numéro de version de l'entité.
+   */
+  int getVersionNumber();
+
+  /**
+   * Définit le numéro de version de l'entité.
+   * Cette méthode définit le numéro de version de l'entité avec la valeur spécifiée.
+   *
+   * @param versionNumber Le numéro de version à définir pour l'entité.
+   */
+  void setVersionNumber(int versionNumber);
+
 }

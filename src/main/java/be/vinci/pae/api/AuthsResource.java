@@ -3,7 +3,6 @@ package be.vinci.pae.api;
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
-import be.vinci.pae.main.Main;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -21,13 +20,10 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
 
 /**
  * Resource class for handling authentication-related requests. This class provides endpoints for
@@ -39,8 +35,6 @@ public class AuthsResource {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final ObjectMapper jsonMapper = new ObjectMapper();
-  private final Logger logger = LogManager.getLogger(Main.class.getName());
-
   @Inject
   private UserUCC myUserUCC;
 
@@ -56,8 +50,8 @@ public class AuthsResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
-    if (!json.hasNonNull("email") || !json.hasNonNull("password")) {
-      logger.error("Absence de login et/ou de mot de passe");
+    if (!json.hasNonNull("email") || !json.hasNonNull("password")
+        || json.get("email").asText().isBlank() || json.get("password").asText().isBlank()) {
       throw new WebApplicationException("login or password required", Status.BAD_REQUEST);
     }
     String login = json.get("email").asText();
@@ -66,68 +60,43 @@ public class AuthsResource {
     UserDTO publicUser = myUserUCC.login(login, password);
 
     if (publicUser == null) {
-      logger.error("Login ou mot de passe incorrect");
       throw new WebApplicationException("Login or password incorrect",
           Status.UNAUTHORIZED);
     }
     String token = createToken(publicUser);
     ObjectNode responseObject = jsonMapper.createObjectNode();
-    // Add token and user data to the response
     responseObject.put("token", token);
     responseObject.putPOJO("user", publicUser);
-    logger.info("Connexion réussie. Token de "
-        + publicUser.getLastName() + " " + publicUser.getFirstName());
     return responseObject;
   }
 
   /**
    * Registers a new user.
-   * This method is annotated with @POST and @Path("register")
-   *     for RESTful API endpoint configuration.
-   * It accepts a UserDTO object representing the user to be registered.
-   * Validates the required fields of the user and throws
-   *     a WebApplicationException if any required field is missing.
-   * Calls the register method of the MyUserUCC instance to perform the registration.
    *
-   * @param userDTO The UserDTO object containing user information.
-   *
-   * @return A UserDTO object representing the registered user.
+   * @param userDTO The UserDTO object containing information about the user to be registered.
+   * @return The UserDTO object representing the registered user.
+   * @throws SQLException            if an SQL exception occurs during the registration process.
+   * @throws WebApplicationException if any required information is missing in the userDTO.
    */
   @POST
   @Path("register")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-//  public UserDTO register(JsonNode jsonNode) {
-//    if (jsonNode == null) {
-//      throw new WebApplicationException("Request body is missing or not a valid JSON");
-//    }
-//
-//    String lastName = jsonNode.get("lastName").asText();
-//    String firstName = jsonNode.get("firstName").asText();
-//    String email = jsonNode.get("email").asText();
-//    String password = jsonNode.get("password").asText();
-//    String phoneNumber = jsonNode.get("phoneNumber").asText();
-//    String role = jsonNode.get("role").asText();
-//
-//    myUserUCC.register(lastName, firstName, email, password, phoneNumber, role);
-//  }
-  public UserDTO register(UserDTO userDTO) {
+  public UserDTO register(UserDTO userDTO) throws SQLException {
     if (userDTO.getEmail() == null || userDTO.getEmail().isBlank()
         || userDTO.getPassword() == null || userDTO.getPassword().isBlank()
         || userDTO.getLastName() == null || userDTO.getLastName().isBlank()
         || userDTO.getFirstName() == null || userDTO.getFirstName().isBlank()
         || userDTO.getPhoneNumber() == null || userDTO.getPhoneNumber().isBlank()
         || userDTO.getRole() == null || userDTO.getRole().isBlank()) {
-      logger.error("Impossible de s'enregistrer, il manque des infos");
       throw new WebApplicationException("Missing information(s)");
     }
-
     return myUserUCC.register(userDTO);
   }
 
   /**
-   * Retrieves the user information from the request context.
-   * This method is accessed via HTTP GET request to the specified path "refresh".
+   * Retrieves the user information from the request context. This method is accessed via HTTP GET
+   * request to the specified path "refresh".
    *
    * @param requestContext The context of the container request.
    * @return The user data transfer object containing user information.
@@ -158,8 +127,8 @@ public class AuthsResource {
         System.currentTimeMillis() + TimeUnit.HOURS.toMillis(48)
     );
     return JWT.create().withIssuer("auth0")
-        .withClaim("id", userDTO.getId())
+        .withClaim("user", userDTO.getId())
         .withExpiresAt(dateOfExpiration)
-        .sign(jwtAlgorithm);
+        .sign(this.jwtAlgorithm);
   }
 }

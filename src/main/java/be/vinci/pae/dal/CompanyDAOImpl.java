@@ -1,7 +1,7 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.DomainFactory;
-import be.vinci.pae.business.domain.ViewCompanyDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
  * Implementation of the ViewCompanyDAO interface. Provides methods for retrieving company-related
  * data from the database.
  */
-public class ViewCompanyDAOImpl implements ViewCompanyDAO {
+public class CompanyDAOImpl implements CompanyDAO {
 
   @Inject
   private DALBackServices dalServices;
@@ -20,21 +20,21 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
   private DomainFactory myDomainFactory;
 
   @Override
-  public int insert(ViewCompanyDTO companyDTO) {
+  public int insert(CompanyDTO companyDTO) {
     int generatedId = 0;
     try {
       String query = """
-              INSERT INTO pae.enterprises (
+            INSERT INTO pae.enterprises (
               trade_name,
               designation,
-              adress,
+              address,
               city,
-              means_of_commlunication,
+              means_of_communication,
               is_black_listed,
               motivation_blacklist)
-          VALUES (?, ?, ?, ?, ?, false, null)
+            VALUES (?, ?, ?, ?, ?, false, null)
             RETURNING id_enterprise;
-            """;
+          """;
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
 
@@ -48,7 +48,6 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println("generatedId = " + generatedId);
     return generatedId;
   }
 
@@ -59,18 +58,17 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    * @return A ViewCompanyDTO object populated with company information from the ResultSet.
    * @throws FatalException if the company info is not found in the database.
    */
-  public ViewCompanyDTO companyInfos(ResultSet resultSet) {
-    ViewCompanyDTO companyDTO = myDomainFactory.getCompany();
+  public CompanyDTO companyInfos(ResultSet resultSet) {
+    CompanyDTO companyDTO = myDomainFactory.getCompany();
 
     try {
       companyDTO.setId(resultSet.getInt("id_enterprise"));
       companyDTO.setTradeName(resultSet.getString("trade_name"));
       companyDTO.setDesignation(resultSet.getString("designation"));
-      companyDTO.setAddress(resultSet.getString("adress"));
+      companyDTO.setAddress(resultSet.getString("address"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
-    } catch (SQLException e) { //DEMANDER AU PROF quelle exception
-      e.getMessage();
+    } catch (SQLException e) {
       throw new FatalException(e);
     }
     return companyDTO;
@@ -83,32 +81,27 @@ public class ViewCompanyDAOImpl implements ViewCompanyDAO {
    * @return A ViewCompanyDTO object representing the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
-  public ViewCompanyDTO getCompanyById(int id) {
+
+  public CompanyDTO getCompanyById(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.entreprises e WHERE e.id_enterprise = ?");
+        "SELECT * FROM pae.enterprises e WHERE e.id_enterprise = ?");
     try {
       preparedStatement.setInt(1, id);
     } catch (SQLException e) {
       throw new FatalException(e);
     }
 
-    ViewCompanyDTO company = myDomainFactory.getCompany();
+    CompanyDTO company = myDomainFactory.getCompany();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         company = companyInfos(resultSet);
       } else {
         company = null;
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
-        preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
+      preparedStatement.close();
     }
     return company;
   }

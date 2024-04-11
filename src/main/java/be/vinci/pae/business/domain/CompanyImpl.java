@@ -17,9 +17,9 @@ public class CompanyImpl implements Company {
   private String meansOfCommunication;
 
   /**
-   * Constructs a new CompanyImpl object with default values. This constructor initializes a new
-   * CompanyImpl object with default values for all fields. The default values for numeric fields
-   * are typically 0, and for String fields, null.
+   * Constructs a new CompanyImpl object with default values.
+   * This constructor initializes a new CompanyImpl object with default values for all fields.
+   * The default values for numeric fields are typically 0, and for String fields, null.
    */
   public CompanyImpl() {
   }
@@ -171,3 +171,4 @@ public class CompanyImpl implements Company {
         + '}';
   }
 }
+

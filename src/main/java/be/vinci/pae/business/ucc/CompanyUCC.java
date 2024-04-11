@@ -1,11 +1,11 @@
 package be.vinci.pae.business.ucc;
 
-import be.vinci.pae.business.domain.ViewCompanyDTO;
+import be.vinci.pae.business.domain.CompanyDTO;
 
 /**
  * Represents a Company Use Case Controller (UCC) with methods related to company operations.
  */
-public interface ViewCompanyUCC {
+public interface CompanyUCC {
 
   /**
    * Add a new company to the database.
@@ -14,5 +14,5 @@ public interface ViewCompanyUCC {
    *
    * @return the added company
    */
-  ViewCompanyDTO addCompany(ViewCompanyDTO companyDTO);
+  CompanyDTO addCompany(CompanyDTO companyDTO);
 }

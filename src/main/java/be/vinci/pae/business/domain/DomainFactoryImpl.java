@@ -1,7 +1,8 @@
 package be.vinci.pae.business.domain;
 
 /**
- * Implementation of the DomainFactory interface. Creates and returns a new instance of UserDTO.
+ * Implementation of the DomainFactory interface.
+ * Creates and returns a new instance of UserDTO.
  */
 public class DomainFactoryImpl implements DomainFactory {
 
@@ -38,8 +39,8 @@ public class DomainFactoryImpl implements DomainFactory {
    *
    * @return A new ViewCompanyDTO instance.
    */
-  public ViewCompanyDTO getCompany() {
-    return new ViewCompanyImpl();
+  public CompanyDTO getCompany() {
+    return new CompanyImpl();
   }
 
   /**

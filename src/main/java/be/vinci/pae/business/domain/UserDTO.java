@@ -123,4 +123,19 @@ public interface UserDTO {
    * @param id The unique identifier to set.
    */
   void setId(int id);
+
+  /**
+   * Retrieves the version number.
+   *
+   * @return The current version number.
+   */
+  int getVersionNumber();
+
+  /**
+   * Sets the version number to the specified value.
+   *
+   * @param versionNumber The version number to set.
+   * @return The updated version number after setting.
+   */
+  int setVersionNumber(int versionNumber);
 }

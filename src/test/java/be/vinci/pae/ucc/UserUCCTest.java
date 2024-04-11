@@ -1,19 +1,19 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.AppBinderTest;
-
 import be.vinci.pae.utils.exception.BusinessException;
+import be.vinci.pae.utils.exception.ConflictException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,10 +54,11 @@ public class UserUCCTest {
 
     UserDTO result = userUCC.login("chuqi.chups@student.vinci.be", "Azertyui1_");
 
-    assertNotNull(result);
-    assertEquals(userDTO.getEmail(), result.getEmail());
-    assertEquals(userDTO.getPassword(), result.getPassword());
-
+    assertAll(
+        () -> assertNotNull(result),
+        () -> assertEquals(userDTO.getEmail(), result.getEmail()),
+        () -> assertEquals(userDTO.getPassword(), result.getPassword())
+    );
   }
 
   /**
@@ -79,9 +80,11 @@ public class UserUCCTest {
    */
   @Test
   void testLoginFailureForEmail() {
-    assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be"));
-    assertThrows(BusinessException.class,
-        () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"));
+    assertAll(
+        () -> assertNull(userDAO.getUserByEmail("kawtar.d@student.vinci.be")),
+        () -> assertThrows(BusinessException.class,
+            () -> userUCC.login("kawtar.d@student.vinci.be", "ghkfguezgfezbfouezf"))
+    );
   }
 
   /**
@@ -101,6 +104,9 @@ public class UserUCCTest {
     assertEquals(expectedUser, result);
   }
 
+  /**
+   * Test for retrieving a user by their ID. Failure expected.
+   */
   @Test
   public void getUserByIdTest_Failure() {
     // Arrange
@@ -108,16 +114,16 @@ public class UserUCCTest {
     when(userDAO.getUserById(userId)).thenThrow(new RuntimeException());
 
     // Act
-    Exception exception = assertThrows(RuntimeException.class, () -> {
-      userUCC.getUserById(userId);
-    });
+    Exception exception = assertThrows(RuntimeException.class, () ->
+        userUCC.getUserById(userId));
 
     // Assert
     assertNotNull(exception);
   }
 
-
-
+  /**
+   * Test for registering a new user. Success expected.
+   */
   @Test
   void testRegisterSuccess() {
     userDTO.setEmail("kawtar.dahman@student.vinci.be");
@@ -128,12 +134,16 @@ public class UserUCCTest {
 
     UserDTO registeredUser = userDAO.register(userDTO);
 
-    assertEquals(userDTO.getEmail(), registeredUser.getEmail());
-    assertEquals(userDTO.getPassword(), registeredUser.getPassword());
-
+    assertAll(
+        () -> assertEquals(userDTO.getEmail(), registeredUser.getEmail()),
+        () -> assertEquals(userDTO.getPassword(), registeredUser.getPassword())
+    );
   }
 
-
+  /**
+   * Test for registering a new user. Failure expected because the email address is already in
+   * used.
+   */
   @Test
   void testRegisterFailureEmailExists() {
     userDTO.setEmail("laurent.leleux@vinci.be");
@@ -141,11 +151,12 @@ public class UserUCCTest {
 
     when(userDAO.getUserByEmail("laurent.leleux@vinci.be")).thenReturn(userDTO);
 
-    assertThrows(BusinessException.class, () -> userUCC.register(userDTO));
+    // assertThrows(BusinessException.class, () -> userUCC.register(userDTO));
+    assertThrows(ConflictException.class, () -> userUCC.register(userDTO));
   }
 
 
- /**
+  /*
   * @Test
   void getAllUsersTest_Succes() {
     // Arrange
@@ -160,19 +171,19 @@ public class UserUCCTest {
   }
   */
 
+  /**
+   * Test for getting all users. Failure expected.
+   */
   @Test
   void getAllUsersTest_Failure() {
     // Arrange
     when(userDAO.getAllUsers()).thenThrow(new RuntimeException());
 
     //Act
-    Exception exception = assertThrows(RuntimeException.class, () -> {
-      userUCC.getAllUsers();
-    });
+    Exception exception = assertThrows(RuntimeException.class, () ->
+        userUCC.getAllUsers());
 
     // Assert
     assertNotNull(exception);
   }
-
-
 }

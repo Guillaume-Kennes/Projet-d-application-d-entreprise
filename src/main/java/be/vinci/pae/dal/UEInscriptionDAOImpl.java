@@ -14,7 +14,7 @@ import java.sql.SQLException;
  * Implementation of the ViewUEInscriptionDAO interface. Provides methods for retrieving UE
  * inscription-related data from the database.
  */
-public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
+public class UEInscriptionDAOImpl implements UEInscriptionDAO {
 
   @Inject
   private DomainFactory myDomainFactory;
@@ -40,7 +40,6 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
       student = userDAO.userInfos(resultSet);
       inscription.setStudent((User) student);
     } catch (SQLException e) {
-      e.getMessage();
       throw new FatalException(e);
     }
 
@@ -54,7 +53,7 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
    * @return A ViewUEInscriptionDTO object representing the inscription, or null if not found.
    * @throws FatalException if the inscription is not found in the database.
    */
-  public UEInscriptionDTO getUeInscriptionById(int id) {
+  public UEInscriptionDTO getUeInscriptionById(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.users u, pae.inscriptions_UE i"
             + " WHERE i.student = u.id_user AND i.id_inscription_UE = ?");
@@ -71,16 +70,10 @@ public class ViewUEInscriptionDAOImpl implements ViewUEInscriptionDAO {
       } else {
         inscription = null;
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
-        preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
+      preparedStatement.close();
     }
     return inscription;
   }

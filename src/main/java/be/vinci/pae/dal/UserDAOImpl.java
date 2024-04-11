@@ -32,35 +32,45 @@ public class UserDAOImpl implements UserDAO {
    */
   public UserDTO getUserByEmail(String email) {
 
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.users u WHERE u.email = ?");
+    // PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+    //  "SELECT * FROM pae.users u WHERE u.email = ?");
+    //   try {
+    //     preparedStatement.setString(1, email);
+    //   } catch (SQLException e) {
+    //     throw new FatalException(e);
+    //   }
+    //
+    //   UserDTO user = myDomainFactory.getUser();
+    //   try (ResultSet resultSet = preparedStatement.executeQuery()) {
+    //
+    //     if (resultSet.next()) {
+    //       user = userInfos(resultSet);
+    //     } else {
+    //       user = null;
+    //     }
+    //
+    //   } catch (SQLException e) {
+    //     throw new FatalException(e);
+    //   }
+    // return user;
     try {
-      preparedStatement.setString(1, email);
+      String query = """
+          SELECT *
+          FROM pae.users u
+          WHERE u.email = ?
+          """;
+      try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+        preparedStatement.setString(1, email);
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+          if (resultSet.next()) {
+            return userInfos(resultSet);
+          }
+        }
+      }
+      return null;
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-
-    UserDTO user = myDomainFactory.getUser();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-
-      if (resultSet.next()) {
-        user = userInfos(resultSet);
-      } else {
-        user = null;
-      }
-
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
-    } finally {
-      try {
-        preparedStatement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
-    }
-    return user;
   }
 
   /**
@@ -82,7 +92,6 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
 
@@ -107,7 +116,6 @@ public class UserDAOImpl implements UserDAO {
         }
       }
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
     return null;
@@ -134,7 +142,6 @@ public class UserDAOImpl implements UserDAO {
         usersList.add(userDTO);
       }
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
     return usersList;
@@ -150,11 +157,11 @@ public class UserDAOImpl implements UserDAO {
 
     try {
       String query = "INSERT INTO pae.users (email, password, last_name, first_name, "
-          + "phone_number, registration_date, role) "
-          + "VALUES(?, ?, ?, ?, ?, NOW(), ?) RETURNING *";
+          + "phone_number, registration_date, role, version_users) "
+          + "VALUES(?, ?, ?, ?, ?, NOW(), ?, ?) RETURNING *";
 
-      String query2 = "INSERT INTO pae.inscriptions_ue (student, school_year) "
-          + "VALUES(?, '2023-2024')";
+      String query2 = "INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue) "
+          + "VALUES(?, '2023-2024', ?)";
       // schoolyear hardcodée mais à changer dans le futur
 
       try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
@@ -164,6 +171,7 @@ public class UserDAOImpl implements UserDAO {
         preparedStatement.setString(4, userDTO.getFirstName());
         preparedStatement.setString(5, userDTO.getPhoneNumber());
         preparedStatement.setString(6, userDTO.getRole());
+        preparedStatement.setInt(7, userDTO.getVersionNumber());
 
         try (ResultSet resultSet = preparedStatement.executeQuery()) {
           if (resultSet.next()) {
@@ -175,11 +183,11 @@ public class UserDAOImpl implements UserDAO {
         }
         try (PreparedStatement preparedStatement2 = dalServices.getPreparedStatement(query2)) {
           preparedStatement2.setInt(1, userDTO.getId());
-          preparedStatement2.executeQuery();
+          preparedStatement2.setInt(2, userDTO.getVersionNumber());
+          preparedStatement2.execute();
         }
       }
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
     return userDTO;

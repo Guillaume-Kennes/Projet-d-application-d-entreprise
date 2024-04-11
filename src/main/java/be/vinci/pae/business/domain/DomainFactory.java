@@ -31,7 +31,7 @@ public interface DomainFactory {
    *
    * @return a company
    */
-  ViewCompanyDTO getCompany();
+  CompanyDTO getCompany();
 
   /**
    * Gets a UE Inscription.

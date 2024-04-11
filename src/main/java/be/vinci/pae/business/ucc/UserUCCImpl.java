@@ -5,8 +5,8 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.utils.exception.BusinessException;
+import be.vinci.pae.utils.exception.ConflictException;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response.Status;
 import java.util.List;
 
 /**
@@ -29,10 +29,11 @@ public class UserUCCImpl implements UserUCC {
    * @throws BusinessException If the provided email or password is incorrect.
    */
   public UserDTO login(String email, String password) {
-    dalServices.start();
     try {
+      dalServices.start();
       User userFound = (User) userDAO.getUserByEmail(email);
       if (userFound == null || !userFound.checkPassword(password)) {
+        dalServices.rollBack();
         throw new BusinessException("Incorrect Email or Password");
       }
       return userFound;
@@ -69,17 +70,17 @@ public class UserUCCImpl implements UserUCC {
    * Returns the list of all users available in the system.
    *
    * @return A list containing UserDTO objects representing all users. If no users are found, the
-   *     list will be empty.
+   * list will be empty.
    */
   public List<UserDTO> getAllUsers() {
     dalServices.start();
     try {
-      return userDAO.getAllUsers();
+      List<UserDTO> users = userDAO.getAllUsers();
+      dalServices.commit();
+      return users;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -89,8 +90,8 @@ public class UserUCCImpl implements UserUCC {
    *
    * @param userDTO The user data transfer object containing user information.
    * @return The registered user data transfer object.
-   * @throws BusinessException If the email already exists in the database or if the email
-   *                               address does not end with "@student.vinci.be" or "@vinci.be".
+   * @throws BusinessException If the email already exists in the database or if the email address
+   *                           does not end with "@student.vinci.be" or "@vinci.be".
    */
   public UserDTO register(UserDTO userDTO) {
     dalServices.start();
@@ -98,25 +99,53 @@ public class UserUCCImpl implements UserUCC {
     User user = (User) userDTO;
 
     if (userDAO.getUserByEmail(userDTO.getEmail()) != null) {
-      throw new BusinessException("This email already exists in database", Status.CONFLICT);
+      dalServices.rollBack();
+      throw new ConflictException("This email already exists in database");
     } else {
       try {
-        if (!userDTO.getEmail().endsWith("@vinci.be")
-            && !userDTO.getEmail().endsWith("@student.vinci.be")) {
+        String email = userDTO.getEmail();
+        if (!user.emailIsVinci(email)
+            && !user.emailIsStudent(email)) {
+          dalServices.rollBack();
           throw new BusinessException(
-              "The email address must end with @student.vinci.be or @vinci.be", Status.BAD_REQUEST);
-        } else if (userDTO.getEmail().endsWith("@student.vinci.be")) {
+              "The email address must end with @student.vinci.be or @vinci.be");
+        } else if (user.emailIsStudent(email)) {
           userDTO.setRole("Etudiant");
         }
         userDTO.setPassword(user.hashPassword(userDTO.getPassword()));
-        return userDAO.register(userDTO);
+        userDTO.setVersionNumber(1);
+        UserDTO registeredUser = userDAO.register(userDTO);
+        dalServices.commit();
+        return registeredUser;
 
       } catch (Exception e) {
         dalServices.rollBack();
         throw e;
-      } finally {
-        dalServices.commit();
       }
     }
+  }
+
+  /**
+   * Checks whether the specified user has teacher privileges.
+   *
+   * @param userDTO the user data transfer object to check
+   * @return true if the user has teacher privileges, false otherwise
+   */
+  @Override
+  public boolean userIsTeacher(UserDTO userDTO) {
+    User user = (User) userDTO;
+    return user.isTeacher();
+  }
+
+  /**
+   * Checks whether the specified user has administrative privileges.
+   *
+   * @param userDTO the user data transfer object to check
+   * @return true if the user has administrative privileges, false otherwise
+   */
+  @Override
+  public boolean userIsAdmin(UserDTO userDTO) {
+    User user = (User) userDTO;
+    return user.isAdmin();
   }
 }

@@ -1,14 +1,13 @@
 package be.vinci.pae.dal;
 
+import be.vinci.pae.business.domain.Company;
+import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UEInscription;
 import be.vinci.pae.business.domain.UEInscriptionDTO;
-import be.vinci.pae.business.domain.ViewCompany;
-import be.vinci.pae.business.domain.ViewCompanyDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.core.Response.Status;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,9 +23,9 @@ public class ContactDAOImpl implements ContactDAO {
   @Inject
   private DALBackServices dalServices;
   @Inject
-  private ViewCompanyDAO companyDAO;
+  private CompanyDAO companyDAO;
   @Inject
-  private ViewUEInscriptionDAO inscriptionDAO;
+  private UEInscriptionDAO inscriptionDAO;
 
   /**
    * Retrieves a contact by its ID.
@@ -37,9 +36,9 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ContactDTO getContactById(int contactId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i"
-            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
-            + " AND c.id_contact = ?");
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_ue i, pae.users u "
+            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_ue = i.id_inscription_ue"
+            + " AND u.id_user = i.student AND c.id_contact = ?");
 
     try {
       preparedStatement.setInt(1, contactId);
@@ -49,7 +48,7 @@ public class ContactDAOImpl implements ContactDAO {
         }
       }
     } catch (SQLException e) {
-      throw new FatalException("Contact not found", Status.BAD_REQUEST);
+      throw new FatalException("Contact not found");
     }
     return null;
   }
@@ -63,7 +62,7 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ContactDTO contactInfos(ResultSet resultSet) {
     ContactDTO contactDTO = myDomainFactory.getContact();
-    ViewCompanyDTO company;
+    CompanyDTO company;
     UEInscriptionDTO ueInscription;
 
     try {
@@ -72,14 +71,14 @@ public class ContactDAOImpl implements ContactDAO {
       contactDTO.setReasonForRefusal(resultSet.getString("reason_for_refusal"));
       contactDTO.setFollowed(resultSet.getBoolean("is_followed"));
       contactDTO.setMeetingPlace(resultSet.getString("meeting_place"));
+      contactDTO.setVersionNumber(resultSet.getInt("version_contacts"));
       company = companyDAO.companyInfos(resultSet);
-      contactDTO.setCompany((ViewCompany) company);
+      contactDTO.setCompany((Company) company);
       ueInscription = inscriptionDAO.ueInscriptionInfos(resultSet);
       contactDTO.setInscriptionUE((UEInscription) ueInscription);
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-
     return contactDTO;
   }
 
@@ -98,8 +97,9 @@ public class ContactDAOImpl implements ContactDAO {
           inscription_ue = ?,
           reason_for_refusal = ?,
           is_followed = ?,
-          meeting_place = ?
-          WHERE id_contact= ?;
+          meeting_place = ?,
+          version_contacts = version_contacts + 1
+          WHERE id_contact= ? AND version_contacts = ? ;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, contactDTO.getState());
@@ -109,8 +109,18 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setBoolean(5, contactDTO.isFollowed());
         ps.setString(6, contactDTO.getMeetingPlace());
         ps.setInt(7, contactDTO.getId());
+        ps.setInt(8, contactDTO.getVersionNumber());
 
-        ps.execute();
+
+
+        int correctVersion = ps.executeUpdate();
+        if (correctVersion == 0) {
+          if (getContactById(contactDTO.getId()) == null) {
+            throw new FatalException("Contact not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
+        }
       }
     } catch (SQLException e) {
       throw new FatalException(e);
@@ -124,7 +134,7 @@ public class ContactDAOImpl implements ContactDAO {
    * @return A list of ContactDTO object representing the contacts, or null if not found.
    * @throws FatalException if not found in the database.
    */
-  public ArrayList<ContactDTO> getContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
@@ -140,12 +150,11 @@ public class ContactDAOImpl implements ContactDAO {
    * @return A list of ContactDTO object representing the contacts, or null if not found.
    * @throws FatalException if not found in the database.
    */
-  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) {
+  public ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
             + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
-
     return getCorrespondingContacts(preparedStatement, id);
   }
 
@@ -157,7 +166,8 @@ public class ContactDAOImpl implements ContactDAO {
    * @return A list of ContactDTO object representing the contacts, or null if not found.
    * @throws FatalException if not found in the database.
    */
-  private ArrayList<ContactDTO> getCorrespondingContacts(PreparedStatement ps, int id) {
+  private ArrayList<ContactDTO> getCorrespondingContacts(PreparedStatement ps, int id)
+      throws SQLException {
     try {
       ps.setInt(1, id);
     } catch (SQLException e) {
@@ -171,16 +181,10 @@ public class ContactDAOImpl implements ContactDAO {
         contact = contactInfos(resultSet);
         contacts.add(contact);
       }
-    } catch (Exception e) {
-      System.out.println(e.getMessage());
-      System.exit(1);
+    } catch (SQLException e) {
+      throw new FatalException(e);
     } finally {
-      try {
-        ps.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-        throw new FatalException(e);
-      }
+      ps.close();
     }
     return contacts;
   }
@@ -203,7 +207,8 @@ public class ContactDAOImpl implements ContactDAO {
               inscription_ue,
               reason_for_refusal,
               is_followed,
-              meeting_place)
+              meeting_place,
+              version_contacts)
           VALUES ('initié',
           (SELECT e.id_enterprise
            FROM pae.enterprises e
@@ -212,36 +217,43 @@ public class ContactDAOImpl implements ContactDAO {
            FROM pae.users u, pae.inscriptions_ue i
            WHERE u.id_user = i.student
            AND u.id_user =  ?),
-          null, true, null)
+          null, true, null, 1)
           RETURNING *;
-            """;
-
-      System.out.println("Generated SQL query: " + query);
+          """;
 
       // String tradeName = "N"; // Or any other search term
       // String wildcardTradeName = "%" + tradeName + "%";
       // changer le wildcard en id de l entreprise
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
-
-        System.out.println("2 Generated SQL query : " + query);
-
         ps.setString(1, contactDTO.getTradeName());
         ps.setInt(2, contactDTO.getUserId());
+        System.out.println("ContactDAOImpl ps : " + ps);
+        ps.executeQuery(); // ou ps.execute() ?
+        // ps.setInt(3, 1);
 
         System.out.println("ContactDAOImpl -------> Enterprise : "
             + contactDTO.getTradeName());
         System.out.println("ContactDAOImpl -------> UserId : "
             + contactDTO.getUserId());
+        System.out.println("ContactDAOImpl -------> Version Number : "
+            + contactDTO.getVersionNumber());
 
         System.out.println("ContactDAOImpl ----> ps : " + ps);
-        ps.execute();
       }
     } catch (SQLException e) {
-      e.printStackTrace();
       throw new FatalException(e);
     }
-    System.out.println("ContactDAOImpl --> contactDTO : " + contactDTO);
+    System.out.println(
+        "ContactDAOImpl contactDTO : " + "\n"
+            + "State : " + contactDTO.getState() + "\n"
+            + "Enterprise : " + contactDTO.getTradeName() + "\n"
+            + "UserId : " + contactDTO.getUserId() + "\n"
+            + "ReasonForRefusal : " + contactDTO.getReasonForRefusal() + "\n"
+            + "MeetingPlace : " + contactDTO.getMeetingPlace() + "\n"
+            + "VersionContacts : " + contactDTO.getVersionContacts() + "\n"
+    );
+    System.out.println("ContactDAOImpl insert : " + contactDTO);
     return contactDTO;
   }
 }

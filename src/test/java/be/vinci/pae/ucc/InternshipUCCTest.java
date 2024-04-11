@@ -1,5 +1,6 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -11,6 +12,7 @@ import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.dal.InternshipDAO;
 import be.vinci.pae.utils.AppBinderTest;
+import java.sql.SQLException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +47,7 @@ public class InternshipUCCTest {
    * Test for successful retrieving of the internship.
    */
   @Test
-  public void testGetInternshipByUserId() {
+  public void testGetInternshipByUserId() throws SQLException {
     int userId = 7;
 
     expectedInternship.setId(3);
@@ -53,15 +55,17 @@ public class InternshipUCCTest {
 
     InternshipDTO result = internshipUCC.getInternshipByUserId(userId);
 
-    assertNotNull(result);
-    assertEquals(expectedInternship.getId(), result.getId());
+    assertAll(
+        () -> assertNotNull(result),
+        () -> assertEquals(expectedInternship.getId(), result.getId())
+    );
   }
 
   /**
    * Test for successful process when the user doesn't have an internship.
    */
   @Test
-  public void testGetInternshipByUserIdWhenNoInternship() {
+  public void testGetInternshipByUserIdWhenNoInternship() throws SQLException {
     int userId = 5;
 
     InternshipDTO result = internshipUCC.getInternshipByUserId(userId);
@@ -69,8 +73,11 @@ public class InternshipUCCTest {
     assertNull(result);
   }
 
+  /**
+   * Test for successful retrieving of the internship.
+   */
   @Test
-  public void getInternshipByUserIdTest_Success() {
+  public void getInternshipByUserIdTest_Success() throws SQLException {
     // Arrange
     int userId = 1;
     InternshipDTO expectedInternship = internshipDAO.getInternshipByUserId(userId);
@@ -83,16 +90,18 @@ public class InternshipUCCTest {
     assertEquals(expectedInternship, result);
   }
 
+  /**
+   * Test for retrieving an internship. Failure expected.
+   */
   @Test
-  public void getInternshipByUserIdTest_Failure() {
+  public void getInternshipByUserIdTest_Failure() throws SQLException {
     // Arrange
     int userId = 1;
     when(internshipDAO.getInternshipByUserId(userId)).thenThrow(new RuntimeException());
 
     // Act
-    Exception exception = assertThrows(RuntimeException.class, () -> {
-      internshipUCC.getInternshipByUserId(userId);
-    });
+    Exception exception = assertThrows(RuntimeException.class, () ->
+        internshipUCC.getInternshipByUserId(userId));
 
     // Assert
     assertNotNull(exception);

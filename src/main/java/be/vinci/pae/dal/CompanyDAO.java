@@ -1,13 +1,15 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.domain.ViewCompanyDTO;
+import be.vinci.pae.business.domain.CompanyDTO;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 /**
  * Represents a Data Access Object (DAO) for managing company-related data.
  * Provides methods to retrieve company information based on ID.
  */
-public interface ViewCompanyDAO {
+public interface CompanyDAO {
 
   /**
    * Inserts a new item in the system.
@@ -16,7 +18,7 @@ public interface ViewCompanyDAO {
    *                           inserted.
    * @return int of the object created
    */
-  int insert(ViewCompanyDTO companyDTOToInsert);
+  int insert(CompanyDTO companyDTOToInsert);
 
   /**
    * Returns the information of a company.
@@ -25,15 +27,18 @@ public interface ViewCompanyDAO {
    *
    * @return the company corresponding to that result set
    */
-  ViewCompanyDTO companyInfos(ResultSet resultSet);
+  CompanyDTO companyInfos(ResultSet resultSet);
+
 
   /**
-   * Returns the company corresponding to the id.
+   * Retrieves information of the company corresponding to the specified identifier.
    *
-   * @param id the company's id
+   * @param id The identifier of the company to retrieve.
    *
-   * @return the company corresponding to the id
+   * @return A {@code CompanyDTO} object representing the information of the found company.
+   *
+   * @throws SQLException If an error occurs while accessing the database.
    */
-  ViewCompanyDTO getCompanyById(int id);
+  CompanyDTO getCompanyById(int id) throws SQLException;
 
 }

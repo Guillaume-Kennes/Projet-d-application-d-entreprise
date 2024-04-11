@@ -1,6 +1,6 @@
 package be.vinci.pae.api.filters;
 
-import be.vinci.pae.business.domain.User;
+import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
 import be.vinci.pae.utils.Config;
 import be.vinci.pae.utils.exception.FatalException;
@@ -8,13 +8,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import jakarta.annotation.Priority;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerRequestFilter;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
-import java.io.IOException;
 
 /**
  * Request filter for handling authorization checks. This filter checks for the presence of a JWT
@@ -23,7 +24,8 @@ import java.io.IOException;
 @Singleton
 @Provider
 @Authorize
-public class AuthorizationRequestFilter {
+@Priority(1)
+public class AuthorizationRequestFilter implements ContainerRequestFilter {
 
   private final Algorithm jwtAlgorithm = Algorithm.HMAC256(Config.getProperty("JWTSecret"));
   private final JWTVerifier jwtVerifier = JWT.require(this.jwtAlgorithm).withIssuer("auth0")
@@ -31,13 +33,14 @@ public class AuthorizationRequestFilter {
   @Inject
   private UserUCC userUCC;
 
+
   /**
    * Filters incoming requests to verify authorization.
    *
    * @param requestContext The request context to filter.
-   * @throws IOException if an I/O error occurs while processing the request.
    */
-  public void filter(ContainerRequestContext requestContext) throws IOException {
+  public void filter(ContainerRequestContext requestContext) {
+
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {
       requestContext.abortWith(Response.status(Status.UNAUTHORIZED)
@@ -47,14 +50,16 @@ public class AuthorizationRequestFilter {
       try {
         decodedToken = this.jwtVerifier.verify(token);
       } catch (Exception e) {
-        throw new FatalException(e);
+        throw new FatalException(e); //à vérifier
       }
-      User authenticatedUser = (User) userUCC.getUserById(decodedToken.getClaim("user").asInt());
+      UserDTO authenticatedUser = userUCC.getUserById(decodedToken.getClaim("user")
+          .asInt()); //pour avoir l'id du user //poser la question au prof
       if (authenticatedUser == null) {
         requestContext.abortWith(Response.status(Status.FORBIDDEN)
             .entity("You are forbidden to access this resource").build());
       }
-      requestContext.setProperty("user", authenticatedUser);
+      requestContext.setProperty("user",
+          authenticatedUser); //user ici comme le STORE_NAME dans auths.js dans le front
     }
   }
 

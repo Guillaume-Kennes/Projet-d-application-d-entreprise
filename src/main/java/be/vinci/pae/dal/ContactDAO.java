@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.ContactDTO;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -33,20 +34,24 @@ public interface ContactDAO {
   void update(ContactDTO contactDTO);
 
   /**
-   * Returns the contacts corresponding to the given user.
+   * Retrieves the list of contacts associated with a user identified by their ID.
    *
-   * @param id the user's id
-   * @return a list of the contacts corresponding to the given user
+   * @param id The ID of the user for whom to retrieve the contacts.
+   * @return An ArrayList of ContactDTO objects representing the contacts associated with the user.
+   * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
-  ArrayList<ContactDTO> getContactsByUserId(int id);
+  ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException;
+
 
   /**
-   * Returns the contacts in the state "pris" corresponding to the given user.
+   * Retrieves the list of contacts taken by a user identified by their ID.
    *
-   * @param id the user's id
-   * @return a list of the "pris" contacts corresponding to the given user
+   * @param id The ID of the user for whom to retrieve the taken contacts.
+   * @return An ArrayList of ContactDTO objects representing the contacts taken by the user.
+   * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
-  ArrayList<ContactDTO> getTakenContactsByUserId(int id);
+  ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException;
+
 
   /**
    * Inserts a new contact into the database.
