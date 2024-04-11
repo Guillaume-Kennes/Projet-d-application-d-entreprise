@@ -39,8 +39,7 @@ public class CompanyUCCTest {
    */
   @Test
   void getALlEnterprisesTest_Failure() {
-    when(companyDAO.getAllEnterprises()).thenThrow(new BusinessException
-        ("Error while retrieving enterprises"));
+    when(companyDAO.getAllEnterprises()).thenThrow(new BusinessException());
     Exception exception = assertThrows(BusinessException.class, () ->
         companyUCC.getAllEnterprises());
 
