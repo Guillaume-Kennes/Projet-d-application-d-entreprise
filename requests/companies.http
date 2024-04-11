@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:3000
+
+
+
+
+### Get all companies
+GET {{baseUrl}}/companies/getEntreprises
+Authorization: {{leleuxToken}}
+
+
+### Get all companies
+GET {{baseUrl}}/companies

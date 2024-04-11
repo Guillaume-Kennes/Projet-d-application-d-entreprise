@@ -13,7 +13,7 @@ import java.util.List;
 public class CompanyUCCImpl implements CompanyUCC {
 
   @Inject
-  private CompanyDAO itemDAO;
+  private CompanyDAO companyDAO;
   @Inject
   private DALServices dalServices;
 
@@ -29,7 +29,7 @@ public class CompanyUCCImpl implements CompanyUCC {
     dalServices.start();
 
     try {
-      int id = itemDAO.insert(companyDTO);
+      int id = companyDAO.insert(companyDTO);
       companyDTO.setId(id);
 
       dalServices.commit();
@@ -50,15 +50,15 @@ public class CompanyUCCImpl implements CompanyUCC {
   public List<CompanyDTO> getAllEnterprises() {
     dalServices.start();
     try {
-      List<CompanyDTO> companiesList = itemDAO.getAllEnterprises();
+      List<CompanyDTO> companiesList = companyDAO.getAllEnterprises();
 
       dalServices.commit();
       return companiesList;
 
     } catch (Exception e) {
       dalServices.rollBack();
+      throw e;
     }
-    return null;
   }
 
 

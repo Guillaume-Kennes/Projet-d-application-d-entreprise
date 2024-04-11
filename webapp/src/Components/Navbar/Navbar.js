@@ -103,6 +103,9 @@ function renderNavbar() {
             <li class="nav-item">
               <a class="nav-link" href="#" data-uri="/viewUsers" style="color: white;">Rechercher tous les utilisateurs</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" data-uri="/viewCompanies" style="color: white;">Visualiser les entreprises</a>
+            </li>            
             <li id="contactCompanyItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/contact" style="color: white;">Contacter une entreprise</a>
             </li>
