@@ -6,28 +6,28 @@ import be.vinci.pae.dal.DALServices;
 import jakarta.inject.Inject;
 
 /**
- * Implementation of the ViewCompanyUCC interface.
- * Provides methods related to company operations.
+ * Implementation of the ViewCompanyUCC interface. Provides methods related to company operations.
  */
 public class CompanyUCCImpl implements CompanyUCC {
 
   @Inject
-  private CompanyDAO itemDAO;
+  private CompanyDAO companyDAO;
+
   @Inject
   private DALServices dalServices;
 
   @Override
   public CompanyDTO addCompany(CompanyDTO companyDTO) {
+    dalServices.start();
     try {
-      dalServices.start();
-
-      int id = itemDAO.insert(companyDTO);
-      companyDTO.setId(id);
+      System.out.println("CompanyUCCImpl ------> companyDTO : " + companyDTO);
+      CompanyDTO company = companyDAO.insert(companyDTO);
 
       dalServices.commit();
-      return companyDTO;
-
+      System.out.println("CompanyUCCImpl ------> company : " + company);
+      return company;
     } catch (Exception e) {
+      System.out.println("la ??????????");
       dalServices.rollBack();
       throw e;
     }

@@ -17,7 +17,6 @@ import be.vinci.pae.dal.InternshipDAO;
 import be.vinci.pae.dal.InternshipDAOImpl;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.dal.UserDAOImpl;
-import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.mockito.Mockito;

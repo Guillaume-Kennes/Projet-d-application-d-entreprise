@@ -5,7 +5,6 @@ import {
 } from '../../utils/auths';
 import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
-import Navigate from '../Router/Navigate';
 
 
 const ContactCompanyPage = () => {
@@ -137,6 +136,22 @@ function renderContactCompanyForm() {
         console.log(`authenticatedUserId -----> ${authenticatedUserId}`);
         console.log(`enterpriseName -------> ${enterpriseName}`);
         // Enterprise submission successful, handle response accordingly
+        const centerDiv = document.createElement('div');
+        centerDiv.classList.add('text-center');
+
+        // Create a success message element
+        const successMessage = document.createElement('div');
+        successMessage.textContent = `Le contact avec "${enterpriseName}" a été ajouté correctement !`;
+        successMessage.classList.add('success-message'); // Add a class for styling if needed
+
+        // Append the success message to the centerDiv
+        centerDiv.appendChild(successMessage);
+
+        // Append the centerDiv to the form or any other appropriate container
+        form.appendChild(centerDiv);
+
+        // You might want to clear the input field or do any other necessary cleanup
+        tradeNameInput.value = '';
       } else {
         // Enterprise submission failed, handle error response
         console.error('Enterprise submission failed:', response.statusText);
@@ -147,21 +162,6 @@ function renderContactCompanyForm() {
   });
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -184,7 +184,6 @@ async function onAddCompany(e) {
   console.log(`phone number : ${meansOfCommunication}`);
 
 
-
   const options = {
     method: 'POST',
     body: JSON.stringify({
@@ -200,7 +199,7 @@ async function onAddCompany(e) {
   };
   console.log(`options : ${options}`);
   console.log(options);
-  const response= await fetch(`http://localhost:3000/company`, options);
+  const response= await fetch(`http://localhost:3000/company/add`, options);
 
   console.log(`response : ${response}`); // it fails here
 
@@ -208,12 +207,10 @@ async function onAddCompany(e) {
 
   const companyAdded = await response.json();
 
-  // eslint-disable-next-line no-console
   console.log(`companyAdded : ${companyAdded}`);
 
   Navbar();
 
-  Navigate(`/`);
 }
 
 export default ContactCompanyPage;

@@ -20,8 +20,7 @@ public class CompanyDAOImpl implements CompanyDAO {
   private DomainFactory myDomainFactory;
 
   @Override
-  public int insert(CompanyDTO companyDTO) {
-    int generatedId = 0;
+  public CompanyDTO insert(CompanyDTO companyDTO) {
     try {
       String query = """
             INSERT INTO pae.enterprises (
@@ -31,9 +30,10 @@ public class CompanyDAOImpl implements CompanyDAO {
               city,
               means_of_communication,
               is_black_listed,
-              motivation_blacklist)
-            VALUES (?, ?, ?, ?, ?, false, null)
-            RETURNING id_enterprise;
+              motivation_black_list,
+              version_enterprises)
+            VALUES (?, ?, ?, ?, ?, false, null, 1)
+            RETURNING *;
           """;
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
@@ -44,11 +44,21 @@ public class CompanyDAOImpl implements CompanyDAO {
         ps.setString(4, companyDTO.getCity()); // city
         ps.setString(5, companyDTO.getMeansOfCommunication());
 
+        ps.executeQuery();
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return generatedId;
+    System.out.println(
+        "CompanyDAOImpl companyDTO : " + "\n"
+            + "Trade name : " + companyDTO.getTradeName() + "\n"
+            + "Designation : " + companyDTO.getDesignation() + "\n"
+            + "Address : " + companyDTO.getAddress() + "\n"
+            + "City : " + companyDTO.getCity() + "\n"
+            + "MeansOfCommunication : " + companyDTO.getMeansOfCommunication() + "\n"
+    );
+    System.out.println("CompanyDAOImpl insert : " + companyDTO);
+    return companyDTO;
   }
 
   /**
