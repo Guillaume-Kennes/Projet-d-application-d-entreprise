@@ -22,7 +22,6 @@ public class CompanyUCCImpl implements CompanyUCC {
    *
    * @param companyDTO The CompanyDTO object representing the company to be added.
    * @return The CompanyDTO object representing the added company with the assigned ID.
-   * @throws Exception If an error occurs during database access or processing.
    */
   @Override
   public CompanyDTO addCompany(CompanyDTO companyDTO) {
@@ -41,12 +40,12 @@ public class CompanyUCCImpl implements CompanyUCC {
     }
   }
 
- /**
-  * Retrieves the information of a company based on its identifier.
-  *
-  * @return The CompanyDTO object representing the company information.
-  * @throws Exception If an error occurs during database access or processing.
-  */
+
+  /**
+   * Retrieves a list of all companies.
+   *
+   * @return A list of CompanyDTO objects representing all the companies.
+   */
   @Override
   public List<CompanyDTO> getAllEnterprises() {
     dalServices.start();
