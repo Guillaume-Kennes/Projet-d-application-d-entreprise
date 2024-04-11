@@ -1,8 +1,6 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
-import be.vinci.pae.api.filters.IsAdmin;
-import be.vinci.pae.api.filters.IsTeacher;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
@@ -103,8 +101,6 @@ public class UserResource {
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize
-  @IsAdmin
-  @IsTeacher
   public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
     UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
     System.out.println(authentificatedUser); //juste pour Jenkins

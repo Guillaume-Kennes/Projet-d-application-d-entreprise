@@ -1,8 +1,6 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
-import be.vinci.pae.api.filters.IsAdmin;
-import be.vinci.pae.api.filters.IsTeacher;
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
