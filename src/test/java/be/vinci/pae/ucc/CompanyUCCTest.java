@@ -1,12 +1,9 @@
 package be.vinci.pae.ucc;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import be.vinci.pae.business.domain.CompanyDTO;
-import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.ucc.CompanyUCC;
 import be.vinci.pae.dal.CompanyDAO;
 import be.vinci.pae.utils.AppBinderTest;
