@@ -97,7 +97,8 @@ public class ContactDAOImpl implements ContactDAO {
           inscription_ue = ?,
           reason_for_refusal = ?,
           is_followed = ?,
-          meeting_place = ?
+          meeting_place = ?,
+          version_contacts = version_contacts + 1
           WHERE id_contact= ? AND version_contacts = ? ;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
@@ -110,14 +111,11 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setInt(7, contactDTO.getId());
         ps.setInt(8, contactDTO.getVersionNumber());
 
-        ps.execute();
-
         int correctVersion = ps.executeUpdate();
         if (correctVersion == 0) {
           if (getContactById(contactDTO.getId()) == null) {
             throw new FatalException("Contact not found");
           } else {
-            System.out.println(contactDTO.getId());
             throw new IllegalArgumentException("Error not the same version");
           }
         }
