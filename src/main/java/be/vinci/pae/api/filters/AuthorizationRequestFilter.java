@@ -71,9 +71,9 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
       Method method = resourceInfo.getResourceMethod();
 
       Authorize authorize = method.getAnnotation(Authorize.class);
-      if(authorize != null) {
+      if (authorize != null) {
         String[] roles = authorize.value();
-        if(!Arrays.asList(roles).contains(authenticatedUser.getRole())) {
+        if (!Arrays.asList(roles).contains(authenticatedUser.getRole())) {
           requestContext.abortWith(Response.status(Status.FORBIDDEN)
               .entity("You are forbidden to access this resource").build());
         }
