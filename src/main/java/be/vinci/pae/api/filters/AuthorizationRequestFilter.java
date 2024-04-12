@@ -19,7 +19,6 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
