@@ -118,9 +118,9 @@ public class CompanyDAOImpl implements CompanyDAO {
   public List<CompanyDTO> getAllEnterprises() {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.enterprises"
-    );
+    String query = "SELECT * FROM pae.enterprises";
+
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(query);
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
         CompanyDTO companyDTO = myDomainFactory.getCompany();

@@ -37,6 +37,17 @@ Content-Type: application/json
 %}
 
 
+### Login another user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email":"annouck.lancaster@vinci.be",
+  "password": "Admin;10."
+}
+> {%
+  client.global.set("annouckToken", response.body.token);
+%}
 
 ### Get an user by it's id
 GET {{baseUrl}}/users/7
@@ -46,10 +57,16 @@ GET {{baseUrl}}/users
 Authorization: {{baroniToken}}
 
 ### Get all users with a student token
-GET {{baseUrl}}/users
+GET {{baseUrl}}/users/getAllUsers
 Authorization: {{carolineToken}}
 
+### Get all users with a teacher token
+GET {{baseUrl}}/users/getAllUsers
+Authorization: {{leleuxToken}}
 
+### Get all users with an admin token
+GET {{baseUrl}}/users/getAllUsers
+Authorization: {{annouckToken}}
 
 ### Register an user
 POST {{baseUrl}}/auths/register

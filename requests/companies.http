@@ -4,8 +4,20 @@
 
 
 ### Get all companies
-GET {{baseUrl}}/companies/getEntreprises
+GET {{baseUrl}}/companies/getEnterprises
 Authorization: {{leleuxToken}}
+
+
+### Get all companies
+GET {{baseUrl}}/companies/getEnterprises
+Authorization: {{leleuxToken}}
+Content-Type: application/json
+
+{
+  "sort": "tradeName"
+}
+
+
 
 ### Get all companies
 GET {{baseUrl}}/companies
