@@ -28,7 +28,6 @@ public class CompanyResource {
   /**
    * Get all enterprises.
    *
-   * @param requestContext the request context
    * @param sort the element to sort by
    * @return the list of all enterprises
    */
@@ -36,8 +35,7 @@ public class CompanyResource {
   @Path("/getEnterprises")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize (value = {"Professeur"})
-  public List<CompanyDTO> getAllEnterprises(@Context ContainerRequestContext requestContext,
-      @QueryParam("sort") String sort) {
+  public List<CompanyDTO> getAllEnterprises(@QueryParam("sort") String sort) {
 //    UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
 //    System.out.println(authentificatedUser); //juste pour Jenkins
     System.out.println("###########################################################"

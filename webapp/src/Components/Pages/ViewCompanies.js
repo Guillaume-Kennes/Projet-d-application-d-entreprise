@@ -3,27 +3,27 @@ import { getToken } from "../../utils/user";
 
 const viewAllCompaniesPage = async () => {
   clearPage();
-  await allCompanies();
+  const companies = await fetchCompanies();
+  await allCompanies(companies);
+
 }
 
 async function fetchCompanies(options) {
   const token = getToken();
-
-  const main = document.querySelector('main');
-
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    },
-  };
-
-  const response = await fetch("http://localhost:3000/companies/getEntreprises",
+  if (options === null) {
+    options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: token
+      },
+    };
+  }
+  const response = await fetch("http://localhost:3000/companies/getEnterprises",
       options);
 
-  try {
-    if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`)
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
 
   return await response.json();
 }
@@ -95,5 +95,24 @@ function setCompanyRow(companies) {
   });
 
 }
+
+/*
+  renderTable(companies);
+  addListeners();
+
+  const sortData = (column, order) => companies.slice().sort((a, b) => {
+    const aValue = a[column];
+    const bValue = b[column];
+    return (order === 'asc') ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
+  })
+
+} catch (error) {
+  // Gestion des erreurs existante
+  alert('Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
+  console.error('Une erreur est survenue : ', error);
+}
+}
+
+*/
 
 export default viewAllCompaniesPage;

@@ -124,7 +124,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 //    }
 
 
-    String query = "SELECT * FROM pae.enterprises ORDER BY " + sort;
+    String query = "SELECT * FROM pae.enterprises ORDER BY trade_name, designation" + sort;
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(query);
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
