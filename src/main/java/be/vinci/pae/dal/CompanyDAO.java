@@ -48,5 +48,5 @@ public interface CompanyDAO {
    * @return A list containing CompanyDTO objects representing all companies.
    *     If no companies are found, the list will be empty.
    */
-  List<CompanyDTO> getAllEnterprises(String sort);
+  List<CompanyDTO> getAllEnterprises();
 }

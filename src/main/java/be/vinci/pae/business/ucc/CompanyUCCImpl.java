@@ -47,10 +47,10 @@ public class CompanyUCCImpl implements CompanyUCC {
    * @return A list of CompanyDTO objects representing all the companies.
    */
   @Override
-  public List<CompanyDTO> getAllEnterprises(String sort) {
+  public List<CompanyDTO> getAllEnterprises() {
     dalServices.start();
     try {
-      List<CompanyDTO> companiesList = companyDAO.getAllEnterprises(sort);
+      List<CompanyDTO> companiesList = companyDAO.getAllEnterprises();
 
       dalServices.commit();
       return companiesList;

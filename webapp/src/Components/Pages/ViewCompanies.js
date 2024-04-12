@@ -8,19 +8,20 @@ const viewAllCompaniesPage = async () => {
 
 }
 
-async function fetchCompanies(options) {
+async function fetchCompanies(sort) {
   const token = getToken();
-  if (options === null) {
-    options = {
+    const options = {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization: token
       },
-    };
-  }
-  const response = await fetch("http://localhost:3000/companies/getEnterprises",
-      options);
+  };
+    let url = "http://localhost:3000/companies/getEnterprises";
+    if (sort) {
+      url += `?sort=${sort}`;
+    }
+  const response = await fetch(url, options);
 
   if (!response.ok) throw new Error(
       `fetch error : ${response.status} : ${response.statusText}`)
@@ -57,22 +58,12 @@ async function addListeners() {
     button.addEventListener('click', async () => {
       const sort = button.value; // Récupérer la valeur du bouton de tri
       console.log(sort);
-      const options = {
-        method: 'GET',
-        body: JSON.stringify({
-          sort,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: getToken(),
-        },
-      };
 
-      const companies = await fetchCompanies(options);
+      const companies = await fetchCompanies({sort: sort});
       // Rendre les entreprises triées
       // TODO API TRI DES ENTREPRISES
 
-      allCompanies(companies);
+      await allCompanies(companies);
     });
   });
 }
