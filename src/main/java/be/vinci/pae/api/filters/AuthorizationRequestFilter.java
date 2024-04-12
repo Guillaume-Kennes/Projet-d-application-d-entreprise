@@ -13,9 +13,14 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
+import jakarta.ws.rs.container.ResourceInfo;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import jakarta.ws.rs.ext.Provider;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Request filter for handling authorization checks. This filter checks for the presence of a JWT
@@ -33,6 +38,9 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
   @Inject
   private UserUCC userUCC;
 
+  @Context
+  private ResourceInfo resourceInfo;
+
 
   /**
    * Filters incoming requests to verify authorization.
@@ -41,6 +49,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
    */
   public void filter(ContainerRequestContext requestContext) {
 
+    //Changer les exceptions
     String token = requestContext.getHeaderString("Authorization");
     if (token == null) {
       requestContext.abortWith(Response.status(Status.UNAUTHORIZED)
@@ -57,6 +66,20 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter {
       if (authenticatedUser == null) {
         requestContext.abortWith(Response.status(Status.FORBIDDEN)
             .entity("You are forbidden to access this resource").build());
+      }
+
+      Method method = resourceInfo.getResourceMethod();
+
+      Authorize authorize = method.getAnnotation(Authorize.class);
+      if(authorize == null) {
+
+        return;
+      } else {
+        String[] roles = authorize.value();
+        if(!Arrays.asList(roles).contains(authenticatedUser.getRole())) {
+          requestContext.abortWith(Response.status(Status.FORBIDDEN)
+              .entity("You are forbidden to access this resource").build());
+        }
       }
       requestContext.setProperty("user",
           authenticatedUser); //user ici comme le STORE_NAME dans auths.js dans le front
