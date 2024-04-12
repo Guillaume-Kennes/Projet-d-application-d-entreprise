@@ -115,12 +115,18 @@ public class CompanyDAOImpl implements CompanyDAO {
    * @return A list of CompanyDTO objects representing all enterprises.
    * @throws FatalException If an error occurs during database access or processing.
    */
-  public List<CompanyDTO> getAllEnterprises() {
+  public List<CompanyDTO> getAllEnterprises(String sort) {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.enterprises"
-    );
+    // Check if sortColumn and sortOrder are not null
+//    if (sort == null) {
+//      sort = "id_enterprise";
+//    }
+
+
+    String query = "SELECT * FROM pae.enterprises ORDER BY " + sort;
+
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(query);
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
         CompanyDTO companyDTO = myDomainFactory.getCompany();
