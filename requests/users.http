@@ -52,9 +52,6 @@ Content-Type: application/json
 ### Get an user by it's id
 GET {{baseUrl}}/users/7
 
-### Get all users with a teacher token
-GET {{baseUrl}}/users
-Authorization: {{baroniToken}}
 
 ### Get all users with a student token
 GET {{baseUrl}}/users/getAllUsers
