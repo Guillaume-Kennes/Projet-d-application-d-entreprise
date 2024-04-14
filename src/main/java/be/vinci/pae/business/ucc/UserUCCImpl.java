@@ -154,6 +154,7 @@ public class UserUCCImpl implements UserUCC {
     dalServices.start();
     try {
       int students = userDAO.getStudentsWithInternship(schoolYear);
+      System.out.println("STUDENTS: " + students);
       dalServices.commit();
       return students;
     } catch (Exception e) {

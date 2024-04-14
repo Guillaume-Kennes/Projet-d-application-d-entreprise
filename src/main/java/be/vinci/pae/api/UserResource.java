@@ -113,6 +113,7 @@ public class UserResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize (value = {"Professeur"})
   public int getStudentsWithInternship(@PathParam("school_year") String schoolYear) {
+    System.out.println("SCHOOL YEAR : " + schoolYear);
     return myUserUcc.getStudentsWithInternship(schoolYear);
   }
 }
