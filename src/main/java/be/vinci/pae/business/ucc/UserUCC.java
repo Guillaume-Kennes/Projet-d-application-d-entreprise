@@ -64,4 +64,6 @@ public interface UserUCC {
    */
   boolean userIsAdmin(UserDTO userDTO);
 
+
+  List<UserDTO> getStudentsWithInternship();
 }

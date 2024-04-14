@@ -107,4 +107,12 @@ public class UserResource {
     return myUserUcc.getAllUsers();
   }
 
+
+  @GET
+  @Path("/getStudentsWithInternship")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize (value = {"Professeur"})
+  public List<UserDTO> getStudentsWithInternship() {
+    return myUserUcc.getStudentsWithInternship();
+  }
 }
