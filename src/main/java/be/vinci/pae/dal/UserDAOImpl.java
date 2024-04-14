@@ -202,10 +202,9 @@ public class UserDAOImpl implements UserDAO {
    */
   public int getStudentsWithInternship(String schoolYear) {
     int studentsWithInternships = 0;
-    String query = "SELECT COUNT(iu.student) "
-            + "FROM pae.inscriptions_ue iu, pae.contacts c "
-            + "WHERE c.inscription_ue = iu.id_inscription_ue "
-            + "AND c.state = 'accepté' AND iu.school_year = ?";
+    String query = "SELECT COUNT(DISTINCT i.id_internship) "
+        + "FROM pae.internships i, pae.inscriptions_ue iu "
+        + "WHERE iu.school_year = '2023-2024';";
     System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
@@ -223,13 +222,17 @@ public class UserDAOImpl implements UserDAO {
     return studentsWithInternships;
   }
 
+
   @Override
   public int getStudentsWithoutInternship(String schoolYear) {
     int studentsWithoutInternships = 0;
-    String query = "SELECT COUNT(iu.student) "
-        + "FROM pae.inscriptions_ue iu, pae.contacts c "
-        + "WHERE c.inscription_ue = iu.id_inscription_ue "
-        + "AND c.state != 'accepté' AND iu.school_year = ?";
+    String query = "SELECT COUNT(DISTINCT iu.student) "
+        + "FROM pae.inscriptions_ue iu "
+        + "LEFT OUTER JOIN pae.contacts c ON c.inscription_ue = iu.id_inscription_ue AND c.state != 'accepté' "
+        + "WHERE iu.school_year = '2023-2024' "
+        + "AND c.id_contact NOT IN (SELECT COUNT(DISTINCT i.id_internship) "
+        + "FROM pae.internships i, pae.inscriptions_ue iu "
+        + "WHERE iu.school_year = '2023-2024');";
     System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
@@ -247,4 +250,26 @@ public class UserDAOImpl implements UserDAO {
     return studentsWithoutInternships;
   }
 
+
+/*
+  public int getStudentsWithoutInternship(String schoolYear) {
+    int studentsWithInternships = 0;
+    String query = "SELECT COUNT(DISTINCT iu.student) " +
+        "FROM pae.inscriptions_ue iu " +
+        "LEFT JOIN pae.contacts c ON c.inscription_ue = iu.id_inscription_ue " +
+        "WHERE c.state != 'accepté' AND iu.school_year = ?";
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+      preparedStatement.setString(1, schoolYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          studentsWithInternships = resultSet.getInt(1);
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return studentsWithInternships;
+  }
+
+ */
 }
