@@ -148,4 +148,16 @@ public class UserUCCImpl implements UserUCC {
     User user = (User) userDTO;
     return user.isAdmin();
   }
+
+  @Override
+  public List<UserDTO> getStudentsWithInternship() {
+    dalServices.start();
+    try {
+      List<UserDTO> students = userDAO.getStudentsWithInternship();
+      dalServices.commit();
+      return students;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }  }
 }

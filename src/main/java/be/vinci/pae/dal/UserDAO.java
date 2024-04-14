@@ -53,5 +53,6 @@ public interface UserDAO {
    */
   UserDTO register(UserDTO userDTO);
 
+  List<UserDTO> getStudentsWithInternship();
 }
 
