@@ -149,6 +149,12 @@ public class UserUCCImpl implements UserUCC {
     return user.isAdmin();
   }
 
+  /**
+   * Returns the number of students with an internship.
+   *
+   * @param schoolYear the school year to search for
+   * @return the number of students with an internship
+   */
   @Override
   public int getStudentsWithInternship(String schoolYear) {
     dalServices.start();
