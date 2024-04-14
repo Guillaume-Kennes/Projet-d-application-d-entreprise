@@ -65,5 +65,5 @@ public interface UserUCC {
   boolean userIsAdmin(UserDTO userDTO);
 
 
-  int getStudentsWithInternship();
+  int getStudentsWithInternship(String schoolYear);
 }

@@ -109,10 +109,10 @@ public class UserResource {
 
 
   @GET
-  @Path("/getStudentsWithInternship")
+  @Path("/getStudentsWithInternship/{school_year}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize (value = {"Professeur"})
-  public int getStudentsWithInternship() {
-    return myUserUcc.getStudentsWithInternship();
+  public int getStudentsWithInternship(@PathParam("school_year") String schoolYear) {
+    return myUserUcc.getStudentsWithInternship(schoolYear);
   }
 }

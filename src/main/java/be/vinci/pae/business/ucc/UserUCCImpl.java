@@ -150,10 +150,10 @@ public class UserUCCImpl implements UserUCC {
   }
 
   @Override
-  public int getStudentsWithInternship() {
+  public int getStudentsWithInternship(String schoolYear) {
     dalServices.start();
     try {
-      int students = userDAO.getStudentsWithInternship();
+      int students = userDAO.getStudentsWithInternship(schoolYear);
       dalServices.commit();
       return students;
     } catch (Exception e) {
