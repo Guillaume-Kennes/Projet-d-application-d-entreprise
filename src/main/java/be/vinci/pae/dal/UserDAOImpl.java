@@ -223,4 +223,27 @@ public class UserDAOImpl implements UserDAO {
     return studentsWithInternships;
   }
 
+  @Override
+  public int getStudentsWithoutInternship(String schoolYear) {
+    int studentsWithInternships = 0;
+    String query = "SELECT COUNT(iu.student) "
+        + "FROM pae.inscriptions_ue iu, pae.contacts c "
+        + "WHERE c.inscription_ue = iu.id_inscription_ue "
+        + "AND c.state != 'accepté' AND iu.school_year = ?";
+    System.out.println("QUERY = " + query);
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+      preparedStatement.setString(1, schoolYear);
+      System.out.println("PREPARED STATEMENT = " + preparedStatement);
+      System.out.println("SCHOOL YEAR = " + schoolYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          studentsWithInternships = resultSet.getInt(1);
+          System.out.println("STUDENT WITHOUT INTERNSHIPS : " + studentsWithInternships);
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return studentsWithInternships;  }
+
 }
