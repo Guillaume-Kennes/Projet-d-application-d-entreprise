@@ -200,11 +200,15 @@ public class UserDAOImpl implements UserDAO {
             + "FROM pae.inscriptions_ue iu, pae.contacts c"
             + "WHERE c.inscription_ue = iu.id_inscription_ue"
             + "AND c.state = 'accepté' AND iu.school_year = ?)";
+    System.out.println("QUERY" + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
+      System.out.println("PREPARED STATEMENT" + preparedStatement);
+      System.out.println("SCHOOL YEAR" + schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
           studentWithInternships = resultSet.getInt(1);
+          System.out.println("STUDENT WITH INTERNSHIPS" + studentWithInternships);
         }
       }
     } catch (SQLException e) {

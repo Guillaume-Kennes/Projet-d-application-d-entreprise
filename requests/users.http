@@ -77,5 +77,10 @@ Content-Type: application/json
 }
 
 ### Get all students with an internship
-GET {{baseUrl}}/users/getAllStudentsWithInternship}
+GET {{baseUrl}}/users/getAllStudentsWithInternship
+Content-Type: application/json
 Authorization: {{leleuxToken}}
+
+{
+    "year": "2023-2024"
+}
