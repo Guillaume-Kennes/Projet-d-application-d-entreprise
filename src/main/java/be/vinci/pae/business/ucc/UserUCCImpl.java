@@ -148,4 +148,24 @@ public class UserUCCImpl implements UserUCC {
     User user = (User) userDTO;
     return user.isAdmin();
   }
+
+  /**
+   * Returns the number of students with an internship.
+   *
+   * @param schoolYear the school year to search for
+   * @return the number of students with an internship
+   */
+  @Override
+  public int getStudentsWithInternship(String schoolYear) {
+    dalServices.start();
+    try {
+      int students = userDAO.getStudentsWithInternship(schoolYear);
+      System.out.println("STUDENTS: " + students);
+      dalServices.commit();
+      return students;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
 }
