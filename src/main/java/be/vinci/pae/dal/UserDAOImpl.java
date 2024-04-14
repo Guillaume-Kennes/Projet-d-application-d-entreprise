@@ -204,7 +204,7 @@ public class UserDAOImpl implements UserDAO {
     int studentsWithInternships = 0;
     String query = "SELECT COUNT(DISTINCT i.id_internship) "
         + "FROM pae.internships i, pae.inscriptions_ue iu "
-        + "WHERE iu.school_year = '2023-2024';";
+        + "WHERE iu.school_year = ?;";
     System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
@@ -229,13 +229,14 @@ public class UserDAOImpl implements UserDAO {
     String query = "SELECT COUNT(DISTINCT iu.student) "
         + "FROM pae.inscriptions_ue iu "
         + "LEFT OUTER JOIN pae.contacts c ON c.inscription_ue = iu.id_inscription_ue AND c.state != 'accepté' "
-        + "WHERE iu.school_year = '2023-2024' "
+        + "WHERE iu.school_year = ? "
         + "AND c.id_contact NOT IN (SELECT COUNT(DISTINCT i.id_internship) "
         + "FROM pae.internships i, pae.inscriptions_ue iu "
-        + "WHERE iu.school_year = '2023-2024');";
+        + "WHERE iu.school_year = ?);";
     System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
+      preparedStatement.setString(2, schoolYear);
       System.out.println("PREPARED STATEMENT = " + preparedStatement);
       System.out.println("SCHOOL YEAR = " + schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
