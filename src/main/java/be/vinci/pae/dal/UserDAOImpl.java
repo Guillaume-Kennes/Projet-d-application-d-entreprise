@@ -213,14 +213,17 @@ public class UserDAOImpl implements UserDAO {
       System.out.println("SCHOOL YEAR = " + schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
-          studentsWithInternships = resultSet.getInt(1);
-          System.out.println("STUDENT WITH INTERNSHIPS : " + studentsWithInternships);
+          return resultSet.getInt(1);
+
+//          studentsWithInternships = resultSet.getInt(1);
+//          System.out.println("STUDENT WITH INTERNSHIPS : " + studentsWithInternships);
         }
+        return 0;
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return studentsWithInternships;
+//    return studentsWithInternships;
   }
 
   @Override
@@ -237,13 +240,15 @@ public class UserDAOImpl implements UserDAO {
       System.out.println("SCHOOL YEAR = " + schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
-          studentsWithInternships = resultSet.getInt(1);
-          System.out.println("STUDENT WITHOUT INTERNSHIPS : " + studentsWithInternships);
+          return resultSet.getInt(1);
+          //studentsWithInternships = resultSet.getInt(1);
+          //System.out.println("STUDENT WITHOUT INTERNSHIPS : " + studentsWithInternships);
         }
+        return 0;
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return studentsWithInternships;  }
+  }
 
 }
