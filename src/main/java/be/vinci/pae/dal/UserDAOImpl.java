@@ -194,26 +194,28 @@ public class UserDAOImpl implements UserDAO {
     return userDTO;
   }
 
+
   public int getStudentsWithInternship(String schoolYear) {
-    int studentWithInternships = 0;
-    String query = "SELECT COUNT (iu.student)"
-            + "FROM pae.inscriptions_ue iu, pae.contacts c"
-            + "WHERE c.inscription_ue = iu.id_inscription_ue"
-            + "AND c.state = 'accepté' AND iu.school_year = ?)";
-    System.out.println("QUERY" + query);
+    int studentsWithInternships = 0;
+    String query = "SELECT COUNT (iu.student) "
+            + "FROM pae.inscriptions_ue iu, pae.contacts c "
+            + "WHERE c.inscription_ue = iu.id_inscription_ue "
+            + "AND c.state = 'accepté' AND iu.school_year = ?";
+    System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
-      System.out.println("PREPARED STATEMENT" + preparedStatement);
-      System.out.println("SCHOOL YEAR" + schoolYear);
+      System.out.println("PREPARED STATEMENT = " + preparedStatement);
+      System.out.println("SCHOOL YEAR = " + schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
-          studentWithInternships = resultSet.getInt(1);
-          System.out.println("STUDENT WITH INTERNSHIPS" + studentWithInternships);
+          studentsWithInternships = resultSet.getInt(1);
+          System.out.println("STUDENT WITH INTERNSHIPS : " + studentsWithInternships);
         }
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return studentWithInternships;
+    return studentsWithInternships;
   }
+
 }
