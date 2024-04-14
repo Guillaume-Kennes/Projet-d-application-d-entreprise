@@ -112,7 +112,7 @@ public class UserResource {
   @Path("/getStudentsWithInternship")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize (value = {"Professeur"})
-  public List<UserDTO> getStudentsWithInternship() {
+  public int getStudentsWithInternship() {
     return myUserUcc.getStudentsWithInternship();
   }
 }
