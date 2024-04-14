@@ -225,7 +225,7 @@ public class UserDAOImpl implements UserDAO {
 
   @Override
   public int getStudentsWithoutInternship(String schoolYear) {
-    int studentsWithInternships = 0;
+    int studentsWithoutInternships = 0;
     String query = "SELECT COUNT(iu.student) "
         + "FROM pae.inscriptions_ue iu, pae.contacts c "
         + "WHERE c.inscription_ue = iu.id_inscription_ue "
@@ -237,13 +237,14 @@ public class UserDAOImpl implements UserDAO {
       System.out.println("SCHOOL YEAR = " + schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
-          studentsWithInternships = resultSet.getInt(1);
-          System.out.println("STUDENT WITHOUT INTERNSHIPS : " + studentsWithInternships);
+          studentsWithoutInternships = resultSet.getInt(1);
+          System.out.println("STUDENT WITHOUT INTERNSHIPS : " + studentsWithoutInternships);
         }
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return studentsWithInternships;  }
+    return studentsWithoutInternships;
+  }
 
 }
