@@ -194,7 +194,6 @@ public class UserDAOImpl implements UserDAO {
     return userDTO;
   }
 
-
   public int getStudentsWithInternship(String schoolYear) {
     int studentWithInternships = 0;
     String query = "SELECT COUNT (iu.student)"

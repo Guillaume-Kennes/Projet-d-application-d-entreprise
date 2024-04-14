@@ -53,6 +53,6 @@ public interface UserDAO {
    */
   UserDTO register(UserDTO userDTO);
 
-  int getStudentsWithInternship();
+  int getStudentsWithInternship(String schoolYear);
 }
 
