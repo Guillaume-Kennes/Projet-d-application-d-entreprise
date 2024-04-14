@@ -193,4 +193,22 @@ public class UserDAOImpl implements UserDAO {
     }
     return userDTO;
   }
+
+  @Override
+  public List<UserDTO> getStudentsWithInternship() {
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT COUNT (iu.student)"
+            + "FROM pae.inscriptions_ue iu, pae.contacts c"
+            + "WHERE c.inscription_ue = iu.id_inscription_ue"
+            + "AND iu.school_year = ?"
+            + "AND c.state = 'accepté');
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
+
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return null;
+  }
 }
