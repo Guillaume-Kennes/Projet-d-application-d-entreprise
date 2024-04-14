@@ -202,7 +202,7 @@ public class UserDAOImpl implements UserDAO {
    */
   public int getStudentsWithInternship(String schoolYear) {
     int studentsWithInternships = 0;
-    String query = "SELECT COUNT (iu.student) "
+    String query = "SELECT COUNT(iu.student) "
             + "FROM pae.inscriptions_ue iu, pae.contacts c "
             + "WHERE c.inscription_ue = iu.id_inscription_ue "
             + "AND c.state = 'accepté' AND iu.school_year = ?";
