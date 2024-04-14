@@ -195,16 +195,22 @@ public class UserDAOImpl implements UserDAO {
   }
 
 
-  public List<UserDTO> getStudentsWithInternship(String schoolYear) {
+  public int getStudentsWithInternship(String schoolYear) {
+    int studentWithInternships = 0;
     String query = "SELECT COUNT (iu.student)"
             + "FROM pae.inscriptions_ue iu, pae.contacts c"
             + "WHERE c.inscription_ue = iu.id_inscription_ue"
             + "AND c.state = 'accepté' AND iu.school_year = ?)";
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          studentWithInternships = resultSet.getInt(1);
+        }
+      }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return null;
+    return studentWithInternships;
   }
 }
