@@ -107,7 +107,12 @@ public class UserResource {
     return myUserUcc.getAllUsers();
   }
 
-
+  /**
+   * Retrieves the number of students with an internship for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the number of students with an internship.
+   * @return The number of students with an internship for the specified school year.
+   */
   @GET
   @Path("/getStudentsWithInternship/{school_year}")
   @Produces(MediaType.APPLICATION_JSON)
