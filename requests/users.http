@@ -75,3 +75,7 @@ Content-Type: application/json
   "role": "Student",
   "versionNumber": 1
 }
+
+### Get all students with an internship
+GET {{baseUrl}}/users/getAllStudentsWithInternship}
+Authorization: {{leleuxToken}}
