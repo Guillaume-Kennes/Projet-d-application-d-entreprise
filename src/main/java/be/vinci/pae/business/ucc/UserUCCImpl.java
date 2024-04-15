@@ -160,7 +160,7 @@ public class UserUCCImpl implements UserUCC {
     dalServices.start();
     try {
       int students = userDAO.getStudentsWithInternship(schoolYear);
-      System.out.println("STUDENTS: " + students);
+      System.out.println("STUDENTS WITH INTERNSHIP: " + students);
       dalServices.commit();
       return students;
     } catch (Exception e) {
@@ -168,4 +168,17 @@ public class UserUCCImpl implements UserUCC {
       throw e;
     }
   }
+
+  @Override
+  public int getStudentsWithoutInternship(String schoolYear) {
+    dalServices.start();
+    try {
+      int students = userDAO.getStudentsWithoutInternship(schoolYear);
+      System.out.println("STUDENTS WITHOUT INTERNSHIP: " + students);
+      dalServices.commit();
+      return students;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }  }
 }
