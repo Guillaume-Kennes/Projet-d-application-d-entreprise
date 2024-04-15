@@ -47,9 +47,9 @@ public class UserResource {
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
-  @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
   public ObjectNode getUserById(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
