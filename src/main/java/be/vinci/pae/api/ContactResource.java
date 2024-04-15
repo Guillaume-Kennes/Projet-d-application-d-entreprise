@@ -125,7 +125,6 @@ public class ContactResource {
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
-  @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode getContactsByUserId(@PathParam("id") int id) throws SQLException {

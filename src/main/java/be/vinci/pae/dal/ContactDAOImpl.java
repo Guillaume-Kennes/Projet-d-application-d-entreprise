@@ -36,8 +36,8 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ContactDTO getContactById(int contactId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u "
-            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_ue i, pae.users u "
+            + " WHERE c.enterprise = e.id_enterprise AND c.inscription_ue = i.id_inscription_ue"
             + " AND u.id_user = i.student AND c.id_contact = ?");
 
     try {
@@ -110,6 +110,8 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setString(6, contactDTO.getMeetingPlace());
         ps.setInt(7, contactDTO.getId());
         ps.setInt(8, contactDTO.getVersionNumber());
+
+
 
         int correctVersion = ps.executeUpdate();
         if (correctVersion == 0) {
@@ -207,7 +209,7 @@ public class ContactDAOImpl implements ContactDAO {
               is_followed,
               meeting_place,
               version_contacts)
-          VALUES ('initié',
+          VALUES ('initiÃ©',
           (SELECT e.id_enterprise
            FROM pae.enterprises e
            WHERE e.trade_name LIKE ?),

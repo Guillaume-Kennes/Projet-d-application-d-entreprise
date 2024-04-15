@@ -48,6 +48,8 @@ public class ContactUCCImpl implements ContactUCC {
         contact.setMeetingPlace(place);
 
         contactDAO.update(contact);
+        dalServices.commit();
+
         return contact;
       } else {
         dalServices.rollBack();
@@ -56,8 +58,6 @@ public class ContactUCCImpl implements ContactUCC {
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 

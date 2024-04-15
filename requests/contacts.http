@@ -1,4 +1,4 @@
-@baseurl = http://localhost:3000
+@baseUrl = http://localhost:3000
 
 ### requete meetCompany
 POST {{baseurl}}/contacts/meet/9
@@ -26,4 +26,4 @@ Content-Type: application/json
 
 
 ### Get all contacts of an user by it's id
-GET {{baseurl}}/contacts/1
+GET {{baseUrl}}/contacts/5
