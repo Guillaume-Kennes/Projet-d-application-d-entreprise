@@ -202,8 +202,9 @@ public class UserDAOImpl implements UserDAO {
    */
   public int getStudentsWithInternship(String schoolYear) {
     int studentsWithInternships = 0;
-    String query = "SELECT COUNT(DISTINCT i.id_internship) "
-        + "FROM pae.internships i, pae.inscriptions_ue iu "
+    String query = "SELECT COUNT(DISTINCT iu.student) "
+        + "FROM pae.inscriptions_ue iu "
+        + "LEFT OUTER JOIN pae.contacts c ON c.inscription_ue = iu.id_inscription_ue AND c.state = 'accepté' "
         + "WHERE iu.school_year = ?;";
     System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
