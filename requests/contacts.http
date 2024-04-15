@@ -24,3 +24,6 @@ Content-Type: application/json
   "reasonRefusal": "On n'a plus de place"
 }
 
+
+### Get all contacts of an user by it's id
+GET {{baseurl}}/contacts/1
