@@ -127,7 +127,8 @@ public class ContactResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(value = {"Etudiant"})
+
   public ObjectNode getContactsByUserId(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
