@@ -85,3 +85,9 @@ Authorization: {{leleuxToken}}
 GET {{baseUrl}}/users/getStudentsWithoutInternship/2023-2024
 Content-Type: application/json
 Authorization: {{leleuxToken}}
+
+
+### Get all contacts of an user by it's id
+GET {{baseUrl}}/contacts/5
+Content-Type: application/json
+Authorization: {{carolineToken}}

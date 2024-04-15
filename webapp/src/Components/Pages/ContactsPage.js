@@ -173,6 +173,7 @@ async function stopFollowing(idContact) {
 }
 async function getValues() {
   const authenticatedUser = getAuthenticatedUser();
+  console.log("CONTACTS --> authenticatedUser : ", authenticatedUser);
   const id = authenticatedUser?.user?.id;
   console.log("CONTACTS --> authenticatedUserId : ", id);
 
