@@ -81,3 +81,7 @@ GET {{baseUrl}}/users/getStudentsWithInternship/2023-2024
 Content-Type: application/json
 Authorization: {{leleuxToken}}
 
+### Get all students without an internship
+GET {{baseUrl}}/users/getStudentsWithoutInternship/2023-2024
+Content-Type: application/json
+Authorization: {{leleuxToken}}

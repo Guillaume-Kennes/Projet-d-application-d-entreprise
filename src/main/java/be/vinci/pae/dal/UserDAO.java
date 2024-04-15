@@ -60,5 +60,7 @@ public interface UserDAO {
    * @return The number of students with an internship for the specified school year.
    */
   int getStudentsWithInternship(String schoolYear);
+
+  int getStudentsWithoutInternship(String schoolYear);
 }
 

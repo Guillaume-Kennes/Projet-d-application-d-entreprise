@@ -72,4 +72,6 @@ public interface UserUCC {
    * @return the number of students who have an internship in the specified school year
    */
   int getStudentsWithInternship(String schoolYear);
+
+  int getStudentsWithoutInternship(String schoolYear);
 }

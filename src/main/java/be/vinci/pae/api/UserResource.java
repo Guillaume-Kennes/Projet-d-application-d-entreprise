@@ -121,4 +121,13 @@ public class UserResource {
     System.out.println("SCHOOL YEAR : " + schoolYear);
     return myUserUcc.getStudentsWithInternship(schoolYear);
   }
+
+  @GET
+  @Path("/getStudentsWithoutInternship/{school_year}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize (value = {"Professeur"})
+  public int getStudentsWithoutInternship(@PathParam("school_year") String schoolYear) {
+    System.out.println("SCHOOL YEAR : " + schoolYear);
+    return myUserUcc.getStudentsWithoutInternship(schoolYear);
+  }
 }
