@@ -171,18 +171,10 @@ async function onAddCompany(e) {
   e.preventDefault();
 
   const tradeName = document.querySelector('#unknownEnterpriseTradeName').value;
-  console.log(`trade name : ${tradeName}`);
   const designation = document.querySelector('#unknownEnterpriseDesignation').value;
-  console.log(`designation : ${designation}`);
   const address = document.querySelector('#unknownEnterpriseAddress').value;
-  console.log(`address : ${address}`);
   const city = document.querySelector('#unknownEnterpriseCity').value;
-  console.log(`city : ${city}`);
   const meansOfCommunication = document.querySelector('#unknownEnterprisePhoneNumber').value;
-  // ici il fallait remplacer phoneNumber par meansOfCommunication
-  // (peut changer au dessus le phoneNumber mais pas obligé)
-  console.log(`phone number : ${meansOfCommunication}`);
-
 
   const options = {
     method: 'POST',
@@ -197,20 +189,46 @@ async function onAddCompany(e) {
       'Content-Type': 'application/json',
     },
   };
-  console.log(`options : ${options}`);
-  console.log(options);
-  const response= await fetch(`http://localhost:3000/company/add`, options);
 
-  console.log(`response : ${response}`); // it fails here
+  try {
+    const response = await fetch('http://localhost:3000/company/add', options);
 
-  if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    if (response.ok) {
+      // Create a container div for text center alignment
+      const centerDiv = document.createElement('div');
+      centerDiv.classList.add('text-center');
 
-  const companyAdded = await response.json();
+      // Create a success message element
+      const successMessage = document.createElement('div');
+      successMessage.textContent = `L'entreprise "${tradeName}" a été ajoutée correctement !`;
+      successMessage.classList.add('success-message'); // Add a class for styling if needed
 
-  console.log(`companyAdded : ${companyAdded}`);
+      // Append the success message to the centerDiv
+      centerDiv.appendChild(successMessage);
 
+      // Append the centerDiv to the form or any other appropriate container
+      const main = document.querySelector('main');
+      main.appendChild(centerDiv);
+
+      // Clear input fields or perform any other necessary cleanup
+      document.getElementById('unknownEnterpriseTradeName').value = '';
+      document.getElementById('unknownEnterpriseDesignation').value = '';
+      document.getElementById('unknownEnterpriseAddress').value = '';
+      document.getElementById('unknownEnterpriseCity').value = '';
+      document.getElementById('unknownEnterprisePhoneNumber').value = '';
+
+      // You might want to add additional logic here, such as reloading data or updating UI
+    } else {
+      // Handle error response
+      console.error('Company submission failed:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error submitting company:', error);
+  }
+
+  // You can include further logic here as needed
   Navbar();
-
 }
+
 
 export default ContactCompanyPage;
