@@ -36,12 +36,11 @@ public class UserUCCImpl implements UserUCC {
         dalServices.rollBack();
         throw new BusinessException("Incorrect Email or Password");
       }
+      dalServices.commit();
       return userFound;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -56,12 +55,11 @@ public class UserUCCImpl implements UserUCC {
     dalServices.start();
     try {
       UserDTO userDTO = userDAO.getUserById(id);
+      dalServices.commit();
       return userDTO;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
