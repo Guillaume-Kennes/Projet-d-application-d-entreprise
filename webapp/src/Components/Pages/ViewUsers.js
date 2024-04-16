@@ -1,5 +1,6 @@
 import {clearPage} from "../../utils/render";
 import {getAuthenticatedUser} from "../../utils/auths";
+import {getToken} from "../../utils/user";
 
 const viewAllUsersPage = async () => {
   clearPage();
@@ -25,7 +26,8 @@ async function allUsers() {
 
     const users = await response.json();
 
-    const userRows = users.map(user => `
+    const renderUsers = (users1) => {
+      const userRows = users1.map(user => `
           <tr>
             <td>${user.id}</td>
             <td>${user.email}</td>
@@ -36,16 +38,17 @@ async function allUsers() {
           </tr>
         `);
 
-    main.innerHTML = `
+      main.innerHTML = `
+          <button id="filterButton">Afficher uniquement les étudiants</button>
           <table class="table table-bordered">
             <thead>
               <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Email</th>
-                <th scope="col">Last Name</th>
-                <th scope="col">First Name</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Role</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Numéro de téléphone</th>
+                <th scope="col">Rôle</th>
               </tr>
             </thead>
             <tbody>
@@ -53,12 +56,22 @@ async function allUsers() {
             </tbody>
           </table>
         `;
+    };
+
+    renderUsers(users);
+
+    const filterButton = document.getElementById('filterButton');
+    filterButton.addEventListener('click', async () => {
+      const studentUsers = users.filter(user => user.role === "Etudiant");
+      renderUsers(studentUsers);
+    });
+
   } catch (error) {
     // Gestion des erreurs existante
+    console.log("Erreur");
     alert(
         'Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
     console.error('Une erreur est survenue : ', error);
   }
 }
-
 export default viewAllUsersPage;
