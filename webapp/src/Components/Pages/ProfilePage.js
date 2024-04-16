@@ -1,6 +1,5 @@
 import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
-import {getToken} from "../../utils/user";
 import {getAuthenticatedUser} from "../../utils/auths";
 
 const ProfilePage = async () => {
@@ -67,7 +66,6 @@ function renderProfilePage(user) {
 }
 
 async function getValues() {
-  const token = getToken();
   const authenticatedUser = getAuthenticatedUser();
   const id = authenticatedUser?.user?.id;
   console.log(id);
@@ -75,7 +73,7 @@ async function getValues() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: token,
+      Authorization: authenticatedUser.token,
     },
   };
   let user;

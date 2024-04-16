@@ -92,15 +92,6 @@ class ContactImpl implements Contact {
     this.reasonForRefusal = reasonForRefusal;
   }
 
-  /**
-   * Get the value of the isFollowed boolean.
-   *
-   * @return The value of the isFollowed boolean
-   */
-  @Override
-  public boolean isFollowed() {
-    return isFollowed;
-  }
 
   /**
    * Set the value of the isFollowed boolean.
@@ -310,6 +301,16 @@ class ContactImpl implements Contact {
    */
   public boolean prisState(ContactDTO contact) {
     return contact.getState().equals("pris");
+  }
+
+  /**
+   * Get the value of the isFollowed boolean.
+   *
+   * @return The value of the isFollowed boolean
+   */
+  @Override
+  public boolean isFollowed() {
+    return isFollowed;
   }
 
   /**

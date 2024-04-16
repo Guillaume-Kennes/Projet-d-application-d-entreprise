@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.CompanyDTO;
+import java.util.List;
 
 /**
  * Represents a Company Use Case Controller (UCC) with methods related to company operations.
@@ -15,4 +16,12 @@ public interface CompanyUCC {
    * @return the added company
    */
   CompanyDTO addCompany(CompanyDTO companyDTO);
+
+
+  /**
+   * Retrieves a list of all enterprises from the database.
+   *
+   * @return A list of CompanyDTO objects representing all enterprises.
+   */
+  List<CompanyDTO> getAllEnterprises();
 }

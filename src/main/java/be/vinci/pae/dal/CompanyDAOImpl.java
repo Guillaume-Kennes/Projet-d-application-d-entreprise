@@ -7,6 +7,8 @@ import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the ViewCompanyDAO interface. Provides methods for retrieving company-related
@@ -106,4 +108,33 @@ public class CompanyDAOImpl implements CompanyDAO {
     return company;
   }
 
+
+  /**
+   * Retrieves a list of all enterprises from the database.
+   *
+   * @return A list of CompanyDTO objects representing all enterprises.
+   * @throws FatalException If an error occurs during database access or processing.
+   */
+  public List<CompanyDTO> getAllEnterprises() {
+    List<CompanyDTO> enterprisesList = new ArrayList<>();
+
+    String query = "SELECT * FROM pae.enterprises";
+
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(query);
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
+        CompanyDTO companyDTO = myDomainFactory.getCompany();
+        companyDTO.setId(resultSet.getInt("id_enterprise"));
+        companyDTO.setTradeName(resultSet.getString("trade_name"));
+        companyDTO.setDesignation(resultSet.getString("designation"));
+        companyDTO.setAddress(resultSet.getString("address"));
+        companyDTO.setCity(resultSet.getString("city"));
+        companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
+        enterprisesList.add(companyDTO);
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return enterprisesList;
+  }
 }

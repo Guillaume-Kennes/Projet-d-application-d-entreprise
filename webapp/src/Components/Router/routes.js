@@ -7,6 +7,7 @@ import ProfilePage from "../Pages/ProfilePage";
 import ContactsPage from "../Pages/ContactsPage";
 import meetCompanyPage from "../Pages/meetCompanyPage";
 import ViewUsers from "../Pages/ViewUsers";
+import ViewCompanies from "../Pages/ViewCompanies";
 import ContactCompanyPage from "../Pages/ContactCompanyPage";
 
 const routes = {
@@ -14,6 +15,7 @@ const routes = {
   '/login': LoginPage,
   '/register': RegisterPage,
   '/viewUsers': ViewUsers,
+  '/viewCompanies': ViewCompanies,
   '/logout': Logout,
   '/meetCompany': meetCompanyPage,
   '/companyRefused': companyRefusedInternship,

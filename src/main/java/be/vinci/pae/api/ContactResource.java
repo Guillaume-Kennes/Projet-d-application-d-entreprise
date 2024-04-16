@@ -124,9 +124,10 @@ public class ContactResource {
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
-  @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Etudiant"})
+
   public ObjectNode getContactsByUserId(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
