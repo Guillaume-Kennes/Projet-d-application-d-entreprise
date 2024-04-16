@@ -1,7 +1,6 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
-import be.vinci.pae.api.filters.IsAdmin;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
@@ -48,9 +47,9 @@ public class UserResource {
    * @throws IllegalArgumentException if the user with the specified ID is not found.
    */
   @GET
-  @Authorize
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Etudiant"})
   public ObjectNode getUserById(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
@@ -101,12 +100,34 @@ public class UserResource {
   @GET
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
-  @IsAdmin
+  @Authorize (value = {"Professeur", "Administratif"})
   public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
     UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
     System.out.println(authentificatedUser); //juste pour Jenkins
     return myUserUcc.getAllUsers();
   }
 
+  /**
+   * Retrieves the number of students with an internship for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the number of students with an internship.
+   * @return The number of students with an internship for the specified school year.
+   */
+  @GET
+  @Path("/getStudentsWithInternship/{school_year}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize (value = {"Professeur"})
+  public int getStudentsWithInternship(@PathParam("school_year") String schoolYear) {
+    System.out.println("SCHOOL YEAR : " + schoolYear);
+    return myUserUcc.getStudentsWithInternship(schoolYear);
+  }
+
+  @GET
+  @Path("/getStudentsWithoutInternship/{school_year}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize (value = {"Professeur"})
+  public int getStudentsWithoutInternship(@PathParam("school_year") String schoolYear) {
+    System.out.println("SCHOOL YEAR : " + schoolYear);
+    return myUserUcc.getStudentsWithoutInternship(schoolYear);
+  }
 }

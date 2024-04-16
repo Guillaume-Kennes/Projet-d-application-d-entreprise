@@ -4,6 +4,7 @@ import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.dal.CompanyDAO;
 import be.vinci.pae.dal.DALServices;
 import jakarta.inject.Inject;
+import java.util.List;
 
 /**
  * Implementation of the ViewCompanyUCC interface.
@@ -12,16 +13,22 @@ import jakarta.inject.Inject;
 public class CompanyUCCImpl implements CompanyUCC {
 
   @Inject
-  private CompanyDAO itemDAO;
+  private CompanyDAO companyDAO;
   @Inject
   private DALServices dalServices;
 
+  /**
+   * Adds a new company to the database.
+   *
+   * @param companyDTO The CompanyDTO object representing the company to be added.
+   * @return The CompanyDTO object representing the added company with the assigned ID.
+   */
   @Override
   public CompanyDTO addCompany(CompanyDTO companyDTO) {
-    try {
-      dalServices.start();
+    dalServices.start();
 
-      int id = itemDAO.insert(companyDTO);
+    try {
+      int id = companyDAO.insert(companyDTO);
       companyDTO.setId(id);
 
       dalServices.commit();
@@ -32,4 +39,27 @@ public class CompanyUCCImpl implements CompanyUCC {
       throw e;
     }
   }
+
+
+  /**
+   * Retrieves a list of all companies.
+   *
+   * @return A list of CompanyDTO objects representing all the companies.
+   */
+  @Override
+  public List<CompanyDTO> getAllEnterprises() {
+    dalServices.start();
+    try {
+      List<CompanyDTO> companiesList = companyDAO.getAllEnterprises();
+
+      dalServices.commit();
+      return companiesList;
+
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+
 }

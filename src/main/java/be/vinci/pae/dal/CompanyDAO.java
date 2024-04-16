@@ -3,6 +3,7 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.CompanyDTO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
@@ -41,4 +42,11 @@ public interface CompanyDAO {
    */
   CompanyDTO getCompanyById(int id) throws SQLException;
 
+  /**
+   * Retrieves the list of all companies available in the system.
+   *
+   * @return A list containing CompanyDTO objects representing all companies.
+   *     If no companies are found, the list will be empty.
+   */
+  List<CompanyDTO> getAllEnterprises();
 }
