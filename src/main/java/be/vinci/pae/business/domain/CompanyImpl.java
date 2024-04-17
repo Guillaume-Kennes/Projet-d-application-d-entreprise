@@ -15,6 +15,7 @@ public class CompanyImpl implements Company {
   private String address;
   private String city;
   private String meansOfCommunication;
+  private boolean isBlackListed;
 
   /**
    * Constructs a new CompanyImpl object with default values. This constructor initializes a new
@@ -154,6 +155,7 @@ public class CompanyImpl implements Company {
   public void setMeansOfCommunication(String meansOfCommunication) {
     this.meansOfCommunication = meansOfCommunication;
   }
+
 
   /**
    * Returns a string representation of the company.

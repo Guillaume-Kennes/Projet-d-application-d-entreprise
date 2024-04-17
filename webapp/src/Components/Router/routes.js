@@ -9,6 +9,7 @@ import meetCompanyPage from "../Pages/meetCompanyPage";
 import ViewUsers from "../Pages/ViewUsers";
 import ViewCompanies from "../Pages/ViewCompanies";
 import ContactCompanyPage from "../Pages/ContactCompanyPage";
+import DashBoardPage from "../Pages/DashBoardPage";
 
 const routes = {
   '/': HomePage,
@@ -21,7 +22,8 @@ const routes = {
   '/companyRefused': companyRefusedInternship,
   '/users': ProfilePage,
   '/contacts': ContactsPage,
-  '/contact': ContactCompanyPage
+  '/contact': ContactCompanyPage,
+  '/dashboard': DashBoardPage,
 };
 
 export default routes;
