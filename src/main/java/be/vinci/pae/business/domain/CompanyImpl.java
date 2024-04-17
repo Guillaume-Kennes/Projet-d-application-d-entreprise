@@ -156,6 +156,26 @@ public class CompanyImpl implements Company {
     this.meansOfCommunication = meansOfCommunication;
   }
 
+  /**
+   * Returns whether the company is blacklisted.
+   *
+   * @return true if the company is blacklisted, false otherwise
+   */
+  @Override
+  public boolean getIsBlackListed() {
+    return isBlackListed;
+  }
+
+  /**
+   * Sets whether the company is blacklisted.
+   *
+   * @param isBlackListed true if the company is blacklisted, false otherwise
+   */
+  @Override
+  public void setIsBlackListed(boolean isBlackListed) {
+    this.isBlackListed = isBlackListed;
+  }
+
 
   /**
    * Returns a string representation of the company.
