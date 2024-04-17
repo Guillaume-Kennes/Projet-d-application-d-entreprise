@@ -140,7 +140,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         companyDTO.setAddress(resultSet.getString("address"));
         companyDTO.setCity(resultSet.getString("city"));
         companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
-        
+        companyDTO.setIsBlackListed(resultSet.getBoolean("is_black_listed"));
         enterprisesList.add(companyDTO);
       }
     } catch (SQLException e) {
