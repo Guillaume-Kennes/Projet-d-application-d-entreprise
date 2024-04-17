@@ -197,7 +197,8 @@ public class UserDAOImpl implements UserDAO {
   /**
    * Retrieves the number of students with an internship for a given school year.
    *
-   * @param schoolYear The school year for which to retrieve the number of students with an internship.
+   * @param schoolYear The school year for which to retrieve the number of students with an
+   *                   internship.
    * @return The number of students with an internship for the specified school year.
    */
   public int getStudentsWithInternship(String schoolYear) {
@@ -280,5 +281,5 @@ public class UserDAOImpl implements UserDAO {
     return studentsWithInternships;
   }
 
- */
+  */
 }
