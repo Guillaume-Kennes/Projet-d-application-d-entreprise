@@ -5,15 +5,15 @@ import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
-import java.util.List;
 import jakarta.ws.rs.core.Response.Status;
+import java.util.List;
 
 
 /**
@@ -34,11 +34,10 @@ public class CompanyResource {
   @GET
   @Path("/getEnterprises")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize (value = {"Professeur"})
+  @Authorize(value = {"Professeur"})
   public List<CompanyDTO> getAllEnterprises() {
     return companyUCC.getAllEnterprises();
   }
-
 
 
   /**
