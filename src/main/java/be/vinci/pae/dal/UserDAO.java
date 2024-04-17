@@ -40,7 +40,7 @@ public interface UserDAO {
    * Retrieves the list of all users available in the system.
    *
    * @return A list containing UserDTO objects representing all users. If no users are found, the
-   * list will be empty.
+   *     list will be empty.
    */
   List<UserDTO> getAllUsers();
 
@@ -53,5 +53,14 @@ public interface UserDAO {
    */
   UserDTO register(UserDTO userDTO);
 
+  /**
+   * Retrieves the number of students with an internship for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the number of students with an internship.
+   * @return The number of students with an internship for the specified school year.
+   */
+  int getStudentsWithInternship(String schoolYear);
+
+  int getStudentsWithoutInternship(String schoolYear);
 }
 

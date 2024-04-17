@@ -31,7 +31,7 @@ public interface UserUCC {
    * Retrieves the list of all users available in the system.
    *
    * @return A list containing UserDTO objects representing all users. If no users are found, the
-   * list will be empty.
+   *     list will be empty.
    */
   List<UserDTO> getAllUsers();
 
@@ -43,7 +43,8 @@ public interface UserUCC {
    *
    * @return A {@code UserDTO} object representing the registered user.
    *
-   * @throws ConflictException If the user already exists in the system and registration cannot proceed due to conflict.
+   * @throws ConflictException If the user already exists in the
+   *     system and registration cannot proceed due to conflict.
    */
   UserDTO register(UserDTO userDTO) throws ConflictException;
 
@@ -63,4 +64,14 @@ public interface UserUCC {
    */
   boolean userIsAdmin(UserDTO userDTO);
 
+
+  /**
+   * Returns the number of students who have an internship in the specified school year.
+   *
+   * @param schoolYear the school year to check
+   * @return the number of students who have an internship in the specified school year
+   */
+  int getStudentsWithInternship(String schoolYear);
+
+  int getStudentsWithoutInternship(String schoolYear);
 }

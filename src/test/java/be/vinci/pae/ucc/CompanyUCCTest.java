@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.CompanyDTO;
+import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.ucc.CompanyUCC;
 import be.vinci.pae.dal.CompanyDAO;
 import be.vinci.pae.utils.AppBinderTest;
@@ -15,23 +16,28 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * The type Company ucc test.
+ */
 public class CompanyUCCTest {
 
   private CompanyUCC companyUCC;
   private CompanyDAO companyDAO;
+  private CompanyDTO companyDTO;
 
   /**
    * Method executed before each test.
    */
   @BeforeEach
-  public void setUp() {
+  void setUp() {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new AppBinderTest());
-
     companyUCC = locator.getService(CompanyUCC.class);
-    // DomainFactory domainFactory = locator.getService(DomainFactory.class);
     companyDAO = locator.getService(CompanyDAO.class);
-    // ArrayList<CompanyDTO> expectedCompany = new ArrayList<>();
+    DomainFactory myDomainFactory = locator.getService(DomainFactory.class);
+
+    companyDTO = myDomainFactory.getCompany();
   }
+
 
   /**
    * Test for successfully adding a contact.
@@ -45,6 +51,7 @@ public class CompanyUCCTest {
 
     assertEquals(companyDTO, result);
   }
+
 
   /**
    * Test for adding a contact. Failure expected.

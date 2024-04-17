@@ -160,7 +160,8 @@ public class UserDAOImpl implements UserDAO {
           + "phone_number, registration_date, role, version_users) "
           + "VALUES(?, ?, ?, ?, ?, NOW(), ?, ?) RETURNING *";
 
-      String query2 = "INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue) "
+      String query2 = "INSERT INTO pae.inscriptions_ue "
+          + "(student, school_year, version_inscriptions_ue) "
           + "VALUES(?, '2023-2024', ?)";
       // schoolyear hardcodée mais à changer dans le futur
 
@@ -192,4 +193,92 @@ public class UserDAOImpl implements UserDAO {
     }
     return userDTO;
   }
+
+  /**
+   * Retrieves the number of students with an internship for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the number of students with an internship.
+   * @return The number of students with an internship for the specified school year.
+   */
+  public int getStudentsWithInternship(String schoolYear) {
+    int studentsWithInternships = 0;
+    String query = "SELECT COUNT(DISTINCT i.id_internship) "
+        + "FROM pae.internships i, pae.inscriptions_ue iu "
+        + "WHERE iu.school_year = ? ;";
+    System.out.println("QUERY = " + query);
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+      preparedStatement.setString(1, schoolYear);
+      System.out.println("PREPARED STATEMENT = " + preparedStatement);
+      System.out.println("SCHOOL YEAR = " + schoolYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          studentsWithInternships = resultSet.getInt(1);
+          System.out.println("STUDENT WITH INTERNSHIPS : " + studentsWithInternships);
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return studentsWithInternships;
+  }
+
+
+  @Override
+  public int getStudentsWithoutInternship(String schoolYear) {
+    int studentsWithoutInternships = 0;
+    String query = "SELECT COUNT(*) "
+        + "FROM pae.users u "
+        + "WHERE u.role = 'Etudiant' AND u.id_user NOT IN ( "
+        + "    SELECT DISTINCT iue.student "
+        + "    FROM pae.inscriptions_ue iue "
+        + "    JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue "
+        + "    JOIN pae.internships i ON c.id_contact = i.contact "
+        + "    WHERE iue.school_year = ? "
+        + ")"
+        + "AND u.id_user IN ("
+        + "    SELECT DISTINCT student "
+        + "    FROM pae.inscriptions_ue "
+        + "    WHERE school_year = ? "
+        + ")";
+    System.out.println("QUERY = " + query);
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+      preparedStatement.setString(1, schoolYear);
+      preparedStatement.setString(2, schoolYear);
+
+      System.out.println("PREPARED STATEMENT = " + preparedStatement);
+      System.out.println("SCHOOL YEAR = " + schoolYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          studentsWithoutInternships = resultSet.getInt(1);
+          System.out.println("STUDENT WITHOUT INTERNSHIPS : " + studentsWithoutInternships);
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return studentsWithoutInternships;
+  }
+
+
+/*
+  public int getStudentsWithoutInternship(String schoolYear) {
+    int studentsWithInternships = 0;
+    String query = "SELECT COUNT(DISTINCT iu.student) " +
+        "FROM pae.inscriptions_ue iu " +
+        "LEFT JOIN pae.contacts c ON c.inscription_ue = iu.id_inscription_ue " +
+        "WHERE c.state != 'accepté' AND iu.school_year = ?";
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+      preparedStatement.setString(1, schoolYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          studentsWithInternships = resultSet.getInt(1);
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return studentsWithInternships;
+  }
+
+ */
 }

@@ -191,7 +191,7 @@ async function onAddCompany(e) {
   };
 
   try {
-    const response = await fetch('http://localhost:3000/company/add', options);
+    const response = await fetch('http://localhost:3000/companies/add', options);
 
     if (response.ok) {
       // Create a container div for text center alignment

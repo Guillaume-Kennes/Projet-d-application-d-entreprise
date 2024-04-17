@@ -1,27 +1,45 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
+import java.util.List;
 import jakarta.ws.rs.core.Response.Status;
 
 
 /**
- * Resource class for managing contacts.
+ * The Class CompanyResource.
  */
 @Singleton
-@Path("/company")
+@Path("/companies")
 public class CompanyResource {
 
   @Inject
-  private CompanyUCC myCompanyUcc;
+  private CompanyUCC companyUCC;
+
+  /**
+   * Get all enterprises.
+   *
+   * @return the list of all enterprises
+   */
+  @GET
+  @Path("/getEnterprises")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize (value = {"Professeur"})
+  public List<CompanyDTO> getAllEnterprises() {
+    return companyUCC.getAllEnterprises();
+  }
+
+
 
   /**
    * Adds a new contact.
@@ -41,7 +59,7 @@ public class CompanyResource {
         throw new WebApplicationException("Invalid company data", Status.BAD_REQUEST);
       }
       System.out.println("rentre ici 1");
-      CompanyDTO addedCompanyDTO = myCompanyUcc.addCompany(newCompanyDTO);
+      CompanyDTO addedCompanyDTO = companyUCC.addCompany(newCompanyDTO);
       System.out.println("CompanyResource ---> addedCompanyDTO : " + addedCompanyDTO);
       if (addedCompanyDTO == null) {
         System.out.println("rentre ici 2");

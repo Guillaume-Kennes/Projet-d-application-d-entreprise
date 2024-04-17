@@ -24,18 +24,43 @@ Content-Type: application/json
   client.global.set("baroniToken", response.body.token);
 %}
 
-### Get an user by it's id
-GET {{baseUrl}}/users/7
+### Login another user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
 
-### Get all users with a teacher token
-GET {{baseUrl}}/users
-Authorization: {{baroniToken}}
+{
+  "email":"laurent.leleux@vinci.be" ,
+  "password": "Prof24,z"
+}
+> {%
+  client.global.set("leleuxToken", response.body.token);
+%}
+
+
+### Login another user
+POST {{baseUrl}}/auths/login
+Content-Type: application/json
+
+{
+  "email":"annouck.lancaster@vinci.be",
+  "password": "Admin;10."
+}
+> {%
+  client.global.set("annouckToken", response.body.token);
+%}
+
 
 ### Get all users with a student token
-GET {{baseUrl}}/users
+GET {{baseUrl}}/users/getAllUsers
 Authorization: {{carolineToken}}
 
+### Get all users with a teacher token
+GET {{baseUrl}}/users/getAllUsers
+Authorization: {{leleuxToken}}
 
+### Get all users with an admin token
+GET {{baseUrl}}/users/getAllUsers
+Authorization: {{annouckToken}}
 
 ### Register an user
 POST {{baseUrl}}/auths/register
@@ -50,3 +75,19 @@ Content-Type: application/json
   "role": "Student",
   "versionNumber": 1
 }
+
+### Get all students with an internship
+GET {{baseUrl}}/users/getStudentsWithInternship/2023-2024
+Content-Type: application/json
+Authorization: {{leleuxToken}}
+
+### Get all students without an internship
+GET {{baseUrl}}/users/getStudentsWithoutInternship/2023-2024
+Content-Type: application/json
+Authorization: {{leleuxToken}}
+
+
+### Get all contacts of an user by it's id
+GET {{baseUrl}}/contacts/5
+Content-Type: application/json
+Authorization: {{carolineToken}}

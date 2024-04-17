@@ -36,12 +36,11 @@ public class UserUCCImpl implements UserUCC {
         dalServices.rollBack();
         throw new BusinessException("Incorrect Email or Password");
       }
+      dalServices.commit();
       return userFound;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -56,12 +55,11 @@ public class UserUCCImpl implements UserUCC {
     dalServices.start();
     try {
       UserDTO userDTO = userDAO.getUserById(id);
+      dalServices.commit();
       return userDTO;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
-    } finally {
-      dalServices.commit();
     }
   }
 
@@ -69,8 +67,8 @@ public class UserUCCImpl implements UserUCC {
   /**
    * Returns the list of all users available in the system.
    *
-   * @return A list containing UserDTO objects representing all users. If no users are found, the
-   * list will be empty.
+   * @return A list containing UserDTO objects representing all users.
+   *     If no users are found, the list will be empty.
    */
   public List<UserDTO> getAllUsers() {
     dalServices.start();
@@ -148,4 +146,37 @@ public class UserUCCImpl implements UserUCC {
     User user = (User) userDTO;
     return user.isAdmin();
   }
+
+  /**
+   * Returns the number of students with an internship.
+   *
+   * @param schoolYear the school year to search for
+   * @return the number of students with an internship
+   */
+  @Override
+  public int getStudentsWithInternship(String schoolYear) {
+    dalServices.start();
+    try {
+      int students = userDAO.getStudentsWithInternship(schoolYear);
+      System.out.println("STUDENTS WITH INTERNSHIP: " + students);
+      dalServices.commit();
+      return students;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  @Override
+  public int getStudentsWithoutInternship(String schoolYear) {
+    dalServices.start();
+    try {
+      int students = userDAO.getStudentsWithoutInternship(schoolYear);
+      System.out.println("STUDENTS WITHOUT INTERNSHIP: " + students);
+      dalServices.commit();
+      return students;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }  }
 }

@@ -21,6 +21,7 @@ import be.vinci.pae.dal.InternshipDAO;
 import be.vinci.pae.dal.InternshipDAOImpl;
 import be.vinci.pae.dal.UserDAO;
 import be.vinci.pae.dal.UserDAOImpl;
+import jakarta.inject.Singleton;
 import jakarta.ws.rs.ext.Provider;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.mockito.Mockito;
@@ -39,18 +40,13 @@ public class AppBinderTest extends AbstractBinder {
   @Override
   protected void configure() {
     bind(DomainFactoryImpl.class).to(DomainFactory.class);
-
     bind(UserUCCImpl.class).to(UserUCC.class);
     bind(Mockito.mock(UserDAOImpl.class)).to(UserDAO.class);
-
     bind(Mockito.mock(DALServicesImpl.class)).to(DALBackServices.class).to(DALServices.class);
-
     bind(InternshipUCCImpl.class).to(InternshipUCC.class);
     bind(Mockito.mock(InternshipDAOImpl.class)).to(InternshipDAO.class);
-
     bind(ContactUCCImpl.class).to(ContactUCC.class);
     bind(Mockito.mock(ContactDAOImpl.class)).to(ContactDAO.class);
-
     bind(CompanyUCCImpl.class).to(CompanyUCC.class);
     bind(Mockito.mock(CompanyDAOImpl.class)).to(CompanyDAO.class);
   }
