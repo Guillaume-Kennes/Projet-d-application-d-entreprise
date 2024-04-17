@@ -92,6 +92,10 @@ function setCompanyRow(companies) {
 
 }
 
+
+
+import {getToken} from "../../utils/user";
+
 const viewPieChart = async () => {
   const data = await fetchPieChartData();
   await pieChart(data);
