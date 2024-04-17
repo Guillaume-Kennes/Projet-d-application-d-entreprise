@@ -92,23 +92,47 @@ function setCompanyRow(companies) {
 
 }
 
-/*
-  renderTable(companies);
-  addListeners();
-
-  const sortData = (column, order) => companies.slice().sort((a, b) => {
-    const aValue = a[column];
-    const bValue = b[column];
-    return (order === 'asc') ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-  })
-
-} catch (error) {
-  // Gestion des erreurs existante
-  alert('Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
-  console.error('Une erreur est survenue : ', error);
-}
+const viewPieChart = async () => {
+  const data = await fetchPieChartData();
+  await pieChart(data);
 }
 
-*/
+async function fetchStudentsWithInternship() {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = "http://localhost:3000/users/getStudentsWithInternship";
+  const response = await fetch(url, options);
+
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
+
+  return response.json();
+}
+
+async function fetchStudentsWithoutInternship() {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = "http://localhost:3000/users/getStudentsWithoutInternship";
+  const response = await fetch(url, options);
+
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
+
+  return response.json();
+}
+
+
 
 export default viewAllCompaniesPage;
