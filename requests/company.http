@@ -1,0 +1,15 @@
+@baseUrl = http://localhost:3000
+
+### Insert a new Company
+POST {{baseUrl}}/company/add
+Content-Type: application/json
+
+{
+  "tradeName": "Niboo",
+  "designation": "boobi",
+  "address": "ch43",
+  "city": "Bruxelles",
+  "meansOfCommunication": "04 504974833"
+}
+
+### ici c est les noms de CompanyImpl

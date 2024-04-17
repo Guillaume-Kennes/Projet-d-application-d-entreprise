@@ -52,7 +52,7 @@ public class ApplicationBinder extends AbstractBinder {
     bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
     bind(UEInscriptionDAOImpl.class).to(UEInscriptionDAO.class).in(Singleton.class);
     bind(InternshipSupervisorDAOImpl.class).to(InternshipSupervisorDAO.class).in(Singleton.class);
-    bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
     bind(CompanyUCCImpl.class).to(CompanyUCC.class).in(Singleton.class);
+    bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
   }
 }

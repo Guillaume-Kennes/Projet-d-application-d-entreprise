@@ -90,17 +90,16 @@ public class UserResource {
 
   /**
    * This method sends a request to retrieve the list of all users and returns it as a
-   * JSON-formatted list of UserDTO objects. It logs an informational message indicating
-   * the request to view the list of users.
+   * JSON-formatted list of UserDTO objects. It logs an informational message indicating the request
+   * to view the list of users.
    *
    * @param requestContext The request context containing authentication information.
-   *
    * @return A list of UserDTO objects representing all users.
    */
   @GET
   @Path("getAllUsers")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize (value = {"Professeur", "Administratif"})
+  @Authorize(value = {"Professeur", "Administratif"})
   public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
     UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
     System.out.println(authentificatedUser); //juste pour Jenkins
@@ -110,13 +109,14 @@ public class UserResource {
   /**
    * Retrieves the number of students with an internship for a given school year.
    *
-   * @param schoolYear The school year for which to retrieve the number of students with an internship.
+   * @param schoolYear The school year for which to retrieve the number of students with an
+   *                   internship.
    * @return The number of students with an internship for the specified school year.
    */
   @GET
   @Path("/getStudentsWithInternship/{school_year}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize (value = {"Professeur"})
+  @Authorize(value = {"Professeur"})
   public int getStudentsWithInternship(@PathParam("school_year") String schoolYear) {
     System.out.println("SCHOOL YEAR : " + schoolYear);
     return myUserUcc.getStudentsWithInternship(schoolYear);
@@ -125,7 +125,7 @@ public class UserResource {
   @GET
   @Path("/getStudentsWithoutInternship/{school_year}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize (value = {"Professeur"})
+  @Authorize(value = {"Professeur"})
   public int getStudentsWithoutInternship(@PathParam("school_year") String schoolYear) {
     System.out.println("SCHOOL YEAR : " + schoolYear);
     return myUserUcc.getStudentsWithoutInternship(schoolYear);
