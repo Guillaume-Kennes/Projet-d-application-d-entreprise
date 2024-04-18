@@ -25,7 +25,7 @@ async function fetchCompanies() {
   return response.json();
 }
 
-async function fetchNumberOfStudentsTakenByCompany(companyId) {
+async function fetchNumberOfStudentsTakenByCompany(idCompany) {
   const token = getToken();
   const options = {
     method: 'GET',
@@ -34,7 +34,7 @@ async function fetchNumberOfStudentsTakenByCompany(companyId) {
       Authorization: token
     },
   };
-  const url = `http://localhost:3000/companies/getNumberOfStudentsTakenByCompany/${companyId}`;
+  const url = `http://localhost:3000/companies/numberOfStudentsTaken/${idCompany}`;
   const response = await fetch(url, options);
 
   if (!response.ok) throw new Error(
@@ -91,22 +91,26 @@ function sortCompanies(companies, sortColumn, sortOrder) {
   });
 }
 
-function setCompanyRow(companies) {
+async function setCompanyRow(companies) {
   const body = document.querySelector("tbody");
-  companies.forEach(company =>  {
-    const numberOfStudents = fetchNumberOfStudentsTakenByCompany(company.id);
+    const promises = companies.map(async (company) => {
+      const numberOfStudents = await fetchNumberOfStudentsTakenByCompany(company.id);
 
-    body.innerHTML += `
+      return `
       <tr>
             <td>${company.tradeName}</td>
             <td>${company.designation || '/'}</td>
             <td>${company.meansOfCommunication || ''}</td>
-            <td></td>
             <td>${numberOfStudents || '0'}</td>
             <td>${company.blackListed ? 'Oui' : 'Non'}</td>
       </tr>
     `;
-  });
+    });
+  // Attendre la résolution de toutes les promesses
+  const tableRows = await Promise.all(promises);
+
+  // Ajouter les lignes au tableau
+  body.innerHTML = tableRows.join('');
 
 }
 
