@@ -130,13 +130,11 @@ public class CompanyDAOImpl implements CompanyDAO {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
 
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement("SELECT designation, is_black_listed FROM pae.enterprises");
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement("SELECT * FROM pae.enterprises");
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
 
-        CompanyDTO companyDTO = myDomainFactory.getCompany();
-        companyDTO.setDesignation(resultSet.getString("designation"));
-        companyDTO.setIsBlackListed(resultSet.getBoolean("is_black_listed"));
+        CompanyDTO companyDTO = companyInfos(resultSet);
         enterprisesList.add(companyDTO);
       }
     } catch (SQLException e) {

@@ -1,12 +1,13 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Implementation class for the ViewCompany interface. This class provides implementations for
  * various company-related methods.
  */
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonInclude(Include.USE_DEFAULTS)
 public class CompanyImpl implements Company {
 
   private int id;
