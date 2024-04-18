@@ -25,6 +25,24 @@ async function fetchCompanies() {
   return response.json();
 }
 
+async function fetchNumberOfStudentsTakenByCompany(companyId) {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = `http://localhost:3000/companies/getNumberOfStudentsTakenByCompany/${companyId}`;
+  const response = await fetch(url, options);
+
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
+
+  return response.json();
+}
+
 async function allCompanies(companies) {
   const main = document.querySelector('main');
   main.innerHTML = `
@@ -76,14 +94,16 @@ function sortCompanies(companies, sortColumn, sortOrder) {
 function setCompanyRow(companies) {
   const body = document.querySelector("tbody");
   companies.forEach(company =>  {
+    const numberOfStudents = fetchNumberOfStudentsTakenByCompany(company.id);
 
     body.innerHTML += `
       <tr>
             <td>${company.tradeName}</td>
             <td>${company.designation || '/'}</td>
-            <td >${company.meansOfCommunication || ''}</td>
-            <td >${company.numberOfStudents || '0'}</td>
-            <td >${company.blackListed ? 'Oui' : 'Non'}</td>
+            <td>${company.meansOfCommunication || ''}</td>
+            <td></td>
+            <td>${numberOfStudents || '0'}</td>
+            <td>${company.blackListed ? 'Oui' : 'Non'}</td>
       </tr>
     `;
   });
