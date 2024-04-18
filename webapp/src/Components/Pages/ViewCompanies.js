@@ -34,9 +34,11 @@ async function allCompanies(companies) {
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nom <button class="sort-button" data-column="tradeName" value="tradeName">&#x25BC;</button><button class="sort-button" data-column="tradeName" value="-tradeName">&#x25B2;</button></th>
+              <th scope ="col">Désignation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
               <th scope="col">Adresse <button class="sort-button" data-column="address" value="address">&#x25BC;</button><button class="sort-button" data-column="address" value="-address">&#x25B2;</button></th>
               <th scope="col">Ville <button class="sort-button" data-column="city" value="city">&#x25BC;</button><button class="sort-button" data-column="city" value="-city">&#x25B2;</button></th>
               <th scope="col">Moyen de communication <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
+              <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25BC;</button></th>
             </tr>
           </thead>
           <tbody>
