@@ -146,6 +146,8 @@ async function changePassword(e) {
     body: JSON.stringify({ password }),
   };
 
+  const authenticatedUser = getAuthenticatedUser();
+  const id = authenticatedUser?.user?.id;
   try {
     const response = await fetch(`http://localhost:3000/users/editPassword/${id}`, options);
     if (!response.ok) {
@@ -169,6 +171,8 @@ async function changePhoneNumber(e) {
     body: JSON.stringify({ phone }),
   };
 
+  const authenticatedUser = getAuthenticatedUser();
+  const id = authenticatedUser?.user?.id;
   try {
     const response = await fetch(`http://localhost:3000/users/editPhoneNumber/${id}`, options);
     if (!response.ok) {

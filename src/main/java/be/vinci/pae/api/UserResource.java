@@ -52,7 +52,7 @@ public class UserResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize(value = {"Etudiant"})
+  @Authorize(value = {"Professeur", "Administratif", "Etudiant"})
   public ObjectNode getUserById(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
