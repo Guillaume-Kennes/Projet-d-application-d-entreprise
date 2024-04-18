@@ -20,9 +20,3 @@ Content-Type: application/json
 ### Get all companies
 GET {{baseUrl}}/companies/getEnterprises
 Authorization: {{leleuxToken}}
-Content-Type: application/json
-
-
-
-### Get all companies
-GET {{baseUrl}}/companies

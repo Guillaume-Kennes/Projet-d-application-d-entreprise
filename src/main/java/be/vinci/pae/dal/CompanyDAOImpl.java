@@ -80,6 +80,7 @@ public class CompanyDAOImpl implements CompanyDAO {
       companyDTO.setAddress(resultSet.getString("address"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
+      companyDTO.setIsBlackListed(resultSet.getBoolean("is_black_listed"));
     } catch (SQLException e) {
       throw new FatalException(e);
     }
@@ -128,18 +129,13 @@ public class CompanyDAOImpl implements CompanyDAO {
   public List<CompanyDTO> getAllEnterprises() {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
-    String query = "SELECT * FROM pae.enterprises";
 
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement(query);
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement("SELECT designation, is_black_listed FROM pae.enterprises");
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
+
         CompanyDTO companyDTO = myDomainFactory.getCompany();
-        companyDTO.setId(resultSet.getInt("id_enterprise"));
-        companyDTO.setTradeName(resultSet.getString("trade_name"));
         companyDTO.setDesignation(resultSet.getString("designation"));
-        companyDTO.setAddress(resultSet.getString("address"));
-        companyDTO.setCity(resultSet.getString("city"));
-        companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
         companyDTO.setIsBlackListed(resultSet.getBoolean("is_black_listed"));
         enterprisesList.add(companyDTO);
       }

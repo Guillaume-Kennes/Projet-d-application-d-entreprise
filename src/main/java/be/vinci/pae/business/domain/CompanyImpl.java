@@ -190,6 +190,7 @@ public class CompanyImpl implements Company {
         + ", address='" + address + '\''
         + ", city='" + city + '\''
         + ", meansOfCommunication='" + meansOfCommunication + '\''
+        + ", isBlackListed=" + isBlackListed
         + '}';
   }
 }
