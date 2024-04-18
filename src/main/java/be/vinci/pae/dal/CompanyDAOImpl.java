@@ -143,6 +143,13 @@ public class CompanyDAOImpl implements CompanyDAO {
     return enterprisesList;
   }
 
+  /**
+   * Retrieves the number of students taken by a company.
+   *
+   * @param idCompany The identifier of the company.
+   * @return The number of students taken by the company.
+   * @throws FatalException If an error occurs during database access or processing.
+   */
   public int numberOfStudentsTaken(int idCompany) {
     int numberOfStudents = 0;
     try {
