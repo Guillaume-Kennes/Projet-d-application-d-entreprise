@@ -74,4 +74,13 @@ public class CompanyResource {
       throw new WebApplicationException("Failed to add contact", Status.INTERNAL_SERVER_ERROR);
     }
   }
+
+  @GET
+  @Path("/numberOfStudentsTaken")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Professeur"})
+  public int numberOfStudentsTaken() {
+    return companyUCC.numberOfStudentsTaken();
+  }
+
 }

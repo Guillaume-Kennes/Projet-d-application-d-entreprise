@@ -46,4 +46,6 @@ public interface CompanyDAO {
    *     If no companies are found, the list will be empty.
    */
   List<CompanyDTO> getAllEnterprises();
+
+  int numberOfStudentsTaken();
 }

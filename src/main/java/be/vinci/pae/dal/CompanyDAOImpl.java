@@ -130,7 +130,7 @@ public class CompanyDAOImpl implements CompanyDAO {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
 
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement("SELECT * FROM pae.enterprises");
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement("SELECT * FROM pae.enterprises ORDER BY trade_name, designation");
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
 
@@ -141,5 +141,25 @@ public class CompanyDAOImpl implements CompanyDAO {
       throw new FatalException(e);
     }
     return enterprisesList;
+  }
+
+  public int numberOfStudentsTaken() {
+    int numberOfStudents = 0;
+    try {
+      PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+          "SELECT e.trade_name AS enterprise_name, COUNT(DISTINCT ic.student) AS number_of_students_taken "
+          + "FROM pae.contacts c "
+          + "JOIN pae.enterprises e ON c.enterprise = e.id_enterprise "
+          + "JOIN pae.inscriptions_ue ic ON c.inscription_ue = ic.id_inscription_ue "
+          + "WHERE c.state = 'pris' "
+          + "GROUP BY e.trade_name ");
+      ResultSet resultSet = preparedStatement.executeQuery();
+      if (resultSet.next()) {
+        numberOfStudents = resultSet.getInt(2);
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return numberOfStudents;
   }
 }

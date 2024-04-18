@@ -24,4 +24,6 @@ public interface CompanyUCC {
    * @return A list of CompanyDTO objects representing all enterprises.
    */
   List<CompanyDTO> getAllEnterprises();
+
+  int numberOfStudentsTaken();
 }
