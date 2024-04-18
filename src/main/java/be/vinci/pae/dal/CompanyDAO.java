@@ -47,5 +47,5 @@ public interface CompanyDAO {
    */
   List<CompanyDTO> getAllEnterprises();
 
-  int numberOfStudentsTaken();
+  int numberOfStudentsTaken(int idCompany);
 }
