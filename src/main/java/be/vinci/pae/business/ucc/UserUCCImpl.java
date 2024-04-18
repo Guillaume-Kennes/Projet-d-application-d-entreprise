@@ -207,6 +207,7 @@ public class UserUCCImpl implements UserUCC {
   public void updatePhoneNumber(UserDTO user, String phoneNumber) {
     dalServices.start();
     try {
+      user.setPhoneNumber(phoneNumber);
       userDAO.updatePhoneNumber(user, phoneNumber);
       dalServices.commit();
     } catch (Exception e) {

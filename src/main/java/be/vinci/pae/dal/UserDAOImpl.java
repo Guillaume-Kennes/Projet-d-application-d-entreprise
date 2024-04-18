@@ -92,6 +92,7 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setPhoneNumber(resultSet.getString("phone_number"));
       userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
+      userDTO.setVersionNumber(resultSet.getInt("version_users"));
     } catch (SQLException e) {
       throw new FatalException(e);
     }
@@ -224,7 +225,6 @@ public class UserDAOImpl implements UserDAO {
     return studentsWithInternships;
   }
 
-
   @Override
   public int getStudentsWithoutInternship(String schoolYear) {
     int studentsWithoutInternships = 0;
@@ -297,14 +297,19 @@ public class UserDAOImpl implements UserDAO {
           UPDATE pae.users
           SET phone_number = ?,
           version_users = version_users + 1
-          WHERE id_user = ? AND version_users = ? ;
+          WHERE id_user = ? AND version_users = ? 
+          RETURNING version_users;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, phoneNumber);
         ps.setInt(2, user.getId());
         ps.setInt(3, user.getVersionNumber());
-
-        int correctVersion = ps.executeUpdate();
+        System.out.println(ps);
+        ResultSet resultSet = ps.executeQuery();
+        int correctVersion = 0;
+        if(resultSet.next()){
+          correctVersion = resultSet.getInt("version_users");
+        }
         if (correctVersion == 0) {
           if (getUserById(user.getId()) == null) {
             throw new FatalException("User not found");
@@ -338,9 +343,9 @@ public class UserDAOImpl implements UserDAO {
         ps.setString(1, user.hashPassword(password));
         ps.setInt(2, userDTO.getId());
         ps.setInt(3, userDTO.getVersionNumber());
-
+        System.out.println(ps);
         int correctVersion = ps.executeUpdate();
-        if (correctVersion == 0) {
+        if (correctVersion == 1) {
           if (getUserById(userDTO.getId()) == null) {
             throw new FatalException("User not found");
           } else {
