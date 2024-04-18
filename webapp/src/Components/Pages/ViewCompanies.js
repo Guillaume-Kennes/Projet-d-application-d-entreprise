@@ -84,61 +84,16 @@ function setCompanyRow(companies) {
       <tr>
             <td>${company.id}</td>
             <td>${company.tradeName}</td>
-             <td >${company.address}</td>
-             <td >${company.city}</td>
-             <td >${company.meansOfCommunication || ''}</td>
-        
+            <td>${company.designation || '/'}</td>
+            <td >${company.address}</td>
+            <td >${company.city}</td>
+            <td >${company.meansOfCommunication || ''}</td>
+            <td >${company.blackListed ? 'Oui' : 'Non'}</td>
       </tr>
     `;
   });
 
 }
-
-
-
-import {getToken} from "../../utils/user";
-
-const viewPieChart = async () => {
-  const data = await fetchPieChartData();
-  await pieChart(data);
-}
-
-async function fetchStudentsWithInternship() {
-  const token = getToken();
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    },
-  };
-  const url = "http://localhost:3000/users/getStudentsWithInternship";
-  const response = await fetch(url, options);
-
-  if (!response.ok) throw new Error(
-      `fetch error : ${response.status} : ${response.statusText}`)
-
-  return response.json();
-}
-
-async function fetchStudentsWithoutInternship() {
-  const token = getToken();
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    },
-  };
-  const url = "http://localhost:3000/users/getStudentsWithoutInternship";
-  const response = await fetch(url, options);
-
-  if (!response.ok) throw new Error(
-      `fetch error : ${response.status} : ${response.statusText}`)
-
-  return response.json();
-}
-
 
 
 export default viewAllCompaniesPage;
