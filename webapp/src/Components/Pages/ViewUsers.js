@@ -62,19 +62,18 @@ async function allUsers() {
 
     renderUsers(users);
 
+    document.querySelectorAll('.profileButton').forEach(button => {
+      const userId = button.getAttribute('data-user-id');
+      button.addEventListener('click', (e) => showStudentData(e, parseInt(userId, 10)));
+    });
+
     const filterButton = document.getElementById('filterButton');
     filterButton.addEventListener('click', async () => {
       const studentUsers = users.filter(user => user.role === "Etudiant");
       renderUsers(studentUsers);
     });
 
-    document.querySelectorAll('.profileButton').forEach(button => {
-      const userId = button.getAttribute('data-user-id');
-      button.addEventListener('click', (e) => showStudentData(e, parseInt(userId, 10)));
-    });
-
   } catch (error) {
-    // Gestion des erreurs existante
     console.log("Erreur");
     alert(
         'Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');

@@ -180,4 +180,38 @@ public class UserUCCImpl implements UserUCC {
       throw e;
     }
   }
+
+  /**
+   * Update a user's password.
+   *
+   * @param user The user whose password to update.
+   * @param password The new password.
+   */
+  public void updatePassword(UserDTO user, String password) {
+    dalServices.start();
+    try {
+      userDAO.updatePassword(user, password);
+      dalServices.commit();
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  /**
+   * Update a user's phone number.
+   *
+   * @param user The user whose phone number to update.
+   * @param phoneNumber The new phone number.
+   */
+  public void updatePhoneNumber(UserDTO user, String phoneNumber) {
+    dalServices.start();
+    try {
+      userDAO.updatePhoneNumber(user, phoneNumber);
+      dalServices.commit();
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
 }

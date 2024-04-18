@@ -80,4 +80,8 @@ public interface UserUCC {
    * @return the number of students who do not have an internship in the specified school year
    */
   int getStudentsWithoutInternship(String schoolYear);
+
+  void updatePassword(UserDTO user, String password);
+
+  void updatePhoneNumber(UserDTO user, String phoneNumber);
 }
