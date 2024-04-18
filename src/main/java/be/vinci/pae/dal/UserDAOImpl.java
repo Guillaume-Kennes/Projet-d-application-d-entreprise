@@ -315,15 +315,19 @@ public class UserDAOImpl implements UserDAO {
           UPDATE pae.users
           SET password = ?,
           version_users = version_users + 1
-          WHERE id_user = ? AND version_users = ? ;
+          WHERE id_user = ? AND version_users = ? 
+          RETURNING version_users;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, user.hashPassword(password));
         ps.setInt(2, userDTO.getId());
         ps.setInt(3, userDTO.getVersionNumber());
-        System.out.println(ps);
-        int correctVersion = ps.executeUpdate();
-        if (correctVersion == 1) {
+        System.out.println(ps);ResultSet resultSet = ps.executeQuery();
+        int correctVersion = 0;
+        if (resultSet.next()) {
+          correctVersion = resultSet.getInt("version_users");
+        }
+        if (correctVersion == 0) {
           if (getUserById(userDTO.getId()) == null) {
             throw new FatalException("User not found");
           } else {
