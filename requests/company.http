@@ -12,4 +12,21 @@ Content-Type: application/json
   "meansOfCommunication": "04 504974833"
 }
 
+
+### Get number of students taken by a company
+GET {{baseUrl}}/companies/numberOfStudentsTaken/1
+Authorization: {{leleuxToken}}
+
+### Get number of students taken by a company
+GET {{baseUrl}}/companies/numberOfStudentsTaken/2
+Authorization: {{leleuxToken}}
+
+### Get number of students taken by a company
+GET {{baseUrl}}/companies/numberOfStudentsTaken/3
+Authorization: {{leleuxToken}}
+
+### Get number of students taken by a company
+GET {{baseUrl}}/companies/numberOfStudentsTaken/4
+Authorization: {{leleuxToken}}
+
 ### ici c est les noms de CompanyImpl
