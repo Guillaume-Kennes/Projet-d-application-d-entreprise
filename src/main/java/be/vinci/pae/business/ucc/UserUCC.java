@@ -74,4 +74,8 @@ public interface UserUCC {
   int getStudentsWithInternship(String schoolYear);
 
   int getStudentsWithoutInternship(String schoolYear);
+
+  void updatePassword(UserDTO user, String password);
+
+  void updatePhoneNumber(UserDTO user, String phoneNumber);
 }
