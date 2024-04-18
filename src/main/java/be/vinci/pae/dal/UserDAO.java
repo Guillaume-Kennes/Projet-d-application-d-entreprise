@@ -63,5 +63,21 @@ public interface UserDAO {
   int getStudentsWithInternship(String schoolYear);
 
   int getStudentsWithoutInternship(String schoolYear);
+
+  /**
+   * Update a user's phone number.
+   *
+   * @param user The user whose phone number must be updated.
+   * @param phoneNumber The new phone number.
+   */
+  void updatePhoneNumber(UserDTO user, String phoneNumber);
+
+  /**
+   * Update a user's password.
+   *
+   * @param userDTO The user whose password must be updated.
+   * @param password The new password.
+   */
+  void updatePassword(UserDTO userDTO, String password);
 }
 

@@ -1,6 +1,7 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
@@ -282,4 +283,73 @@ public class UserDAOImpl implements UserDAO {
   }
 
   */
+
+  /**
+   * Updates a user's phone number in the database.
+   *
+   * @param user The user whose phone number to update.
+   * @param phoneNumber The new phone number.
+   * @throws FatalException if an SQL error occurs.
+   */
+  public void updatePhoneNumber(UserDTO user, String phoneNumber) {
+    try {
+      String query = """
+          UPDATE pae.users
+          SET phone_number = ?,
+          version_users = version_users + 1
+          WHERE id_user = ? AND version_users = ? ;
+          """;
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setString(1, phoneNumber);
+        ps.setInt(2, user.getId());
+        ps.setInt(3, user.getVersionNumber());
+
+        int correctVersion = ps.executeUpdate();
+        if (correctVersion == 0) {
+          if (getUserById(user.getId()) == null) {
+            throw new FatalException("User not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+  }
+
+  /**
+   * Updates a user's password in the database.
+   *
+   * @param userDTO The user whose password to update.
+   * @param password The new password.
+   * @throws FatalException if an SQL error occurs.
+   */
+  public void updatePassword(UserDTO userDTO, String password) {
+    User user = (User) userDTO;
+    try {
+      String query = """
+          UPDATE pae.users
+          SET password = ?,
+          version_users = version_users + 1
+          WHERE id_user = ? AND version_users = ? ;
+          """;
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setString(1, user.hashPassword(password));
+        ps.setInt(2, userDTO.getId());
+        ps.setInt(3, userDTO.getVersionNumber());
+
+        int correctVersion = ps.executeUpdate();
+        if (correctVersion == 0) {
+          if (getUserById(userDTO.getId()) == null) {
+            throw new FatalException("User not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+  }
 }

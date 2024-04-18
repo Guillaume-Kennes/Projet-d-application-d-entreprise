@@ -7,11 +7,14 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
@@ -129,5 +132,61 @@ public class UserResource {
   public int getStudentsWithoutInternship(@PathParam("school_year") String schoolYear) {
     System.out.println("SCHOOL YEAR : " + schoolYear);
     return myUserUcc.getStudentsWithoutInternship(schoolYear);
+  }
+
+  /**
+   * Endpoint for when a user changes their password.
+   *
+   * @param id The ID of the user.
+   * @param json      The JSON object containing the new password.
+   * @return The updated user.
+   */
+  @POST
+  @Path("/editPassword/{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public UserDTO updatePassword(@PathParam("id") int id, JsonNode json) {
+    UserDTO user = myUserUcc.getUserById(id);
+    if (user == null) {
+      throw new IllegalArgumentException("User not found");
+    }
+
+    if (json == null) {
+      throw new IllegalArgumentException("Request body is missing or not a valid JSON");
+    }
+
+    String newPassword = json.get("password").asText();
+
+    myUserUcc.updatePassword(user, newPassword);
+    return user;
+  }
+
+  /**
+   * Endpoint for when a user changes their phone number.
+   *
+   * @param id The ID of the user.
+   * @param json      The JSON object containing the new number.
+   * @return The updated user.
+   */
+  @POST
+  @Path("/editPhoneNumber/{id}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize
+  public UserDTO updatePhoneNumber(@PathParam("id") int id, JsonNode json) {
+    UserDTO user = myUserUcc.getUserById(id);
+    if (user == null) {
+      throw new IllegalArgumentException("User not found");
+    }
+
+    if (json == null) {
+      throw new IllegalArgumentException("Request body is missing or not a valid JSON");
+    }
+
+    String newPhone = json.get("phone").asText();
+
+    myUserUcc.updatePhoneNumber(user, newPhone);
+    return user;
   }
 }
