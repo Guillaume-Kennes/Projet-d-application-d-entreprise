@@ -25,5 +25,12 @@ public interface CompanyUCC {
    */
   List<CompanyDTO> getAllEnterprises();
 
+  /**
+   * Retrieves the number of students taken by a company.
+   *
+   * @param idCompany the id of the company
+   *
+   * @return the number of students taken by the company
+   */
   int numberOfStudentsTaken(int idCompany);
 }
