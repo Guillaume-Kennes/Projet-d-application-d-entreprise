@@ -76,6 +76,12 @@ public class CompanyResource {
     }
   }
 
+  /**
+   * Get company by id.
+   *
+   * @param idCompany the id of the company
+   * @return the company by id
+   */
   @GET
   @Path("/numberOfStudentsTaken/{idCompany}")
   @Produces(MediaType.APPLICATION_JSON)
