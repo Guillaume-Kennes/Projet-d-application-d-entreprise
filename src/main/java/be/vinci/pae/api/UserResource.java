@@ -145,7 +145,7 @@ public class UserResource {
   @Path("/editPassword/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(value = {"Etudiant"})
   public UserDTO updatePassword(@PathParam("id") int id, JsonNode json) {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
@@ -173,7 +173,7 @@ public class UserResource {
   @Path("/editPhoneNumber/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(value = {"Etudiant"})
   public UserDTO updatePhoneNumber(@PathParam("id") int id, JsonNode json) {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
@@ -185,8 +185,10 @@ public class UserResource {
     }
 
     String newPhone = json.get("phone").asText();
+    System.out.println(newPhone);
 
     myUserUcc.updatePhoneNumber(user, newPhone);
+    System.out.println(user.getPhoneNumber());
     return user;
   }
 }
