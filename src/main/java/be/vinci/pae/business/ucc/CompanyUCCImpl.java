@@ -63,10 +63,10 @@ public class CompanyUCCImpl implements CompanyUCC {
   }
 
   @Override
-  public int numberOfStudentsTaken() {
+  public int numberOfStudentsTaken(int idCompany) {
     dalServices.start();
     try {
-      return companyDAO.numberOfStudentsTaken();
+      return companyDAO.numberOfStudentsTaken(idCompany);
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

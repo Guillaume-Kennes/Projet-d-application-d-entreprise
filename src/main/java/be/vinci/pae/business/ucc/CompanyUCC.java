@@ -25,5 +25,5 @@ public interface CompanyUCC {
    */
   List<CompanyDTO> getAllEnterprises();
 
-  int numberOfStudentsTaken();
+  int numberOfStudentsTaken(int idCompany);
 }
