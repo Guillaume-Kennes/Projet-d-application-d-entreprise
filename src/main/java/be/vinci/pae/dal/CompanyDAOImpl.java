@@ -80,6 +80,7 @@ public class CompanyDAOImpl implements CompanyDAO {
       companyDTO.setAddress(resultSet.getString("address"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
+      companyDTO.setIsBlackListed(resultSet.getBoolean("is_black_listed"));
     } catch (SQLException e) {
       throw new FatalException(e);
     }
@@ -128,23 +129,45 @@ public class CompanyDAOImpl implements CompanyDAO {
   public List<CompanyDTO> getAllEnterprises() {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
-    String query = "SELECT * FROM pae.enterprises";
 
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement(query);
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.enterprises ORDER BY trade_name, designation");
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
-        CompanyDTO companyDTO = myDomainFactory.getCompany();
-        companyDTO.setId(resultSet.getInt("id_enterprise"));
-        companyDTO.setTradeName(resultSet.getString("trade_name"));
-        companyDTO.setDesignation(resultSet.getString("designation"));
-        companyDTO.setAddress(resultSet.getString("address"));
-        companyDTO.setCity(resultSet.getString("city"));
-        companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
+
+        CompanyDTO companyDTO = companyInfos(resultSet);
         enterprisesList.add(companyDTO);
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
     return enterprisesList;
+  }
+
+  /**
+   * Retrieves the number of students taken by a company.
+   *
+   * @param idCompany The identifier of the company.
+   * @return The number of students taken by the company.
+   * @throws FatalException If an error occurs during database access or processing.
+   */
+  public int numberOfStudentsTaken(int idCompany) {
+    int numberOfStudents = 0;
+    try {
+      PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+          "SELECT COUNT(DISTINCT ic.student) AS number_of_students_taken "
+              + " FROM pae.contacts c "
+              + "JOIN pae.inscriptions_ue ic ON c.inscription_ue = ic.id_inscription_ue "
+              + "WHERE c.state = 'pris' AND c.enterprise = ?"
+      );
+      preparedStatement.setInt(1, idCompany);
+      ResultSet resultSet = preparedStatement.executeQuery();
+      if (resultSet.next()) {
+        numberOfStudents = resultSet.getInt("number_of_students_taken");
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return numberOfStudents;
   }
 }

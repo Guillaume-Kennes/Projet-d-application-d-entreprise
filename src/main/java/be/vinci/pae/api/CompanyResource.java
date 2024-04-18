@@ -9,6 +9,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
@@ -74,4 +75,19 @@ public class CompanyResource {
       throw new WebApplicationException("Failed to add contact", Status.INTERNAL_SERVER_ERROR);
     }
   }
+
+  /**
+   * Get company by id.
+   *
+   * @param idCompany the id of the company
+   * @return the company by id
+   */
+  @GET
+  @Path("/numberOfStudentsTaken/{idCompany}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Professeur"})
+  public int numberOfStudentsTaken(@PathParam("idCompany") int idCompany) {
+    return companyUCC.numberOfStudentsTaken(idCompany);
+  }
+
 }

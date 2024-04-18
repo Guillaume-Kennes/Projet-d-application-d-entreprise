@@ -93,4 +93,17 @@ public interface CompanyDTO {
    */
   void setMeansOfCommunication(String meansOfCommunication);
 
+  /**
+   * Returns whether the company is blacklisted.
+   *
+   * @return true if the company is blacklisted, false otherwise
+   */
+  boolean getIsBlackListed();
+
+  /**
+   * Sets whether the company is blacklisted.
+   *
+   * @param isBlackListed true if the company is blacklisted, false otherwise
+   */
+  void setIsBlackListed(boolean isBlackListed);
 }

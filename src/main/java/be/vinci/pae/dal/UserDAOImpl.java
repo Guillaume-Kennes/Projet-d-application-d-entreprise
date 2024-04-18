@@ -262,28 +262,6 @@ public class UserDAOImpl implements UserDAO {
   }
 
 
-/*
-  public int getStudentsWithoutInternship(String schoolYear) {
-    int studentsWithInternships = 0;
-    String query = "SELECT COUNT(DISTINCT iu.student) " +
-        "FROM pae.inscriptions_ue iu " +
-        "LEFT JOIN pae.contacts c ON c.inscription_ue = iu.id_inscription_ue " +
-        "WHERE c.state != 'accepté' AND iu.school_year = ?";
-    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
-      preparedStatement.setString(1, schoolYear);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-        if (resultSet.next()) {
-          studentsWithInternships = resultSet.getInt(1);
-        }
-      }
-    } catch (SQLException e) {
-      throw new FatalException(e);
-    }
-    return studentsWithInternships;
-  }
-
-  */
-
   /**
    * Updates a user's phone number in the database.
    *
@@ -307,7 +285,7 @@ public class UserDAOImpl implements UserDAO {
         System.out.println(ps);
         ResultSet resultSet = ps.executeQuery();
         int correctVersion = 0;
-        if(resultSet.next()){
+        if (resultSet.next()) {
           correctVersion = resultSet.getInt("version_users");
         }
         if (correctVersion == 0) {

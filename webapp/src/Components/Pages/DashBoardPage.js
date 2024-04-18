@@ -1,11 +1,10 @@
-import { clearPage } from "../../utils/render";
-import { getToken } from "../../utils/user";
+import {clearPage} from "../../utils/render";
+import {getToken} from "../../utils/user";
 
-const viewAllCompaniesPage = async () => {
+const viewDashBoard = async () => {
   clearPage();
   const companies = await fetchCompanies();
   await allCompanies(companies);
-
 }
 
 async function fetchCompanies() {
@@ -26,19 +25,35 @@ async function fetchCompanies() {
   return response.json();
 }
 
+async function fetchNumberOfStudentsTakenByCompany(idCompany) {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = `http://localhost:3000/companies/numberOfStudentsTaken/${idCompany}`;
+  const response = await fetch(url, options);
+
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
+
+  return response.json();
+}
+
 async function allCompanies(companies) {
   const main = document.querySelector('main');
   main.innerHTML = `
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Nom <button class="sort-button" data-column="tradeName" value="tradeName">&#x25BC;</button><button class="sort-button" data-column="tradeName" value="-tradeName">&#x25B2;</button></th>
               <th scope ="col">Désignation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
-              <th scope="col">Adresse <button class="sort-button" data-column="address" value="address">&#x25BC;</button><button class="sort-button" data-column="address" value="-address">&#x25B2;</button></th>
-              <th scope="col">Ville <button class="sort-button" data-column="city" value="city">&#x25BC;</button><button class="sort-button" data-column="city" value="-city">&#x25B2;</button></th>
-              <th scope="col">Moyen de communication <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
-              <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25BC;</button></th>
+              <th scope="col">Numéro de téléphone <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
+              <th scope="col">Nombre d'étudiants pris en stage <button class="sort-button" data-column="numberOfStudents" value="numberOfStudents">&#x25BC;</button><button class="sort-button" data-column="numberOfStudents" value="-numberOfStudents">&#x25B2;</button></th>
+              <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25B2;</button></th>
             </tr>
           </thead>
           <tbody>
@@ -71,29 +86,34 @@ function sortCompanies(companies, sortColumn, sortOrder) {
     if (sortOrder === 'asc') {
       return a[sortColumn] > b[sortColumn] ? 1 : -1;
     }
-      return a[sortColumn] < b[sortColumn] ? 1 : -1;
+    return a[sortColumn] < b[sortColumn] ? 1 : -1;
 
   });
 }
 
-function setCompanyRow(companies) {
+async function setCompanyRow(companies) {
   const body = document.querySelector("tbody");
-  companies.forEach(company =>  {
+    const promises = companies.map(async (company) => {
+      const numberOfStudents = await fetchNumberOfStudentsTakenByCompany(company.id);
 
-    body.innerHTML += `
+      return `
       <tr>
-            <td>${company.id}</td>
             <td>${company.tradeName}</td>
             <td>${company.designation || '/'}</td>
-            <td >${company.address}</td>
-            <td >${company.city}</td>
-            <td >${company.meansOfCommunication || ''}</td>
-            <td >${company.blackListed ? 'Oui' : 'Non'}</td>
+            <td>${company.meansOfCommunication || ''}</td>
+            <td>${numberOfStudents || '0'}</td>
+            <td>${company.blackListed ? 'Oui' : 'Non'}</td>
       </tr>
     `;
-  });
+    });
+  // Attendre la résolution de toutes les promesses
+  const tableRows = await Promise.all(promises);
+
+  // Ajouter les lignes au tableau
+  body.innerHTML = tableRows.join('');
 
 }
 
 
-export default viewAllCompaniesPage;
+
+export default viewDashBoard;
