@@ -1,25 +1,87 @@
+import Chart from 'chart.js/auto';
 import {clearPage} from "../../utils/render";
 import {getToken} from "../../utils/user";
 
 const viewDashBoard = async () => {
   clearPage();
+  const schoolYear = '2023-2024';
+  const studentsWithInternship = await fetchStudentsWithInternship(schoolYear);
+  const studentsWithoutInternship = await fetchStudentsWithoutInternship(schoolYear);
+  drawPieChart(studentsWithInternship, studentsWithoutInternship);
   const companies = await fetchCompanies();
   await allCompanies(companies);
 }
 
+async function fetchStudentsWithInternship(schoolYear) {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = `http://localhost:3000/users/getStudentsWithInternship/${schoolYear}`;
+  const response = await fetch(url, options);
 
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
 
+  return response.json();
+}
 
+async function fetchStudentsWithoutInternship(schoolYear) {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = `http://localhost:3000/users/getStudentsWithoutInternship/${schoolYear}`;
+  const response = await fetch(url, options);
 
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
 
+  return response.json();
+}
 
+let myChart;
 
+function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
 
-
-
-
-
-
+  const main = document.querySelector('main');
+  main.innerHTML = `
+    <div style="position:absolute; top:60px; left:10px; width:300px; height:300px; margin-left: 35%">
+      <canvas id="myChart"></canvas>
+    </div>
+  `;
+  const pieCanvas = document.getElementById('myChart');
+  if (myChart) {
+    myChart.destroy();
+  }
+  // eslint-disable-next-line
+  myChart = new Chart(pieCanvas, {
+    type: 'pie',
+    data: {
+      labels: ['Avec stage', 'Sans stage'],
+      datasets: [{
+        data: [studentsWithInternship, studentsWithoutInternship],
+        backgroundColor: ['#40234b', '#62a2a4']
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Répartition des étudiants avec et sans stage'
+      },
+      responsive: true,
+      maintainAspectRatio: false,
+    }
+  });
+}
 async function fetchCompanies() {
   const token = getToken();
   const options = {
@@ -73,7 +135,7 @@ async function allCompanies(companies) {
           </tbody>
         </table>
       `;
-  setCompanyRow(companies);
+  await setCompanyRow(companies);
   await addListeners();
 }
 
@@ -106,8 +168,8 @@ function sortCompanies(companies, sortColumn, sortOrder) {
 
 async function setCompanyRow(companies) {
   const body = document.querySelector("tbody");
-    const promises = companies.map(async (company) => {
-      const numberOfStudents = await fetchNumberOfStudentsTakenByCompany(company.id);
+  const rowsHTML = await Promise.all(companies.map(async (company) => {
+    const numberOfStudents = await fetchNumberOfStudentsTakenByCompany(company.id);
 
       return `
       <tr>
@@ -118,15 +180,15 @@ async function setCompanyRow(companies) {
             <td>${company.blackListed ? 'Oui' : 'Non'}</td>
       </tr>
     `;
+    }));
+  body.innerHTML = rowsHTML.join('');
+
+  body.querySelectorAll('tr').forEach(row => {
+    row.addEventListener('click', () => {
+      const companyId = row.dataset.id;
+      window.location.href = `/ContactsDetailsPage?id=${companyId}`;
     });
-  // Attendre la résolution de toutes les promesses
-  const tableRows = await Promise.all(promises);
-
-  // Ajouter les lignes au tableau
-  body.innerHTML = tableRows.join('');
-
+  });
 }
-
-
 
 export default viewDashBoard;
