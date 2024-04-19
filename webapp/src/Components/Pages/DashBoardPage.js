@@ -4,38 +4,37 @@ import {getToken} from "../../utils/user";
 
 const viewDashBoard = async () => {
   clearPage();
-  await createDropdownYear();
-  const schoolYear = document.querySelector('#schoolYear').value;
+  const schoolYear = '2023-2024';
   const studentsWithInternship = await fetchStudentsWithInternship(schoolYear);
   const studentsWithoutInternship = await fetchStudentsWithoutInternship(schoolYear);
-  await drawPieChart(studentsWithInternship, studentsWithoutInternship);
+  drawPieChart(studentsWithInternship, studentsWithoutInternship);
   const companies = await fetchCompanies();
   await allCompanies(companies);
 }
 
-async function createDropdownYear() {
-  // Créer l'élément select
-  const select = document.createElement('select');
-  select.id = 'schoolYear';
-
-  // Définir les années académiques
-  const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
-
-  // Créer une option pour chaque année académique
-  schoolYears.forEach(year => {
-    const option = document.createElement('option');
-    option.value = year;
-    option.text = year;
-    // Ajouter l'attribut 'selected' à l'année académique 2023-2024
-    if (year === '2023-2024') {
-      option.selected = true;
-    }
-    select.appendChild(option);
-  });
-
-  // Ajouter l'élément select à la page
-  document.querySelector('main').appendChild(select);
-}
+// async function createDropdownYear() {
+//   // Créer l'élément select
+//   const select = document.createElement('select');
+//   select.id = 'schoolYear';
+//
+//   // Définir les années académiques
+//   const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
+//
+//   // Créer une option pour chaque année académique
+//   schoolYears.forEach(year => {
+//     const option = document.createElement('option');
+//     option.value = year;
+//     option.text = year;
+//     // Ajouter l'attribut 'selected' à l'année académique 2023-2024
+//     if (year === '2023-2024') {
+//       option.selected = true;
+//     }
+//     select.appendChild(option);
+//   });
+//
+//   // Ajouter l'élément select à la page
+//   document.querySelector('main').appendChild(select);
+// }
 
 async function fetchStudentsWithInternship(schoolYear) {
   const token = getToken();
@@ -73,15 +72,21 @@ async function fetchStudentsWithoutInternship(schoolYear) {
   return response.json();
 }
 
-let myChart;
 
-async function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
+function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
+  const main = document.querySelector('main');
+  main.innerHTML += `
+            <div class="row w-75 mx-auto">
+              <div class="col w-75">
+                <canvas id="myChart"></canvas>
+              </div>
+            </div>
+  `;
+
   const pieCanvas = document.getElementById('myChart');
-  if (myChart) {
-    myChart.destroy();
-  }
+
   // eslint-disable-next-line
-  myChart = new Chart(pieCanvas, {
+  new Chart(pieCanvas, {
     type: 'pie',
     data: {
       labels: ['Avec stage', 'Sans stage'],
@@ -100,6 +105,8 @@ async function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
     }
   });
 }
+
+
 async function fetchCompanies() {
   const token = getToken();
   const options = {
@@ -138,12 +145,12 @@ async function fetchNumberOfStudentsTakenByCompany(idCompany) {
 
 async function allCompanies(companies) {
   const main = document.querySelector('main');
-  main.innerHTML = `
+  main.innerHTML += `
         <table class="table table-bordered">
           <thead>
             <tr>
               <th scope="col">Nom <button class="sort-button" data-column="tradeName" value="tradeName">&#x25BC;</button><button class="sort-button" data-column="tradeName" value="-tradeName">&#x25B2;</button></th>
-              <th scope ="col">Désignation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
+              <th scope ="col">Appelation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
               <th scope="col">Numéro de téléphone <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
               <th scope="col">Nombre d'étudiants pris en stage <button class="sort-button" data-column="numberOfStudents" value="numberOfStudents">&#x25BC;</button><button class="sort-button" data-column="numberOfStudents" value="-numberOfStudents">&#x25B2;</button></th>
               <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25B2;</button></th>
