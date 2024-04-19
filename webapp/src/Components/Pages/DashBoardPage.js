@@ -7,6 +7,19 @@ const viewDashBoard = async () => {
   await allCompanies(companies);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 async function fetchCompanies() {
   const token = getToken();
   const options = {
