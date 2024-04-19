@@ -76,6 +76,13 @@ async function fetchStudentsWithoutInternship(schoolYear) {
 let myChart;
 
 async function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
+
+  const main = document.querySelector('main');
+  main.innerHTML = `
+    <div style="position:absolute; top:60px; left:10px; width:300px; height:300px; margin-left: 35%">
+      <canvas id="myChart"></canvas>
+    </div>
+  `;
   const pieCanvas = document.getElementById('myChart');
   if (myChart) {
     myChart.destroy();
@@ -99,6 +106,7 @@ async function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
       maintainAspectRatio: false,
     }
   });
+
 }
 async function fetchCompanies() {
   const token = getToken();
