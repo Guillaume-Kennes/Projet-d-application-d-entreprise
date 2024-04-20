@@ -15,7 +15,7 @@ const viewDashBoard = async () => {
 
 async function createDropdownYear() {
   // Créer l'élément select
-  const select = document.createElement('select');
+ /* const select = document.createElement('select');
   select.id = 'schoolYear';
 
   // Définir les années académiques
@@ -32,9 +32,28 @@ async function createDropdownYear() {
     }
     select.appendChild(option);
   });
-
   // Ajouter l'élément select à la page
   document.querySelector('main').appendChild(select);
+*/
+  const main = document.querySelector('main');
+  let html;
+
+  main.innerHTML = ` 
+  <select id="schoolYear">
+  
+  </select>
+  `;
+  const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
+  schoolYears.forEach(sy => {
+    if (sy === '2023-2024') {
+      html += `<option value="${sy}" selected>${sy}</option>`
+    }else {
+      html += `<option value="${sy}">${sy}</option>`
+    }
+  })
+  const div = document.querySelector("#schoolYear");
+  div.innerHTML = html;
+
 }
 
 async function fetchStudentsWithInternship(schoolYear) {
@@ -148,7 +167,7 @@ async function allCompanies(companies) {
   const main = document.querySelector('main');
   const tabDiv = document.createElement('div');
   tabDiv.innerHTML = `
-        <table class="table table-bordered">
+        <table class="table table-bordered mt-5">
           <thead>
             <tr>
               <th scope="col">Nom <button class="sort-button" data-column="tradeName" value="tradeName">&#x25BC;</button><button class="sort-button" data-column="tradeName" value="-tradeName">&#x25B2;</button></th>
