@@ -147,7 +147,7 @@ async function fetchNumberOfStudentsTakenByCompany(idCompany) {
 async function allCompanies(companies) {
   const main = document.querySelector('main');
   const tabDiv = document.createElement('div');
-  tabDiv.innerHTML += `
+  tabDiv.innerHTML = `
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -162,6 +162,7 @@ async function allCompanies(companies) {
           </tbody>
         </table>
       `;
+
   main.appendChild(tabDiv);
   await setCompanyRow(companies);
   await addListeners();
@@ -179,7 +180,7 @@ async function addListeners() {
       // Trier les entreprises
       companies = sortCompanies(companies, sortColumn, sortOrder);
       // Rendre les entreprises triées
-      await allCompanies(companies);
+      await setCompanyRow(companies);
     });
   });
 }
