@@ -8,17 +8,14 @@ const viewDashBoard = async () => {
   const schoolYear = document.querySelector('#schoolYear').value;
   const studentsWithInternship = await fetchStudentsWithInternship(schoolYear);
   const studentsWithoutInternship = await fetchStudentsWithoutInternship(schoolYear);
-  drawPieChart(studentsWithInternship, studentsWithoutInternship);
+  await drawPieChart(studentsWithInternship, studentsWithoutInternship);
   const companies = await fetchCompanies();
   await allCompanies(companies);
 }
 
 async function createDropdownYear() {
-  // todo
-  // add event listener pour chaque option
-
   // Créer l'élément select
- /* const select = document.createElement('select');
+  const select = document.createElement('select');
   select.id = 'schoolYear';
 
   // Définir les années académiques
@@ -35,28 +32,9 @@ async function createDropdownYear() {
     }
     select.appendChild(option);
   });
+
   // Ajouter l'élément select à la page
   document.querySelector('main').appendChild(select);
-*/
-  const main = document.querySelector('main');
-  let html;
-
-  main.innerHTML = ` 
-  <select id="schoolYear">
-  
-  </select>
-  `;
-  const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
-  schoolYears.forEach(sy => {
-    if (sy === '2023-2024') {
-      html += `<option value="${sy}" selected>${sy}</option>`
-    }else {
-      html += `<option value="${sy}">${sy}</option>`
-    }
-  })
-  const div = document.querySelector("#schoolYear");
-  div.innerHTML = html;
-
 }
 
 async function fetchStudentsWithInternship(schoolYear) {
@@ -95,27 +73,28 @@ async function fetchStudentsWithoutInternship(schoolYear) {
   return response.json();
 }
 
+let myChart;
 
-function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
+async function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
+
   const main = document.querySelector('main');
-  main.innerHTML += `
-            <div class="row w-75 mx-auto">
-              <div class="col w-75" >
-                <canvas id="myChart"></canvas>
-              </div>
-            </div>
+  main.innerHTML = `
+    <div style="position:absolute; top:60px; left:10px; width:300px; height:300px; margin-left: 35%">
+      <canvas id="myChart"></canvas>
+    </div>
   `;
-
   const pieCanvas = document.getElementById('myChart');
-
+  if (myChart) {
+    myChart.destroy();
+  }
   // eslint-disable-next-line
-  new Chart(pieCanvas, {
+  myChart = new Chart(pieCanvas, {
     type: 'pie',
     data: {
       labels: ['Avec stage', 'Sans stage'],
       datasets: [{
         data: [studentsWithInternship, studentsWithoutInternship],
-        backgroundColor: ['#0d4d72', '#62a2a4']
+        backgroundColor: ['#40234b', '#62a2a4']
       }]
     },
     options: {
@@ -127,9 +106,8 @@ function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
       maintainAspectRatio: false,
     }
   });
+
 }
-
-
 async function fetchCompanies() {
   const token = getToken();
   const options = {
@@ -168,13 +146,12 @@ async function fetchNumberOfStudentsTakenByCompany(idCompany) {
 
 async function allCompanies(companies) {
   const main = document.querySelector('main');
-  const tabDiv = document.createElement('div');
-  tabDiv.innerHTML = `
-        <table class="table table-bordered mt-5">
+  main.innerHTML = `
+        <table class="table table-bordered">
           <thead>
             <tr>
               <th scope="col">Nom <button class="sort-button" data-column="tradeName" value="tradeName">&#x25BC;</button><button class="sort-button" data-column="tradeName" value="-tradeName">&#x25B2;</button></th>
-              <th scope ="col">Appelation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
+              <th scope ="col">Désignation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
               <th scope="col">Numéro de téléphone <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
               <th scope="col">Nombre d'étudiants pris en stage <button class="sort-button" data-column="numberOfStudents" value="numberOfStudents">&#x25BC;</button><button class="sort-button" data-column="numberOfStudents" value="-numberOfStudents">&#x25B2;</button></th>
               <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25B2;</button></th>
@@ -184,8 +161,6 @@ async function allCompanies(companies) {
           </tbody>
         </table>
       `;
-
-  main.appendChild(tabDiv);
   await setCompanyRow(companies);
   await addListeners();
 }
@@ -202,7 +177,7 @@ async function addListeners() {
       // Trier les entreprises
       companies = sortCompanies(companies, sortColumn, sortOrder);
       // Rendre les entreprises triées
-      await setCompanyRow(companies);
+      await allCompanies(companies);
     });
   });
 }

@@ -6,7 +6,7 @@ Content-Type: application/json
 
 {
   "email":"Caroline.line@student.vinci.be",
-  "password":"mdpuser.1"
+  "password":"aaa"
 }
 > {%
   client.global.set("carolineToken", response.body.token);

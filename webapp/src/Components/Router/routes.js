@@ -10,6 +10,7 @@ import ViewUsers from "../Pages/ViewUsers";
 import ViewCompanies from "../Pages/ViewCompanies";
 import ContactCompanyPage from "../Pages/ContactCompanyPage";
 import DashBoardPage from "../Pages/DashBoardPage";
+import ContactsDetailsPage from "../Pages/ContactsDetailsPage";
 
 const routes = {
   '/': HomePage,
@@ -24,6 +25,7 @@ const routes = {
   '/contacts': ContactsPage,
   '/contact': ContactCompanyPage,
   '/dashboard': DashBoardPage,
+  '/contactsDetails': ContactsDetailsPage,
 };
 
 export default routes;

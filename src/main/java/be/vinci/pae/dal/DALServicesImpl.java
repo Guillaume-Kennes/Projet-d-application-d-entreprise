@@ -120,7 +120,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         }
       }
     } else {
-      counterThreads.set(counterThreads.get());
+      counterThreads.set(counterThreads.get()-1);
     }
   }
 
@@ -131,27 +131,25 @@ public class DALServicesImpl implements DALBackServices, DALServices {
    * @throws FatalException if a SQLException occurs.
    */
   public void rollBack() {
-    Connection connection = connectionThread.get();
-
-    if (counterThreads.get() == null) {
-      try {
-        counterThreads.remove();
-        if (connection != null) {
-          connection.close();
-        }
-      } catch (SQLException e) {
-        throw new FatalException(e);
-      }
-    } else {
-      counterThreads.set(counterThreads.get() - 1);
+    if (counterThreads.get() != null && counterThreads.get() == 1) {
+      counterThreads.remove();
+      Connection connection = connectionThread.get();
       try {
         connection.rollback();
         connection.setAutoCommit(true);
-        counterThreads.remove();
-        connection.close();
       } catch (SQLException e) {
+        e.printStackTrace();
         throw new FatalException(e);
+      } finally {
+        connectionThread.remove();
+        try {
+          connection.close();
+        } catch (SQLException ex) {
+          throw new FatalException(ex);
+        }
       }
+    } else {
+      counterThreads.set(counterThreads.get() - 1);
     }
   }
 }

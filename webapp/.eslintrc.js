@@ -12,4 +12,8 @@ module.exports = {
     'linebreak-style': 0,
     'no-use-before-define': ['error', 'nofunc'],
   },
+  globals: {
+    Chart: 'readonly',
+  }
+
 };

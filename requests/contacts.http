@@ -27,3 +27,4 @@ Content-Type: application/json
 
 ### Get all contacts of an user by it's id
 GET {{baseUrl}}/contacts/5
+Authorization: {{carolineToken}}
