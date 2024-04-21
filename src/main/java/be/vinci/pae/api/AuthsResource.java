@@ -46,7 +46,7 @@ public class AuthsResource {
    * @throws WebApplicationException if login credentials are missing or incorrect.
    */
   @POST
-  @Path("login")
+  @Path("/login")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   public ObjectNode login(JsonNode json) {
