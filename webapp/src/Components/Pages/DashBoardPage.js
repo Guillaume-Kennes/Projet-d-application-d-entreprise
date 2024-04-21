@@ -1,4 +1,5 @@
 import Chart from 'chart.js/auto';
+import 'chartjs-plugin-datalabels';
 import {clearPage} from "../../utils/render";
 import {getToken} from "../../utils/user";
 
@@ -112,17 +113,13 @@ function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
   new Chart(pieCanvas, {
     type: 'pie',
     data: {
-      labels: ['Avec stage', 'Sans stage'],
+      labels: ['Ont un stage', 'Pas de stage'],
       datasets: [{
         data: [studentsWithInternship, studentsWithoutInternship],
-        backgroundColor: ['#0d4d72', '#62a2a4']
+        backgroundColor: ['#40234b', '#62a2a4']
       }]
     },
     options: {
-      title: {
-        display: true,
-        text: 'Répartition des étudiants avec et sans stage'
-      },
       responsive: true,
       maintainAspectRatio: false,
     }
