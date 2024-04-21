@@ -14,27 +14,30 @@ const viewDashBoard = async () => {
 }
 
 async function createDropdownYear() {
+  // todo
+  // add event listener pour chaque option
+
   // Créer l'élément select
-  /* const select = document.createElement('select');
-   select.id = 'schoolYear';
+ /* const select = document.createElement('select');
+  select.id = 'schoolYear';
 
-   // Définir les années académiques
-   const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
+  // Définir les années académiques
+  const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
 
-   // Créer une option pour chaque année académique
-   schoolYears.forEach(year => {
-     const option = document.createElement('option');
-     option.value = year;
-     option.text = year;
-     // Ajouter l'attribut 'selected' à l'année académique 2023-2024
-     if (year === '2023-2024') {
-       option.selected = true;
-     }
-     select.appendChild(option);
-   });
-   // Ajouter l'élément select à la page
-   document.querySelector('main').appendChild(select);
- */
+  // Créer une option pour chaque année académique
+  schoolYears.forEach(year => {
+    const option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    // Ajouter l'attribut 'selected' à l'année académique 2023-2024
+    if (year === '2023-2024') {
+      option.selected = true;
+    }
+    select.appendChild(option);
+  });
+  // Ajouter l'élément select à la page
+  document.querySelector('main').appendChild(select);
+*/
   const main = document.querySelector('main');
   let html;
 
@@ -112,7 +115,7 @@ function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
       labels: ['Avec stage', 'Sans stage'],
       datasets: [{
         data: [studentsWithInternship, studentsWithoutInternship],
-        backgroundColor: ['#40234b', '#62a2a4']
+        backgroundColor: ['#0d4d72', '#62a2a4']
       }]
     },
     options: {
