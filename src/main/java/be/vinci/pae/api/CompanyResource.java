@@ -76,6 +76,21 @@ public class CompanyResource {
     }
   }
 
+  /**
+   * Get company by id.
+   *
+   * @param idCompany the id of the company
+   * @return the company by id
+   */
+  @GET
+  @Path("/numberOfStudentsTaken/{idCompany}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Professeur"})
+  public int numberOfStudentsTaken(@PathParam("idCompany") int idCompany) {
+    return companyUCC.numberOfStudentsTaken(idCompany);
+  }
+
+
 
   /**
    * Endpoint for stopping following a contact.

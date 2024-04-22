@@ -1,12 +1,13 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Implementation class for the ViewCompany interface. This class provides implementations for
  * various company-related methods.
  */
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+@JsonInclude(Include.USE_DEFAULTS)
 public class CompanyImpl implements Company {
 
   private int id;
@@ -15,9 +16,9 @@ public class CompanyImpl implements Company {
   private String address;
   private String city;
   private String meansOfCommunication;
+  private boolean isBlackListed;
   private String motivationBlackList;
   private int versionNumber;
-  private boolean isBlackListed;
 
   /**
    * Constructs a new CompanyImpl object with default values. This constructor initializes a new
@@ -158,6 +159,27 @@ public class CompanyImpl implements Company {
     this.meansOfCommunication = meansOfCommunication;
   }
 
+  /**
+   * Returns whether the company is blacklisted.
+   *
+   * @return true if the company is blacklisted, false otherwise
+   */
+  @Override
+  public boolean getIsBlackListed() {
+    return isBlackListed;
+  }
+
+  /**
+   * Sets whether the company is blacklisted.
+   *
+   * @param isBlackListed true if the company is blacklisted, false otherwise
+   */
+  @Override
+  public void setIsBlackListed(boolean isBlackListed) {
+    this.isBlackListed = isBlackListed;
+  }
+
+
   @Override
   public String getMotivationBlackList() {
     return motivationBlackList;
@@ -221,6 +243,7 @@ public class CompanyImpl implements Company {
         + ", address='" + address + '\''
         + ", city='" + city + '\''
         + ", meansOfCommunication='" + meansOfCommunication + '\''
+        + ", isBlackListed=" + isBlackListed
         + '}';
   }
 }

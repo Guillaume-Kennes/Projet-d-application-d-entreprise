@@ -67,8 +67,8 @@ public class UserUCCImpl implements UserUCC {
   /**
    * Returns the list of all users available in the system.
    *
-   * @return A list containing UserDTO objects representing all users. If no users are found, the
-   * list will be empty.
+   * @return A list containing UserDTO objects representing all users.
+   *     If no users are found, the list will be empty.
    */
   public List<UserDTO> getAllUsers() {
     dalServices.start();
@@ -175,6 +175,41 @@ public class UserUCCImpl implements UserUCC {
       System.out.println("STUDENTS WITHOUT INTERNSHIP: " + students);
       dalServices.commit();
       return students;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  /**
+   * Update a user's password.
+   *
+   * @param user The user whose password to update.
+   * @param password The new password.
+   */
+  public void updatePassword(UserDTO user, String password) {
+    dalServices.start();
+    try {
+      userDAO.updatePassword(user, password);
+      dalServices.commit();
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  /**
+   * Update a user's phone number.
+   *
+   * @param user The user whose phone number to update.
+   * @param phoneNumber The new phone number.
+   */
+  public void updatePhoneNumber(UserDTO user, String phoneNumber) {
+    dalServices.start();
+    try {
+      user.setPhoneNumber(phoneNumber);
+      userDAO.updatePhoneNumber(user, phoneNumber);
+      dalServices.commit();
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

@@ -42,10 +42,18 @@ public interface CompanyDAO {
   /**
    * Retrieves the list of all companies available in the system.
    *
-   * @return A list containing CompanyDTO objects representing all companies. If no companies are
-   * found, the list will be empty.
+   * @return A list containing CompanyDTO objects representing all companies.
+   *     If no companies are found, the list will be empty.
    */
   List<CompanyDTO> getAllEnterprises();
+
+  /**
+   * Retrieves the number of students taken by a company.
+   *
+   * @param idCompany The identifier of the company.
+   * @return The number of students taken by the company.
+   */
+  int numberOfStudentsTaken(int idCompany);
 
 
   /**

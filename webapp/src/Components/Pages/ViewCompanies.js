@@ -34,9 +34,11 @@ async function allCompanies(companies) {
             <tr>
               <th scope="col">ID</th>
               <th scope="col">Nom <button class="sort-button" data-column="tradeName" value="tradeName">&#x25BC;</button><button class="sort-button" data-column="tradeName" value="-tradeName">&#x25B2;</button></th>
+              <th scope ="col">Désignation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
               <th scope="col">Adresse <button class="sort-button" data-column="address" value="address">&#x25BC;</button><button class="sort-button" data-column="address" value="-address">&#x25B2;</button></th>
               <th scope="col">Ville <button class="sort-button" data-column="city" value="city">&#x25BC;</button><button class="sort-button" data-column="city" value="-city">&#x25B2;</button></th>
               <th scope="col">Moyen de communication <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
+              <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25BC;</button></th>
             </tr>
           </thead>
           <tbody>
@@ -82,33 +84,16 @@ function setCompanyRow(companies) {
       <tr>
             <td>${company.id}</td>
             <td>${company.tradeName}</td>
-             <td >${company.address}</td>
-             <td >${company.city}</td>
-             <td >${company.meansOfCommunication || ''}</td>
-        
+            <td>${company.designation || '/'}</td>
+            <td >${company.address}</td>
+            <td >${company.city}</td>
+            <td >${company.meansOfCommunication || ''}</td>
+            <td >${company.blackListed ? 'Oui' : 'Non'}</td>
       </tr>
     `;
   });
 
 }
 
-/*
-  renderTable(companies);
-  addListeners();
-
-  const sortData = (column, order) => companies.slice().sort((a, b) => {
-    const aValue = a[column];
-    const bValue = b[column];
-    return (order === 'asc') ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
-  })
-
-} catch (error) {
-  // Gestion des erreurs existante
-  alert('Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
-  console.error('Une erreur est survenue : ', error);
-}
-}
-
-*/
 
 export default viewAllCompaniesPage;

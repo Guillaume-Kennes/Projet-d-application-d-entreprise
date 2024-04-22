@@ -119,4 +119,22 @@ public class CompanyUCCImpl implements CompanyUCC {
   }
 
 
+  /**
+   * Retrieves the number of students taken by a company.
+   *
+   * @param idCompany The ID of the company.
+   * @return The number of students taken by the company.
+   */
+  @Override
+  public int numberOfStudentsTaken(int idCompany) {
+    dalServices.start();
+    try {
+      return companyDAO.numberOfStudentsTaken(idCompany);
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+
 }

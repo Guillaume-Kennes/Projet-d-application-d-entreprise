@@ -1,6 +1,7 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.business.domain.User;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
@@ -91,6 +92,7 @@ public class UserDAOImpl implements UserDAO {
       userDTO.setPhoneNumber(resultSet.getString("phone_number"));
       userDTO.setRegistrationDate(resultSet.getDate("registration_date"));
       userDTO.setRole(resultSet.getString("role"));
+      userDTO.setVersionNumber(resultSet.getInt("version_users"));
     } catch (SQLException e) {
       throw new FatalException(e);
     }
@@ -203,9 +205,9 @@ public class UserDAOImpl implements UserDAO {
    */
   public int getStudentsWithInternship(String schoolYear) {
     int studentsWithInternships = 0;
-    String query = "SELECT COUNT(DISTINCT i.id_internship) "
-        + "FROM pae.internships i, pae.inscriptions_ue iu "
-        + "WHERE iu.school_year = ? ;";
+    String query = "SELECT COUNT (iu.student) FROM pae.inscriptions_ue iu, pae.contacts c "
+        + "WHERE c.inscription_ue = iu.id_inscription_ue "
+        + "AND c.state = 'accepté' AND iu.school_year = ? ;";
     System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
@@ -222,7 +224,6 @@ public class UserDAOImpl implements UserDAO {
     }
     return studentsWithInternships;
   }
-
 
   @Override
   public int getStudentsWithoutInternship(String schoolYear) {
@@ -261,25 +262,81 @@ public class UserDAOImpl implements UserDAO {
   }
 
 
-/*
-  public int getStudentsWithoutInternship(String schoolYear) {
-    int studentsWithInternships = 0;
-    String query = "SELECT COUNT(DISTINCT iu.student) " +
-        "FROM pae.inscriptions_ue iu " +
-        "LEFT JOIN pae.contacts c ON c.inscription_ue = iu.id_inscription_ue " +
-        "WHERE c.state != 'accepté' AND iu.school_year = ?";
-    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
-      preparedStatement.setString(1, schoolYear);
-      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+  /**
+   * Updates a user's phone number in the database.
+   *
+   * @param user The user whose phone number to update.
+   * @param phoneNumber The new phone number.
+   * @throws FatalException if an SQL error occurs.
+   */
+  public void updatePhoneNumber(UserDTO user, String phoneNumber) {
+    try {
+      String query = """
+          UPDATE pae.users
+          SET phone_number = ?,
+          version_users = version_users + 1
+          WHERE id_user = ? AND version_users = ? 
+          RETURNING version_users;
+          """;
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setString(1, phoneNumber);
+        ps.setInt(2, user.getId());
+        ps.setInt(3, user.getVersionNumber());
+        System.out.println(ps);
+        ResultSet resultSet = ps.executeQuery();
+        int correctVersion = 0;
         if (resultSet.next()) {
-          studentsWithInternships = resultSet.getInt(1);
+          correctVersion = resultSet.getInt("version_users");
+        }
+        if (correctVersion == 0) {
+          if (getUserById(user.getId()) == null) {
+            throw new FatalException("User not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
         }
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    return studentsWithInternships;
   }
 
-  */
+  /**
+   * Updates a user's password in the database.
+   *
+   * @param userDTO The user whose password to update.
+   * @param password The new password.
+   * @throws FatalException if an SQL error occurs.
+   */
+  public void updatePassword(UserDTO userDTO, String password) {
+    User user = (User) userDTO;
+    try {
+      String query = """
+          UPDATE pae.users
+          SET password = ?,
+          version_users = version_users + 1
+          WHERE id_user = ? AND version_users = ? 
+          RETURNING version_users;
+          """;
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setString(1, user.hashPassword(password));
+        ps.setInt(2, userDTO.getId());
+        ps.setInt(3, userDTO.getVersionNumber());
+        System.out.println(ps);ResultSet resultSet = ps.executeQuery();
+        int correctVersion = 0;
+        if (resultSet.next()) {
+          correctVersion = resultSet.getInt("version_users");
+        }
+        if (correctVersion == 0) {
+          if (getUserById(userDTO.getId()) == null) {
+            throw new FatalException("User not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+  }
 }
