@@ -1,0 +1,28 @@
+@baseUrl = http://localhost:3000
+
+### Insert a new internship supervisor
+POST {{baseUrl}}/internshipSupervisor/create
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "phoneNumber": "1234567890",
+  "email": "john.doe@gmail.com",
+  "company": 1
+}
+
+### Insert a new internship supervisor without email
+POST {{baseUrl}}/internshipSupervisor/create
+Content-Type: application/json
+
+{
+  "firstName": "Versaire",
+  "lastName": "Annie",
+  "phoneNumber": "13245676543",
+  "company": 1
+}
+
+
+### view all internship supervisors
+GET {{baseUrl}}/internshipSupervisor/viewAll

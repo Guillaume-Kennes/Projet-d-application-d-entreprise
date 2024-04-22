@@ -62,6 +62,13 @@ public interface UserDAO {
    */
   int getStudentsWithInternship(String schoolYear);
 
+  /**
+   * Retrieves the number of students without an internship for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the number of students without an
+   *                   internship.
+   * @return The number of students without an internship for the specified school year.
+   */
   int getStudentsWithoutInternship(String schoolYear);
 
   /**
