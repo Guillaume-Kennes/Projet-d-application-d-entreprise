@@ -9,6 +9,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
@@ -73,5 +74,27 @@ public class CompanyResource {
       System.out.println("CompanyResource exception");
       throw new WebApplicationException("Failed to add contact", Status.INTERNAL_SERVER_ERROR);
     }
+  }
+
+
+  /**
+   * Endpoint for stopping following a contact.
+   *
+   * @param idCompany The ID of the contact.
+   * @return The updated contact.
+   */
+  @POST
+  @Path("/blacklist/{id_com}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  // @Authorize
+  public CompanyDTO stopFollowing(@PathParam("id_com") int idCompany) {
+    CompanyDTO companyDTO = companyUCC.getCompanyById(idCompany);
+    if (companyDTO == null) {
+      throw new IllegalArgumentException("Company not found");
+    }
+
+    companyUCC.blackList(companyDTO);
+    return companyDTO;
   }
 }

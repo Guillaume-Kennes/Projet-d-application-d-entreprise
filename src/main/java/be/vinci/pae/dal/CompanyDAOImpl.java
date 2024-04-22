@@ -80,6 +80,10 @@ public class CompanyDAOImpl implements CompanyDAO {
       companyDTO.setAddress(resultSet.getString("address"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
+      companyDTO.setBlackListed(resultSet.getBoolean("is_black_listed"));
+      companyDTO.setMotivationBlackList(resultSet.getString("motivation_black_list"));
+      companyDTO.setVersionNumber(resultSet.getInt("version_enterprises"));
+      // ici ca resout le probleme du version a 0
     } catch (SQLException e) {
       throw new FatalException(e);
     }
@@ -146,5 +150,59 @@ public class CompanyDAOImpl implements CompanyDAO {
       throw new FatalException(e);
     }
     return enterprisesList;
+  }
+
+
+  /**
+   * Updates a contact in the database.
+   *
+   * @param companyDTO The contact DTO to update.
+   * @throws FatalException if an SQL error occurs.
+   */
+  @Override
+  public void update(CompanyDTO companyDTO) {
+    try {
+      String query = """
+          UPDATE pae.enterprises
+          SET trade_name = ?,
+          designation = ?,
+          address = ?,
+          city = ?,
+          means_of_communication = ?,
+          is_black_listed = ?,
+          motivation_black_list = ?,
+          version_enterprises = version_enterprises + 1
+          WHERE id_enterprise = ? AND version_enterprises = ?
+          RETURNING version_enterprises;
+          """;
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setString(1, companyDTO.getTradeName());
+        ps.setString(2, companyDTO.getDesignation());
+        ps.setString(3, companyDTO.getAddress());
+        ps.setString(4, companyDTO.getCity());
+        ps.setString(5, companyDTO.getMeansOfCommunication());
+        ps.setBoolean(6, companyDTO.isBlackListed());
+        ps.setString(7, companyDTO.getMotivationBlackList());
+        ps.setInt(8, companyDTO.getId());
+        ps.setInt(9, companyDTO.getVersionNumber());
+
+        System.out.println("CompanyDAO ps " + ps);
+
+        ResultSet rs = ps.executeQuery();
+        int correctVersion = 0; // faire executeQuery avec RETURNING
+        if (rs.next()) {
+          correctVersion = rs.getInt("version_enterprises");
+        }
+        if (correctVersion == 0) {
+          if (getCompanyById(companyDTO.getId()) == null) {
+            throw new FatalException("Company not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
   }
 }

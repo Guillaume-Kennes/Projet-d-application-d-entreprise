@@ -13,3 +13,11 @@ Content-Type: application/json
 }
 
 ### ici c est les noms de CompanyImpl
+
+### requete blackList
+POST {{baseUrl}}/companies/blacklist/3
+Content-Type: application/json
+
+{
+
+}

@@ -42,8 +42,16 @@ public interface CompanyDAO {
   /**
    * Retrieves the list of all companies available in the system.
    *
-   * @return A list containing CompanyDTO objects representing all companies.
-   *     If no companies are found, the list will be empty.
+   * @return A list containing CompanyDTO objects representing all companies. If no companies are
+   * found, the list will be empty.
    */
   List<CompanyDTO> getAllEnterprises();
+
+
+  /**
+   * Updates a company in the database.
+   *
+   * @param companyDTO The company information to update.
+   */
+  void update(CompanyDTO companyDTO);
 }

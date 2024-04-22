@@ -26,6 +26,8 @@ public class ContactDAOImpl implements ContactDAO {
   private CompanyDAO companyDAO;
   @Inject
   private UEInscriptionDAO inscriptionDAO;
+  @Inject
+  private UserDAO userdao;
 
   /**
    * Retrieves a contact by its ID.
@@ -110,8 +112,6 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setString(6, contactDTO.getMeetingPlace());
         ps.setInt(7, contactDTO.getId());
         ps.setInt(8, contactDTO.getVersionNumber());
-
-
 
         int correctVersion = ps.executeUpdate();
         if (correctVersion == 0) {
@@ -227,7 +227,7 @@ public class ContactDAOImpl implements ContactDAO {
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, contactDTO.getTradeName());
-        ps.setInt(2, contactDTO.getUserId());
+        ps.setInt(2, contactDTO.getUser().getId());
         System.out.println("ContactDAOImpl ps : " + ps);
         ps.executeQuery(); // ou ps.execute() ?
         // ps.setInt(3, 1);
@@ -235,10 +235,9 @@ public class ContactDAOImpl implements ContactDAO {
         System.out.println("ContactDAOImpl -------> Enterprise : "
             + contactDTO.getTradeName());
         System.out.println("ContactDAOImpl -------> UserId : "
-            + contactDTO.getUserId());
+            + contactDTO.getUser().getId());
         System.out.println("ContactDAOImpl -------> Version Number : "
             + contactDTO.getVersionNumber());
-
         System.out.println("ContactDAOImpl ----> ps : " + ps);
       }
     } catch (SQLException e) {
@@ -248,12 +247,11 @@ public class ContactDAOImpl implements ContactDAO {
         "ContactDAOImpl contactDTO : " + "\n"
             + "State : " + contactDTO.getState() + "\n"
             + "Enterprise : " + contactDTO.getTradeName() + "\n"
-            + "UserId : " + contactDTO.getUserId() + "\n"
+            + "UserId : " + contactDTO.getUser().getId() + "\n"
             + "ReasonForRefusal : " + contactDTO.getReasonForRefusal() + "\n"
             + "MeetingPlace : " + contactDTO.getMeetingPlace() + "\n"
-            + "VersionContacts : " + contactDTO.getVersionContacts() + "\n"
+            + "VersionContacts : " + contactDTO.getVersionNumber() + "\n"
     );
-    System.out.println("ContactDAOImpl insert : " + contactDTO);
     return contactDTO;
   }
 }

@@ -15,6 +15,9 @@ public class CompanyImpl implements Company {
   private String address;
   private String city;
   private String meansOfCommunication;
+  private String motivationBlackList;
+  private int versionNumber;
+  private boolean isBlackListed;
 
   /**
    * Constructs a new CompanyImpl object with default values. This constructor initializes a new
@@ -153,6 +156,56 @@ public class CompanyImpl implements Company {
   @Override
   public void setMeansOfCommunication(String meansOfCommunication) {
     this.meansOfCommunication = meansOfCommunication;
+  }
+
+  @Override
+  public String getMotivationBlackList() {
+    return motivationBlackList;
+  }
+
+  @Override
+  public void setMotivationBlackList(String motivationBlackList) {
+    this.motivationBlackList = motivationBlackList;
+  }
+
+
+  public int getVersionNumber() {
+    return versionNumber;
+  }
+
+  public void setVersionNumber(int versionNumber) {
+    this.versionNumber = versionNumber;
+  }
+
+  /**
+   * Get the value of the isBlackListed boolean.
+   *
+   * @return The value of the isBlackListed boolean
+   */
+  @Override
+  public boolean isBlackListed() {
+    return isBlackListed;
+  }
+
+  /**
+   * Set the value of the isBlackListed boolean.
+   *
+   * @param isBlackListed The value to set.
+   */
+  @Override
+  public void setBlackListed(boolean isBlackListed) {
+    this.isBlackListed = isBlackListed;
+  }
+
+  /**
+   * Checks if the company is black listed. This method checks if the given company is black
+   * listed.
+   *
+   * @param company The company to check.
+   * @return true if the company is black listed, false otherwise.
+   */
+  public boolean isBlackListed(CompanyDTO company) {
+    return company.isBlackListed();
   }
 
   /**
