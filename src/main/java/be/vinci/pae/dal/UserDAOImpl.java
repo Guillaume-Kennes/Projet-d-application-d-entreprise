@@ -211,12 +211,9 @@ public class UserDAOImpl implements UserDAO {
     System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
-      System.out.println("PREPARED STATEMENT = " + preparedStatement);
-      System.out.println("SCHOOL YEAR = " + schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
           studentsWithInternships = resultSet.getInt(1);
-          System.out.println("STUDENT WITH INTERNSHIPS : " + studentsWithInternships);
         }
       }
     } catch (SQLException e) {
@@ -231,28 +228,23 @@ public class UserDAOImpl implements UserDAO {
     String query = "SELECT COUNT(*) "
         + "FROM pae.users u "
         + "WHERE u.role = 'Etudiant' AND u.id_user NOT IN ( "
-        + "    SELECT DISTINCT iue.student "
-        + "    FROM pae.inscriptions_ue iue "
-        + "    JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue "
-        + "    JOIN pae.internships i ON c.id_contact = i.contact "
-        + "    WHERE iue.school_year = ? "
-        + ")"
+        + "SELECT DISTINCT iue.student "
+        + "FROM pae.inscriptions_ue iue "
+        + "JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue "
+        + "JOIN pae.internships i ON c.id_contact = i.contact "
+        + "WHERE iue.school_year = ? "
+        + ") "
         + "AND u.id_user IN ("
-        + "    SELECT DISTINCT student "
-        + "    FROM pae.inscriptions_ue "
-        + "    WHERE school_year = ? "
-        + ")";
+        + "SELECT DISTINCT student "
+        + "FROM pae.inscriptions_ue "
+        + "WHERE school_year = ? )";
     System.out.println("QUERY = " + query);
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
       preparedStatement.setString(2, schoolYear);
-
-      System.out.println("PREPARED STATEMENT = " + preparedStatement);
-      System.out.println("SCHOOL YEAR = " + schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
         if (resultSet.next()) {
           studentsWithoutInternships = resultSet.getInt(1);
-          System.out.println("STUDENT WITHOUT INTERNSHIPS : " + studentsWithoutInternships);
         }
       }
     } catch (SQLException e) {
