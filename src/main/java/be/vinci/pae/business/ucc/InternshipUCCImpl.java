@@ -3,7 +3,9 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.dal.InternshipDAO;
+import be.vinci.pae.utils.exception.NotFoundException;
 import jakarta.inject.Inject;
+import java.sql.Date;
 import java.sql.SQLException;
 
 /**
@@ -30,6 +32,82 @@ public class InternshipUCCImpl implements InternshipUCC {
       System.out.println("Ucc Internship : " + internshipDTO);
       dalServices.commit();
       return internshipDTO;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  /**
+   * Create an internship.
+   *
+   * @param contact the contact of the internship
+   * @param supervisor the supervisor of the internship
+   * @param projet the project of the internship
+   * @param signatureDate the signature date of the internship
+   * @return the created internship
+   */
+  public InternshipDTO createAnInternship(int contact, int supervisor, String projet,
+      Date signatureDate) {
+    dalServices.start();
+    try {
+      InternshipDTO internshipDTO = internshipDAO.createAnInternship(contact, supervisor, projet,
+          signatureDate);
+      dalServices.commit();
+      return internshipDTO;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      e.printStackTrace();
+      throw e;
+    }
+  }
+
+  /**
+   * Create or modify an internship.
+   *
+   * @param internship the internship to create or modify
+   * @param subject the subject of the internship
+   * @return the created or modified internship
+   */
+  @Override
+  public InternshipDTO createOrModifyAnInternship(InternshipDTO internship, String subject) {
+    dalServices.start();
+    try {
+      if (internship == null) {
+        dalServices.rollBack();
+        throw new NotFoundException("Internship is null");
+      }
+
+      if (subject == null) {
+        dalServices.rollBack();
+        throw new NotFoundException("Subject is null");
+      }
+
+      internship.setProject(subject);
+
+      internshipDAO.update(internship);
+      dalServices.commit();
+      return internship;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      e.printStackTrace();
+      throw e;
+    }
+  }
+
+  /**
+   * Retrieves the internship associated with the specified ID.
+   *
+   * @param internshipId The ID of the internship to retrieve information for.
+   * @return An InternshipDTO object representing the internship information.
+   */
+  @Override
+  public InternshipDTO getInternshipById(int internshipId) {
+    dalServices.start();
+    try {
+      InternshipDTO internship = internshipDAO.getInternshipById(internshipId);
+      dalServices.commit();
+      return internship;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

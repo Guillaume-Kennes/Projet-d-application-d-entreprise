@@ -11,12 +11,32 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
   private String lastName;
   private String phoneNumber;
   private String email;
-  private Company company;
+  private int company;
+  private int versionNumber;
 
   /**
    * Default constructor for InternshipSupervisorImpl.
    */
   public InternshipSupervisorImpl() {
+  }
+
+
+  /**
+   * Get the version number of the internship supervisor.
+   *
+   * @return The version number of the internship supervisor
+   */
+  public int getVersionNumber() {
+    return versionNumber;
+  }
+
+  /**
+   * Set the version number of the internship supervisor.
+   *
+   * @param versionNumber The version number to set.
+   */
+  public void setVersionNumber(int versionNumber) {
+    this.versionNumber = versionNumber;
   }
 
   /**
@@ -51,7 +71,7 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
    *
    * @return The company of the internship supervisor
    */
-  public Company getCompany() {
+  public int getCompany() {
     return this.company;
   }
 
@@ -123,7 +143,22 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
    *
    * @param company The company to set.
    */
-  public void setCompany(Company company) {
+  public void setCompany(int company) {
     this.company = company;
   }
+
+  /**
+   * Check if the supervisor is known for this enterprise.
+   *
+   * @param enterpriseId The id of the enterprise to check.
+   * @return True if the supervisor is known for this enterprise, false otherwise.
+   */
+  public boolean knownSupervisorForThisEnterprise(int enterpriseId) {
+    return this.company == enterpriseId;
+  }
+
+
+
+
+
 }

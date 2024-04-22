@@ -1,0 +1,79 @@
+package be.vinci.pae.api;
+
+import be.vinci.pae.business.domain.InternshipSupervisorDTO;
+import be.vinci.pae.business.ucc.InternshipSupervisorUCC;
+import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import java.util.List;
+
+/**
+ * Resource class for handling internship supervisor-related endpoints. This class provides endpoints
+ * for creating and retrieving internship supervisors.
+ */
+@Singleton
+@Path("/internshipSupervisor")
+public class InternshipSupervisorResource {
+
+  @Inject
+  private InternshipSupervisorUCC internshipSupervisorUCC;
+
+  /**
+   * Create an internship supervisor.
+   *
+   *
+   * @return The created internship supervisor.
+   */
+  @POST
+  @Path("/create")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  public InternshipSupervisorDTO createAnInternshipSupervisor(JsonNode json) {
+
+    InternshipSupervisorDTO supervisor;
+
+    String firstName = json.get("firstName").asText();
+    System.out.println("prénom" + firstName);
+    String lastName = json.get("lastName").asText();
+    System.out.println("nom" + lastName);
+
+    String phoneNumber = json.get("phoneNumber").asText();
+    System.out.println("numéro de téléphone" + phoneNumber);
+
+    int company = json.get("company").asInt();
+    System.out.println("entreprise" + company);
+
+    JsonNode emailNode = json.get("email");
+    if (emailNode != null) {
+      String email = emailNode.asText();
+      supervisor =
+          internshipSupervisorUCC.createAnInternshipSupervisor(firstName,
+              lastName, phoneNumber, email, company);
+    } else {
+      supervisor =
+          internshipSupervisorUCC.createAnInternshipSupervisor(firstName,
+              lastName, phoneNumber, null, company);
+    }
+
+    return supervisor;
+  }
+
+  /**
+   * Retrieves all internship supervisors.
+   *
+   * @return A list of all internship supervisors.
+   */
+  @GET
+  @Path("/viewAll")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<InternshipSupervisorDTO> getAllInternships() {
+    return internshipSupervisorUCC.getAllInternshipSupervisors();
+  }
+}
+

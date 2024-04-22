@@ -1,6 +1,7 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.sql.Date;
 
 /**
  * Implementation class for the Internship interface.
@@ -10,10 +11,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class InternshipImpl implements Internship {
 
   private int id;
-  private Contact contact;
-  private InternshipSupervisor supervisor;
+  private int contact;
+  private int supervisor;
   private String project;
-  private String signatureDate;
+  private Date signatureDate;
+  private int versionNumber;
 
   /**
    * Default constructor for InternshipImpl.
@@ -44,17 +46,17 @@ public class InternshipImpl implements Internship {
    *
    * @return The contact of the internship
    */
-  public Contact getContact() {
+  public int getContact() {
     return this.contact;
   }
 
   /**
    * Set the contact of the internship.
    *
-   * @param contact The contact to set.
+   * @param contactId The contact to set.
    */
-  public void setContact(Contact contact) {
-    this.contact = contact;
+  public void setContact(int contactId) {
+    this.contact = contactId;
   }
 
   /**
@@ -62,17 +64,17 @@ public class InternshipImpl implements Internship {
    *
    * @return The supervisor of the internship
    */
-  public InternshipSupervisor getSupervisor() {
+  public int getSupervisor() {
     return this.supervisor;
   }
 
   /**
    * Set the supervisor of the internship.
    *
-   * @param supervisor The supervisor to set.
+   * @param supervisorId The supervisor to set.
    */
-  public void setSupervisor(InternshipSupervisor supervisor) {
-    this.supervisor = supervisor;
+  public void setSupervisor(int supervisorId) {
+    this.supervisor = supervisorId;
   }
 
   /**
@@ -98,7 +100,7 @@ public class InternshipImpl implements Internship {
    *
    * @return The signature date of the internship
    */
-  public String getDate() {
+  public Date getSignatureDate() {
     return this.signatureDate;
   }
 
@@ -107,7 +109,27 @@ public class InternshipImpl implements Internship {
    *
    * @param date The signature date to set.
    */
-  public void setDate(String date) {
+  public void setSignatureDate(Date date) {
     this.signatureDate = date;
+  }
+
+
+  /**
+   * Get the version number of the internship.
+   *
+   * @return The version number of the internship
+   */
+  public int getVersionNumber() {
+    return versionNumber;
+  }
+
+
+  /**
+   * Set the version number of the internship.
+   *
+   * @param versionNumber The version number to set.
+   */
+  public void setVersionNumber(int versionNumber) {
+    this.versionNumber = versionNumber;
   }
 }

@@ -1,0 +1,31 @@
+@baseUrl = http://localhost:3000
+
+### Insert a new internship
+POST {{baseUrl}}/internship/create
+Content-Type: application/json
+
+{
+  "contact": 1,
+  "supervisor" : 1,
+  "signatureDate" : "2021-01-01",
+  "projet" : "hello world"
+}
+
+
+### Insert a new internship without subject
+POST {{baseUrl}}/internship/create
+Content-Type: application/json
+
+{
+  "contact": 2,
+  "supervisor" : 2,
+  "signatureDate" : "2021-12-31"
+}
+
+### ajouter ou modifier un sujet de stage
+POST {{baseUrl}}/internship/createOrModify/5
+Content-Type: application/json
+
+{
+  "projet" : "hello moto"
+}

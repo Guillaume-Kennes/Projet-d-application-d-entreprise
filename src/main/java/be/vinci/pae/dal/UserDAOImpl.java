@@ -322,7 +322,8 @@ public class UserDAOImpl implements UserDAO {
         ps.setString(1, user.hashPassword(password));
         ps.setInt(2, userDTO.getId());
         ps.setInt(3, userDTO.getVersionNumber());
-        System.out.println(ps);ResultSet resultSet = ps.executeQuery();
+        System.out.println(ps);
+        ResultSet resultSet = ps.executeQuery();
         int correctVersion = 0;
         if (resultSet.next()) {
           correctVersion = resultSet.getInt("version_users");

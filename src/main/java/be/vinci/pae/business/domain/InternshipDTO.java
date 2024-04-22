@@ -1,6 +1,7 @@
 package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import java.sql.Date;
 
 /**
  * Represents an internship data transfer object (DTO) with various properties.
@@ -28,28 +29,28 @@ public interface InternshipDTO {
    *
    * @return the internship's contact
    */
-  Contact getContact();
+  int getContact();
 
   /**
    * Sets the internship's contact.
    *
    * @param contact the internship's contact to set
    */
-  void setContact(Contact contact);
+  void setContact(int contact);
 
   /**
    * Returns the internship's supervisor.
    *
    * @return the internship's supervisor
    */
-  InternshipSupervisor getSupervisor();
+  int getSupervisor();
 
   /**
    * Sets the internship's supervisor.
    *
-   * @param supervisor the internship's supervisor to set
+   * @param supervisorId the internship's supervisor to set
    */
-  void setSupervisor(InternshipSupervisor supervisor);
+  void setSupervisor(int supervisorId);
 
   /**
    * Returns the internship's project.
@@ -70,12 +71,28 @@ public interface InternshipDTO {
    *
    * @return the internship's signature date
    */
-  String getDate();
+  Date getSignatureDate();
 
   /**
    * Sets the internship's signature date.
    *
    * @param date the internship's signature date to set
    */
-  void setDate(String date);
+  void setSignatureDate(Date date);
+
+
+  /**
+   * Returns the internship's version number.
+   *
+   * @return the internship's version number
+   */
+  int getVersionNumber();
+
+
+  /**
+   * Sets the internship's version number.
+   *
+   * @param versionNumber the internship's version number to set
+   */
+  void setVersionNumber(int versionNumber);
 }

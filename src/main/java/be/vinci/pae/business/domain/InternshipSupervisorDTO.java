@@ -52,6 +52,13 @@ public interface InternshipSupervisorDTO {
   void setLastName(String lastName);
 
   /**
+   * Returns the supervisor's phone number.
+   *
+   * @return the supervisor's phone number
+   */
+  String getPhoneNumber();
+
+  /**
    * Sets the supervisor's phone number.
    *
    * @param phoneNumber the supervisor's phone number to set
@@ -73,9 +80,33 @@ public interface InternshipSupervisorDTO {
   void setEmail(String email);
 
   /**
+   * Returns the supervisor's company.
+   *
+   * @return the supervisor's company
+   */
+  int getCompany();
+
+  /**
    * Sets the supervisor's company.
    *
-   * @param company the supervisor's company to set
+   * @param companyId the supervisor's company to set
    */
-  void setCompany(Company company);
+  void setCompany(int companyId);
+
+
+  /**
+   * Returns the version number of the supervisor.
+   *
+   * @return the version number of the supervisor
+   */
+  int getVersionNumber();
+
+
+  /**
+   * Sets the version number of the supervisor.
+   *
+   * @param versionNumber the version number to set
+   */
+  void setVersionNumber(int versionNumber);
+
 }
