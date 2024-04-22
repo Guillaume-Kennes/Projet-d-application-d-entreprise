@@ -24,6 +24,11 @@ public interface InternshipSupervisorUCC {
   InternshipSupervisorDTO createAnInternshipSupervisor(String firstName,
       String lastName, String phoneNumber, String email, int company);
 
+  /**
+   * Retrieves all internship supervisors.
+   *
+   * @return A list of all internship supervisors.
+   */
   List<InternshipSupervisorDTO> getAllInternshipSupervisors();
 }
 

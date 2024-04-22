@@ -44,8 +44,19 @@ public interface InternshipSupervisorDAO {
   InternshipSupervisorDTO insertSupervisor(String firstName,
       String lastName, String phoneNumber, String email, int company);
 
+  /**
+   * Retrieves all internship supervisors.
+   *
+   * @return A list of all internship supervisors.
+   */
   List<InternshipSupervisorDTO> getAllInternshipSupervisors();
 
+
+  /**
+   * Retrieves the internship supervisor information associated with the specified id.
+   *
+   * @return An InternshipSupervisorDTO object representing the internship supervisor information.
+   */
   InternshipDTO getInternshipById(int internshipId);
 
 }

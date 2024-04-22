@@ -26,13 +26,32 @@ public interface InternshipUCC {
   /**
    * Create an internship.
    *
+   * @param contact The contact of the internship.
+   * @param supervisor The supervisor of the internship.
+   * @param projet The project of the internship.
+   * @param signatureDate The signature date of the internship.
    *
    * @return The created internship.
    */
   InternshipDTO createAnInternship(int contact, int supervisor, String projet, Date signatureDate);
 
+  /**
+   * Create or modify an internship.
+   *
+   * @param internship The internship to create or modify.
+   * @param subject The subject of the internship.
+   *
+   * @return The created or modified internship.
+   */
   InternshipDTO createOrModifyAnInternship(InternshipDTO internship, String subject);
 
+  /**
+   * Retrieves the internship associated with the specified ID.
+   *
+   * @param internshipId The ID of the internship to retrieve information for.
+   *
+   * @return An InternshipDTO object representing the internship information.
+   */
   InternshipDTO getInternshipById(int internshipId);
 
 }

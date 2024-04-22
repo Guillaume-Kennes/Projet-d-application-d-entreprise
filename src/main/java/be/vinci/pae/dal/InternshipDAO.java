@@ -31,14 +31,29 @@ public interface InternshipDAO {
 
 
   /**
-   * Inserts a new internship in the database.
+   * Create an internship.
    *
-   * @return The inserted internship.
+   * @param contact the contact of the internship
+   * @param supervisor the supervisor of the internship
+   * @param projet the project of the internship
+   * @param signatureDate the signature date of the internship
+   * @return the created internship
    */
   InternshipDTO createAnInternship(int contact, int supervisor, String projet, Date signatureDate);
 
+  /**
+   * Updates an internship in the database.
+   *
+   * @param internship the internship to update
+   */
   void update(InternshipDTO internship);
 
+  /**
+   * Retrieves the internship associated with the specified ID.
+   *
+   * @param internshipId The ID of the internship to retrieve information for.
+   * @return An InternshipDTO object representing the internship information.
+   */
   InternshipDTO getInternshipById(int internshipId);
 
 
