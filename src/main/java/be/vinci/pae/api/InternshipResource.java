@@ -14,13 +14,23 @@ import jakarta.ws.rs.core.MediaType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-  @Singleton
-  @Path("/internship")
-  public class InternshipResource {
+/**
+ * Resource class for handling internship-related endpoints. This class provides endpoints for
+ * creating internships.
+ */
+@Singleton
+@Path("/internship")
+public class InternshipResource {
 
-    @Inject
+  @Inject
   private InternshipUCC myinternshipUCC;
 
+  /**
+   * Create an internship.
+   *
+   * @param json The JSON object containing the internship information.
+   * @return The created internship.
+   */
   @POST
   @Path("/create")
   @Produces(MediaType.APPLICATION_JSON)
@@ -43,7 +53,8 @@ import java.text.SimpleDateFormat;
       signatureDate = new java.sql.Date(parsed.getTime());
     } catch (ParseException e) {
       System.out.println("La date fournie ne correspond pas au format yyyy-MM-dd");
-      // Gérer l'erreur comme vous le souhaitez, par exemple en renvoyant une réponse d'erreur à l'utilisateur
+      // Gérer l'erreur comme vous le souhaitez,
+      // par exemple en renvoyant une réponse d'erreur à l'utilisateur
     }
 
     System.out.println("signatureDate" + signatureDate);
@@ -60,6 +71,13 @@ import java.text.SimpleDateFormat;
     return internship;
   }
 
+  /**
+   * Create or modify an internship.
+   *
+   * @param id The ID of the internship to create or modify.
+   * @param json The JSON object containing the internship information.
+   * @return The created or modified internship.
+   */
   @POST
   @Path("/createOrModify/{id_int}")
   @Consumes(MediaType.APPLICATION_JSON)
