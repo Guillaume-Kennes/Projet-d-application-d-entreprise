@@ -41,9 +41,10 @@ public interface InternshipSupervisorDAO {
    * @param company The company of the supervisor to insert.
    * @return The InternshipSupervisorDTO object representing the newly inserted supervisor.
    */
-  InternshipSupervisorDTO insertSupervisor(String firstName, String lastName, String phoneNumber, String email, int company);
+  InternshipSupervisorDTO insertSupervisor(String firstName,
+      String lastName, String phoneNumber, String email, int company);
 
-  List<InternshipSupervisorDTO> getAllInternshipSupervisors ();
+  List<InternshipSupervisorDTO> getAllInternshipSupervisors();
 
   InternshipDTO getInternshipById(int internshipId);
 

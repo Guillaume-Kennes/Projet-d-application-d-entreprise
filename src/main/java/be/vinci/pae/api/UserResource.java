@@ -2,7 +2,6 @@ package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.ContactDTO;
-import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
@@ -64,7 +63,7 @@ public class UserResource {
     response.put("firstName", user.getFirstName());
     response.put("phoneNumber", user.getPhoneNumber());
 
-    /**InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
+    /** InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
     if (internship != null) {
       response.put("internshipTitle", internship.getProject());
       response.put("internshipCompany", internship.getContact().getCompany().getTradeName()
@@ -72,7 +71,7 @@ public class UserResource {
       response.put("internshipSupervisor", internship.getSupervisor().getFirstName() + " "
           + internship.getSupervisor().getLastName());
       response.put("internshipSubject", internship.getProject());
-    }*/
+    } */
 
     ArrayList<ContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
 

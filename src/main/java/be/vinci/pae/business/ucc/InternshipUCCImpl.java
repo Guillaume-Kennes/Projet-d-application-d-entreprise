@@ -39,6 +39,15 @@ public class InternshipUCCImpl implements InternshipUCC {
     }
   }
 
+  /**
+   * Create an internship.
+   *
+   * @param contact the contact of the internship
+   * @param supervisor the supervisor of the internship
+   * @param projet the project of the internship
+   * @param signatureDate the signature date of the internship
+   * @return the created internship
+   */
   public InternshipDTO createAnInternship(int contact, int supervisor, String projet,
       Date signatureDate) {
     dalServices.start();
@@ -54,6 +63,13 @@ public class InternshipUCCImpl implements InternshipUCC {
     }
   }
 
+  /**
+   * Create or modify an internship.
+   *
+   * @param internship the internship to create or modify
+   * @param subject the subject of the internship
+   * @return the created or modified internship
+   */
   @Override
   public InternshipDTO createOrModifyAnInternship(InternshipDTO internship, String subject) {
     dalServices.start();
@@ -80,6 +96,12 @@ public class InternshipUCCImpl implements InternshipUCC {
     }
   }
 
+  /**
+   * Retrieves the internship associated with the specified ID.
+   *
+   * @param internshipId The ID of the internship to retrieve information for.
+   * @return An InternshipDTO object representing the internship information.
+   */
   @Override
   public InternshipDTO getInternshipById(int internshipId) {
     dalServices.start();

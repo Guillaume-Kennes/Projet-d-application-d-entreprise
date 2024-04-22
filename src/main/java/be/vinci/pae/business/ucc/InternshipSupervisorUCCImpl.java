@@ -8,6 +8,10 @@ import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response.Status;
 import java.util.List;
 
+/**
+ * Represents an internship supervisor use case controller (UCC) with various methods.
+ * This class defines methods for creating and retrieving internship supervisors.
+ */
 public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
 
   @Inject
@@ -42,7 +46,8 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
       return supervisor;
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new WebApplicationException("Failed to add internship supervisor.", Status.INTERNAL_SERVER_ERROR);
+      throw new WebApplicationException("Failed to add internship supervisor.",
+          Status.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -51,12 +56,14 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
   public List<InternshipSupervisorDTO> getAllInternshipSupervisors() {
     dalServices.start();
     try {
-      List<InternshipSupervisorDTO> supervisors = internshipSupervisorDAO.getAllInternshipSupervisors();
+      List<InternshipSupervisorDTO> supervisors =
+          internshipSupervisorDAO.getAllInternshipSupervisors();
       dalServices.commit();
       return supervisors;
     } catch (Exception e) {
       dalServices.rollBack();
-      throw new WebApplicationException("Failed to retrieve internship supervisors.", Status.INTERNAL_SERVER_ERROR);
+      throw new WebApplicationException("Failed to retrieve internship supervisors.",
+          Status.INTERNAL_SERVER_ERROR);
     }
   }
 }

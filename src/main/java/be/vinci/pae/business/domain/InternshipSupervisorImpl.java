@@ -147,9 +147,14 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
     this.company = company;
   }
 
-
-  public boolean knownSupervisorForThisEnterprise(int enterprise_id) {
-    return this.company == enterprise_id;
+  /**
+   * Check if the supervisor is known for this enterprise.
+   *
+   * @param enterpriseId The id of the enterprise to check.
+   * @return True if the supervisor is known for this enterprise, false otherwise.
+   */
+  public boolean knownSupervisorForThisEnterprise(int enterpriseId) {
+    return this.company == enterpriseId;
   }
 
 

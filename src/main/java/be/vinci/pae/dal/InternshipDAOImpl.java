@@ -89,7 +89,18 @@ public class InternshipDAOImpl implements InternshipDAO {
   }
 
 
-  public InternshipDTO createAnInternship(int contact, int supervisor, String projet, Date signatureDate) {
+  /**
+   * Inserts a new internship in the database.
+   *
+   * @param contact The contact of the internship.
+   * @param supervisor The supervisor of the internship.
+   * @param projet The project of the internship.
+   * @param signatureDate The signature date of the internship.
+   * @return The inserted internship.
+   * @throws FatalException if an SQL exception occurs while accessing the database.
+   */
+  public InternshipDTO createAnInternship(int contact,
+      int supervisor, String projet, Date signatureDate) {
     try {
       String query = """
             INSERT INTO pae.internships (
@@ -113,11 +124,17 @@ public class InternshipDAOImpl implements InternshipDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println("Internship insert : " + contact + " " +
-        supervisor + " " + projet + " " + signatureDate);
+    System.out.println("Internship insert : " + contact + " "
+        + supervisor + " " + projet + " " + signatureDate);
     return myDomainFactory.getInternship();
   }
 
+  /**
+   * Updates an existing internship in the database.
+   *
+   * @param internshipDTO The internship to update.
+   * @throws FatalException if an SQL exception occurs while accessing the database.
+   */
   @Override
   public void update(InternshipDTO internshipDTO) {
     try {

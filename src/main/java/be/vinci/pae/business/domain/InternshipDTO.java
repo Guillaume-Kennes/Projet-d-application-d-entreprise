@@ -50,7 +50,7 @@ public interface InternshipDTO {
    *
    * @param supervisor_id the internship's supervisor to set
    */
-  void setSupervisor(int supervisor_id);
+  void setSupervisor(int supervisorId);
 
   /**
    * Returns the internship's project.

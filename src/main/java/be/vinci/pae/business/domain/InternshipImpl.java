@@ -53,10 +53,10 @@ public class InternshipImpl implements Internship {
   /**
    * Set the contact of the internship.
    *
-   * @param contact_id The contact to set.
+   * @param contactId The contact to set.
    */
-  public void setContact(int contact_id) {
-    this.contact = contact_id;
+  public void setContact(int contactId) {
+    this.contact = contactId;
   }
 
   /**
@@ -71,10 +71,10 @@ public class InternshipImpl implements Internship {
   /**
    * Set the supervisor of the internship.
    *
-   * @param supervisor_id The supervisor to set.
+   * @param supervisorId The supervisor to set.
    */
-  public void setSupervisor(int supervisor_id) {
-    this.supervisor = supervisor_id;
+  public void setSupervisor(int supervisorId) {
+    this.supervisor = supervisorId;
   }
 
   /**

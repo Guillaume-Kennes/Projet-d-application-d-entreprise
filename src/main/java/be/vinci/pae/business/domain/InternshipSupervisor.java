@@ -8,9 +8,9 @@ public interface InternshipSupervisor extends InternshipSupervisorDTO {
   /**
    * Checks if there is a known supervisor for the specified enterprise.
    *
-   * @param enterprise_id The ID of the enterprise to check.
+   * @param enterpriseId The ID of the enterprise to check.
    *
    * @return true if there is a known supervisor for the specified enterprise, false otherwise.
    */
-  boolean knownSupervisorForThisEnterprise(int enterprise_id);
+  boolean knownSupervisorForThisEnterprise(int enterpriseId);
 }

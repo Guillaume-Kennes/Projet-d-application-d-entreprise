@@ -120,7 +120,7 @@ public class DALServicesImpl implements DALBackServices, DALServices {
         }
       }
     } else {
-      counterThreads.set(counterThreads.get()-1);
+      counterThreads.set(counterThreads.get() - 1);
     }
   }
 

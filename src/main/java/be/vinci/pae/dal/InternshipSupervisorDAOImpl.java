@@ -78,6 +78,16 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
     return supervisor;
   }
 
+  /**
+   * Method to insert a new supervisor in the database.
+   *
+   * @param firstName The first name of the supervisor to insert.
+   * @param lastName The last name of the supervisor to insert.
+   * @param phoneNumber The phone number of the supervisor to insert.
+   * @param email The email of the supervisor to insert.
+   * @param company The company of the supervisor to insert.
+   * @return The InternshipSupervisorDTO object representing the newly inserted supervisor.
+   */
   @Override
   public InternshipSupervisorDTO insertSupervisor(
       String firstName, String lastName, String phoneNumber, String email, int company) {
@@ -111,6 +121,11 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
     return myDomainFactory.getInternshipSupervisor();
   }
 
+  /**
+   * Method to retrieve all internship supervisors from the database.
+   *
+   * @return A list of InternshipSupervisorDTO objects representing all supervisors.
+   */
   public List<InternshipSupervisorDTO> getAllInternshipSupervisors() {
     List<InternshipSupervisorDTO> supervisorsList = new ArrayList<>();
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -133,6 +148,12 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
     return supervisorsList;
   }
 
+  /**
+   * Retrieves the internship supervisor information associated with the specified ID.
+   *
+   * @param internshipId The ID of the internship supervisor to retrieve information for.
+   * @return An InternshipSupervisorDTO object representing the internship supervisor information.
+   */
   @Override
   public InternshipDTO getInternshipById(int internshipId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(

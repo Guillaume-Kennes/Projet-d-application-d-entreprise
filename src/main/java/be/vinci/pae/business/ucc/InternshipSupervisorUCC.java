@@ -3,6 +3,10 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import java.util.List;
 
+/**
+ * Represents an internship supervisor use case controller (UCC) with various methods.
+ * This interface defines methods for creating and retrieving internship supervisors.
+ */
 public interface InternshipSupervisorUCC {
 
 

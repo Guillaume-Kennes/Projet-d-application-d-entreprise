@@ -1,9 +1,10 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.InternshipDTO;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
+
 
 /**
  * Represents a Data Access Object (DAO) for managing internship-related data. Provides methods to
