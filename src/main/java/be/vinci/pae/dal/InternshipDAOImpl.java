@@ -1,13 +1,10 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.domain.Contact;
-import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
-import be.vinci.pae.business.domain.InternshipSupervisor;
-import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -77,20 +74,101 @@ public class InternshipDAOImpl implements InternshipDAO {
    */
   public InternshipDTO internshipInfos(ResultSet resultSet) {
     InternshipDTO internshipDTO = myDomainFactory.getInternship();
-    ContactDTO contact;
-    InternshipSupervisorDTO supervisor;
 
     try {
       internshipDTO.setId(resultSet.getInt("id_internship"));
       internshipDTO.setProject(resultSet.getString("internship_project"));
-      internshipDTO.setDate(String.valueOf(resultSet.getDate("signature_date")));
-      contact = contactDAO.contactInfos(resultSet);
-      internshipDTO.setContact((Contact) contact);
-      supervisor = supervisorDAO.supervisorInfos(resultSet);
-      internshipDTO.setSupervisor((InternshipSupervisor) supervisor);
+      internshipDTO.setSignatureDate(resultSet.getDate("signature_date"));
+      internshipDTO.setContact(resultSet.getInt("contact"));
+      internshipDTO.setSupervisor(resultSet.getInt("internship_supervisor"));
+      internshipDTO.setVersionNumber(resultSet.getInt("version_internships"));
     } catch (SQLException e) {
       throw new FatalException(e);
     }
     return internshipDTO;
+  }
+
+
+  public InternshipDTO createAnInternship(int contact, int supervisor, String projet, Date signatureDate) {
+    try {
+      String query = """
+            INSERT INTO pae.internships (
+            contact,
+            internship_supervisor,
+            internship_project,
+            signature_date,
+            version_internships)
+            VALUES (?, ?, ?, ?, ?)
+          """;
+
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setInt(1, contact);
+        ps.setInt(2, supervisor);
+        ps.setString(3, projet);
+        ps.setDate(4, signatureDate);
+        ps.setInt(5, 1);
+
+        ps.executeUpdate();
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    System.out.println("Internship insert : " + contact + " " +
+        supervisor + " " + projet + " " + signatureDate);
+    return myDomainFactory.getInternship();
+  }
+
+  @Override
+  public void update(InternshipDTO internshipDTO) {
+    try {
+      String query = """
+          UPDATE pae.internships
+          SET contact = ?,
+          internship_supervisor = ?,
+          internship_project = ?,
+          signature_date = ?,
+          version_internships = version_internships + 1
+          WHERE id_internship = ? AND version_internships = ?
+          """;
+
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setInt(1, internshipDTO.getContact());
+        ps.setInt(2, internshipDTO.getSupervisor());
+        ps.setString(3, internshipDTO.getProject());
+        ps.setDate(4, internshipDTO.getSignatureDate());
+        ps.setInt(5, internshipDTO.getId());
+        ps.setInt(6, internshipDTO.getVersionNumber());
+
+        int correctVersion = ps.executeUpdate();
+        if (correctVersion == 0) {
+          if (getInternshipByUserId(internshipDTO.getId()) == null) {
+            throw new FatalException("Contact not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+  }
+
+  @Override
+  public InternshipDTO getInternshipById(int internshipId) {
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.internships i WHERE i.id_internship = ?"
+    );
+
+    try {
+      preparedStatement.setInt(1, internshipId);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        if (resultSet.next()) {
+          return internshipInfos(resultSet);
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException("Contact not found");
+    }
+    return null;
   }
 }

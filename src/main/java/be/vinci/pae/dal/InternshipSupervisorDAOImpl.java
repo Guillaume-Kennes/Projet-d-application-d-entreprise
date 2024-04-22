@@ -1,14 +1,15 @@
 package be.vinci.pae.dal;
 
-import be.vinci.pae.business.domain.Company;
-import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the InternshipSupervisorDAO interface. Provides methods for retrieving
@@ -20,8 +21,6 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
   private DomainFactory myDomainFactory;
   @Inject
   private DALBackServices dalServices;
-  @Inject
-  private CompanyDAO companyDAO;
 
   /**
    * Method to retrieve supervisor information and map it to a InternshipSupervisorDTO object.
@@ -32,7 +31,6 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    */
   public InternshipSupervisorDTO supervisorInfos(ResultSet resultSet) {
     InternshipSupervisorDTO internshipSupervisorDTO = myDomainFactory.getInternshipSupervisor();
-    CompanyDTO company;
 
     try {
       internshipSupervisorDTO.setId(resultSet.getInt("id_supervisor"));
@@ -40,8 +38,8 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
       internshipSupervisorDTO.setPhoneNumber(resultSet.getString("phone_number"));
       internshipSupervisorDTO.setFirstName(resultSet.getString("supervisor_first_name"));
       internshipSupervisorDTO.setLastName(resultSet.getString("supervisor_last_name"));
-      company = companyDAO.companyInfos(resultSet);
-      internshipSupervisorDTO.setCompany((Company) company);
+      internshipSupervisorDTO.setVersionNumber(resultSet.getInt("version_internship_surpervisors"));
+      internshipSupervisorDTO.setCompany(resultSet.getInt("enterprise"));
     } catch (SQLException e) {
       throw new FatalException(e);
     }
@@ -78,5 +76,94 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
       preparedStatement.close();
     }
     return supervisor;
+  }
+
+  @Override
+  public InternshipSupervisorDTO insertSupervisor(
+      String firstName, String lastName, String phoneNumber, String email, int company) {
+    try {
+      String query = """
+          INSERT INTO pae.internship_supervisors (
+          enterprise,
+          supervisor_last_name,
+          supervisor_first_name,
+          phone_number,
+          email,
+          version_internship_surpervisors)
+          VALUES (?, ?, ?, ?, ?, ?)
+          """;
+
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setInt(1, company);
+        ps.setString(2, lastName);
+        ps.setString(3, firstName);
+        ps.setString(4, phoneNumber);
+        ps.setString(5, email);
+        ps.setInt(6, 1);
+
+        ps.execute();
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    System.out.println("InternshipSUpervisor insert : " + firstName + " " + lastName
+        + " " + phoneNumber + " " + email + " " + company);
+    return myDomainFactory.getInternshipSupervisor();
+  }
+
+  public List<InternshipSupervisorDTO> getAllInternshipSupervisors() {
+    List<InternshipSupervisorDTO> supervisorsList = new ArrayList<>();
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.internship_supervisors");
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
+        InternshipSupervisorDTO supervisor = myDomainFactory.getInternshipSupervisor();
+        supervisor.setId(resultSet.getInt("id_supervisor"));
+        supervisor.setEmail(resultSet.getString("email"));
+        supervisor.setPhoneNumber(resultSet.getString("phone_number"));
+        supervisor.setFirstName(resultSet.getString("supervisor_first_name"));
+        supervisor.setLastName(resultSet.getString("supervisor_last_name"));
+        supervisor.setVersionNumber(resultSet.getInt("version_internship_surpervisors"));
+        supervisor.setCompany(resultSet.getInt("enterprise"));
+        supervisorsList.add(supervisor);
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return supervisorsList;
+  }
+
+  @Override
+  public InternshipDTO getInternshipById(int internshipId) {
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.internships WHERE id_internship = ?");
+    try {
+      preparedStatement.setInt(1, internshipId);
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+
+    InternshipDTO internship = myDomainFactory.getInternship();
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      if (resultSet.next()) {
+        internship.setId(resultSet.getInt("id_internship"));
+        internship.setContact(resultSet.getInt("contact"));
+        internship.setSupervisor(resultSet.getInt("supervisor"));
+        internship.setProject(resultSet.getString("project"));
+        internship.setSignatureDate(resultSet.getDate("signature_date"));
+        internship.setVersionNumber(resultSet.getInt("version_internships"));
+      } else {
+        internship = null;
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    } finally {
+      try {
+        preparedStatement.close();
+      } catch (SQLException e) {
+        throw new FatalException(e);
+      }
+    }
+    return internship;
   }
 }
