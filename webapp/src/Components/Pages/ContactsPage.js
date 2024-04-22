@@ -43,10 +43,16 @@ function renderContactsPage(contact) {
       button3.textContent = "Arrêter de suivre le contact";
       button3.addEventListener("click", () => stopFollowing(id));
 
+      const buttonBlackList = document.createElement("button");
+      buttonBlackList.className = 'btn btn-primary btn-block btn-light myButton';
+      buttonBlackList.textContent = "Black lister une entreprise";
+     // buttonBlackList.addEventListener("click", () => blackList(id));
+
       listItem.appendChild(contactText);
       listItem.appendChild(button);
       listItem.appendChild(button2);
       listItem.appendChild(button3);
+      listItem.appendChild(buttonBlackList);
       contactList.appendChild(listItem);
     });
   } else {

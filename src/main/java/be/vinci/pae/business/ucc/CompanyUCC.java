@@ -31,7 +31,7 @@ public interface CompanyUCC {
    * @param companyDTO The company to blacklist.
    * @return The updated company after the blacklist.
    */
-  CompanyDTO blackList(CompanyDTO companyDTO);
+  CompanyDTO blackList(CompanyDTO companyDTO, String reason);
 
 
   /**
@@ -45,7 +45,6 @@ public interface CompanyUCC {
    * Retrieves the number of students taken by a company.
    *
    * @param idCompany the id of the company
-   *
    * @return the number of students taken by the company
    */
   int numberOfStudentsTaken(int idCompany);

@@ -36,5 +36,5 @@ POST {{baseUrl}}/companies/blacklist/3
 Content-Type: application/json
 
 {
-
+"reason": "Raison du blacklistage de l entreprise"
 }

@@ -3,6 +3,7 @@ package be.vinci.pae.api;
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -91,7 +92,6 @@ public class CompanyResource {
   }
 
 
-
   /**
    * Endpoint for stopping following a contact.
    *
@@ -103,13 +103,20 @@ public class CompanyResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
   // @Authorize
-  public CompanyDTO stopFollowing(@PathParam("id_com") int idCompany) {
+  public CompanyDTO stopFollowing(@PathParam("id_com") int idCompany, JsonNode json) {
     CompanyDTO companyDTO = companyUCC.getCompanyById(idCompany);
     if (companyDTO == null) {
       throw new IllegalArgumentException("Company not found");
     }
 
-    companyUCC.blackList(companyDTO);
+    if (json == null) {
+      throw new IllegalArgumentException("Request body is missing or not a valid JSON");
+    }
+
+    String reasonForRefusal = json.get("reason").asText();
+    System.out.println("reason_for_refusal : " + reasonForRefusal);
+
+    companyUCC.blackList(companyDTO, reasonForRefusal);
     return companyDTO;
   }
 }

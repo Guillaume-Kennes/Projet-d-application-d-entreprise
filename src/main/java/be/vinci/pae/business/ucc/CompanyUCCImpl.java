@@ -44,13 +44,18 @@ public class CompanyUCCImpl implements CompanyUCC {
   }
 
   @Override
-  public CompanyDTO blackList(CompanyDTO companyDTO) {
+  public CompanyDTO blackList(CompanyDTO companyDTO, String reason) {
     System.out.println("Contact " + companyDTO);
     dalServices.start();
     try {
       if (companyDTO == null) {
         dalServices.rollBack();
         throw new NotFoundException("Company not found");
+      }
+
+      if (reason == null) {
+        dalServices.rollBack();
+        throw new BusinessException("Reason field cannot be null");
       }
 
       Company companyBiz = (Company) companyDTO;
@@ -62,10 +67,12 @@ public class CompanyUCCImpl implements CompanyUCC {
 
       } else {
         companyDTO.setBlackListed(true);
+        companyDTO.setMotivationBlackList(reason);
 
         companyDAO.update(companyDTO);
         System.out.println("CompanyUCCImpl " + companyBiz.isBlackListed(companyDTO));
         System.out.println("CompanyUCCImpl " + companyDTO.isBlackListed());
+        System.out.println("CompanyUCCImpl " + companyDTO.getMotivationBlackList());
         dalServices.commit();
 
         return companyDTO;
