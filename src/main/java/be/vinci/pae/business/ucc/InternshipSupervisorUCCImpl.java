@@ -6,6 +6,7 @@ import be.vinci.pae.dal.InternshipSupervisorDAO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response.Status;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -66,4 +67,27 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
           Status.INTERNAL_SERVER_ERROR);
     }
   }
+
+  /**
+   * Gets a supervisor by their id.
+   *
+   * @param id The id of the supervisor.
+   *
+   * @return The corresponding supervisor.
+   * @throws SQLException when a problem occurs
+   */
+  public InternshipSupervisorDTO getInternshipSupervisorById(int id) throws SQLException {
+    dalServices.start();
+    try {
+      InternshipSupervisorDTO supervisor =
+          internshipSupervisorDAO.getSupervisorById(id);
+      dalServices.commit();
+      return supervisor;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw new WebApplicationException("Failed to retrieve internship supervisor.",
+          Status.INTERNAL_SERVER_ERROR);
+    }
+  }
+
 }
