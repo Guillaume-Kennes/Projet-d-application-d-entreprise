@@ -1,6 +1,7 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -30,5 +31,15 @@ public interface InternshipSupervisorUCC {
    * @return A list of all internship supervisors.
    */
   List<InternshipSupervisorDTO> getAllInternshipSupervisors();
+
+  /**
+   * Gets a supervisor by their id.
+   *
+   * @param id The id of the supervisor.
+   *
+   * @return The corresponding supervisor.
+   * @throws SQLException when a problem occurs
+   */
+  InternshipSupervisorDTO getInternshipSupervisorById(int id) throws SQLException;
 }
 
