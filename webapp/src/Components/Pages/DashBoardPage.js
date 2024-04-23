@@ -1,63 +1,89 @@
 import Chart from 'chart.js/auto';
+import 'chartjs-plugin-datalabels';
 import {clearPage} from "../../utils/render";
 import {getToken} from "../../utils/user";
 
 const viewDashBoard = async () => {
   clearPage();
-  await createDropdownYear();
-  const schoolYear = document.querySelector('#schoolYear').value;
-  const studentsWithInternship = await fetchStudentsWithInternship(schoolYear);
-  const studentsWithoutInternship = await fetchStudentsWithoutInternship(schoolYear);
-  drawPieChart(studentsWithInternship, studentsWithoutInternship);
+  const schoolYear = getCurrentAcademicYear();
+  await showPieChart(schoolYear);
+  // await createDropdownYear();
   const companies = await fetchCompanies();
   await allCompanies(companies);
 }
 
-async function createDropdownYear() {
-  // todo
-  // add event listener pour chaque option
 
-  // Créer l'élément select
-  /* const select = document.createElement('select');
-   select.id = 'schoolYear';
-
-   // Définir les années académiques
-   const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
-
-   // Créer une option pour chaque année académique
-   schoolYears.forEach(year => {
-     const option = document.createElement('option');
-     option.value = year;
-     option.text = year;
-     // Ajouter l'attribut 'selected' à l'année académique 2023-2024
-     if (year === '2023-2024') {
-       option.selected = true;
-     }
-     select.appendChild(option);
-   });
-   // Ajouter l'élément select à la page
-   document.querySelector('main').appendChild(select);
- */
-  const main = document.querySelector('main');
-  let html;
-
-  main.innerHTML = ` 
-  <select id="schoolYear">
-  
-  </select>
-  `;
-  const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
-  schoolYears.forEach(sy => {
-    if (sy === '2023-2024') {
-      html += `<option value="${sy}" selected>${sy}</option>`
-    }else {
-      html += `<option value="${sy}">${sy}</option>`
-    }
-  })
-  const div = document.querySelector("#schoolYear");
-  div.innerHTML = html;
+function getCurrentAcademicYear() {
+  const currentYear = new Date().getFullYear();
+  const currentMonth = new Date().getMonth();
+  let schoolYear;
+  if (currentMonth >= 9) {
+    schoolYear = `${currentYear}-${currentYear + 1}`;
+  } else {
+    schoolYear = `${currentYear - 1}-${currentYear}`;
+  }
+  return schoolYear;
 
 }
+async function showPieChart(schoolYear) {
+  const studentsWithInternship = await fetchStudentsWithInternship(schoolYear);
+  const studentsWithoutInternship = await fetchStudentsWithoutInternship(schoolYear);
+  const totalStudents = studentsWithInternship + studentsWithoutInternship;
+  const main = document.querySelector('main');
+  main.innerHTML += `
+            <div class="row w-75 mx-auto">
+                <p class="text-center">Année académique : ${schoolYear}</p>
+                <p class="text-lg-center">Total : ${totalStudents} étudiants</p>
+            </div>
+             `;
+  drawPieChart(studentsWithInternship, studentsWithoutInternship);
+}
+
+// async function createDropdownYear() {
+//   // todo
+//   // add event listener pour chaque option
+//
+//   // Créer l'élément select
+//  /* const select = document.createElement('select');
+//   select.id = 'schoolYear';
+//
+//   // Définir les années académiques
+//   const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
+//
+//   // Créer une option pour chaque année académique
+//   schoolYears.forEach(year => {
+//     const option = document.createElement('option');
+//     option.value = year;
+//     option.text = year;
+//     // Ajouter l'attribut 'selected' à l'année académique 2023-2024
+//     if (year === '2023-2024') {
+//       option.selected = true;
+//     }
+//     select.appendChild(option);
+//   });
+//   // Ajouter l'élément select à la page
+//   document.querySelector('main').appendChild(select);
+// */
+//   const main = document.querySelector('main');
+//   let html;
+//
+//   main.innerHTML = `
+//   <select id="schoolYear">
+//
+//   </select>
+//   `;
+//   const schoolYears = ['2021-2022', '2022-2023', '2023-2024', '2024-2025'];
+//   schoolYears.forEach(sy => {
+//     if (sy === '2023-2024') {
+//       html += `<option value="${sy}" selected>${sy}</option>`
+//     }else {
+//       html += `<option value="${sy}">${sy}</option>`
+//     }
+//   })
+//   const div = document.querySelector("#schoolYear");
+//   div.innerHTML = html;
+// }
+
 
 async function fetchStudentsWithInternship(schoolYear) {
   const token = getToken();
@@ -112,17 +138,13 @@ function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
   new Chart(pieCanvas, {
     type: 'pie',
     data: {
-      labels: ['Avec stage', 'Sans stage'],
+      labels: [`Total : ${studentsWithInternship} ont un stage. `, `Total : ${studentsWithoutInternship} n'ont pas de stage. `],
       datasets: [{
         data: [studentsWithInternship, studentsWithoutInternship],
-        backgroundColor: ['#0d4d72', '#62a2a4']
+        backgroundColor: ['#135a81', '#62a2a4']
       }]
     },
     options: {
-      title: {
-        display: true,
-        text: 'Répartition des étudiants avec et sans stage'
-      },
       responsive: true,
       maintainAspectRatio: false,
     }
