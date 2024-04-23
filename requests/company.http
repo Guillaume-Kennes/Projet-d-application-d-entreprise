@@ -13,22 +13,37 @@ Content-Type: application/json
 }
 
 
-### Get number of students taken by a company
+### Get number of students taken by a company ASSYST
 GET {{baseUrl}}/companies/numberOfStudentsTaken/1
 Authorization: {{leleuxToken}}
 
-### Get number of students taken by a company
+### Get number of students taken by a company AXIS
 GET {{baseUrl}}/companies/numberOfStudentsTaken/2
 Authorization: {{leleuxToken}}
 
-### Get number of students taken by a company
+### Get number of students taken by a company INFRABEL
 GET {{baseUrl}}/companies/numberOfStudentsTaken/3
 Authorization: {{leleuxToken}}
 
-### Get number of students taken by a company
+### Get number of students taken by a company LA ROUTE DU PAPIER
 GET {{baseUrl}}/companies/numberOfStudentsTaken/4
 Authorization: {{leleuxToken}}
 
+### Get number of students taken by a company LETS BUILD
+GET {{baseUrl}}/companies/numberOfStudentsTaken/5
+Authorization: {{leleuxToken}}
+
+### Get number of students taken by a company NIBOO
+GET {{baseUrl}}/companies/numberOfStudentsTaken/6
+Authorization: {{leleuxToken}}
+
+### Get number of students taken by a company SOPRA STERIA
+GET {{baseUrl}}/companies/numberOfStudentsTaken/7
+Authorization: {{leleuxToken}}
+
+### Get number of students taken by a company THE BAYARD PARTNERSHIP
+GET {{baseUrl}}/companies/numberOfStudentsTaken/8
+Authorization: {{leleuxToken}}
 ### ici c est les noms de CompanyImpl
 
 ### requete blackList

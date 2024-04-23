@@ -91,3 +91,8 @@ Authorization: {{leleuxToken}}
 GET {{baseUrl}}/contacts/5
 Content-Type: application/json
 Authorization: {{carolineToken}}
+
+
+### Get an user by it's id
+GET {{baseUrl}}/users/5
+Authorization: {{carolineToken}}

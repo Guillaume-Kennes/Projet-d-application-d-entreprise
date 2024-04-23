@@ -159,15 +159,16 @@ public class CompanyDAOImpl implements CompanyDAO {
     int numberOfStudents = 0;
     try {
       PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-          "SELECT COUNT(DISTINCT ic.student) AS number_of_students_taken "
-              + " FROM pae.contacts c "
-              + "JOIN pae.inscriptions_ue ic ON c.inscription_ue = ic.id_inscription_ue "
-              + "WHERE c.state = 'pris' AND c.enterprise = ?"
+          "SELECT COUNT(i.id_internship) AS number_of_students_taken "
+              + "FROM pae.internships i, pae.internship_supervisors isu "
+              + "WHERE isu.id_supervisor = i.internship_supervisor "
+              + "AND isu.enterprise = ? ;"
       );
       preparedStatement.setInt(1, idCompany);
       ResultSet resultSet = preparedStatement.executeQuery();
       if (resultSet.next()) {
         numberOfStudents = resultSet.getInt("number_of_students_taken");
+        System.out.println("CompanyDAOImpl numberOfStudentsTaken : " + numberOfStudents);
       }
     } catch (SQLException e) {
       throw new FatalException(e);
