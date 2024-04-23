@@ -129,7 +129,6 @@ public class CompanyDAOImpl implements CompanyDAO {
   public List<CompanyDTO> getAllEnterprises() {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
-
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.enterprises ORDER BY trade_name, designation");
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
