@@ -81,7 +81,19 @@ public interface UserUCC {
    */
   int getStudentsWithoutInternship(String schoolYear);
 
+  /**
+   * Updates the user's password.
+   *
+   * @param user     the user to update
+   * @param password the new password
+   */
   void updatePassword(UserDTO user, String password);
 
+  /**
+   * Updates the user's phone number.
+   *
+   * @param user       the user to update
+   * @param phoneNumber the new phone number
+   */
   void updatePhoneNumber(UserDTO user, String phoneNumber);
 }

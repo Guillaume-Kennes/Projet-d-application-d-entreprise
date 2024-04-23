@@ -1,10 +1,13 @@
 package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
+import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
+import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
+import be.vinci.pae.business.ucc.InternshipSupervisorUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -40,6 +43,8 @@ public class UserResource {
   private InternshipUCC myInternshipUcc;
   @Inject
   private ContactUCC myContactUcc;
+  @Inject
+  private InternshipSupervisorUCC mySupervisorUcc;
 
   /**
    * Retrieves user information by their ID.
@@ -65,14 +70,20 @@ public class UserResource {
     response.put("phoneNumber", user.getPhoneNumber());
 
     InternshipDTO internship = myInternshipUcc.getInternshipByUserId(id);
+
     if (internship != null) {
+      CompanyDTO company = myContactUcc.getContactById(internship.getContact()).getCompany();
+      InternshipSupervisorDTO supervisor =
+          mySupervisorUcc.getInternshipSupervisorById(internship.getSupervisor());
+
       response.put("internshipTitle", internship.getProject());
-      response.put("internshipCompany", internship.getContact().getCompany().getTradeName()
-          + " " + internship.getContact().getCompany().getDesignation());
-      response.put("internshipSupervisor", internship.getSupervisor().getFirstName() + " "
-          + internship.getSupervisor().getLastName());
+      response.put("internshipCompany", company.getTradeName()
+          + " " + company.getDesignation());
+      response.put("internshipSupervisor", supervisor.getFirstName() + " "
+          + supervisor.getLastName());
       response.put("internshipSubject", internship.getProject());
     }
+
 
     ArrayList<ContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
 
@@ -125,6 +136,13 @@ public class UserResource {
     return myUserUcc.getStudentsWithInternship(schoolYear);
   }
 
+  /**
+   * Retrieves the number of students without an internship for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the number of students without an
+   *                   internship.
+   * @return The number of students without an internship for the specified school year.
+   */
   @GET
   @Path("/getStudentsWithoutInternship/{school_year}")
   @Produces(MediaType.APPLICATION_JSON)

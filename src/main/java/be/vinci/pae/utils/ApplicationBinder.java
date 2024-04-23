@@ -6,6 +6,8 @@ import be.vinci.pae.business.ucc.CompanyUCC;
 import be.vinci.pae.business.ucc.CompanyUCCImpl;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.ContactUCCImpl;
+import be.vinci.pae.business.ucc.InternshipSupervisorUCC;
+import be.vinci.pae.business.ucc.InternshipSupervisorUCCImpl;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.InternshipUCCImpl;
 import be.vinci.pae.business.ucc.UserUCC;
@@ -49,9 +51,9 @@ public class ApplicationBinder extends AbstractBinder {
     bind(ContactDAOImpl.class).to(ContactDAO.class).in(Singleton.class);
     bind(InternshipDAOImpl.class).to(InternshipDAO.class).in(Singleton.class);
     bind(InternshipUCCImpl.class).to(InternshipUCC.class).in(Singleton.class);
-    bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
     bind(UEInscriptionDAOImpl.class).to(UEInscriptionDAO.class).in(Singleton.class);
     bind(InternshipSupervisorDAOImpl.class).to(InternshipSupervisorDAO.class).in(Singleton.class);
+    bind(InternshipSupervisorUCCImpl.class).to(InternshipSupervisorUCC.class).in(Singleton.class);
     bind(CompanyUCCImpl.class).to(CompanyUCC.class).in(Singleton.class);
     bind(CompanyDAOImpl.class).to(CompanyDAO.class).in(Singleton.class);
   }
