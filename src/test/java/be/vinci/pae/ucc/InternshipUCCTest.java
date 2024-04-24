@@ -237,7 +237,7 @@ public class InternshipUCCTest {
   }
 
   @Test
-  public void testGetInternshipById() {
+  public void testGetInternshipById_success() {
     // Arrange
     int internshipId = 1;
     InternshipDTO expectedInternship = internshipDAO.getInternshipById(internshipId);
@@ -250,9 +250,25 @@ public class InternshipUCCTest {
     assertEquals(expectedInternship, result);
   }
 
+  @Test
+  public void testGetInternshipById_failure() {
+    // Arrange
+    int testInternshipId = 1;
+    when(internshipDAO.getInternshipById(testInternshipId)).thenThrow(new RuntimeException("Test exception"));
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      internshipUCC.getInternshipById(testInternshipId);
+    });
+
+    // Assert
+    assertEquals("Test exception", exception.getMessage());
+  }
+
+
 
   @Test
-  public void testAllInternships() {
+  public void testAllInternships_success() {
     // Arrange
     List<InternshipDTO> expectedInternships = internshipDAO.getAllInternships();
     when(internshipDAO.getAllInternships()).thenReturn(expectedInternships);
@@ -263,5 +279,20 @@ public class InternshipUCCTest {
     // Assert
     assertEquals(expectedInternships, result);
   }
+
+  @Test
+  public void testAllInternships_failure() {
+    // Arrange
+    when(internshipDAO.getAllInternships()).thenThrow(new RuntimeException("Test exception"));
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      internshipUCC.getAllInternships();
+    });
+
+    // Assert
+    assertEquals("Test exception", exception.getMessage());
+  }
+
 
 }
