@@ -69,4 +69,11 @@ public interface ContactUCC {
    */
   ContactDTO addContact(ContactDTO contactDTO);
 
+  /**
+   * Retrieves a list of all contacts made by a company.
+   *
+   * @param id The id of the company.
+   * @return A list of ContactDTO objects.
+   */
+  ArrayList<ContactDTO> getAllContacts(int id) throws SQLException;
 }

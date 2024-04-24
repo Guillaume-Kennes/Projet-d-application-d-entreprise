@@ -17,7 +17,6 @@ public class CompanyUCCImpl implements CompanyUCC {
 
   @Inject
   private CompanyDAO companyDAO;
-
   @Inject
   private DALServices dalServices;
 
@@ -77,26 +76,6 @@ public class CompanyUCCImpl implements CompanyUCC {
     dalServices.start();
     try {
       return companyDAO.numberOfStudentsTaken(idCompany);
-    } catch (Exception e) {
-      dalServices.rollBack();
-      throw e;
-    }
-  }
-
-  /**
-   * Retrieves a list of all contacts made by a company.
-   *
-   * @param id The id of the company.
-   * @return A list of ContactDTO objects.
-   */
-  public ArrayList<ContactDTO> getAllContacts(int id) throws SQLException {
-    dalServices.start();
-    try {
-      ArrayList<ContactDTO> contactList = companyDAO.getCompanyContacts(id);
-
-      dalServices.commit();
-      return contactList;
-
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

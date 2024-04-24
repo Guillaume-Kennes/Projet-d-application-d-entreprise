@@ -4,6 +4,7 @@ import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
+import be.vinci.pae.business.ucc.ContactUCC;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -32,6 +33,8 @@ public class CompanyResource {
   private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private CompanyUCC companyUCC;
+  @Inject
+  private ContactUCC contactUCC;
 
   /**
    * Get all enterprises.
@@ -109,7 +112,7 @@ public class CompanyResource {
   @Authorize(value = {"Professeur"})
   public ObjectNode getContactsByCompanyId(@PathParam("id") int id) throws SQLException {
     ObjectNode response = jsonMapper.createObjectNode();
-    ArrayList<ContactDTO> contacts = companyUCC.getAllContacts(id);
+    ArrayList<ContactDTO> contacts = contactUCC.getAllContacts(id);
 
     if (contacts.isEmpty()) {
       return null;

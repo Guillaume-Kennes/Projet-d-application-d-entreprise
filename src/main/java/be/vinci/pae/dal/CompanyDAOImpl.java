@@ -21,8 +21,6 @@ public class CompanyDAOImpl implements CompanyDAO {
   private DALBackServices dalServices;
   @Inject
   private DomainFactory myDomainFactory;
-  @Inject
-  private ContactDAO myContactDAO;
 
   @Override
   public CompanyDTO insert(CompanyDTO companyDTO) {
@@ -172,42 +170,6 @@ public class CompanyDAOImpl implements CompanyDAO {
       throw new FatalException(e);
     }
     return numberOfStudents;
-  }
-
-  /**
-   * Method to retrieve all the contacts made to a company.
-   *
-   * @param idCompany The ID of the company.
-   * @return A ContactDTO list containing all the contacts
-   * of the company, or null if not found.
-   * @throws FatalException if the company is not found in the database.
-   */
-  public ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException {
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.enterprises e "
-            + "WHERE c.enterprise = e.id_enterprise "
-            + "AND e.id_enterprise = ?");
-    try {
-      preparedStatement.setInt(1, idCompany);
-    } catch (SQLException e) {
-      throw new FatalException(e);
-    }
-
-    ContactDTO contact;
-    ArrayList<ContactDTO> contacts = new ArrayList<>();
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-      if (resultSet.next()) {
-        contact = myContactDAO.contactInfos(resultSet);
-        contacts.add(contact);
-      } else {
-        contact = null;
-      }
-    } catch (SQLException e) {
-      throw new FatalException(e);
-    } finally {
-      preparedStatement.close();
-    }
-    return contacts;
   }
 
 }
