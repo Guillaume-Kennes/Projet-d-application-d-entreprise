@@ -152,7 +152,7 @@ async function allCompanies() {
       `;
   main.appendChild(tabDiv);
   await setCompanyRow(companies);
-  await addListeners();
+  // await addListeners();
 }
 
 async function setCompanyRow(companies) {
@@ -275,7 +275,7 @@ async function fetchCompanies() {
 
   return response.json();
 }
-
+/*
 async function addListeners() {
   const main = document.querySelector("main");
   // Écoutez les événements de clic sur les boutons de tri
@@ -301,7 +301,7 @@ function sortCompanies(companies, sortColumn, sortOrder) {
 
   });
 }
-
+*/
 // function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
 //   const main = document.querySelector('main');
 //   main.innerHTML += `
