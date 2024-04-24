@@ -34,9 +34,9 @@ public interface InternshipDAO {
   /**
    * Create an internship.
    *
-   * @param contact the contact of the internship
-   * @param supervisor the supervisor of the internship
-   * @param projet the project of the internship
+   * @param contact       the contact of the internship
+   * @param supervisor    the supervisor of the internship
+   * @param projet        the project of the internship
    * @param signatureDate the signature date of the internship
    * @return the created internship
    */
@@ -63,6 +63,7 @@ public interface InternshipDAO {
    * @return A list of all internships.
    */
   List<InternshipDTO> getAllInternships();
+
   List<String> getSchoolYears();
 
 }

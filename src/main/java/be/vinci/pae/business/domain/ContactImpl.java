@@ -12,10 +12,8 @@ class ContactImpl implements Contact {
   private String reasonForRefusal;
   private boolean isFollowed;
   private String meetingPlace;
-  private int enterprise;
-  private int userId;
+  private UserDTO user;
   private String tradeName;
-  private int versionContacts;
   private int versionNumber;
 
   /**
@@ -90,17 +88,6 @@ class ContactImpl implements Contact {
   @Override
   public void setReasonForRefusal(String reasonForRefusal) {
     this.reasonForRefusal = reasonForRefusal;
-  }
-
-
-  /**
-   * Set the value of the isFollowed boolean.
-   *
-   * @param followed The value to set.
-   */
-  @Override
-  public void setFollowed(boolean followed) {
-    isFollowed = followed;
   }
 
   /**
@@ -210,45 +197,24 @@ class ContactImpl implements Contact {
 
 
   /**
-   * Retrieves the ID of the enterprise associated with the contact.
+   * Get the user of the contact.
    *
-   * @return The ID of the enterprise associated with the contact.
+   * @return The user of the contact
    */
   @Override
-  public int getEnterprise() {
-    return enterprise;
+  public UserDTO getUser() {
+    return user;
   }
 
   /**
-   * Sets the ID of the enterprise associated with the contact.
+   * Set the user of the contact.
    *
-   * @param enterprise The new ID of the enterprise associated with the contact.
+   * @param user The user to set.
    */
   @Override
-  public void setEnterprise(int enterprise) {
-    this.enterprise = enterprise;
+  public void setUser(UserDTO user) {
+    this.user = user;
   }
-
-  /**
-   * Retrieves the ID of the user associated with the contact.
-   *
-   * @return The ID of the user associated with the contact.
-   */
-  @Override
-  public int getUserId() {
-    return userId;
-  }
-
-  /**
-   * Sets the ID of the user associated with the contact.
-   *
-   * @param userId The new ID of the user associated with the contact.
-   */
-  @Override
-  public void setUserId(int userId) {
-    this.userId = userId;
-  }
-
 
   /**
    * Returns the trade name associated with the contact.
@@ -269,22 +235,11 @@ class ContactImpl implements Contact {
     this.tradeName = tradeName;
   }
 
-  @Override
-  public int getVersionContacts() {
-    return versionContacts;
-  }
-
-  @Override
-  public void setVersionContacts(int versionContacts) {
-    this.versionContacts = versionContacts;
-  }
-
   /**
-   * Checks if the state of the contact is "initié".
-   * This method checks if the state of the given contact is "initié".
+   * Checks if the state of the contact is "initié". This method checks if the state of the given
+   * contact is "initié".
    *
    * @param contact The contact to check.
-   *
    * @return true if the state of the contact is "initié", false otherwise.
    */
   public boolean initieState(ContactDTO contact) {
@@ -292,11 +247,10 @@ class ContactImpl implements Contact {
   }
 
   /**
-   * Checks if the state of the contact is "pris".
-   * This method checks if the state of the given contact is "pris".
+   * Checks if the state of the contact is "pris". This method checks if the state of the given
+   * contact is "pris".
    *
    * @param contact The contact to check.
-   *
    * @return true if the state of the contact is "pris", false otherwise.
    */
   public boolean prisState(ContactDTO contact) {
@@ -314,11 +268,19 @@ class ContactImpl implements Contact {
   }
 
   /**
-   * Checks if the contact is followed.
-   * This method checks if the given contact is followed.
+   * Set the value of the isFollowed boolean.
+   *
+   * @param followed The value to set.
+   */
+  @Override
+  public void setFollowed(boolean followed) {
+    isFollowed = followed;
+  }
+
+  /**
+   * Checks if the contact is followed. This method checks if the given contact is followed.
    *
    * @param contact The contact to check.
-   *
    * @return true if the contact is followed, false otherwise.
    */
   public boolean isFollowed(ContactDTO contact) {

@@ -55,4 +55,12 @@ public interface CompanyDAO {
    */
   int numberOfStudentsTaken(int idCompany);
 
+
+  /**
+   * Updates a company in the database.
+   *
+   * @param companyDTO The company information to update.
+   */
+  void update(CompanyDTO companyDTO);
+
 }

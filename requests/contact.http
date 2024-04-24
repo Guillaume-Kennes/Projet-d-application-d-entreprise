@@ -6,5 +6,15 @@ Content-Type: application/json
 
 {
   "tradeName": "Niboo",
-  "userId": 9
+  "user": {
+    "id": 9,
+    "email": "Carole.skile@student.vinci.be",
+    "password": "mdpuser.1",
+    "lastName": "skile",
+    "firstName": "Carole",
+    "registrationDate": "2023-09-18",
+    "phoneNumber": "0489 00 00 01",
+    "role": "Etudiant",
+    "versionNumber": 1
+  }
 }
