@@ -1,9 +1,12 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.CompanyDTO;
@@ -11,6 +14,8 @@ import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.ucc.CompanyUCC;
 import be.vinci.pae.dal.CompanyDAO;
 import be.vinci.pae.utils.AppBinderTest;
+import be.vinci.pae.utils.exception.BusinessException;
+import be.vinci.pae.utils.exception.NotFoundException;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +27,7 @@ import org.junit.jupiter.api.Test;
 public class CompanyUCCTest {
 
   private CompanyUCC companyUCC;
+  private DomainFactory domainFactory;
   private CompanyDAO companyDAO;
   private CompanyDTO companyDTO;
 
@@ -33,9 +39,9 @@ public class CompanyUCCTest {
     ServiceLocator locator = ServiceLocatorUtilities.bind(new AppBinderTest());
     companyUCC = locator.getService(CompanyUCC.class);
     companyDAO = locator.getService(CompanyDAO.class);
-    DomainFactory myDomainFactory = locator.getService(DomainFactory.class);
+    domainFactory = locator.getService(DomainFactory.class);
 
-    companyDTO = myDomainFactory.getCompany();
+    companyDTO = domainFactory.getCompany();
   }
 
 
@@ -66,4 +72,69 @@ public class CompanyUCCTest {
 
     assertNotNull(exception);
   }
+
+  /**
+   * Test for blacklist a company.
+   */
+  @Test
+  public void companyBlackListTest_Success() {
+    CompanyDTO realCompany = domainFactory.getCompany();
+    CompanyDTO companyDTO = spy(realCompany);
+
+    when(companyDTO.getIsBlackListed()).thenReturn(false);
+    String reason = "raison de ouf";
+
+    CompanyDTO result = companyUCC.blackList(companyDTO, reason);
+
+    // Assert
+    assertAll(
+        () -> verify(companyDTO).setIsBlackListed(true),
+        () -> verify(companyDTO).setMotivationBlackList(reason),
+        () -> verify(companyDAO).update(companyDTO),
+        () -> assertEquals(companyDTO, result)
+    );
+  }
+
+  /**
+   * Test for refusing a contact. Failure expected because the contact is null.
+   */
+  @Test
+  public void companyBlackListTest_Null() {
+    // Act and Assert
+    assertThrows(NotFoundException.class, () -> {
+      companyUCC.blackList(null, "hello");
+    });
+  }
+
+  /**
+   * Test for refusing a contact. Failure expected because the reason for refusal is null.
+   */
+  @Test
+  public void companyBlackListTest_Reason_Null() {
+    // arrange
+    CompanyDTO realCompany = domainFactory.getCompany();
+    CompanyDTO companyDTO = spy(realCompany);
+    when(companyDTO.getIsBlackListed()).thenReturn(false);
+
+    assertThrows(BusinessException.class, () ->
+        companyUCC.blackList(companyDTO, null));
+  }
+
+
+  /**
+   * Test for refusing a contact. Failure expected because the reason for refusal is null.
+   */
+  @Test
+  public void companyBlackListTest_isblacklisted_true() {
+    // arrange
+    CompanyDTO realCompany = domainFactory.getCompany();
+    CompanyDTO companyDTO = spy(realCompany);
+    when(companyDTO.getIsBlackListed()).thenReturn(true);
+    String reason = "raison de ouf";
+
+    assertThrows(BusinessException.class, () ->
+        companyUCC.blackList(companyDTO, reason));
+  }
+
+
 }
