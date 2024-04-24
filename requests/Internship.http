@@ -29,3 +29,6 @@ Content-Type: application/json
 {
   "projet" : "hello moto"
 }
+
+### Read all schools years
+GET {{baseUrl}}/internship/schoolYears

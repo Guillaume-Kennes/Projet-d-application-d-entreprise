@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
@@ -13,6 +14,7 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  * Resource class for handling internship-related endpoints. This class provides endpoints for
@@ -96,5 +98,12 @@ public class InternshipResource {
     String subject = json.get("projet").asText();
 
     return myinternshipUCC.createOrModifyAnInternship(internship, subject);
+  }
+
+  @GET
+  @Path("/schoolYears")
+  @Produces(MediaType.APPLICATION_JSON)
+  public List<String> getSchoolYears() {
+    return myinternshipUCC.getSchoolYears();
   }
 }
