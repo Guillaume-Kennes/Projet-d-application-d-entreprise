@@ -1,5 +1,9 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
+
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.business.ucc.InternshipSupervisorUCC;
@@ -13,14 +17,11 @@ import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-
 /**
  * Test class for InternshipSupervisorUCC.
  */
 public class InternshipSupervisorUCCTest {
+
   private InternshipSupervisorUCC internshipSupervisorUCC;
   private InternshipSupervisorDAO internshipSupervisorDAO;
   private InternshipSupervisorDTO internshipSupervisorDTO;
@@ -129,8 +130,6 @@ public class InternshipSupervisorUCCTest {
     assertThrows(WebApplicationException.class,
         () -> internshipSupervisorUCC.getAllInternshipSupervisors());
   }
-
-
 
 
 }

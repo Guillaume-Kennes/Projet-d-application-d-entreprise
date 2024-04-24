@@ -127,7 +127,8 @@ public class InternshipUCCTest {
         .thenReturn(expectedInternship);
 
     // Act
-    InternshipDTO result = internshipUCC.createAnInternship(contact, supervisor, project, signatureDate);
+    InternshipDTO result =
+        internshipUCC.createAnInternship(contact, supervisor, project, signatureDate);
 
     // Assert
     assertAll(
@@ -253,7 +254,8 @@ public class InternshipUCCTest {
   public void testGetInternshipById_failure() {
     // Arrange
     int testInternshipId = 1;
-    when(internshipDAO.getInternshipById(testInternshipId)).thenThrow(new RuntimeException("Test exception"));
+    when(internshipDAO.getInternshipById(testInternshipId)).thenThrow(
+        new RuntimeException("Test exception"));
 
     // Act
     Exception exception = assertThrows(RuntimeException.class, () -> {
@@ -263,7 +265,6 @@ public class InternshipUCCTest {
     // Assert
     assertEquals("Test exception", exception.getMessage());
   }
-
 
 
   @Test
