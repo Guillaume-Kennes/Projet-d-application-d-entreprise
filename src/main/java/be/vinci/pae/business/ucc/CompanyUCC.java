@@ -12,10 +12,26 @@ public interface CompanyUCC {
    * Add a new company to the database.
    *
    * @param companyDTO the company to be added
-   *
    * @return the added company
    */
   CompanyDTO addCompany(CompanyDTO companyDTO);
+
+
+  /**
+   * Retrieves a company by its ID.
+   *
+   * @param idCompany The ID of the company.
+   * @return The company with the given ID.
+   */
+  CompanyDTO getCompanyById(int idCompany);
+
+  /**
+   * Stops following a contact.
+   *
+   * @param companyDTO The company to blacklist.
+   * @return The updated company after the blacklist.
+   */
+  CompanyDTO blackList(CompanyDTO companyDTO, String reason);
 
 
   /**
@@ -29,7 +45,6 @@ public interface CompanyUCC {
    * Retrieves the number of students taken by a company.
    *
    * @param idCompany the id of the company
-   *
    * @return the number of students taken by the company
    */
   int numberOfStudentsTaken(int idCompany);

@@ -108,20 +108,6 @@ public interface ContactDTO {
 
 
   /**
-   * Returns the ID of the enterprise associated with the contact.
-   *
-   * @return The ID of the enterprise associated with the contact.
-   */
-  int getEnterprise();
-
-  /**
-   * Sets the ID of the enterprise associated with the contact.
-   *
-   * @param enterprise the new ID of the enterprise associated with the contact.
-   */
-  void setEnterprise(int enterprise);
-
-  /**
    * Checks if the contact is in the taken state.
    *
    * @return true if the contact is taken, false otherwise.
@@ -137,18 +123,19 @@ public interface ContactDTO {
 
 
   /**
-   * Returns the ID of the user associated with the contact.
+   * Gets the user of the contact.
    *
-   * @return The ID of the user associated with the contact.
+   * @return the user of the contact.
    */
-  int getUserId();
+  UserDTO getUser();
 
   /**
-   * Sets the ID of the user associated with the contact.
+   * Sets the user of the contact.
    *
-   * @param userId the new ID of the user associated with the contact.
+   * @param user the user of the contact.
    */
-  void setUserId(int userId);
+  void setUser(UserDTO user);
+
 
   /**
    * Returns the trade name associated with the contact.
@@ -165,30 +152,16 @@ public interface ContactDTO {
   void setTradeName(String tradeName);
 
   /**
-   * Retrieves the version of the contacts.
-   *
-   * @return The version of the contacts.
-   */
-  int getVersionContacts();
-
-  /**
-   * Sets the version of the contacts.
-   *
-   * @param versionContacts The new version of the contacts.
-   */
-  void setVersionContacts(int versionContacts);
-
-  /**
-   * Obtient le numéro de version de l'entité.
-   * Cette méthode retourne le numéro de version de l'entité.
+   * Obtient le numéro de version de l'entité. Cette méthode retourne le numéro de version de
+   * l'entité.
    *
    * @return Le numéro de version de l'entité.
    */
   int getVersionNumber();
 
   /**
-   * Définit le numéro de version de l'entité.
-   * Cette méthode définit le numéro de version de l'entité avec la valeur spécifiée.
+   * Définit le numéro de version de l'entité. Cette méthode définit le numéro de version de
+   * l'entité avec la valeur spécifiée.
    *
    * @param versionNumber Le numéro de version à définir pour l'entité.
    */

@@ -5,6 +5,7 @@ import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
 import be.vinci.pae.business.ucc.ContactUCC;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
@@ -60,6 +61,7 @@ public class CompanyResource {
   @Path("/add")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Etudiant"})
   public CompanyDTO addCompany(CompanyDTO newCompanyDTO) {
     System.out.println("CompanyResource -------> newCompanyDTO : " + newCompanyDTO);
 
@@ -136,5 +138,34 @@ public class CompanyResource {
     }
     response.putPOJO("contacts", returnThing);
     return response;
+  }
+
+  /**
+   * Endpoint for stopping following a contact.
+   *
+   * @param idCompany The ID of the contact.
+   * @return The updated contact.
+   */
+  @POST
+  @Path("/blacklist/{id_com}")
+  @Consumes(MediaType.APPLICATION_JSON)
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Professeur"})
+  public CompanyDTO blacklist(@PathParam("id_com") int idCompany, JsonNode json) {
+    System.out.println("CompanyResource ------> blacklist : " + idCompany + json);
+    CompanyDTO companyDTO = companyUCC.getCompanyById(idCompany);
+    if (companyDTO == null) {
+      throw new IllegalArgumentException("Company not found");
+    }
+
+    if (json == null) {
+      throw new IllegalArgumentException("Request body is missing or not a valid JSON");
+    }
+
+    String reasonForRefusal = json.get("reasonBlackList").asText(); // reasonBlackList et non reason
+    System.out.println("reason_for_refusal : " + reasonForRefusal);
+
+    companyUCC.blackList(companyDTO, reasonForRefusal);
+    return companyDTO;
   }
 }

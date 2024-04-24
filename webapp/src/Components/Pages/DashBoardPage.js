@@ -142,6 +142,7 @@ async function allCompanies() {
               <th scope="col">Numéro de téléphone <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
               <th scope="col">Nombre d'étudiants pris en stage <button class="sort-button" data-column="numberOfStudents" value="numberOfStudents">&#x25BC;</button><button class="sort-button" data-column="numberOfStudents" value="-numberOfStudents">&#x25B2;</button></th>
               <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25B2;</button></th>
+              <th scope="col"> </th>
               <th scope="col">Voir contacts passés</th>
             </tr>
           </thead>
@@ -163,9 +164,15 @@ async function setCompanyRow(companies) {
         <td>${company.meansOfCommunication || ''}</td>
         <td>${'0' || '0'}</td>
         <td>${company.blackListed ? 'Oui' : 'Non'}</td>
+        <td><button data-company-id="${company.id}" class="btn btn-primary btn-block btn-light myButton">Blacklister l'entreprise</button></td>
         <td><button class="contactsButton" data-company-id="${company.id}">Contacts</button></td>\`
       </tr>
     `;
+  });
+
+  document.querySelectorAll('.myButton').forEach(button => {
+    const companyId = button.getAttribute('data-company-id');
+    button.addEventListener("click", () => showFormBlackList(companyId));
   });
 
   document.querySelectorAll('.contactsButton').forEach(button => {
@@ -477,5 +484,52 @@ async function createSchoolYearDropdown() {
   });
   dashboard.appendChild(dropdown);
 }
+
+
+
+function showFormBlackList(idCompany) {
+  const main = document.querySelector('main');
+  console.log(`company id : ${idCompany}`);
+  main.innerHTML = `
+    <div class="container mt-5">
+      <h1>Formulaire de blacklist d'une entreprise</h1>
+      <form id="refusal-form">
+        <h3> Raisons du blacklist </h3>
+        <div class="form-group">
+          <label for="reason1">Raison :</label>
+            <input type="text" class="form-control" id="reason" name="reason" placeholder="Entrez la raison du blacklist" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+      </form>
+    </div>
+  `;
+  const form = document.getElementById('refusal-form');
+  form.addEventListener('submit', (e) => blacklistCompany(e, idCompany));
+}
+
+async function blacklistCompany(e, idCompany) {
+  e.preventDefault();
+  const reasonBlackList = document.querySelector('input[name="reason"]').value;
+  console.log(`reasonBlackList : ${reasonBlackList}`);
+  const token = getToken();
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+    body: JSON.stringify({ reasonBlackList }),
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/companies/blacklist/${idCompany}`, options);
+    if (!response.ok) {
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error('Error setting refusal reason :', error);
+  }
+}
+
 
 export default viewDashBoard;

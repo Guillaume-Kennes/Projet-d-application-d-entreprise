@@ -165,8 +165,10 @@ public class ContactResource {
   @Path("/add")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Etudiant"})
   public ContactDTO addContact(ContactDTO newContactDTO) {
-    int userId = newContactDTO.getUserId();
+    System.out.println(newContactDTO.getUser().getId());
+    int userId = newContactDTO.getUser().getId();
     System.out.println("ContactResource -------> newContactDTO : " + newContactDTO);
     System.out.println("ContactResource -------> userId : " + userId);
     // Validate the new item
@@ -178,7 +180,8 @@ public class ContactResource {
       // Add the new item
       ContactDTO addedContactDTO = myContactUcc.addContact(newContactDTO);
       System.out.println(
-          "ContactRessource -------> addedContactDTO userId : " + addedContactDTO.getUserId());
+          "ContactRessource -------> addedContactDTO userId : " + addedContactDTO.getUser()
+              .getId());
       if (addedContactDTO == null) {
         throw new WebApplicationException("Contact could not be added",
             Status.INTERNAL_SERVER_ERROR);

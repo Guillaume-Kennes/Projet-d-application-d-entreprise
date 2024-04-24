@@ -25,8 +25,9 @@ function renderContactCompanyForm() {
   form.className = 'col-lg-4 mx-auto'; // Set the form class to match the fixed HTML structure
   form.style.marginTop = '100px'; // Set the top margin using inline styles
 
+  console.log(`authenticatedUser -----> : ${authenticatedUser?.user}`)
   const authenticatedUserId = authenticatedUser?.user?.id;
-  console.log(`111111111 authenticatedUserId -----> ${authenticatedUserId}`);
+  console.log(`authenticatedUserId -----> : ${authenticatedUserId}`);
   const prof = authenticatedUser?.user?.role;
   console.log(`---------------> role : ${prof}`);
 
@@ -127,7 +128,8 @@ function renderContactCompanyForm() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          userId: authenticatedUserId,
+          user: authenticatedUser?.user,
+          // userId: authenticatedUserId,
           tradeName: enterpriseName // Send the input value as 'tradeName' field
         })
       });

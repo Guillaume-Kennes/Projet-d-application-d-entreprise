@@ -45,3 +45,11 @@ Authorization: {{leleuxToken}}
 GET {{baseUrl}}/companies/numberOfStudentsTaken/8
 Authorization: {{leleuxToken}}
 ### ici c est les noms de CompanyImpl
+
+### requete blackList
+POST {{baseUrl}}/companies/blacklist/3
+Content-Type: application/json
+
+{
+"reason": "Raison du blacklistage de l entreprise"
+}

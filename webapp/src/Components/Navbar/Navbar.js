@@ -38,18 +38,6 @@ function renderNavbar() {
             <li id="registerItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/register" style="color: white;">S'inscrire</a>
             </li>          
-            <li id="internship" class="nav-item">
-              <a class="nav-link" href="#" data-uri="/createInternship" style="color: white;">create an internship</a>
-            </li>
-            <li id="internship" class="nav-item">
-              <a class="nav-link" href="#" data-uri="/allSupervisors" style="color: white;">view all Supervisors</a>
-            </li>
-            <li id="internship" class="nav-item">
-              <a class="nav-link" href="#" data-uri="/createSupervisor" style="color: white;">create internship Supervisor</a>
-            </li>
-            <li id="internship" class="nav-item">
-              <a class="nav-link" href="#" data-uri="/modifySubject" style="color: white;">add or modify internship subject</a>
-            </li>
           </ul>
         </div>
       </div>
@@ -76,8 +64,14 @@ function renderNavbar() {
             <li id="contactCompanyItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/contact" style="color: white;">Contacter une entreprise</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-uri="/meetCompany" style="color: white;">Indiquer une rencontre avec l'entreprise</a>
+            <li id="internship" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/createInternship" style="color: white;">Créer un stage</a>
+            </li>
+            <li id="internship" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/allSupervisors" style="color: white;">Voir les repsonsables de stages</a>
+            </li>
+            <li id="internship" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/createSupervisor" style="color: white;">Créer un responsable de stage</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#" data-uri="/users" style="color: white;">Profil</a>
@@ -118,17 +112,8 @@ function renderNavbar() {
             <li class="nav-item">
               <a class="nav-link" href="#" data-uri="/dashboard" style="color: white;">Tableau de bord</a>
             </li>            
-            <li id="contactCompanyItem" class="nav-item">
-              <a class="nav-link" href="#" data-uri="/contact" style="color: white;">Contacter une entreprise</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-uri="/meetCompany" style="color: white;">Indiquer une rencontre avec l'entreprise</a>
-            </li>
             <li class="nav-item">
               <a class="nav-link" href="#" data-uri="/users" style="color: white;">Profil</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" data-uri="/contacts" style="color: white;">Contacts</a>
             </li>
         <li class="nav-item">
           <a class="nav-link" href="#" data-uri="/logout" style="color: white;">Se déconnecter</a>

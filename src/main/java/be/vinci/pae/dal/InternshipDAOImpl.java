@@ -94,9 +94,9 @@ public class InternshipDAOImpl implements InternshipDAO {
   /**
    * Inserts a new internship in the database.
    *
-   * @param contact The contact of the internship.
-   * @param supervisor The supervisor of the internship.
-   * @param projet The project of the internship.
+   * @param contact       The contact of the internship.
+   * @param supervisor    The supervisor of the internship.
+   * @param projet        The project of the internship.
    * @param signatureDate The signature date of the internship.
    * @return The inserted internship.
    * @throws FatalException if an SQL exception occurs while accessing the database.
@@ -178,12 +178,6 @@ public class InternshipDAOImpl implements InternshipDAO {
    * @param internshipId The id of the internship to retrieve.
    * @return an internship corresponding to the specified id, or null if not found.
    * @throws FatalException if an SQL exception occurs while accessing the database.
-   */
-  /**
-   * Retrieves an internship by its id.
-   *
-   * @param internshipId The id of the internship.
-   * @return The internship corresponding to the given id.
    */
   @Override
   public InternshipDTO getInternshipById(int internshipId) {

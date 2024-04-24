@@ -28,10 +28,14 @@ function renderContactsPage(contact) {
     Object.entries(contact.contacts).forEach(([id, description]) => {
       const listItem = document.createElement("li");
       const contactText = document.createElement("span");
+
       const button = document.createElement("button");
       const button2 = document.createElement("button");
       const button3 = document.createElement("button");
       const button4 = document.createElement("button");
+      button.className = 'btn btn-primary btn-block btn-light myButton';
+      button2.className = 'btn btn-primary btn-block btn-light myButton';
+      button3.className = 'btn btn-primary btn-block btn-light myButton';
 
       contactText.textContent = `${description}`; // Display the contact description
       button.textContent = "Indiquer que le contact est pris";
