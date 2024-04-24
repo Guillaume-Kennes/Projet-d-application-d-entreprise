@@ -1,6 +1,9 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.CompanyDTO;
+import be.vinci.pae.business.domain.ContactDTO;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,4 +36,12 @@ public interface CompanyUCC {
    * @return the number of students taken by the company
    */
   int numberOfStudentsTaken(int idCompany);
+
+  /**
+   * Retrieves a list of all contacts made by a company.
+   *
+   * @param id The id of the company.
+   * @return A list of ContactDTO objects.
+   */
+  ArrayList<ContactDTO> getAllContacts(int id) throws SQLException;
 }

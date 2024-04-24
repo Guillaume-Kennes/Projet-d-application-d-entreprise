@@ -1,9 +1,12 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.CompanyDTO;
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.CompanyDAO;
 import be.vinci.pae.dal.DALServices;
 import jakarta.inject.Inject;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,5 +83,23 @@ public class CompanyUCCImpl implements CompanyUCC {
     }
   }
 
+  /**
+   * Retrieves a list of all contacts made by a company.
+   *
+   * @param id The id of the company.
+   * @return A list of ContactDTO objects.
+   */
+  public ArrayList<ContactDTO> getAllContacts(int id) throws SQLException {
+    dalServices.start();
+    try {
+      ArrayList<ContactDTO> contactList = companyDAO.getCompanyContacts(id);
 
+      dalServices.commit();
+      return contactList;
+
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
 }
