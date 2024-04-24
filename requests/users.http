@@ -5,8 +5,8 @@ POST {{baseUrl}}/auths/login
 Content-Type: application/json
 
 {
-  "email":"Caroline.line@student.vinci.be",
-  "password":"aaa"
+  "email":"caroline.line@student.vinci.be",
+  "password":"mdpuser.1"
 }
 > {%
   client.global.set("carolineToken", response.body.token);
@@ -90,4 +90,9 @@ Authorization: {{leleuxToken}}
 ### Get all contacts of an user by it's id
 GET {{baseUrl}}/contacts/5
 Content-Type: application/json
+Authorization: {{carolineToken}}
+
+
+### Get an user by it's id
+GET {{baseUrl}}/users/5
 Authorization: {{carolineToken}}

@@ -107,7 +107,6 @@ public class InternshipUCCImpl implements InternshipUCC {
       return internship;
     } catch (Exception e) {
       dalServices.rollBack();
-      e.printStackTrace();
       throw e;
     }
   }
@@ -143,6 +142,23 @@ public class InternshipUCCImpl implements InternshipUCC {
       List<InternshipDTO> internships = internshipDAO.getAllInternships();
       dalServices.commit();
       return internships;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  /**
+   * Retrieves the list of school years.
+   *
+   * @return A list of the school years.
+   */
+  public List<String> getSchoolYears() {
+    dalServices.start();
+    try {
+      List<String> schoolYears = internshipDAO.getSchoolYears();
+      dalServices.commit();
+      return schoolYears;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

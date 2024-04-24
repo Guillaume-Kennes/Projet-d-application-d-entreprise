@@ -62,4 +62,5 @@ public interface InternshipUCC {
    */
   List<InternshipDTO> getAllInternships();
 
+  List<String> getSchoolYears();
 }
