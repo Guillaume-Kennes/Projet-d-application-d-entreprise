@@ -11,6 +11,12 @@ import ViewCompanies from "../Pages/ViewCompanies";
 import ContactCompanyPage from "../Pages/ContactCompanyPage";
 import DashBoardPage from "../Pages/DashBoardPage";
 import ContactsDetailsPage from "../Pages/ContactsDetailsPage";
+import CreateAnIntershipPage from "../Pages/CreateAnInternshipPage"
+import viewAllSupervisors from '../Pages/AllSupervisorPage';
+import createSupervisor from '../Pages/CreateInternshipSupervisorPage'
+import modifySubject from '../Pages/AddOrModifyInternshipSubjectPage'
+
+
 
 const routes = {
   '/': HomePage,
@@ -26,6 +32,10 @@ const routes = {
   '/contact': ContactCompanyPage,
   '/dashboard': DashBoardPage,
   '/contactsDetails': ContactsDetailsPage,
+  '/createInternship': CreateAnIntershipPage,
+  '/allSupervisors': viewAllSupervisors,
+  '/createSupervisor': createSupervisor,
+  '/modifySubject': modifySubject,
 };
 
 export default routes;

@@ -4,6 +4,7 @@ import {
   getToken,
 } from "../../utils/user";
 import {getAuthenticatedUser} from "../../utils/auths";
+import Navigate from '../Router/Navigate';
 
 
 const ContactsPage = async () => {
@@ -30,6 +31,7 @@ function renderContactsPage(contact) {
       const button = document.createElement("button");
       const button2 = document.createElement("button");
       const button3 = document.createElement("button");
+      const button4 = document.createElement("button");
 
       contactText.textContent = `${description}`; // Display the contact description
       button.textContent = "Indiquer que le contact est pris";
@@ -38,11 +40,14 @@ function renderContactsPage(contact) {
       button2.addEventListener("click", () => showFormRefusal(id));
       button3.textContent = "Arrêter de suivre le contact";
       button3.addEventListener("click", () => stopFollowing(id));
+      button4.textContent = "Créer un stage";
+      button4.addEventListener("click", () => Navigate(`/createInternship?contactId=${id}`));
 
       listItem.appendChild(contactText);
       listItem.appendChild(button);
       listItem.appendChild(button2);
       listItem.appendChild(button3);
+      listItem.appendChild(button4);
       contactList.appendChild(listItem);
     });
   } else {

@@ -57,6 +57,12 @@ public interface InternshipDAO {
    */
   InternshipDTO getInternshipById(int internshipId);
 
+  /**
+   * Retrieves all internships.
+   *
+   * @return A list of all internships.
+   */
+  List<InternshipDTO> getAllInternships();
   List<String> getSchoolYears();
 
 }

@@ -52,6 +52,22 @@ public class InternshipUCCImpl implements InternshipUCC {
       Date signatureDate) {
     dalServices.start();
     try {
+
+      if (contact == 0) {
+        dalServices.rollBack();
+        throw new NotFoundException("Contact is null");
+      }
+
+      if (supervisor == 0) {
+        dalServices.rollBack();
+        throw new NotFoundException("Supervisor is null");
+      }
+
+      if (signatureDate == null) {
+        dalServices.rollBack();
+        throw new NotFoundException("Signature date is null");
+      }
+
       InternshipDTO internshipDTO = internshipDAO.createAnInternship(contact, supervisor, projet,
           signatureDate);
       dalServices.commit();
@@ -108,6 +124,24 @@ public class InternshipUCCImpl implements InternshipUCC {
       InternshipDTO internship = internshipDAO.getInternshipById(internshipId);
       dalServices.commit();
       return internship;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  /**
+   * Retrieves all internships.
+   *
+   * @return A list of all internships.
+   */
+  @Override
+  public List<InternshipDTO> getAllInternships() {
+    dalServices.start();
+    try {
+      List<InternshipDTO> internships = internshipDAO.getAllInternships();
+      dalServices.commit();
+      return internships;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

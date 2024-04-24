@@ -38,11 +38,18 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
       String firstName, String lastName, String phoneNumber, String email, int company) {
     dalServices.start();
     try {
+      if (firstName == null || lastName == null || phoneNumber == null || company == 0) {
+        dalServices.rollBack();
+        throw new WebApplicationException("Missing information for internship supervisor.",
+            Status.BAD_REQUEST);
+      }
+
       InternshipSupervisorDTO supervisor = internshipSupervisorDAO.insertSupervisor(firstName,
           lastName, phoneNumber, email, company);
       dalServices.commit();
 
-      System.out.println("supervisor ucc : " + supervisor);
+      System.out.println("superviso "
+          + "r ucc : " + supervisor);
 
       return supervisor;
     } catch (Exception e) {
@@ -53,6 +60,11 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
   }
 
 
+  /**
+   * Retrieves all internship supervisors.
+   *
+   * @return A list of all internship supervisors.
+   */
   @Override
   public List<InternshipSupervisorDTO> getAllInternshipSupervisors() {
     dalServices.start();
