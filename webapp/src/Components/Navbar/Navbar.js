@@ -38,6 +38,18 @@ function renderNavbar() {
             <li id="registerItem" class="nav-item">
               <a class="nav-link" href="#" data-uri="/register" style="color: white;">S'inscrire</a>
             </li>          
+            <li id="internship" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/createInternship" style="color: white;">create an internship</a>
+            </li>
+            <li id="internship" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/allSupervisors" style="color: white;">view all Supervisors</a>
+            </li>
+            <li id="internship" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/createSupervisor" style="color: white;">create internship Supervisor</a>
+            </li>
+            <li id="internship" class="nav-item">
+              <a class="nav-link" href="#" data-uri="/modifySubject" style="color: white;">add or modify internship subject</a>
+            </li>
           </ul>
         </div>
       </div>

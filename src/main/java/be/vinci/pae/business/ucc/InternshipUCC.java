@@ -3,6 +3,7 @@ package be.vinci.pae.business.ucc;
 import be.vinci.pae.business.domain.InternshipDTO;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
@@ -54,4 +55,12 @@ public interface InternshipUCC {
    */
   InternshipDTO getInternshipById(int internshipId);
 
+  /**
+   * Retrieves all internships.
+   *
+   * @return A list of all internships.
+   */
+  List<InternshipDTO> getAllInternships();
+
+  List<String> getSchoolYears();
 }

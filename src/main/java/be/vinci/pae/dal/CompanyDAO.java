@@ -62,4 +62,5 @@ public interface CompanyDAO {
    * @param companyDTO The company information to update.
    */
   void update(CompanyDTO companyDTO);
+
 }

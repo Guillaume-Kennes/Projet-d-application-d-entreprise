@@ -16,7 +16,6 @@ public class CompanyUCCImpl implements CompanyUCC {
 
   @Inject
   private CompanyDAO companyDAO;
-
   @Inject
   private DALServices dalServices;
 
@@ -142,6 +141,4 @@ public class CompanyUCCImpl implements CompanyUCC {
       throw e;
     }
   }
-
-
 }

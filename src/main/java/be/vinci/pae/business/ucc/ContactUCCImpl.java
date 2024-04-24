@@ -211,4 +211,24 @@ public class ContactUCCImpl implements ContactUCC {
       throw e;
     }
   }
+
+  /**
+   * Retrieves a list of all contacts made by a company.
+   *
+   * @param id The id of the company.
+   * @return A list of ContactDTO objects.
+   */
+  public ArrayList<ContactDTO> getAllContacts(int id) throws SQLException {
+    dalServices.start();
+    try {
+      ArrayList<ContactDTO> contactList = contactDAO.getCompanyContacts(id);
+
+      dalServices.commit();
+      return contactList;
+
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
 }

@@ -4,6 +4,7 @@ import {
   getToken,
 } from "../../utils/user";
 import {getAuthenticatedUser} from "../../utils/auths";
+import Navigate from '../Router/Navigate';
 
 
 const ContactsPage = async () => {
@@ -31,6 +32,7 @@ function renderContactsPage(contact) {
       const button = document.createElement("button");
       const button2 = document.createElement("button");
       const button3 = document.createElement("button");
+      const button4 = document.createElement("button");
       button.className = 'btn btn-primary btn-block btn-light myButton';
       button2.className = 'btn btn-primary btn-block btn-light myButton';
       button3.className = 'btn btn-primary btn-block btn-light myButton';
@@ -42,17 +44,14 @@ function renderContactsPage(contact) {
       button2.addEventListener("click", () => showFormRefusal(id));
       button3.textContent = "Arrêter de suivre le contact";
       button3.addEventListener("click", () => stopFollowing(id));
-
-      const buttonBlackList = document.createElement("button");
-      buttonBlackList.className = 'btn btn-primary btn-block btn-light myButton';
-      buttonBlackList.textContent = "Black lister une entreprise";
-     // buttonBlackList.addEventListener("click", () => blackList(id));
+      button4.textContent = "Créer un stage";
+      button4.addEventListener("click", () => Navigate(`/createInternship?contactId=${id}`));
 
       listItem.appendChild(contactText);
       listItem.appendChild(button);
       listItem.appendChild(button2);
       listItem.appendChild(button3);
-      listItem.appendChild(buttonBlackList);
+      listItem.appendChild(button4);
       contactList.appendChild(listItem);
     });
   } else {
@@ -86,7 +85,7 @@ function showForm(idContact) {
             Rencontre à distance
           </label>
         </div>
-        <button type="submit" class="btn btn-primary btn-block btn-light myButton">Envoyer</button>
+        <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
       </form>
     </div>
   `;
