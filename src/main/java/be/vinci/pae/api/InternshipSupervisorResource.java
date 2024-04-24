@@ -14,7 +14,8 @@ import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
- * Resource class for handling internship supervisor-related endpoints. This class provides endpoints
+ * Resource class for handling internship supervisor-related endpoints.
+ * This class provides endpoints
  * for creating and retrieving internship supervisors.
  */
 @Singleton

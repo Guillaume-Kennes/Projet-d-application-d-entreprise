@@ -2,9 +2,7 @@ package be.vinci.pae.ucc;
 
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
-import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipSupervisorUCC;
-import be.vinci.pae.dal.ContactDAO;
 import be.vinci.pae.dal.InternshipSupervisorDAO;
 import be.vinci.pae.utils.AppBinderTest;
 import jakarta.ws.rs.WebApplicationException;
@@ -16,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -53,7 +50,8 @@ public class InternshipSupervisorUCCTest {
     internshipSupervisorDTO.setEmail("ezagzrtb");
     internshipSupervisorDTO.setCompany(1);
 
-    when(internshipSupervisorDAO.insertSupervisor("John", "Doe", "1234567890", "ezagzrtb", 1))
+    when(internshipSupervisorDAO.insertSupervisor("John",
+        "Doe", "1234567890", "ezagzrtb", 1))
         .thenReturn(internshipSupervisorDTO);
 
     InternshipSupervisorDTO result = internshipSupervisorUCC.createAnInternshipSupervisor(
@@ -70,7 +68,8 @@ public class InternshipSupervisorUCCTest {
   @Test
   public void testCreatestCreateAnInternshipSupervisor_nullFirstName_failed() {
     assertThrows(WebApplicationException.class, () -> {
-      internshipSupervisorUCC.createAnInternshipSupervisor(null, "Doe", "1234567890", "ezagzrtb", 1);
+      internshipSupervisorUCC.createAnInternshipSupervisor(null,
+          "Doe", "1234567890", "ezagzrtb", 1);
     });
   }
 
@@ -80,7 +79,8 @@ public class InternshipSupervisorUCCTest {
   @Test
   public void testCreatestCreateAnInternshipSupervisor_nullLastName_failed() {
     assertThrows(WebApplicationException.class, () -> {
-      internshipSupervisorUCC.createAnInternshipSupervisor("John", null, "1234567890", "ezagzrtb", 1);
+      internshipSupervisorUCC.createAnInternshipSupervisor("John",
+          null, "1234567890", "ezagzrtb", 1);
     });
   }
 
@@ -90,7 +90,8 @@ public class InternshipSupervisorUCCTest {
   @Test
   public void testCreatestCreateAnInternshipSupervisor_nullPhoneNumber_failed() {
     assertThrows(WebApplicationException.class, () -> {
-      internshipSupervisorUCC.createAnInternshipSupervisor("John", "Doe", null, "ezagzrtb", 1);
+      internshipSupervisorUCC.createAnInternshipSupervisor("John",
+          "Doe", null, "ezagzrtb", 1);
     });
   }
 
@@ -100,7 +101,8 @@ public class InternshipSupervisorUCCTest {
   @Test
   public void testCreatestCreateAnInternshipSupervisor_nullCompany_failed() {
     assertThrows(WebApplicationException.class, () -> {
-      internshipSupervisorUCC.createAnInternshipSupervisor("John", "Doe", "1234567890", "ezagzrtb", 0);
+      internshipSupervisorUCC.createAnInternshipSupervisor("John",
+          "Doe", "1234567890", "ezagzrtb", 0);
     });
   }
 
@@ -124,7 +126,8 @@ public class InternshipSupervisorUCCTest {
     when(internshipSupervisorDAO.getAllInternshipSupervisors()).thenThrow(new RuntimeException());
 
     // Act and Assert
-    assertThrows(WebApplicationException.class, () -> internshipSupervisorUCC.getAllInternshipSupervisors());
+    assertThrows(WebApplicationException.class,
+        () -> internshipSupervisorUCC.getAllInternshipSupervisors());
   }
 
 
