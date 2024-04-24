@@ -183,7 +183,7 @@ public class InternshipUCCTest {
     String project = "Project";
     java.sql.Date signatureDate = null;
 
-    when(internshipUCC.createAnInternship(contact, supervisor, project, signatureDate))
+    when(internshipDAO.createAnInternship(contact, supervisor, project, signatureDate))
         .thenThrow(new RuntimeException());
 
     // Act
