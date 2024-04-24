@@ -152,6 +152,7 @@ async function allCompanies() {
       `;
   main.appendChild(tabDiv);
   await setCompanyRow(companies);
+  await addListeners();
 }
 
 async function setCompanyRow(companies) {
@@ -165,7 +166,7 @@ async function setCompanyRow(companies) {
         <td>${'0' || '0'}</td>
         <td>${company.blackListed ? 'Oui' : 'Non'}</td>
         <td><button data-company-id="${company.id}" class="btn btn-primary btn-block btn-light myButton">Blacklister l'entreprise</button></td>
-        <td><button class="contactsButton" data-company-id="${company.id}">Contacts</button></td>\`
+        <td><button class="contactsButton" data-company-id="${company.id}">Contacts</button></td>
       </tr>
     `;
   });
@@ -275,6 +276,31 @@ async function fetchCompanies() {
   return response.json();
 }
 
+async function addListeners() {
+  const main = document.querySelector("main");
+  // Écoutez les événements de clic sur les boutons de tri
+  main.querySelectorAll('.sort-button').forEach(button => {
+    button.addEventListener('click', async () => {
+      const sortColumn = button.dataset.column;
+      const sortOrder = button.value.startsWith('-') ? 'desc' : 'asc';
+      let companies = await fetchCompanies();
+      // Trier les entreprises
+      companies = sortCompanies(companies, sortColumn, sortOrder);
+      // Rendre les entreprises triées
+      await setCompanyRow(companies);
+    });
+  });
+}
+
+function sortCompanies(companies, sortColumn, sortOrder) {
+  return companies.sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return a[sortColumn] > b[sortColumn] ? 1 : -1;
+    }
+    return a[sortColumn] < b[sortColumn] ? 1 : -1;
+
+  });
+}
 
 // function drawPieChart(studentsWithInternship, studentsWithoutInternship) {
 //   const main = document.querySelector('main');
