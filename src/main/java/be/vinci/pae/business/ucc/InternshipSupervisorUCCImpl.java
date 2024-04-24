@@ -52,6 +52,11 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
   }
 
 
+  /**
+   * Retrieves all internship supervisors.
+   *
+   * @return A list of all internship supervisors.
+   */
   @Override
   public List<InternshipSupervisorDTO> getAllInternshipSupervisors() {
     dalServices.start();

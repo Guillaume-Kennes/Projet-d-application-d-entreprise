@@ -8,6 +8,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the InternshipDAO interface. Provides methods for retrieving internship-related
@@ -170,6 +172,13 @@ public class InternshipDAOImpl implements InternshipDAO {
     }
   }
 
+  /**
+   * Retrieves an internship by their id from the database.
+   *
+   * @param internshipId The id of the internship to retrieve.
+   * @return an internship corresponding to the specified id, or null if not found.
+   * @throws FatalException if an SQL exception occurs while accessing the database.
+   */
   @Override
   public InternshipDTO getInternshipById(int internshipId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -187,5 +196,33 @@ public class InternshipDAOImpl implements InternshipDAO {
       throw new FatalException("Contact not found");
     }
     return null;
+  }
+
+  /**
+   * Retrieves all internships from the database.
+   *
+   * @return a list of all internships.
+   * @throws FatalException if an SQL exception occurs while accessing the database.
+   */
+  @Override
+  public List<InternshipDTO> getAllInternships() {
+    List<InternshipDTO> internshipsList = new ArrayList<>();
+    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT * FROM pae.internships");
+    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
+        InternshipDTO internship = myDomainFactory.getInternship();
+        internship.setId(resultSet.getInt("id_internship"));
+        internship.setProject(resultSet.getString("internship_project"));
+        internship.setSignatureDate(resultSet.getDate("signature_date"));
+        internship.setContact(resultSet.getInt("contact"));
+        internship.setSupervisor(resultSet.getInt("internship_supervisor"));
+        internship.setVersionNumber(resultSet.getInt("version_internships"));
+        internshipsList.add(internship);
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return internshipsList;
   }
 }

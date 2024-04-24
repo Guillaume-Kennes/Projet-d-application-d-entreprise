@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.DomainFactory;
@@ -12,7 +14,9 @@ import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.dal.InternshipDAO;
 import be.vinci.pae.utils.AppBinderTest;
+import be.vinci.pae.utils.exception.NotFoundException;
 import java.sql.SQLException;
+import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +30,6 @@ public class InternshipUCCTest {
 
   private InternshipUCC internshipUCC;
   private DomainFactory domainFactory;
-  @Mock
   private InternshipDAO internshipDAO;
   private InternshipDTO expectedInternship;
 
@@ -77,7 +80,7 @@ public class InternshipUCCTest {
    * Test for successful retrieving of the internship.
    */
   @Test
-  public void getInternshipByUserIdTest_Success() throws SQLException {
+  public void testGetInternshipByUserId_Success() throws SQLException {
     // Arrange
     int userId = 1;
     InternshipDTO expectedInternship = internshipDAO.getInternshipByUserId(userId);
@@ -94,7 +97,7 @@ public class InternshipUCCTest {
    * Test for retrieving an internship. Failure expected.
    */
   @Test
-  public void getInternshipByUserIdTest_Failure() throws SQLException {
+  public void testGetInternshipByUserId_Failure() throws SQLException {
     // Arrange
     int userId = 1;
     when(internshipDAO.getInternshipByUserId(userId)).thenThrow(new RuntimeException());
@@ -106,4 +109,159 @@ public class InternshipUCCTest {
     // Assert
     assertNotNull(exception);
   }
+
+  @Test
+  public void testCreateAnIntership_Success() {
+    // Arrange
+    int contact = 1;
+    int supervisor = 2;
+    String project = "Project";
+    java.sql.Date signatureDate = new java.sql.Date(2021, 1, 1);
+
+    InternshipDTO expectedInternship = domainFactory.getInternship();
+    expectedInternship.setContact(contact);
+    expectedInternship.setSupervisor(supervisor);
+    expectedInternship.setProject(project);
+    expectedInternship.setSignatureDate(signatureDate);
+
+    when(internshipDAO.createAnInternship(contact, supervisor, project, signatureDate))
+        .thenReturn(expectedInternship);
+
+    // Act
+    InternshipDTO result = internshipUCC.createAnInternship(contact, supervisor, project, signatureDate);
+
+    // Assert
+    assertAll(
+        () -> assertNotNull(result),
+        () -> assertEquals(expectedInternship, result)
+    );
+  }
+
+  @Test
+  public void testCreateAnIntership_nullContact_Failure() {
+    // Arrange
+    int contact = 0;
+    int supervisor = 2;
+    String project = "Project";
+    java.sql.Date signatureDate = new java.sql.Date(2021, 1, 1);
+
+    when(internshipDAO.createAnInternship(contact, supervisor, project, signatureDate))
+        .thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () ->
+        internshipUCC.createAnInternship(contact, supervisor, project, signatureDate));
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+  @Test
+  public void createAnIntershipTest_nullSupervisor_Failure() {
+    // Arrange
+    int contact = 1;
+    int supervisor = 0;
+    String project = "Project";
+    java.sql.Date signatureDate = new java.sql.Date(2021, 1, 1);
+
+    when(internshipDAO.createAnInternship(contact, supervisor, project, signatureDate))
+        .thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () ->
+        internshipUCC.createAnInternship(contact, supervisor, project, signatureDate));
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+  @Test
+  public void createAnIntershipTest_nullSignatureDate_Failure() {
+    // Arrange
+    int contact = 1;
+    int supervisor = 2;
+    String project = "Project";
+    java.sql.Date signatureDate = null;
+
+    when(internshipUCC.createAnInternship(contact, supervisor, project, signatureDate))
+        .thenThrow(new RuntimeException());
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () ->
+        internshipUCC.createAnInternship(contact, supervisor, project, signatureDate));
+
+    // Assert
+    assertNotNull(exception);
+  }
+
+  @Test
+  public void createOrModifyAnIntershipTest_Success() {
+    // Arrange
+    InternshipDTO realInternship = domainFactory.getInternship();
+    InternshipDTO internship = spy(realInternship);
+
+    String subject = "Subject";
+
+    InternshipDTO result =
+        internshipUCC.createOrModifyAnInternship(internship, subject);
+
+    //Assert
+    assertAll(
+        () -> assertNotNull(result),
+        () -> assertEquals(internship, result),
+        () -> verify(internship).setProject(subject),
+        () -> verify(internshipDAO).update(internship)
+    );
+  }
+
+  @Test
+  public void createOrModifyAnInternshipTest_nullInternship_Failure() {
+    //Arrange
+    InternshipDTO internship = null;
+    String subject = "Subject";
+
+    assertThrows(NotFoundException.class, () ->
+        internshipUCC.createOrModifyAnInternship(internship, subject)
+    );
+  }
+
+  @Test
+  public void createOrModifyAnInternshipTest_nullSubject_Failure() {
+    //Arrange
+    InternshipDTO internship = domainFactory.getInternship();
+    String subject = null;
+
+    assertThrows(NotFoundException.class, () ->
+        internshipUCC.createOrModifyAnInternship(internship, subject)
+    );
+  }
+
+  @Test
+  public void getInternshipByIdTest() {
+    // Arrange
+    int internshipId = 1;
+    InternshipDTO expectedInternship = internshipDAO.getInternshipById(internshipId);
+    when(internshipDAO.getInternshipById(internshipId)).thenReturn(expectedInternship);
+
+    // Act
+    InternshipDTO result = internshipUCC.getInternshipById(internshipId);
+
+    // Assert
+    assertEquals(expectedInternship, result);
+  }
+
+
+  @Test
+  public void getAllInternshipsTest() {
+    // Arrange
+    List<InternshipDTO> expectedInternships = internshipDAO.getAllInternships();
+    when(internshipDAO.getAllInternships()).thenReturn(expectedInternships);
+
+    // Act
+    List<InternshipDTO> result = internshipUCC.getAllInternships();
+
+    // Assert
+    assertEquals(expectedInternships, result);
+  }
+
 }
