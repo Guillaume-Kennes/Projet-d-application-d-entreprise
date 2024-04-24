@@ -1,4 +1,5 @@
 import { clearPage } from '../../utils/render';
+import Navigate from '../Router/Navigate';
 
 const internship = async () => {
   clearPage();
@@ -21,7 +22,6 @@ async function renderForm() {
             </div>
             <div class="form-group">
                 <label for="responsable">Responsable</label>
-                <input type="text" class="form-control" id="responsable" placeholder="Entrez le nom du responsable">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -57,7 +57,7 @@ async function allSupervisors() {
         const renderSupervisors = (supervisor) => {
         const supervisorRows = supervisor.map(sup => `
             <tr>
-                <td><input type="radio" id="${sup.id}" name="${sup.id}"></td>
+                <td><input type="radio" value="${sup.id}" name="supervisor"></td>
                 <td>${sup.firstName}</td>
                 <td>${sup.lastName}</td>
                 <td>${sup.phoneNumber}</td>
@@ -82,8 +82,10 @@ async function allSupervisors() {
                 ${supervisorRows.join('')}
             </tbody>
             </table>
-            <a href="http://localhost:3000/internshipSupervisor/">Voir tous les superviseurs</a>
+            <button type="submit" class="btn btn-primary" id="CreateSupervisor">Créer un maître de stage</button>
+            <br>
             `;
+
         };
         // Appeler la fonction renderSupervisors avec les superviseurs obtenus
         renderSupervisors(supervisors);
@@ -101,13 +103,13 @@ async function saveInternship(e) {
     let selectedSupervisorId;
     supervisorRadios.forEach((radio) => {
         if (radio.checked) {
-            selectedSupervisorId = radio.id;
+            selectedSupervisorId = radio.value;
         }
     });
 
 
-    const sujet = document.getElementById('sujet');
-    const date = document.getElementById('date');
+    const sujet = document.getElementById('sujet').value;
+    const date = document.getElementById('date').value;
     const responsable = selectedSupervisorId;
     const urlParams = new URLSearchParams(window.location.search);
     const contactId = urlParams.get('contactId');
@@ -116,6 +118,9 @@ async function saveInternship(e) {
     console.log("date : ", date);
     console.log("responsable : ", responsable);
     console.log("contactId : ", contactId);
+    const button = document.getElementById('CreateSupervisor');
+    button.addEventListener("click", () => Navigate(`/createSupervisor?contactId=${contactId}`));
+    
 
     const options = {
         method: 'POST',

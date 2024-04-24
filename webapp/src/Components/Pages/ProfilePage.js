@@ -40,7 +40,7 @@ function renderProfilePage(user) {
           <div class="col-md-5 bg-secondary rounded mt-3 ms-3">
             <div class="d-flex justify-content-between align-items-center">
               <h3 class="text-right mt-3">Données de stage</h3>
-              <button class="btn btn-primary me-3">Modifier ou ajouter le sujet de stage</button>
+              <button class="btn btn-primary me-3" id="button_subject">Modifier ou ajouter le sujet de stage</button>
             </div>
             <p class="fw-bold mb-n1">Titre</p>
             <p id="internshipTitle">${user.internshipTitle ? user.internshipTitle : 'aucun'}</p>
@@ -72,6 +72,11 @@ function renderProfilePage(user) {
 
   const phoneNumberButton = document.getElementById('button_phone');
   phoneNumberButton.addEventListener("click", () => showFormPhone());
+
+  const modifyButton = document.getElementById('button_subject');
+  modifyButton.addEventListener("click", () => {
+    window.location.href = "/modifySubject";
+  });
 }
 
 async function getValues() {

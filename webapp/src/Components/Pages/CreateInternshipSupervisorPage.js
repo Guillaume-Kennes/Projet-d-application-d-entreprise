@@ -43,10 +43,13 @@ async function saveSupervisor(e) {
   const firstname = document.getElementById('firstname').value;
   const phone = document.getElementById('phone').value;
   const email = document.getElementById('email').value;
+  const urlParams = new URLSearchParams(window.location.search);
+  const contactId = urlParams.get('contactId');
   console.log("name : ", name);
   console.log("firstname : ", firstname);
   console.log("phone : ", phone);
   console.log("email : ", email);
+  console.log("contactId :", contactId);
 
   const options = {
     method: 'POST',
@@ -55,6 +58,7 @@ async function saveSupervisor(e) {
       firstname,
       phone,
       email,
+      contactId,
     }),
     headers: {
       'Content-Type': 'application/json',
