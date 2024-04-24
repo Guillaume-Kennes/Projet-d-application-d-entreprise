@@ -7,6 +7,7 @@ import be.vinci.pae.utils.exception.NotFoundException;
 import jakarta.inject.Inject;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Implementation of the InternshipUCC interface. Provides methods related to internship
@@ -90,7 +91,6 @@ public class InternshipUCCImpl implements InternshipUCC {
       return internship;
     } catch (Exception e) {
       dalServices.rollBack();
-      e.printStackTrace();
       throw e;
     }
   }
@@ -108,6 +108,18 @@ public class InternshipUCCImpl implements InternshipUCC {
       InternshipDTO internship = internshipDAO.getInternshipById(internshipId);
       dalServices.commit();
       return internship;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  public List<String> getSchoolYears() {
+    dalServices.start();
+    try {
+      List<String> schoolYears = internshipDAO.getSchoolYears();
+      dalServices.commit();
+      return schoolYears;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;

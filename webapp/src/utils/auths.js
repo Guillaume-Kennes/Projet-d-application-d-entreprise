@@ -65,7 +65,7 @@ const refreshAuthenticatedUser = async () => {
 
   const token = localStorage.getItem('token'); // Modifier la récupération du token
   try {
-    const updatedUser = await API.get('auths/user', {
+    const updatedUser = await API.get('auths/user', {  // todo
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`
