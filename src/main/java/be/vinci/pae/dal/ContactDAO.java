@@ -67,7 +67,7 @@ public interface ContactDAO {
    *
    * @param idCompany The ID of the company.
    * @return A ContactDTO list containing all the contacts
-   * of the company, or null if not found.
+   *of the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
   ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException;

@@ -1,9 +1,6 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.CompanyDTO;
-import be.vinci.pae.business.domain.ContactDTO;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

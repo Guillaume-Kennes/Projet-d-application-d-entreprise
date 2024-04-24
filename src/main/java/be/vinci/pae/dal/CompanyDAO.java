@@ -1,11 +1,8 @@
 package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.CompanyDTO;
-import be.vinci.pae.business.domain.ContactDTO;
-import be.vinci.pae.utils.exception.FatalException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 

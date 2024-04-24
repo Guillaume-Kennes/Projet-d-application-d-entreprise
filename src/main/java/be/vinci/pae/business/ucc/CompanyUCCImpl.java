@@ -1,12 +1,9 @@
 package be.vinci.pae.business.ucc;
 
 import be.vinci.pae.business.domain.CompanyDTO;
-import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.dal.CompanyDAO;
 import be.vinci.pae.dal.DALServices;
 import jakarta.inject.Inject;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

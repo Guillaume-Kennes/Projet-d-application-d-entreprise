@@ -172,6 +172,12 @@ public class InternshipDAOImpl implements InternshipDAO {
     }
   }
 
+  /**
+   * Retrieves an internship by its id.
+   *
+   * @param internshipId The id of the internship.
+   * @return The internship corresponding to the given id.
+   */
   @Override
   public InternshipDTO getInternshipById(int internshipId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
@@ -191,14 +197,19 @@ public class InternshipDAOImpl implements InternshipDAO {
     return null;
   }
 
+  /**
+   * Retrieves a list of the different school years.
+   *
+   * @return A list of the school years.
+   */
   public List<String> getSchoolYears() {
     List<String> schoolYears = new ArrayList<>();
 
-    try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT DISTINCT iu.school_year FROM pae.inscriptions_ue iu")) {
 
-      try(ResultSet resultSet = preparedStatement.executeQuery()) {
-        while(resultSet.next()) {
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
           schoolYears.add(resultSet.getString("school_year"));
         }
       }
