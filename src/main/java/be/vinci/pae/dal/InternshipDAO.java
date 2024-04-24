@@ -4,6 +4,7 @@ import be.vinci.pae.business.domain.InternshipDTO;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 
 /**
@@ -56,6 +57,6 @@ public interface InternshipDAO {
    */
   InternshipDTO getInternshipById(int internshipId);
 
-
+  List<String> getSchoolYears();
 
 }

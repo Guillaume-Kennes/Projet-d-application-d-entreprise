@@ -8,6 +8,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of the InternshipDAO interface. Provides methods for retrieving internship-related
@@ -187,5 +189,23 @@ public class InternshipDAOImpl implements InternshipDAO {
       throw new FatalException("Contact not found");
     }
     return null;
+  }
+
+  public List<String> getSchoolYears() {
+    List<String> schoolYears = new ArrayList<>();
+
+    try(PreparedStatement preparedStatement = dalServices.getPreparedStatement(
+        "SELECT DISTINCT iu.school_year FROM pae.inscriptions_ue iu")) {
+
+      try(ResultSet resultSet = preparedStatement.executeQuery()) {
+        while(resultSet.next()) {
+          schoolYears.add(resultSet.getString("school_year"));
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+
+    return schoolYears;
   }
 }
