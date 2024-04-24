@@ -165,8 +165,8 @@ public class ContactResource {
   @Path("/add")
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Etudiant"})
   public ContactDTO addContact(ContactDTO newContactDTO) {
-    System.out.println("FFFFFFFFFFF");
     System.out.println(newContactDTO.getUser().getId());
     int userId = newContactDTO.getUser().getId();
     System.out.println("ContactResource -------> newContactDTO : " + newContactDTO);
