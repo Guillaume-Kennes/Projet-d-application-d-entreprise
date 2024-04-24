@@ -101,7 +101,8 @@ public class ContactDAOImpl implements ContactDAO {
           is_followed = ?,
           meeting_place = ?,
           version_contacts = version_contacts + 1
-          WHERE id_contact= ? AND version_contacts = ? ;
+          WHERE id_contact= ? AND version_contacts = ?
+          RETURNING version_contacts;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, contactDTO.getState());
@@ -113,7 +114,11 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setInt(7, contactDTO.getId());
         ps.setInt(8, contactDTO.getVersionNumber());
 
-        int correctVersion = ps.executeUpdate();
+        ResultSet rs = ps.executeQuery();
+        int correctVersion = 0; // faire executeQuery avec RETURNING
+        if (rs.next()) {
+          correctVersion = rs.getInt("version_contacts");
+        }
         if (correctVersion == 0) {
           if (getContactById(contactDTO.getId()) == null) {
             throw new FatalException("Contact not found");
@@ -291,4 +296,42 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
+  /**
+   * Suspend the other contacts of a user
+   * once they got an internship.
+   *
+   * @param contactDTO The contact DTO to update.
+   * @throws FatalException if an SQL error occurs.
+   */
+  public void suspendOthers(ContactDTO contactDTO) {
+    try {
+      String query = """
+          UPDATE pae.contacts
+          SET state = 'suspendu',
+          version_contacts = version_contacts + 1
+          WHERE inscription_ue = ? AND version_contacts = ?
+          AND state != 'accepté'
+          RETURNING version_contacts;
+          """;
+      try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
+        ps.setInt(1, contactDTO.getInscriptionUE().getId());
+        ps.setInt(2, contactDTO.getVersionNumber());
+
+        ResultSet rs = ps.executeQuery();
+        int correctVersion = 0; // faire executeQuery avec RETURNING
+        if (rs.next()) {
+          correctVersion = rs.getInt("version_contacts");
+        }
+        if (correctVersion == 0) {
+          if (getContactById(contactDTO.getId()) == null) {
+            throw new FatalException("Contact not found");
+          } else {
+            throw new IllegalArgumentException("Error not the same version");
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+  }
 }

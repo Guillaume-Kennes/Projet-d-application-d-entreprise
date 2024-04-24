@@ -231,4 +231,37 @@ public class ContactUCCImpl implements ContactUCC {
       throw e;
     }
   }
+
+  /**
+   * Accepts a contact as an internship.
+   *
+   * @param contact The contact for the company.
+   * @return The updated contact after the refusal.
+   */
+  public ContactDTO acceptInternship(ContactDTO contact) {
+    dalServices.start();
+    try {
+      if (contact == null) {
+        dalServices.rollBack();
+        throw new NotFoundException("Contact not found");
+      }
+
+      Contact contactBiz = (Contact) contact;
+
+      if (contactBiz.prisState(contact)) {
+        contact.setState("accepté");
+
+        contactDAO.update(contact);
+        contactDAO.suspendOthers(contact);
+        dalServices.commit();
+        return contact;
+      } else {
+        dalServices.rollBack();
+        throw new BusinessException("Invalid contact state");
+      }
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
 }

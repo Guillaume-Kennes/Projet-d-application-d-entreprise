@@ -76,4 +76,13 @@ public interface ContactUCC {
    * @return A list of ContactDTO objects.
    */
   ArrayList<ContactDTO> getAllContacts(int id) throws SQLException;
+
+  /**
+   * Accepts a contact as an internship.
+   *
+   * @param contact The contact for the company.
+   * @return The updated contact after the refusal.
+   */
+  ContactDTO acceptInternship(ContactDTO contact);
+
 }

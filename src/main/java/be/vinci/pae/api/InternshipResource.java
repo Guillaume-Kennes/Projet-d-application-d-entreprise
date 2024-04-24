@@ -1,6 +1,8 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
+import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
@@ -26,6 +28,8 @@ public class InternshipResource {
 
   @Inject
   private InternshipUCC myinternshipUCC;
+  @Inject
+  private ContactUCC myContactUcc;
 
   /**
    * Create an internship.
@@ -40,13 +44,13 @@ public class InternshipResource {
   public InternshipDTO createAnInternship(JsonNode json) {
     InternshipDTO internship;
 
-    int contact = json.get("contact").asInt();
-    System.out.println("contact" + contact);
+    int contact = json.get("contactId").asInt();
+    System.out.println("contact : " + contact);
 
-    int supervisor = json.get("supervisor").asInt();
-    System.out.println("supervisor" + supervisor);
+    int supervisor = json.get("responsable").asInt();
+    System.out.println("supervisor : " + supervisor);
 
-    String signatureDateStr = json.get("signatureDate").asText();
+    String signatureDateStr = json.get("date").asText();
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     java.sql.Date signatureDate = null;
 
@@ -55,13 +59,12 @@ public class InternshipResource {
       signatureDate = new java.sql.Date(parsed.getTime());
     } catch (ParseException e) {
       System.out.println("La date fournie ne correspond pas au format yyyy-MM-dd");
-      // Gérer l'erreur comme vous le souhaitez,
-      // par exemple en renvoyant une réponse d'erreur à l'utilisateur
     }
 
-    System.out.println("signatureDate" + signatureDate);
+    System.out.println("signatureDate : " + signatureDate);
 
-    JsonNode projetNode = json.get("projet");
+    ContactDTO contactDTO = myContactUcc.getContactById(contact);
+    JsonNode projetNode = json.get("sujet");
     if (projetNode != null) {
       String projet = projetNode.asText();
       internship = myinternshipUCC.createAnInternship(contact, supervisor, projet, signatureDate);
@@ -70,6 +73,7 @@ public class InternshipResource {
           myinternshipUCC.createAnInternship(contact, supervisor, null, signatureDate);
     }
 
+    // myContactUcc.acceptInternship(contactDTO);
     return internship;
   }
 

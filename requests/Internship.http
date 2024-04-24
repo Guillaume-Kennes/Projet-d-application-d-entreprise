@@ -7,8 +7,8 @@ Content-Type: application/json
 {
   "contact": 1,
   "supervisor" : 1,
-  "signatureDate" : "2021-01-01",
-  "projet" : "hello world"
+  "date" : "2021-01-01",
+  "sujet" : "hello world"
 }
 
 

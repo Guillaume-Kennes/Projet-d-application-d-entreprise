@@ -71,4 +71,13 @@ public interface ContactDAO {
    * @throws FatalException if the company is not found in the database.
    */
   ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException;
+
+  /**
+   * Suspend the other contacts of a user
+   * once they got an internship.
+   *
+   * @param contactDTO The contact DTO to update.
+   * @throws FatalException if an SQL error occurs.
+   */
+  void suspendOthers(ContactDTO contactDTO);
 }
