@@ -1,6 +1,5 @@
 package be.vinci.pae.business.ucc;
 
-import be.vinci.pae.business.domain.Internship;
 import be.vinci.pae.business.domain.InternshipDTO;
 import java.sql.Date;
 import java.sql.SQLException;

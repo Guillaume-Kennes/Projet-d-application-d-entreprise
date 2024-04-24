@@ -157,7 +157,7 @@ public class InternshipUCCTest {
   }
 
   @Test
-  public void createAnIntershipTest_nullSupervisor_Failure() {
+  public void testCreateAnIntership_nullSupervisor_Failure() {
     // Arrange
     int contact = 1;
     int supervisor = 0;
@@ -176,7 +176,7 @@ public class InternshipUCCTest {
   }
 
   @Test
-  public void createAnIntershipTest_nullSignatureDate_Failure() {
+  public void testCreateAnIntership_nullSignatureDate_Failure() {
     // Arrange
     int contact = 1;
     int supervisor = 2;
@@ -195,7 +195,7 @@ public class InternshipUCCTest {
   }
 
   @Test
-  public void createOrModifyAnIntershipTest_Success() {
+  public void testCreateOrModifyAnIntership_Success() {
     // Arrange
     InternshipDTO realInternship = domainFactory.getInternship();
     InternshipDTO internship = spy(realInternship);
@@ -215,7 +215,7 @@ public class InternshipUCCTest {
   }
 
   @Test
-  public void createOrModifyAnInternshipTest_nullInternship_Failure() {
+  public void testCreateOrModifyAnInternship_nullInternship_Failure() {
     //Arrange
     InternshipDTO internship = null;
     String subject = "Subject";
@@ -226,7 +226,7 @@ public class InternshipUCCTest {
   }
 
   @Test
-  public void createOrModifyAnInternshipTest_nullSubject_Failure() {
+  public void testCreateOrModifyAnInternship_nullSubject_Failure() {
     //Arrange
     InternshipDTO internship = domainFactory.getInternship();
     String subject = null;
@@ -237,7 +237,7 @@ public class InternshipUCCTest {
   }
 
   @Test
-  public void getInternshipByIdTest() {
+  public void testGetInternshipById() {
     // Arrange
     int internshipId = 1;
     InternshipDTO expectedInternship = internshipDAO.getInternshipById(internshipId);
@@ -252,7 +252,7 @@ public class InternshipUCCTest {
 
 
   @Test
-  public void getAllInternshipsTest() {
+  public void testAllInternships() {
     // Arrange
     List<InternshipDTO> expectedInternships = internshipDAO.getAllInternships();
     when(internshipDAO.getAllInternships()).thenReturn(expectedInternships);
