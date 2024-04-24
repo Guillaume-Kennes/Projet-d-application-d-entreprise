@@ -63,7 +63,7 @@ public class InternshipResource {
 
     System.out.println("signatureDate : " + signatureDate);
 
-    ContactDTO contactDTO = myContactUcc.getContactById(contact);
+    // ContactDTO contactDTO = myContactUcc.getContactById(contact);
     JsonNode projetNode = json.get("sujet");
     if (projetNode != null) {
       String projet = projetNode.asText();
