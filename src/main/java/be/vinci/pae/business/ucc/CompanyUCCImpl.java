@@ -65,12 +65,12 @@ public class CompanyUCCImpl implements CompanyUCC {
         throw new BusinessException("Invalid company state");
 
       } else {
-        companyDTO.setBlackListed(true);
+        companyDTO.setIsBlackListed(true);
         companyDTO.setMotivationBlackList(reason);
 
         companyDAO.update(companyDTO);
         System.out.println("CompanyUCCImpl " + companyBiz.isBlackListed(companyDTO));
-        System.out.println("CompanyUCCImpl " + companyDTO.isBlackListed());
+        System.out.println("CompanyUCCImpl " + companyDTO.getIsBlackListed());
         System.out.println("CompanyUCCImpl " + companyDTO.getMotivationBlackList());
         dalServices.commit();
 

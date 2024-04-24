@@ -94,19 +94,6 @@ public interface CompanyDTO {
   void setMeansOfCommunication(String meansOfCommunication);
 
   /**
-   * Returns whether the company is blacklisted.
-   *
-   * @return true if the company is blacklisted, false otherwise
-   */
-  boolean getIsBlackListed();
-
-  /**
-   * Sets whether the company is blacklisted.
-   *
-   * @param isBlackListed true if the company is blacklisted, false otherwise
-   */
-  void setIsBlackListed(boolean isBlackListed);
-  /**
    * Returns the enterprise's motivation blackList.
    *
    * @return the enterprise's motivation blackList
@@ -121,18 +108,18 @@ public interface CompanyDTO {
   void setMotivationBlackList(String motivationBlackList);
 
   /**
-   * Checks if the company is black listed.
+   * Returns whether the company is blacklisted.
    *
-   * @return true if the company is black listed, false otherwise.
+   * @return true if the company is blacklisted, false otherwise
    */
-  boolean isBlackListed();
+  boolean getIsBlackListed();
 
   /**
-   * Sets the followed status of the company.
+   * Sets whether the company is blacklisted.
    *
-   * @param isBlackListed the followed status of the company.
+   * @param isBlackListed true if the company is blacklisted, false otherwise
    */
-  void setBlackListed(boolean isBlackListed);
+  void setIsBlackListed(boolean isBlackListed);
 
   /**
    * Obtient le numéro de version de l'entité. Cette méthode retourne le numéro de version de

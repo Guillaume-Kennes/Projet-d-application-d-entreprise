@@ -159,26 +159,6 @@ public class CompanyImpl implements Company {
     this.meansOfCommunication = meansOfCommunication;
   }
 
-  /**
-   * Returns whether the company is blacklisted.
-   *
-   * @return true if the company is blacklisted, false otherwise
-   */
-  @Override
-  public boolean getIsBlackListed() {
-    return isBlackListed;
-  }
-
-  /**
-   * Sets whether the company is blacklisted.
-   *
-   * @param isBlackListed true if the company is blacklisted, false otherwise
-   */
-  @Override
-  public void setIsBlackListed(boolean isBlackListed) {
-    this.isBlackListed = isBlackListed;
-  }
-
 
   @Override
   public String getMotivationBlackList() {
@@ -200,22 +180,22 @@ public class CompanyImpl implements Company {
   }
 
   /**
-   * Get the value of the isBlackListed boolean.
+   * Returns whether the company is blacklisted.
    *
-   * @return The value of the isBlackListed boolean
+   * @return true if the company is blacklisted, false otherwise
    */
   @Override
-  public boolean isBlackListed() {
+  public boolean getIsBlackListed() {
     return isBlackListed;
   }
 
   /**
-   * Set the value of the isBlackListed boolean.
+   * Sets whether the company is blacklisted.
    *
-   * @param isBlackListed The value to set.
+   * @param isBlackListed true if the company is blacklisted, false otherwise
    */
   @Override
-  public void setBlackListed(boolean isBlackListed) {
+  public void setIsBlackListed(boolean isBlackListed) {
     this.isBlackListed = isBlackListed;
   }
 
@@ -227,7 +207,7 @@ public class CompanyImpl implements Company {
    * @return true if the company is black listed, false otherwise.
    */
   public boolean isBlackListed(CompanyDTO company) {
-    return company.isBlackListed();
+    return company.getIsBlackListed();
   }
 
   /**

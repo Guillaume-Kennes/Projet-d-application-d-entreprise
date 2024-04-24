@@ -80,7 +80,7 @@ public class CompanyDAOImpl implements CompanyDAO {
       companyDTO.setAddress(resultSet.getString("address"));
       companyDTO.setCity(resultSet.getString("city"));
       companyDTO.setMeansOfCommunication(resultSet.getString("means_of_communication"));
-      companyDTO.setBlackListed(resultSet.getBoolean("is_black_listed"));
+      companyDTO.setIsBlackListed(resultSet.getBoolean("is_black_listed"));
       companyDTO.setMotivationBlackList(resultSet.getString("motivation_black_list"));
       companyDTO.setVersionNumber(resultSet.getInt("version_enterprises"));
       // ici ca resout le probleme du version a 0
@@ -176,7 +176,6 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
 
-
   /**
    * Updates a contact in the database.
    *
@@ -205,7 +204,7 @@ public class CompanyDAOImpl implements CompanyDAO {
         ps.setString(3, companyDTO.getAddress());
         ps.setString(4, companyDTO.getCity());
         ps.setString(5, companyDTO.getMeansOfCommunication());
-        ps.setBoolean(6, companyDTO.isBlackListed());
+        ps.setBoolean(6, companyDTO.getIsBlackListed());
         ps.setString(7, companyDTO.getMotivationBlackList());
         ps.setInt(8, companyDTO.getId());
         ps.setInt(9, companyDTO.getVersionNumber());
