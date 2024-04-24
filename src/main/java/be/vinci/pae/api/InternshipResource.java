@@ -1,6 +1,5 @@
 package be.vinci.pae.api;
 
-import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
