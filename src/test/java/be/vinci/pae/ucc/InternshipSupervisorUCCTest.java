@@ -9,6 +9,7 @@ import be.vinci.pae.dal.InternshipSupervisorDAO;
 import be.vinci.pae.utils.AppBinderTest;
 import jakarta.ws.rs.WebApplicationException;
 import java.util.ArrayList;
+import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -103,24 +104,29 @@ public class InternshipSupervisorUCCTest {
     });
   }
 
-  /**
-   * Test for creating an internship supervisor with missing information.
-   */
   @Test
   public void testGetAllInternshipSupervisors_success() {
-    ArrayList<InternshipSupervisorDTO> supervisors = new ArrayList<>();
-    supervisors.add(internshipSupervisorDTO);
-    when(internshipSupervisorDAO.getAllInternshipSupervisors()).thenReturn(supervisors);
-    assertEquals(supervisors, internshipSupervisorUCC.getAllInternshipSupervisors());
+    // Arrange
+    List<InternshipSupervisorDTO> expectedSupervisors = new ArrayList<>();
+    expectedSupervisors.add(internshipSupervisorDTO);
+    when(internshipSupervisorDAO.getAllInternshipSupervisors()).thenReturn(expectedSupervisors);
+
+    // Act
+    List<InternshipSupervisorDTO> result = internshipSupervisorUCC.getAllInternshipSupervisors();
+
+    // Assert
+    assertEquals(expectedSupervisors, result);
   }
 
   @Test
-  public void testGetAllInternshipSupervisors_failed() {
+  public void testGetAllInternshipSupervisors_failure() {
+    // Arrange
     when(internshipSupervisorDAO.getAllInternshipSupervisors()).thenThrow(new RuntimeException());
-    assertThrows(WebApplicationException.class, () -> {
-      internshipSupervisorUCC.getAllInternshipSupervisors();
-    });
+
+    // Act and Assert
+    assertThrows(WebApplicationException.class, () -> internshipSupervisorUCC.getAllInternshipSupervisors());
   }
+
 
 
 
