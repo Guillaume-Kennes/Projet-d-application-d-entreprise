@@ -2,7 +2,11 @@ package be.vinci.pae.api;
 
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.CompanyDTO;
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
+import be.vinci.pae.business.ucc.ContactUCC;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -14,6 +18,8 @@ import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,8 +30,11 @@ import java.util.List;
 @Path("/companies")
 public class CompanyResource {
 
+  private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private CompanyUCC companyUCC;
+  @Inject
+  private ContactUCC contactUCC;
 
   /**
    * Get all enterprises.
@@ -90,4 +99,42 @@ public class CompanyResource {
     return companyUCC.numberOfStudentsTaken(idCompany);
   }
 
+  /**
+   * Retrieves contacts associated with a company by its ID.
+   *
+   * @param id The ID of the company.
+   * @return An ObjectNode containing the contacts associated with the company, formatted as JSON.
+   * @throws SQLException if an SQL exception occurs during the retrieval process.
+   */
+  @GET
+  @Path("/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Professeur"})
+  public ObjectNode getContactsByCompanyId(@PathParam("id") int id) throws SQLException {
+    ObjectNode response = jsonMapper.createObjectNode();
+    ArrayList<ContactDTO> contacts = contactUCC.getAllContacts(id);
+
+    if (contacts.isEmpty()) {
+      return null;
+    }
+
+    ArrayList<String> returnThing = new ArrayList<>();
+    for (ContactDTO c : contacts) {
+      if (c.getReasonForRefusal() != null) {
+        returnThing.add("Contact avec l'étudiant "
+            + c.getInscriptionUE().getStudent().getFirstName() + " "
+            + c.getInscriptionUE().getStudent().getLastName() + " en "
+            + c.getInscriptionUE().getSchoolYear() + "\n"
+            + "Contact refusé pour la raison suivante : "
+            + c.getReasonForRefusal());
+      } else {
+        returnThing.add("Contact avec l'étudiant "
+            + c.getInscriptionUE().getStudent().getFirstName() + " "
+            + c.getInscriptionUE().getStudent().getLastName() + " en "
+            + c.getInscriptionUE().getSchoolYear());
+      }
+    }
+    response.putPOJO("contacts", returnThing);
+    return response;
+  }
 }

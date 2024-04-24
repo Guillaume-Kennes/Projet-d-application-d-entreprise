@@ -142,6 +142,7 @@ async function allCompanies() {
               <th scope="col">Numéro de téléphone <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
               <th scope="col">Nombre d'étudiants pris en stage <button class="sort-button" data-column="numberOfStudents" value="numberOfStudents">&#x25BC;</button><button class="sort-button" data-column="numberOfStudents" value="-numberOfStudents">&#x25B2;</button></th>
               <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25B2;</button></th>
+              <th scope="col">Voir contacts passés</th>
             </tr>
           </thead>
           <tbody>
@@ -162,9 +163,54 @@ async function setCompanyRow(companies) {
         <td>${company.meansOfCommunication || ''}</td>
         <td>${'0' || '0'}</td>
         <td>${company.blackListed ? 'Oui' : 'Non'}</td>
+        <td><button class="contactsButton" data-company-id="${company.id}">Contacts</button></td>\`
       </tr>
     `;
   });
+
+  document.querySelectorAll('.contactsButton').forEach(button => {
+    const companyId = button.getAttribute('data-company-id');
+    button.addEventListener('click', (e) => showContacts(e, parseInt(companyId, 10)));
+  });
+}
+
+async function showContacts(e, id) {
+  e.preventDefault();
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    },
+  };
+  let contacts;
+  const response = await fetch(`http://localhost:3000/companies/${id}`, options);
+  if (!response.ok) {
+    throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+  }else{
+    contacts = await response.json();
+    displayContacts(contacts);
+  }
+}
+
+function displayContacts(contacts) {
+  const main = document.querySelector('main');
+
+  main.innerHTML =
+      `<div class="fw-bold mb-n1">Contacts passés</div>
+            <ul id="contactsList"></ul>`;
+
+  const contactsList = document.getElementById("contactsList");
+  if (contacts && contacts.length > 0) {
+    contacts.forEach(contact => {
+      const listItem = document.createElement("li");
+      listItem.textContent = contact;
+      contactsList.appendChild(listItem);
+    });
+  } else {
+    contactsList.innerHTML = "<li>Aucun contact avec cette entreprise</li>";
+  }
 }
 
 async function fetchStudentsWithInternship(schoolYear) {

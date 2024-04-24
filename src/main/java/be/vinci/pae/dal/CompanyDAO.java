@@ -54,4 +54,5 @@ public interface CompanyDAO {
    * @return The number of students taken by the company.
    */
   int numberOfStudentsTaken(int idCompany);
+
 }

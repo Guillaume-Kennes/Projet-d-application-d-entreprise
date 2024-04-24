@@ -2,6 +2,7 @@ package be.vinci.pae.main;
 
 import be.vinci.pae.utils.ApplicationBinder;
 import be.vinci.pae.utils.Config;
+import be.vinci.pae.utils.LoggingFilter;
 import be.vinci.pae.utils.WebExceptionMapper;
 import java.io.IOException;
 import java.net.URI;
@@ -31,7 +32,8 @@ public class Main {
 
     final ResourceConfig rc = new ResourceConfig().packages("be.vinci.pae.api")
         .register(ApplicationBinder.class)
-        .register(WebExceptionMapper.class);
+        .register(WebExceptionMapper.class)
+        .register(LoggingFilter.class);
     return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
   }
 
@@ -51,5 +53,3 @@ public class Main {
     server.stop();
   }
 }
-
-

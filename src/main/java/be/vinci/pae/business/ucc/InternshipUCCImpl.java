@@ -114,6 +114,11 @@ public class InternshipUCCImpl implements InternshipUCC {
     }
   }
 
+  /**
+   * Retrieves the list of school years.
+   *
+   * @return A list of the school years.
+   */
   public List<String> getSchoolYears() {
     dalServices.start();
     try {
