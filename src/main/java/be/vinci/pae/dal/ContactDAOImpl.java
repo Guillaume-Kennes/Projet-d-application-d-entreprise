@@ -267,9 +267,9 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.enterprises e "
-            + "WHERE c.enterprise = e.id_enterprise "
-            + "AND e.id_enterprise = ?");
+        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_ue u, pae.users us "
+            + "WHERE c.enterprise = e.id_enterprise AND c.inscription_ue = u.id_inscription_ue "
+            + " AND u.student = us.id_user AND e.id_enterprise = ?");
     try {
       preparedStatement.setInt(1, idCompany);
     } catch (SQLException e) {

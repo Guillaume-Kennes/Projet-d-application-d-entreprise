@@ -117,7 +117,24 @@ public class CompanyResource {
     if (contacts.isEmpty()) {
       return null;
     }
-    response.putPOJO("contacts", contacts);
+
+    ArrayList<String> returnThing = new ArrayList<>();
+    for (ContactDTO c : contacts) {
+      if (c.getReasonForRefusal() != null) {
+        returnThing.add("Contact avec l'étudiant "
+            + c.getInscriptionUE().getStudent().getFirstName() + " "
+            + c.getInscriptionUE().getStudent().getLastName() + " en "
+            + c.getInscriptionUE().getSchoolYear() + "\n"
+            + "Contact refusé pour la raison suivante : "
+            + c.getReasonForRefusal());
+      } else {
+        returnThing.add("Contact avec l'étudiant "
+            + c.getInscriptionUE().getStudent().getFirstName() + " "
+            + c.getInscriptionUE().getStudent().getLastName() + " en "
+            + c.getInscriptionUE().getSchoolYear());
+      }
+    }
+    response.putPOJO("contacts", returnThing);
     return response;
   }
 }
