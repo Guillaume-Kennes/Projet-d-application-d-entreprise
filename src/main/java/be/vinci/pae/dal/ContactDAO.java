@@ -64,7 +64,8 @@ public interface ContactDAO {
    * Retrieves all contacts associated with the specified company ID.
    *
    * @param idCompany The ID of the company.
-   * @return An ArrayList of ContactDTO objects representing all contacts associated with the company.
+   * @return An ArrayList of ContactDTO objects representing
+   * all contacts associated with the company.
    * @throws SQLException if an SQL exception occurs while retrieving the contacts.
    */
   ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException;
