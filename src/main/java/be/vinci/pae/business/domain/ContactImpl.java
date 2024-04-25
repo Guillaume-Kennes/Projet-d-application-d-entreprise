@@ -263,15 +263,6 @@ class ContactImpl implements Contact {
   }
 
   /**
-   * Set the value of the isFollowed boolean.
-   *
-   * @param followed The value to set.
-   */
-  public void setFollowed(boolean followed) {
-    isFollowed = followed;
-  }
-
-  /**
    * Checks if the contact is followed. This method checks if the given contact is followed.
    *
    * @param contact The contact to check.
@@ -279,5 +270,14 @@ class ContactImpl implements Contact {
    */
   public boolean isFollowed(ContactDTO contact) {
     return contact.isFollowed();
+  }
+
+  /**
+   * Set the value of the isFollowed boolean.
+   *
+   * @param followed The value to set.
+   */
+  public void setFollowed(boolean followed) {
+    isFollowed = followed;
   }
 }
