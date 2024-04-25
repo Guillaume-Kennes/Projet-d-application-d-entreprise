@@ -26,5 +26,4 @@ public class ConflictException extends WebApplicationException {
   public ConflictException(String message) {
     super(Response.status(Status.CONFLICT).entity(message).type("text/plain").build());
   }
-
 }
