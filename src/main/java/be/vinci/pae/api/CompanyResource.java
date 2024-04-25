@@ -140,10 +140,13 @@ public class CompanyResource {
   }
 
   /**
-   * Endpoint for stopping following a contact.
+   * Blacklists a company with the specified ID, providing a reason for blacklisting.
    *
-   * @param idCompany The ID of the contact.
-   * @return The updated contact.
+   * @param idCompany The ID of the company to blacklist.
+   * @param json      A JsonNode object containing the reason for blacklisting.
+   * @return A CompanyDTO object representing the blacklisted company.
+   * @throws IllegalArgumentException if the company with the specified ID is not found, or if the
+   *                                  request body is missing or not a valid JSON.
    */
   @POST
   @Path("/blacklist/{id_com}")

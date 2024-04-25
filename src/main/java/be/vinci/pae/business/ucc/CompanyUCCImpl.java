@@ -42,12 +42,14 @@ public class CompanyUCCImpl implements CompanyUCC {
   }
 
   /**
-   * Blacklist a company.
+   * Blacklists the specified company with the given reason.
    *
    * @param companyDTO The CompanyDTO object representing the company to be blacklisted.
-   * @param reason The reason for blacklisting the company.
-   *
-   * @return The CompanyDTO object representing the blacklisted company.
+   * @param reason     The reason for blacklisting the company.
+   * @return A CompanyDTO object representing the blacklisted company.
+   * @throws NotFoundException if the specified company is not found.
+   * @throws BusinessException if the reason field is null or if the company is already
+   *                           blacklisted.
    */
   public CompanyDTO blackList(CompanyDTO companyDTO, String reason) {
     System.out.println("Contact " + companyDTO);

@@ -25,10 +25,11 @@ public interface CompanyUCC {
   CompanyDTO getCompanyById(int idCompany);
 
   /**
-   * Stops following a contact.
+   * Blacklists the specified company with the given reason.
    *
-   * @param companyDTO The company to blacklist.
-   * @return The updated company after the blacklist.
+   * @param companyDTO The CompanyDTO object representing the company to be blacklisted.
+   * @param reason     The reason for blacklisting the company.
+   * @return A CompanyDTO object representing the blacklisted company.
    */
   CompanyDTO blackList(CompanyDTO companyDTO, String reason);
 
