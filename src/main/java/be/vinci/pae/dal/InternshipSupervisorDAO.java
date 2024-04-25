@@ -50,9 +50,11 @@ public interface InternshipSupervisorDAO {
   List<InternshipSupervisorDTO> getAllInternshipSupervisors();
 
   /**
-   * Retrieves the internship supervisor information associated with the specified id.
+   * Retrieves the internship with the specified ID.
    *
-   * @return An InternshipSupervisorDTO object representing the internship supervisor information.
+   * @param internshipId The ID of the internship to retrieve.
+   * @return An InternshipDTO object representing the internship with the specified ID,
+   *         or null if no internship is found with the given ID.
    */
   InternshipDTO getInternshipById(int internshipId);
 }

@@ -61,5 +61,10 @@ public interface InternshipUCC {
    */
   List<InternshipDTO> getAllInternships();
 
+  /**
+   * Retrieves a list of school years.
+   *
+   * @return A List of String objects representing school years.
+   */
   List<String> getSchoolYears();
 }
