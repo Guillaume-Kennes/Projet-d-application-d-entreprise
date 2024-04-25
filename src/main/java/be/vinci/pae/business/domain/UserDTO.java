@@ -38,7 +38,6 @@ public interface UserDTO {
    */
   void setPassword(String password);
 
-
   /**
    * Returns the user's last name.
    *
@@ -115,7 +114,6 @@ public interface UserDTO {
    * @return the user's id
    */
   int getId();
-
 
   /**
    * Sets the ID for an object.

@@ -21,7 +21,6 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
   @Inject
   private DALServices dalServices;
 
-
   /**
    * Create an internship supervisor.
    *
@@ -33,7 +32,6 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
    *
    * @return The created internship supervisor.
    */
-  @Override
   public InternshipSupervisorDTO createAnInternshipSupervisor(
       String firstName, String lastName, String phoneNumber, String email, int company) {
     dalServices.start();
@@ -59,13 +57,11 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
     }
   }
 
-
   /**
    * Retrieves all internship supervisors.
    *
    * @return A list of all internship supervisors.
    */
-  @Override
   public List<InternshipSupervisorDTO> getAllInternshipSupervisors() {
     dalServices.start();
     try {
@@ -101,5 +97,4 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
           Status.INTERNAL_SERVER_ERROR);
     }
   }
-
 }

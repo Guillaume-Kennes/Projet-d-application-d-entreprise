@@ -16,7 +16,6 @@ public interface CompanyUCC {
    */
   CompanyDTO addCompany(CompanyDTO companyDTO);
 
-
   /**
    * Retrieves a company by its ID.
    *
@@ -33,7 +32,6 @@ public interface CompanyUCC {
    */
   CompanyDTO blackList(CompanyDTO companyDTO, String reason);
 
-
   /**
    * Retrieves a list of all enterprises from the database.
    *
@@ -48,5 +46,4 @@ public interface CompanyUCC {
    * @return the number of students taken by the company
    */
   int numberOfStudentsTaken(int idCompany);
-
 }

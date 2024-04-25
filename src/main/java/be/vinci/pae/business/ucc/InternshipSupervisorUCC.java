@@ -10,7 +10,6 @@ import java.util.List;
  */
 public interface InternshipSupervisorUCC {
 
-
   /**
    * Create an internship supervisor.
    *

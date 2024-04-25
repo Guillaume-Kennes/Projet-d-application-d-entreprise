@@ -40,7 +40,6 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     connectionBDS.setMaxTotal(5);
   }
 
-
   /**
    * Retrieves a PreparedStatement object for the provided SQL query.
    *
@@ -71,7 +70,6 @@ public class DALServicesImpl implements DALBackServices, DALServices {
     return getPreparedStatement(sql, false);
   }
 
-
   /**
    * Starts a new database transaction.
    * If no transaction is active for the current thread, a new connection is established.
@@ -93,7 +91,6 @@ public class DALServicesImpl implements DALBackServices, DALServices {
       counterThreads.set(counterThreads.get() + 1);
     }
   }
-
 
   /**
    * Commits the current transaction.

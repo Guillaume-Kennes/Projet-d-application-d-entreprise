@@ -43,7 +43,6 @@ public interface ContactDAO {
    */
   ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException;
 
-
   /**
    * Retrieves the list of contacts taken by a user identified by their ID.
    *
@@ -52,7 +51,6 @@ public interface ContactDAO {
    * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
   ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException;
-
 
   /**
    * Inserts a new contact into the database.

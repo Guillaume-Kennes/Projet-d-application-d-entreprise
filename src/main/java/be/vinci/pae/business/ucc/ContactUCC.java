@@ -84,5 +84,4 @@ public interface ContactUCC {
    * @return The updated contact after the refusal.
    */
   ContactDTO acceptInternship(ContactDTO contact);
-
 }

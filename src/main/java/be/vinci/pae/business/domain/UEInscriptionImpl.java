@@ -37,6 +37,11 @@ public class UEInscriptionImpl implements UEInscription {
     this.id = id;
   }
 
+  /**
+   * Get the user of the UEInscription.
+   *
+   * @return The user of the UEInscription
+   */
   public User getStudent() {
     System.out.println("ViewDEMES2 ---> student : " + student);
     return student;
@@ -51,6 +56,11 @@ public class UEInscriptionImpl implements UEInscription {
     this.student = student;
   }
 
+  /**
+   * Get the school year of the UEInscription.
+   *
+   * @return The school year of the UEInscription
+   */
   public String getSchoolYear() {
     return schoolYear;
   }

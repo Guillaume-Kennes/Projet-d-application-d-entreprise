@@ -88,7 +88,6 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    * @param company The company of the supervisor to insert.
    * @return The InternshipSupervisorDTO object representing the newly inserted supervisor.
    */
-  @Override
   public InternshipSupervisorDTO insertSupervisor(
       String firstName, String lastName, String phoneNumber, String email, int company) {
     try {
@@ -154,7 +153,6 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
    * @param internshipId The ID of the internship supervisor to retrieve information for.
    * @return An InternshipSupervisorDTO object representing the internship supervisor information.
    */
-  @Override
   public InternshipDTO getInternshipById(int internshipId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.internships WHERE id_internship = ?");

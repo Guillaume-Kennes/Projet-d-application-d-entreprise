@@ -23,7 +23,6 @@ public interface InternshipUCC {
    */
   InternshipDTO getInternshipByUserId(int id) throws SQLException;
 
-
   /**
    * Create an internship.
    *

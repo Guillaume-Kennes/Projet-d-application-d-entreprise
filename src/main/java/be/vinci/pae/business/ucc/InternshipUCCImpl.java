@@ -86,7 +86,6 @@ public class InternshipUCCImpl implements InternshipUCC {
    * @param subject the subject of the internship
    * @return the created or modified internship
    */
-  @Override
   public InternshipDTO createOrModifyAnInternship(InternshipDTO internship, String subject) {
     dalServices.start();
     try {
@@ -117,7 +116,6 @@ public class InternshipUCCImpl implements InternshipUCC {
    * @param internshipId The ID of the internship to retrieve information for.
    * @return An InternshipDTO object representing the internship information.
    */
-  @Override
   public InternshipDTO getInternshipById(int internshipId) {
     dalServices.start();
     try {
@@ -135,7 +133,6 @@ public class InternshipUCCImpl implements InternshipUCC {
    *
    * @return A list of all internships.
    */
-  @Override
   public List<InternshipDTO> getAllInternships() {
     dalServices.start();
     try {

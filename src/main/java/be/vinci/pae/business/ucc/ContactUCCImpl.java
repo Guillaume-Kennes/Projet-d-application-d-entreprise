@@ -198,7 +198,6 @@ public class ContactUCCImpl implements ContactUCC {
    * @param contactDTO The contact data to be added.
    * @return The added contact data.
    */
-  @Override
   public ContactDTO addContact(ContactDTO contactDTO) {
     dalServices.start();
     try {

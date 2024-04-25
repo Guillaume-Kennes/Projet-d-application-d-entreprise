@@ -21,7 +21,13 @@ public class CompanyDAOImpl implements CompanyDAO {
   @Inject
   private DomainFactory myDomainFactory;
 
-  @Override
+  /**
+   * Inserts a new item in the system.
+   *
+   * @param companyDTO ItemDTO object containing the information of the item to be
+   *                           inserted.
+   * @return int of the object created
+   */
   public CompanyDTO insert(CompanyDTO companyDTO) {
     try {
       String query = """
@@ -98,7 +104,6 @@ public class CompanyDAOImpl implements CompanyDAO {
    * @return A ViewCompanyDTO object representing the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
-
   public CompanyDTO getCompanyById(int id) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.enterprises e WHERE e.id_enterprise = ?");
@@ -122,7 +127,6 @@ public class CompanyDAOImpl implements CompanyDAO {
     }
     return company;
   }
-
 
   /**
    * Retrieves a list of all enterprises from the database.
@@ -175,14 +179,12 @@ public class CompanyDAOImpl implements CompanyDAO {
     return numberOfStudents;
   }
 
-
   /**
    * Updates a contact in the database.
    *
    * @param companyDTO The contact DTO to update.
    * @throws FatalException if an SQL error occurs.
    */
-  @Override
   public void update(CompanyDTO companyDTO) {
     try {
       String query = """

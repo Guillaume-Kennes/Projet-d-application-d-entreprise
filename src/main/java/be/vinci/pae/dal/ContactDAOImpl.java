@@ -194,7 +194,6 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
-
   /**
    * Inserts a new contact into the database.
    *
@@ -202,7 +201,6 @@ public class ContactDAOImpl implements ContactDAO {
    * @return The contact data after insertion.
    * @throws FatalException if an unrecoverable error occurs during database operation.
    */
-  @Override
   public ContactDTO insert(ContactDTO contactDTO) {
     try {
       String query = """

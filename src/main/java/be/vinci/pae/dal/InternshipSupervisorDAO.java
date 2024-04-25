@@ -29,8 +29,6 @@ public interface InternshipSupervisorDAO {
    */
   InternshipSupervisorDTO getSupervisorById(int id) throws SQLException;
 
-
-
   /**
    * Inserts a new supervisor in the database.
    *
@@ -51,12 +49,10 @@ public interface InternshipSupervisorDAO {
    */
   List<InternshipSupervisorDTO> getAllInternshipSupervisors();
 
-
   /**
    * Retrieves the internship supervisor information associated with the specified id.
    *
    * @return An InternshipSupervisorDTO object representing the internship supervisor information.
    */
   InternshipDTO getInternshipById(int internshipId);
-
 }

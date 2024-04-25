@@ -50,7 +50,6 @@ public class CompanyResource {
     return companyUCC.getAllEnterprises();
   }
 
-
   /**
    * Adds a new contact.
    *
