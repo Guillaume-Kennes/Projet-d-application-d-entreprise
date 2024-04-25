@@ -18,7 +18,6 @@ public interface UserDAO {
    */
   UserDTO getUserByEmail(String email);
 
-
   /**
    * Returns the information of a user.
    *
@@ -26,7 +25,6 @@ public interface UserDAO {
    * @return the user corresponding to that result set
    */
   UserDTO userInfos(ResultSet resultSet);
-
 
   /**
    * Returns the user corresponding to the id.
@@ -43,7 +41,6 @@ public interface UserDAO {
    *     If no users are found, the list will be empty.
    */
   List<UserDTO> getAllUsers();
-
 
   /**
    * Registers a new user in the database.

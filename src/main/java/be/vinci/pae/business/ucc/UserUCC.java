@@ -18,7 +18,6 @@ public interface UserUCC {
    */
   UserDTO login(String email, String password);
 
-
   /**
    * Returns the user corresponding to the id.
    *
@@ -34,7 +33,6 @@ public interface UserUCC {
    *     list will be empty.
    */
   List<UserDTO> getAllUsers();
-
 
   /**
    * Registers a new user with the system.
@@ -63,7 +61,6 @@ public interface UserUCC {
    * @return true if the user has administrative privileges, false otherwise
    */
   boolean userIsAdmin(UserDTO userDTO);
-
 
   /**
    * Returns the number of students who have an internship in the specified school year.

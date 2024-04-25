@@ -26,10 +26,11 @@ public class InternshipSupervisorResource {
   private InternshipSupervisorUCC internshipSupervisorUCC;
 
   /**
-   * Create an internship supervisor.
+   * Creates a new internship supervisor with the provided information.
    *
-   *
-   * @return The created internship supervisor.
+   * @param json A JsonNode object containing the information of the internship supervisor to
+   *             create.
+   * @return An InternshipSupervisorDTO object representing the newly created internship supervisor.
    */
   @POST
   @Path("/create")

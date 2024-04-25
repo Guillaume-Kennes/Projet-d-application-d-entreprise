@@ -21,8 +21,7 @@ public interface Contact extends ContactDTO {
    * @return true if the school year is correct, false otherwise.
    */
   boolean correctSchoolYear();
-
-
+  
   /**
    * Initializes the state of the contact.
    *
@@ -30,8 +29,7 @@ public interface Contact extends ContactDTO {
    * @return true if the state was successfully initiated, false otherwise.
    */
   boolean initieState(ContactDTO contact);
-
-
+  
   /**
    * Checks if the contact state is 'pris'.
    *
@@ -39,8 +37,7 @@ public interface Contact extends ContactDTO {
    * @return true if the contact state is 'pris', false otherwise.
    */
   boolean prisState(ContactDTO contact);
-
-
+  
   /**
    * Checks if the contact is being followed.
    *

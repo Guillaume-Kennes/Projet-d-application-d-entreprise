@@ -93,7 +93,6 @@ public interface InternshipSupervisorDTO {
    */
   void setCompany(int companyId);
 
-
   /**
    * Returns the version number of the supervisor.
    *
@@ -101,12 +100,10 @@ public interface InternshipSupervisorDTO {
    */
   int getVersionNumber();
 
-
   /**
    * Sets the version number of the supervisor.
    *
    * @param versionNumber the version number to set
    */
   void setVersionNumber(int versionNumber);
-
 }

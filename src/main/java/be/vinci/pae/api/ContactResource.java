@@ -194,6 +194,4 @@ public class ContactResource {
       throw new WebApplicationException("Failed to add contact", Status.INTERNAL_SERVER_ERROR);
     }
   }
-
-
 }

@@ -19,7 +19,6 @@ public class UserUCCImpl implements UserUCC {
   @Inject
   private DALServices dalServices;
 
-
   /**
    * Authenticates a user by their email and password.
    *
@@ -44,7 +43,6 @@ public class UserUCCImpl implements UserUCC {
     }
   }
 
-
   /**
    * Retrieves a UserDTO object by its unique identifier.
    *
@@ -63,7 +61,6 @@ public class UserUCCImpl implements UserUCC {
     }
   }
 
-
   /**
    * Returns the list of all users available in the system.
    *
@@ -81,7 +78,6 @@ public class UserUCCImpl implements UserUCC {
       throw e;
     }
   }
-
 
   /**
    * Registers a new user in the system.
@@ -129,7 +125,6 @@ public class UserUCCImpl implements UserUCC {
    * @param userDTO the user data transfer object to check
    * @return true if the user has teacher privileges, false otherwise
    */
-  @Override
   public boolean userIsTeacher(UserDTO userDTO) {
     User user = (User) userDTO;
     return user.isTeacher();
@@ -141,7 +136,6 @@ public class UserUCCImpl implements UserUCC {
    * @param userDTO the user data transfer object to check
    * @return true if the user has administrative privileges, false otherwise
    */
-  @Override
   public boolean userIsAdmin(UserDTO userDTO) {
     User user = (User) userDTO;
     return user.isAdmin();
@@ -153,7 +147,6 @@ public class UserUCCImpl implements UserUCC {
    * @param schoolYear the school year to search for
    * @return the number of students with an internship
    */
-  @Override
   public int getStudentsWithInternship(String schoolYear) {
     dalServices.start();
     try {
@@ -167,7 +160,12 @@ public class UserUCCImpl implements UserUCC {
     }
   }
 
-  @Override
+  /**
+   * Returns the number of students without an internship.
+   *
+   * @param schoolYear the school year to search for
+   * @return the number of students without an internship
+   */
   public int getStudentsWithoutInternship(String schoolYear) {
     dalServices.start();
     try {

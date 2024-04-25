@@ -2,6 +2,10 @@ package be.vinci.pae.business.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * Implementation class for the Contact interface. This class provides implementations for
+ * various contact-related methods.
+ */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 class ContactImpl implements Contact {
 
@@ -22,10 +26,20 @@ class ContactImpl implements Contact {
   public ContactImpl() {
   }
 
+  /**
+   * Get the version number of the contact.
+   *
+   * @return The version number of the contact
+   */
   public int getVersionNumber() {
     return versionNumber;
   }
 
+  /**
+   * Set the version number of the contact.
+   *
+   * @param versionNumber The version number to set.
+   */
   public void setVersionNumber(int versionNumber) {
     this.versionNumber = versionNumber;
   }
@@ -35,7 +49,6 @@ class ContactImpl implements Contact {
    *
    * @return The id of the contact
    */
-  @Override
   public int getId() {
     return id;
   }
@@ -45,7 +58,6 @@ class ContactImpl implements Contact {
    *
    * @param id The id to set.
    */
-  @Override
   public void setId(int id) {
     this.id = id;
   }
@@ -55,7 +67,6 @@ class ContactImpl implements Contact {
    *
    * @return The state of the contact
    */
-  @Override
   public String getState() {
     return state;
   }
@@ -65,7 +76,6 @@ class ContactImpl implements Contact {
    *
    * @param state The state to set.
    */
-  @Override
   public void setState(String state) {
     this.state = state;
   }
@@ -75,7 +85,6 @@ class ContactImpl implements Contact {
    *
    * @return The reason for refusal for the contact.
    */
-  @Override
   public String getReasonForRefusal() {
     return reasonForRefusal;
   }
@@ -85,7 +94,6 @@ class ContactImpl implements Contact {
    *
    * @param reasonForRefusal The reason to set.
    */
-  @Override
   public void setReasonForRefusal(String reasonForRefusal) {
     this.reasonForRefusal = reasonForRefusal;
   }
@@ -95,7 +103,6 @@ class ContactImpl implements Contact {
    *
    * @return The meeting place of the contact
    */
-  @Override
   public String getMeetingPlace() {
     return meetingPlace;
   }
@@ -105,7 +112,6 @@ class ContactImpl implements Contact {
    *
    * @param meetingPlace The meeting place to set.
    */
-  @Override
   public void setMeetingPlace(String meetingPlace) {
     this.meetingPlace = meetingPlace;
   }
@@ -115,7 +121,6 @@ class ContactImpl implements Contact {
    *
    * @return The UE inscription of the contact
    */
-  @Override
   public UEInscription getInscriptionUE() {
     return this.inscriptionUE;
   }
@@ -125,7 +130,6 @@ class ContactImpl implements Contact {
    *
    * @param inscriptionUE The UE inscription to set.
    */
-  @Override
   public void setInscriptionUE(UEInscription inscriptionUE) {
     this.inscriptionUE = inscriptionUE;
   }
@@ -135,7 +139,6 @@ class ContactImpl implements Contact {
    *
    * @return The company of the contact
    */
-  @Override
   public CompanyDTO getCompany() {
     return this.company;
   }
@@ -145,7 +148,6 @@ class ContactImpl implements Contact {
    *
    * @param company The company to set.
    */
-  @Override
   public void setCompany(Company company) {
     this.company = company;
   }
@@ -156,7 +158,6 @@ class ContactImpl implements Contact {
    * @param idUser The concerned user.
    * @return A boolean stating whether the user is a student
    */
-  @Override
   public boolean userRoleIsStudent(int idUser) {
     return false;
   }
@@ -166,7 +167,6 @@ class ContactImpl implements Contact {
    *
    * @return a boolean stating whether the year is correct.
    */
-  @Override
   public boolean correctSchoolYear() {
     return false;
   }
@@ -195,13 +195,11 @@ class ContactImpl implements Contact {
     return false;
   }
 
-
   /**
    * Get the user of the contact.
    *
    * @return The user of the contact
    */
-  @Override
   public UserDTO getUser() {
     return user;
   }
@@ -211,7 +209,6 @@ class ContactImpl implements Contact {
    *
    * @param user The user to set.
    */
-  @Override
   public void setUser(UserDTO user) {
     this.user = user;
   }
@@ -221,7 +218,6 @@ class ContactImpl implements Contact {
    *
    * @return The trade name of the contact.
    */
-  @Override
   public String getTradeName() {
     return tradeName;
   }
@@ -262,19 +258,8 @@ class ContactImpl implements Contact {
    *
    * @return The value of the isFollowed boolean
    */
-  @Override
   public boolean isFollowed() {
     return isFollowed;
-  }
-
-  /**
-   * Set the value of the isFollowed boolean.
-   *
-   * @param followed The value to set.
-   */
-  @Override
-  public void setFollowed(boolean followed) {
-    isFollowed = followed;
   }
 
   /**
@@ -287,4 +272,12 @@ class ContactImpl implements Contact {
     return contact.isFollowed();
   }
 
+  /**
+   * Set the value of the isFollowed boolean.
+   *
+   * @param followed The value to set.
+   */
+  public void setFollowed(boolean followed) {
+    isFollowed = followed;
+  }
 }

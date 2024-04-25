@@ -34,7 +34,6 @@ class UserImpl implements User {
    *
    * @return The email of the user.
    */
-  @Override
   public String getEmail() {
     return email;
   }
@@ -44,7 +43,6 @@ class UserImpl implements User {
    *
    * @param email The email to set.
    */
-  @Override
   public void setEmail(String email) {
     this.email = email;
   }
@@ -54,7 +52,6 @@ class UserImpl implements User {
    *
    * @return The password of the user.
    */
-  @Override
   public String getPassword() {
     return password;
   }
@@ -64,7 +61,6 @@ class UserImpl implements User {
    *
    * @param password The password to set.
    */
-  @Override
   public void setPassword(String password) {
     this.password = password;
   }
@@ -74,7 +70,6 @@ class UserImpl implements User {
    *
    * @return The last name of the user.
    */
-  @Override
   public String getLastName() {
     return lastName;
   }
@@ -84,7 +79,6 @@ class UserImpl implements User {
    *
    * @param lastName The last name to set.
    */
-  @Override
   public void setLastName(String lastName) {
     this.lastName = lastName;
   }
@@ -94,7 +88,6 @@ class UserImpl implements User {
    *
    * @return The first name of the user.
    */
-  @Override
   public String getFirstName() {
     return this.firstName;
   }
@@ -104,7 +97,6 @@ class UserImpl implements User {
    *
    * @param firstName The first name to set.
    */
-  @Override
   public void setFirstName(String firstName) {
     this.firstName = firstName;
   }
@@ -114,7 +106,6 @@ class UserImpl implements User {
    *
    * @return The phone number of the user.
    */
-  @Override
   public String getPhoneNumber() {
     return phoneNumber;
   }
@@ -124,7 +115,6 @@ class UserImpl implements User {
    *
    * @param phoneNumber The phone number to set.
    */
-  @Override
   public void setPhoneNumber(String phoneNumber) {
     this.phoneNumber = phoneNumber;
   }
@@ -134,7 +124,6 @@ class UserImpl implements User {
    *
    * @return The registration date of the user.
    */
-  @Override
   public Date getRegistrationDate() {
     return registrationDate;
   }
@@ -144,7 +133,6 @@ class UserImpl implements User {
    *
    * @param registrationDate The registration date to set.
    */
-  @Override
   public void setRegistrationDate(Date registrationDate) {
     this.registrationDate = registrationDate;
   }
@@ -154,7 +142,6 @@ class UserImpl implements User {
    *
    * @return The role of the user.
    */
-  @Override
   public String getRole() {
     return role;
   }
@@ -164,7 +151,6 @@ class UserImpl implements User {
    *
    * @param role The role to set.
    */
-  @Override
   public void setRole(String role) {
     this.role = role;
   }
@@ -174,7 +160,6 @@ class UserImpl implements User {
    *
    * @return The ID of the user.
    */
-  @Override
   public int getId() {
     return id;
   }
@@ -184,7 +169,6 @@ class UserImpl implements User {
    *
    * @param id The ID to set.
    */
-  @Override
   public void setId(int id) {
     this.id = id;
   }
@@ -194,7 +178,6 @@ class UserImpl implements User {
    *
    * @return The current version number.
    */
-  @Override
   public int getVersionNumber() {
     return this.versionNumber;
   }
@@ -205,11 +188,9 @@ class UserImpl implements User {
    * @param versionNumber The version number to set.
    * @return The updated version number after setting.
    */
-  @Override
   public int setVersionNumber(int versionNumber) {
     return this.versionNumber = versionNumber;
   }
-
 
   /**
    * Check if the provided password matches the user's password.
@@ -218,7 +199,6 @@ class UserImpl implements User {
    *
    * @return True if the password matches, false otherwise.
    */
-  @Override
   public boolean checkPassword(String password) {
     return BCrypt.checkpw(password, this.password);
   }
@@ -230,7 +210,6 @@ class UserImpl implements User {
    *
    * @return A hashed representation of the provided password.
    */
-  @Override
   public String hashPassword(String password) {
     return BCrypt.hashpw(password, BCrypt.gensalt());
   }
@@ -240,7 +219,6 @@ class UserImpl implements User {
    *
    * @return true if the current user has teacher privileges, false otherwise
    */
-  @Override
   public boolean isTeacher() {
     return this.role.equals("Professeur");
   }
@@ -250,7 +228,6 @@ class UserImpl implements User {
    *
    * @return true if the current user has administrative privileges, false otherwise
    */
-  @Override
   public boolean isAdmin() {
     return this.role.equals("Administratif");
   }
@@ -261,7 +238,6 @@ class UserImpl implements User {
    * @param email The email address to be checked.
    * @return true if the email belongs to a Vinci member, false otherwise.
    */
-  @Override
   public boolean emailIsVinci(String email) {
     return email.endsWith("@vinci.be");
   }
@@ -272,18 +248,15 @@ class UserImpl implements User {
    * @param email The email address to be checked.
    * @return true if the email belongs to a student, false otherwise.
    */
-  @Override
   public boolean emailIsStudent(String email) {
     return email.endsWith("@student.vinci.be");
   }
-
 
   /**
    * Get a string representation of the UserImpl object.
    *
    * @return A string representation of the UserImpl object.
    */
-  @Override
   public String toString() {
     return "{login:" + email + ", password:" + password + "}";
   }

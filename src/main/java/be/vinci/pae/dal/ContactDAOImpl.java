@@ -194,7 +194,6 @@ public class ContactDAOImpl implements ContactDAO {
     return contacts;
   }
 
-
   /**
    * Inserts a new contact into the database.
    *
@@ -202,7 +201,6 @@ public class ContactDAOImpl implements ContactDAO {
    * @return The contact data after insertion.
    * @throws FatalException if an unrecoverable error occurs during database operation.
    */
-  @Override
   public ContactDTO insert(ContactDTO contactDTO) {
     try {
       String query = """
@@ -265,7 +263,7 @@ public class ContactDAOImpl implements ContactDAO {
    *
    * @param idCompany The ID of the company.
    * @return A ContactDTO list containing all the contacts
-   *of the company, or null if not found.
+   *    of the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
   public ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException {

@@ -10,7 +10,7 @@ import jakarta.inject.Inject;
 import java.util.List;
 
 /**
- * Implementation of the ViewCompanyUCC interface. Provides methods related to company operations.
+ * Implementation of the CompanyUCC interface. Provides methods related to company operations.
  */
 public class CompanyUCCImpl implements CompanyUCC {
 
@@ -25,7 +25,6 @@ public class CompanyUCCImpl implements CompanyUCC {
    * @param companyDTO The CompanyDTO object representing the company to be added.
    * @return The CompanyDTO object representing the added company with the assigned ID.
    */
-  @Override
   public CompanyDTO addCompany(CompanyDTO companyDTO) {
     dalServices.start();
     try {
@@ -42,7 +41,16 @@ public class CompanyUCCImpl implements CompanyUCC {
     }
   }
 
-  @Override
+  /**
+   * Blacklists the specified company with the given reason.
+   *
+   * @param companyDTO The CompanyDTO object representing the company to be blacklisted.
+   * @param reason     The reason for blacklisting the company.
+   * @return A CompanyDTO object representing the blacklisted company.
+   * @throws NotFoundException if the specified company is not found.
+   * @throws BusinessException if the reason field is null or if the company is already
+   *                           blacklisted.
+   */
   public CompanyDTO blackList(CompanyDTO companyDTO, String reason) {
     System.out.println("Contact " + companyDTO);
     dalServices.start();
@@ -82,14 +90,12 @@ public class CompanyUCCImpl implements CompanyUCC {
     }
   }
 
-
   /**
    * Retrieves a company by its ID.
    *
    * @param idCompany The ID of the company.
    * @return The company with the given ID.
    */
-  @Override
   public CompanyDTO getCompanyById(int idCompany) {
     dalServices.start();
     try {
@@ -103,13 +109,11 @@ public class CompanyUCCImpl implements CompanyUCC {
     return null;
   }
 
-
   /**
    * Retrieves a list of all companies.
    *
    * @return A list of CompanyDTO objects representing all the companies.
    */
-  @Override
   public List<CompanyDTO> getAllEnterprises() {
     dalServices.start();
     try {
@@ -124,14 +128,12 @@ public class CompanyUCCImpl implements CompanyUCC {
     }
   }
 
-
   /**
    * Retrieves the number of students taken by a company.
    *
    * @param idCompany The ID of the company.
    * @return The number of students taken by the company.
    */
-  @Override
   public int numberOfStudentsTaken(int idCompany) {
     dalServices.start();
     try {

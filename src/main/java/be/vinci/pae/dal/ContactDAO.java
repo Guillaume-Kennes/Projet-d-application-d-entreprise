@@ -43,7 +43,6 @@ public interface ContactDAO {
    */
   ArrayList<ContactDTO> getContactsByUserId(int id) throws SQLException;
 
-
   /**
    * Retrieves the list of contacts taken by a user identified by their ID.
    *
@@ -52,7 +51,6 @@ public interface ContactDAO {
    * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
   ArrayList<ContactDTO> getTakenContactsByUserId(int id) throws SQLException;
-
 
   /**
    * Inserts a new contact into the database.
@@ -63,18 +61,17 @@ public interface ContactDAO {
   ContactDTO insert(ContactDTO contactDTOToInsert);
 
   /**
-   * Method to retrieve all the contacts made to a company.
+   * Retrieves all contacts associated with the specified company ID.
    *
    * @param idCompany The ID of the company.
-   * @return A ContactDTO list containing all the contacts
-   *of the company, or null if not found.
-   * @throws FatalException if the company is not found in the database.
+   * @return An ArrayList of ContactDTO objects representing all contacts associated with the
+   *    company.
+   * @throws SQLException if an SQL exception occurs while retrieving the contacts.
    */
   ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException;
 
   /**
-   * Suspend the other contacts of a user
-   * once they got an internship.
+   * Suspend the other contacts of a user once they got an internship.
    *
    * @param contactDTO The contact DTO to update.
    * @throws FatalException if an SQL error occurs.

@@ -80,14 +80,12 @@ public interface InternshipDTO {
    */
   void setSignatureDate(Date date);
 
-
   /**
    * Returns the internship's version number.
    *
    * @return the internship's version number
    */
   int getVersionNumber();
-
 
   /**
    * Sets the internship's version number.

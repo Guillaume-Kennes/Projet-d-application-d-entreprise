@@ -29,7 +29,6 @@ public class BusinessException extends WebApplicationException {
     super(Response.status(Status.BAD_REQUEST).entity(message).type("text/plain").build());
   }
 
-
   /**
    * Constructs a new BusinessException with the specified error message and HTTP status.
    * This constructor creates a new BusinessException with the given error message and
