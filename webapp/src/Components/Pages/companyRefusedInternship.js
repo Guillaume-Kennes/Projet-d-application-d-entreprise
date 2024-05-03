@@ -45,10 +45,11 @@ async function refuseInternship(e, idContact) {
         if (!response.ok) {
             throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
         }
-        Navigate(`/contacts?contactId=${idContact}`);
     } catch (error) {
         console.error('Error setting refusal reason :', error);
     }
+
+    Navigate(`/contacts`);
 }
 
 function getIdContactFromUrl() {

@@ -74,10 +74,11 @@ async function stopFollowing(idContact) {
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
-    Navigate(`/contacts?contactId=${idContact}`);
   } catch (error) {
     console.error('Error stopping following the contact :', error);
   }
+
+  Navigate(`/contacts`);
 }
 
 async function getValues() {
