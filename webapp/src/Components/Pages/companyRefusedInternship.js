@@ -1,47 +1,60 @@
-import * as bootstrap from 'bootstrap';
 import { clearPage } from '../../utils/render';
+import {getToken} from "../../utils/user";
+import Navigate from "../Router/Navigate";
 
 const companyRefusedInternship = async () => {
     clearPage();
-    renderForm();
+    const idContact = getIdContactFromUrl();
+    showFormRefusal(idContact);
 };
 
-function renderForm() {
+function showFormRefusal(idContact) {
     const main = document.querySelector('main');
-    main.innerHTML +=
-        `
-        <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="contactModalLabel" style="color: black">Refus d'un stage</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                                <label for="contact-name" class="form-label" style="color: black">Nom de l'entreprise</label>
-                                <input type="text" class="form-control" id="contact-name">
-                            </div>
-                            <div class="mb-3">
-                                <label for="contact-reason" class="form-label" style="color: black">Quelles sont les raisons du refus de l'entreprise ?</label>
-                                <textarea class="form-control" id="contact-reason" rows="3"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                        <button type="button" class="btn btn-primary">Envoyer</button>
-                    </div>
-                </div>
-            </div>
+    main.innerHTML = `
+    <div class="container mt-5">
+      <h1>Formulaire de refus d'un contact</h1>
+      <form id="refusal-form">
+        <h3> Raisons du refus </h3>
+        <div class="form-group">
+          <label for="reason1">Raison :</label>
+            <input type="text" class="form-control" id="reason" name="reason" placeholder="Entrez la raison du refus" required>
         </div>
-    `
-
-
-    const myModal = new bootstrap.Modal(document.getElementById('contactModal'), {})
-    myModal.show();
+        <button type="submit" class="btn btn-primary mt-3">Envoyer</button>
+      </form>
+    </div>
+  `;
+    const form = document.getElementById('refusal-form');
+    form.addEventListener('submit', (e) => refuseInternship(e, idContact));
 }
 
+async function refuseInternship(e, idContact) {
+    e.preventDefault();
+    const reasonRefusal = document.querySelector('input[name="reason"]').value;
+    const token = getToken();
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+        },
+        body: JSON.stringify({ reasonRefusal }),
+    };
+
+    try {
+        const response = await fetch(`http://localhost:3000/contacts/companyrefused/${idContact}`, options);
+        if (!response.ok) {
+            throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error setting refusal reason :', error);
+    }
+
+    Navigate(`/contacts`);
+}
+
+function getIdContactFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('contactId');
+}
 
 export default companyRefusedInternship;
