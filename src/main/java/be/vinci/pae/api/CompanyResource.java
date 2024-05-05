@@ -45,7 +45,7 @@ public class CompanyResource {
   @GET
   @Path("/getEnterprises")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize(value = {"Professeur"})
+  @Authorize(value = {"Professeur", "Etudiant"})
   public List<CompanyDTO> getAllEnterprises() {
     return companyUCC.getAllEnterprises();
   }
