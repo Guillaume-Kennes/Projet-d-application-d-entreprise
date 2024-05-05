@@ -90,7 +90,6 @@ public class InternshipDAOImpl implements InternshipDAO {
     return internshipDTO;
   }
 
-
   /**
    * Inserts a new internship in the database.
    *
@@ -137,7 +136,6 @@ public class InternshipDAOImpl implements InternshipDAO {
    * @param internshipDTO The internship to update.
    * @throws FatalException if an SQL exception occurs while accessing the database.
    */
-  @Override
   public void update(InternshipDTO internshipDTO) {
     try {
       String query = """
@@ -179,7 +177,6 @@ public class InternshipDAOImpl implements InternshipDAO {
    * @return an internship corresponding to the specified id, or null if not found.
    * @throws FatalException if an SQL exception occurs while accessing the database.
    */
-  @Override
   public InternshipDTO getInternshipById(int internshipId) {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.internships i WHERE i.id_internship = ?"
@@ -204,7 +201,6 @@ public class InternshipDAOImpl implements InternshipDAO {
    * @return a list of all internships.
    * @throws FatalException if an SQL exception occurs while accessing the database.
    */
-  @Override
   public List<InternshipDTO> getAllInternships() {
     List<InternshipDTO> internshipsList = new ArrayList<>();
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(

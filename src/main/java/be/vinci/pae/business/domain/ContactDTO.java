@@ -106,7 +106,6 @@ public interface ContactDTO {
    */
   void setMeetingPlace(String meetingPlace);
 
-
   /**
    * Checks if the contact is in the taken state.
    *
@@ -121,7 +120,6 @@ public interface ContactDTO {
    */
   boolean stateIsInitiated();
 
-
   /**
    * Gets the user of the contact.
    *
@@ -135,7 +133,6 @@ public interface ContactDTO {
    * @param user the user of the contact.
    */
   void setUser(UserDTO user);
-
 
   /**
    * Returns the trade name associated with the contact.
@@ -166,5 +163,4 @@ public interface ContactDTO {
    * @param versionNumber Le numéro de version à définir pour l'entité.
    */
   void setVersionNumber(int versionNumber);
-
 }

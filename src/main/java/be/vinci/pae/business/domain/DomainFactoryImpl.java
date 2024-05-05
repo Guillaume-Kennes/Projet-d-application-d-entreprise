@@ -11,7 +11,6 @@ public class DomainFactoryImpl implements DomainFactory {
    *
    * @return A new UserDTO instance.
    */
-  @Override
   public UserDTO getUser() {
     return new UserImpl();
   }

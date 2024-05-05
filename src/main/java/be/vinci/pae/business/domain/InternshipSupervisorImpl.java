@@ -20,7 +20,6 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
   public InternshipSupervisorImpl() {
   }
 
-
   /**
    * Get the version number of the internship supervisor.
    *
@@ -146,5 +145,4 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
   public void setCompany(int company) {
     this.company = company;
   }
-
 }

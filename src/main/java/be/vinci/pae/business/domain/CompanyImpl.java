@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
- * Implementation class for the ViewCompany interface. This class provides implementations for
+ * Implementation class for the Company interface. This class provides implementations for
  * various company-related methods.
  */
 @JsonInclude(Include.USE_DEFAULTS)
@@ -28,13 +28,11 @@ public class CompanyImpl implements Company {
   public CompanyImpl() {
   }
 
-
   /**
    * Returns the unique identifier of the company.
    *
    * @return The unique identifier of the company.
    */
-  @Override
   public int getId() {
     return id;
   }
@@ -44,137 +42,132 @@ public class CompanyImpl implements Company {
    *
    * @param id The unique identifier to set.
    */
-  @Override
   public void setId(int id) {
     this.id = id;
   }
-
 
   /**
    * Returns the trade name of the company.
    *
    * @return The trade name of the company.
    */
-  @Override
   public String getTradeName() {
     return tradeName;
   }
-
 
   /**
    * Sets the trade name of the company.
    *
    * @param tradeName The trade name to set.
    */
-  @Override
   public void setTradeName(String tradeName) {
     this.tradeName = tradeName;
   }
-
 
   /**
    * Returns the designation of the company.
    *
    * @return The designation of the company.
    */
-  @Override
   public String getDesignation() {
     return designation;
   }
-
 
   /**
    * Sets the designation of the company.
    *
    * @param designation The designation to set.
    */
-  @Override
   public void setDesignation(String designation) {
     this.designation = designation;
   }
-
 
   /**
    * Returns the address of the company.
    *
    * @return The address of the company.
    */
-  @Override
   public String getAddress() {
     return address;
   }
-
 
   /**
    * Sets the address of the company.
    *
    * @param address The address to set.
    */
-  @Override
   public void setAddress(String address) {
     this.address = address;
   }
-
 
   /**
    * Returns the city of the company.
    *
    * @return The city of the company.
    */
-  @Override
   public String getCity() {
     return city;
   }
-
 
   /**
    * Sets the city of the company.
    *
    * @param city The city to set.
    */
-  @Override
   public void setCity(String city) {
     this.city = city;
   }
-
 
   /**
    * Returns the means of communication of the company.
    *
    * @return The means of communication of the company.
    */
-  @Override
   public String getMeansOfCommunication() {
     return meansOfCommunication;
   }
-
 
   /**
    * Sets the means of communication of the company.
    *
    * @param meansOfCommunication The means of communication to set.
    */
-  @Override
   public void setMeansOfCommunication(String meansOfCommunication) {
     this.meansOfCommunication = meansOfCommunication;
   }
 
-
-  @Override
+  /**
+   * Returns the motivation for blacklisting the company.
+   *
+   * @return The motivation for blacklisting the company.
+   */
   public String getMotivationBlackList() {
     return motivationBlackList;
   }
 
-  @Override
+  /**
+   * Sets the motivation for blacklisting the company.
+   *
+   * @param motivationBlackList The motivation to set.
+   */
   public void setMotivationBlackList(String motivationBlackList) {
     this.motivationBlackList = motivationBlackList;
   }
 
-
+  /**
+   * Returns the version number.
+   *
+   * @return The version number of the company.
+   */
   public int getVersionNumber() {
     return versionNumber;
   }
 
+  /**
+   * Sets the version number.
+   *
+   * @param versionNumber The version number to set.
+   */
   public void setVersionNumber(int versionNumber) {
     this.versionNumber = versionNumber;
   }
@@ -184,7 +177,6 @@ public class CompanyImpl implements Company {
    *
    * @return true if the company is blacklisted, false otherwise
    */
-  @Override
   public boolean getIsBlackListed() {
     return isBlackListed;
   }
@@ -194,17 +186,16 @@ public class CompanyImpl implements Company {
    *
    * @param isBlackListed true if the company is blacklisted, false otherwise
    */
-  @Override
   public void setIsBlackListed(boolean isBlackListed) {
     this.isBlackListed = isBlackListed;
   }
 
   /**
-   * Checks if the company is black listed. This method checks if the given company is black
-   * listed.
+   * Checks if the company is blacklisted. This method checks if the given company is
+   * blacklisted.
    *
    * @param company The company to check.
-   * @return true if the company is black listed, false otherwise.
+   * @return true if the company is blacklisted, false otherwise.
    */
   public boolean isBlackListed(CompanyDTO company) {
     return company.getIsBlackListed();
@@ -215,7 +206,6 @@ public class CompanyImpl implements Company {
    *
    * @return A string representation of the company.
    */
-  @Override
   public String toString() {
     return "CompanyImpl{"
         + "tradeName='" + tradeName + '\''

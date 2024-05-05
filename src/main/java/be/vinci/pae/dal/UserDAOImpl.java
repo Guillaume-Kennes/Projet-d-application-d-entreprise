@@ -32,28 +32,6 @@ public class UserDAOImpl implements UserDAO {
    * @throws FatalException if an SQL exception occurs while accessing the database.
    */
   public UserDTO getUserByEmail(String email) {
-
-    // PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-    //  "SELECT * FROM pae.users u WHERE u.email = ?");
-    //   try {
-    //     preparedStatement.setString(1, email);
-    //   } catch (SQLException e) {
-    //     throw new FatalException(e);
-    //   }
-    //
-    //   UserDTO user = myDomainFactory.getUser();
-    //   try (ResultSet resultSet = preparedStatement.executeQuery()) {
-    //
-    //     if (resultSet.next()) {
-    //       user = userInfos(resultSet);
-    //     } else {
-    //       user = null;
-    //     }
-    //
-    //   } catch (SQLException e) {
-    //     throw new FatalException(e);
-    //   }
-    // return user;
     try {
       String query = """
           SELECT *
@@ -156,7 +134,6 @@ public class UserDAOImpl implements UserDAO {
    * @return A UserDTO object representing the registered user, or null if registration fails.
    */
   public UserDTO register(UserDTO userDTO) {
-
     try {
       String query = "INSERT INTO pae.users (email, password, last_name, first_name, "
           + "phone_number, registration_date, role, version_users) "
@@ -222,7 +199,13 @@ public class UserDAOImpl implements UserDAO {
     return studentsWithInternships;
   }
 
-  @Override
+  /**
+   * Retrieves the number of students without an internship for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the number of students without
+   *                   an internship.
+   * @return The number of students without an internship for the specified school year.
+   */
   public int getStudentsWithoutInternship(String schoolYear) {
     int studentsWithoutInternships = 0;
     String query = "SELECT COUNT(*) "
@@ -252,7 +235,6 @@ public class UserDAOImpl implements UserDAO {
     }
     return studentsWithoutInternships;
   }
-
 
   /**
    * Updates a user's phone number in the database.

@@ -30,7 +30,6 @@ public interface InternshipDAO {
    */
   InternshipDTO internshipInfos(ResultSet resultSet);
 
-
   /**
    * Create an internship.
    *
@@ -64,6 +63,11 @@ public interface InternshipDAO {
    */
   List<InternshipDTO> getAllInternships();
 
+  /**
+   * Retrieves all school years.
+   *
+   * @return A list of all school years.
+   */
   List<String> getSchoolYears();
 
 }

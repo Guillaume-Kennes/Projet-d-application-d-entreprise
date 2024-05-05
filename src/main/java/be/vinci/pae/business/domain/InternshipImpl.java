@@ -113,7 +113,6 @@ public class InternshipImpl implements Internship {
     this.signatureDate = date;
   }
 
-
   /**
    * Get the version number of the internship.
    *
@@ -122,7 +121,6 @@ public class InternshipImpl implements Internship {
   public int getVersionNumber() {
     return versionNumber;
   }
-
 
   /**
    * Set the version number of the internship.

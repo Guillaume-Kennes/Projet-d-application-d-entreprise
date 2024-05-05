@@ -23,7 +23,7 @@ async function renderForm() {
             <div class="form-group">
                 <label for="responsable">Responsable</label>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Créer un stage</button>
         </form>
     </div>
     `;
@@ -61,7 +61,7 @@ async function allSupervisors() {
                 <td>${sup.firstName}</td>
                 <td>${sup.lastName}</td>
                 <td>${sup.phoneNumber}</td>
-                <td>${sup.email}</td>
+                <td>${sup.email ? sup.email : '/'}</td>
                 <td>${sup.company}</td>
             </tr>
             `);

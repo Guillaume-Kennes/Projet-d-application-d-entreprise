@@ -103,6 +103,11 @@ public class InternshipResource {
     return myinternshipUCC.createOrModifyAnInternship(internship, subject);
   }
 
+  /**
+   * Get all the school years.
+   *
+   * @return A list of String containing the school years.
+   */
   @GET
   @Path("/schoolYears")
   @Produces(MediaType.APPLICATION_JSON)
