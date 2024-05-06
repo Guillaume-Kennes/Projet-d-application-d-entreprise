@@ -47,7 +47,7 @@ public class ContactResource {
   @Path("/meet/{id_con}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(value = {"Etudiant"})
   public ContactDTO meetCompany(@PathParam("id_con") int idContact, JsonNode json) {
     ContactDTO contact = myContactUcc.getContactById(idContact);
     if (contact == null) {
@@ -75,7 +75,7 @@ public class ContactResource {
   @Path("/stop/{id_con}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(value = {"Etudiant"})
   public ContactDTO stopFollowing(@PathParam("id_con") int idContact) {
     ContactDTO contact = myContactUcc.getContactById(idContact);
     if (contact == null) {
@@ -97,7 +97,7 @@ public class ContactResource {
   @Path("/companyrefused/{id_con}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize
+  @Authorize(value = {"Etudiant"})
   public ContactDTO companyRefusedInternship(@PathParam("id_con") int idContact, JsonNode json) {
     ContactDTO contact = myContactUcc.getContactById(idContact);
     if (contact == null) {
