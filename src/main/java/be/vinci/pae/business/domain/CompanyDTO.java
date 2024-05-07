@@ -136,4 +136,8 @@ public interface CompanyDTO {
    * @param versionNumber Le numéro de version à définir pour l'entité.
    */
   void setVersionNumber(int versionNumber);
+
+  int getNumberOfStudents();
+
+  void setNumberOfStudents(int numberOfStudents);
 }

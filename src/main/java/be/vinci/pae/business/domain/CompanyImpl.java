@@ -18,6 +18,7 @@ public class CompanyImpl implements Company {
   private String meansOfCommunication;
   private boolean isBlackListed;
   private String motivationBlackList;
+  private int numberOfStudents;
   private int versionNumber;
 
   /**
@@ -199,6 +200,17 @@ public class CompanyImpl implements Company {
    */
   public boolean isBlackListed(CompanyDTO company) {
     return company.getIsBlackListed();
+  }
+
+
+  @Override
+  public int getNumberOfStudents() {
+    return numberOfStudents;
+  }
+
+  @Override
+  public void setNumberOfStudents(int numberOfStudents) {
+    this.numberOfStudents = numberOfStudents;
   }
 
   /**
