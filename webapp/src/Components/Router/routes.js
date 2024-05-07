@@ -15,8 +15,8 @@ import CreateAnIntershipPage from "../Pages/CreateAnInternshipPage"
 import viewAllSupervisors from '../Pages/AllSupervisorPage';
 import createSupervisor from '../Pages/CreateInternshipSupervisorPage'
 import modifySubject from '../Pages/AddOrModifyInternshipSubjectPage'
-
-
+import modifyPhonePage from "../Pages/modifyPhonePage";
+import newPasswordPage from "../Pages/newPasswordPage";
 
 const routes = {
   '/': HomePage,
@@ -36,6 +36,8 @@ const routes = {
   '/allSupervisors': viewAllSupervisors,
   '/createSupervisor': createSupervisor,
   '/modifySubject': modifySubject,
+  '/newPassword' : newPasswordPage,
+  '/modifyPhone' : modifyPhonePage,
 };
 
 export default routes;
