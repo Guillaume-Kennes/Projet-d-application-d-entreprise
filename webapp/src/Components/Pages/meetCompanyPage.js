@@ -61,11 +61,10 @@ async function createMeeting(e, idContact) {
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
+    Navigate(`/contacts`);
   } catch (error) {
     console.error('Error meeting company:', error);
   }
-
-  Navigate(`/contacts`);
 }
 
 function getIdContactFromUrl() {

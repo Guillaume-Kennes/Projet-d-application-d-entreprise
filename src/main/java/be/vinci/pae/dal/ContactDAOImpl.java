@@ -118,6 +118,7 @@ public class ContactDAOImpl implements ContactDAO {
         int correctVersion = 0; // faire executeQuery avec RETURNING
         if (rs.next()) {
           correctVersion = rs.getInt("version_contacts");
+          System.out.println("Version dans update : " + correctVersion);
         }
         if (correctVersion == 0) {
           if (getContactById(contactDTO.getId()) == null) {

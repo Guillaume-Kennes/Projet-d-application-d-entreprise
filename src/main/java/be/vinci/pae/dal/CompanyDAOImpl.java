@@ -200,6 +200,21 @@ public class CompanyDAOImpl implements CompanyDAO {
           WHERE id_enterprise = ? AND version_enterprises = ?
           RETURNING version_enterprises;
           """;
+/*
+      String query1 = """
+              UPDATE pae.contacts
+              SET state = ?,
+              enterprise = ?,
+              inscription_ue = ?,
+              reason_for_refusal = ?,
+              is_followed = ?,
+              meeting_place = ?,
+              version_contacts = version_contacts + 1
+              WHERE id_contact = ? AND version_contacts = ?
+              is_black_listed = true,
+              RETURNING version_contacts;
+          """;
+*/
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, companyDTO.getTradeName());
         ps.setString(2, companyDTO.getDesignation());

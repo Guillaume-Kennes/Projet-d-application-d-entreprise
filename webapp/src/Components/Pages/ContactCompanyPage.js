@@ -5,6 +5,7 @@ import {
 } from '../../utils/auths';
 import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
+import {getToken} from "../../utils/user";
 
 
 const ContactCompanyPage = () => {
@@ -45,6 +46,18 @@ function renderContactCompanyForm() {
   submit1.type = 'submit';
   submit1.className = 'btn btn-primary btn-block btn-light myButton';
   submit1.textContent = 'Envoyer';
+
+  const companiesDiv = document.createElement('div');
+  companiesDiv.id = 'companiesDiv';
+
+
+  let companies = [];
+
+// Fetch the list of companies when the page loads
+  window.addEventListener('load', async () => {
+    const response = await fetch('http://localhost:3000/companies/getEnterprises');
+    companies = await response.json();
+  });
 
 
 
@@ -100,6 +113,7 @@ function renderContactCompanyForm() {
   submit.textContent = 'Envoyer';
 
   form.appendChild(tradeName);
+  form.appendChild(companiesDiv);
   textCenterDiv1.appendChild(submit1);
   form.appendChild(textCenterDiv1);
   form.appendChild(a);
@@ -115,9 +129,38 @@ function renderContactCompanyForm() {
   form.addEventListener('submit', onAddCompany);
 
 
+
+  tradeName.addEventListener('input', async (event) => {
+    console.log('Input changed:', event.target.value);
+    const token = getToken();
+    // Fetch the list of companies when the input changes
+    const response = await fetch('http://localhost:3000/companies/getEnterprises', {
+      headers: {
+        Authorization: token
+      }
+    });
+    companies = await response.json();
+
+    // Filter the list of companies based on the input value
+    const searchTerm = event.target.value.toLowerCase();
+    const filteredCompanies = companies.filter(company => company.tradeName.toLowerCase().includes(searchTerm));
+
+    // Clear the current list
+    companiesDiv.innerHTML = '';
+
+    // Add the filtered companies to the companiesDiv
+    filteredCompanies.forEach(company => {
+      const p = document.createElement('p');
+      p.textContent = company.tradeName;
+      companiesDiv.appendChild(p);
+    });
+  });
+
+
+
   submit1.addEventListener('click', async (event) => {
     event.preventDefault();
-
+    const token = getToken();
     try {
       const tradeNameInput = document.getElementById('knownEnterpriseName');
       const enterpriseName = tradeNameInput.value.trim();
@@ -125,7 +168,8 @@ function renderContactCompanyForm() {
       const response = await fetch('http://localhost:3000/contacts/add', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: token
         },
         body: JSON.stringify({
           user: authenticatedUser?.user,
@@ -177,6 +221,7 @@ async function onAddCompany(e) {
   const address = document.querySelector('#unknownEnterpriseAddress').value;
   const city = document.querySelector('#unknownEnterpriseCity').value;
   const meansOfCommunication = document.querySelector('#unknownEnterprisePhoneNumber').value;
+  const token = getToken();
 
   const options = {
     method: 'POST',
@@ -189,6 +234,7 @@ async function onAddCompany(e) {
     }),
     headers: {
       'Content-Type': 'application/json',
+      Authorization: token
     },
   };
 
