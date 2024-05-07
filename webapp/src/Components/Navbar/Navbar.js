@@ -1,6 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 // import { Navbar as BootstrapNavbar } from 'bootstrap'; unused import (for the moment)
-import { getAuthenticatedUser, isAuthenticated, isProfessor } from '../../utils/auths';
+import {
+  getAuthenticatedUser,
+  isAdmin,
+  isAuthenticated,
+  isProfessor
+} from '../../utils/auths';
 
 const SITE_NAME = 'DevObs';
 
@@ -118,7 +123,7 @@ function renderNavbar() {
   const navbar = document.querySelector('#navbarWrapper');
 
   if (isAuthenticated()) {
-    if (isProfessor()) {
+    if (isProfessor() || isAdmin()) {
       navbar.innerHTML = professorNavbar;
     } else {
       navbar.innerHTML = authenticatedUserNavbar;

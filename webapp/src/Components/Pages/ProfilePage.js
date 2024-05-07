@@ -1,8 +1,9 @@
 import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
 import {getAuthenticatedUser} from "../../utils/auths";
-import {getToken} from "../../utils/user";
-import Navigate from '../Router/Navigate';
+
+import Navigate from "../Router/Navigate";
+
 
 const ProfilePage = async () => {
   clearPage();
@@ -69,10 +70,10 @@ function renderProfilePage(user) {
   }
 
   const passwordButton = document.getElementById('button_pw');
-  passwordButton.addEventListener("click", () => showFormPassword());
+  passwordButton.addEventListener("click", () => Navigate(`/newPassword`));
 
   const phoneNumberButton = document.getElementById('button_phone');
-  phoneNumberButton.addEventListener("click", () => showFormPhone());
+  phoneNumberButton.addEventListener("click", () => Navigate(`/modifyPhone`));
 
   console.log('internship id : ');
   console.log(user.internshipId);
@@ -103,106 +104,4 @@ async function getValues() {
   }
 }
 
-function showFormPassword() {
-  const main = document.querySelector('main');
-  main.innerHTML = `
-    <div class="container mt-5">
-      <h1>Formulaire de modification du mot de passe</h1>
-      <form id="password-form">
-        <h3> Ancien mot de passe </h3>
-        <div class="form-group">
-          <input type="text" class="form-control" id="ex_password" name="ex_password" placeholder="Entrez votre mot de passe actuel" required>
-        </div>
-        <h3> Nouveau mot de passe </h3>
-        <div class="form-group">
-          <input type="text" class="form-control" id="password" name="password" placeholder="Entrez le nouveau mot de passe" required>
-        </div>
-        <h3> Confirmation du nouveau mot de passe </h3>
-        <div class="form-group">
-          <input type="text" class="form-control" id="password2" name="password2" placeholder="Confirmez le nouveau mot de passe" required>
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Confirmer la modification</button>
-      </form>
-    </div>
-  `;
-
-  const form = document.getElementById('password-form');
-  form.addEventListener('submit', (e) => changePassword(e));
-}
-
-function showFormPhone() {
-  const main = document.querySelector('main');
-  main.innerHTML = `
-    <div class="container mt-5">
-      <h1>Modification du numéro de téléphone</h1>
-      <form id="phone-form">
-        <h3> Nouveau numéro de téléphone </h3>
-        <div class="form-group">
-          <input type="text" class="form-control" id="phone" name="phone" placeholder="Entrez le nouveau numéro" required>
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Confirmer la modification</button>
-      </form>
-    </div>
-  `;
-
-  const form = document.getElementById('phone-form');
-  form.addEventListener('submit', (e) => changePhoneNumber(e));
-}
-
-async function changePassword(e) {
-  e.preventDefault();
-
-  const password = document.querySelector('input[name="password"]').value;
-  const password2 = document.querySelector('input[name="password2"]').value;
-  if(password2 !== password) {
-    throw new Error('Error confirming the new password');
-  }
-
-  const token = getToken();
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token,
-    },
-    body: JSON.stringify({ password }),
-  };
-
-  const authenticatedUser = getAuthenticatedUser();
-  const id = authenticatedUser?.user?.id;
-  try {
-    const response = await fetch(`http://localhost:3000/users/editPassword/${id}`, options);
-    if (!response.ok) {
-      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
-    }
-  } catch (error) {
-    console.error('Error setting new password :', error);
-  }
-}
-
-async function changePhoneNumber(e) {
-  e.preventDefault();
-  const phone = document.querySelector('input[name="phone"]').value;
-  const token = getToken();
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token,
-    },
-    body: JSON.stringify({ phone }),
-  };
-
-  const authenticatedUser = getAuthenticatedUser();
-  const id = authenticatedUser?.user?.id;
-  try {
-    const response = await fetch(`http://localhost:3000/users/editPhoneNumber/${id}`, options);
-    console.log(phone);
-    if (!response.ok) {
-      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
-    }
-  } catch (error) {
-    console.error('Error setting new phone number :', error);
-  }
-}
 export default ProfilePage;
