@@ -141,14 +141,24 @@ public class ContactResource {
     HashMap<Integer, String> contactList = new HashMap<>();
 
     for (ContactDTO c : contacts) {
-      if (c.getCompany().getDesignation() == null) {
-        contactList.put(c.getId(), c.getCompany().getTradeName()
-            + " : dans l'état " + c.getState());
+      String output = "";
+
+      if (c.getState().equals("refusé")) {
+        String reasonForRefusal = c.getReasonForRefusal();
+
+        if (c.getCompany().getDesignation() == null) {
+          output = c.getCompany().getTradeName() + " : dans l'état refusé. Raison : " + reasonForRefusal;
+        } else {
+          output = c.getCompany().getTradeName() + " " + c.getCompany().getDesignation() + " : dans l'état refusé. Raison : " + reasonForRefusal;
+        }
       } else {
-        contactList.put(c.getId(), c.getCompany().getTradeName()
-            + " " + c.getCompany().getDesignation()
-            + " : dans l'état " + c.getState());
+        if (c.getCompany().getDesignation() == null) {
+          output = c.getCompany().getTradeName() + " : dans l'état " + c.getState();
+        } else {
+          output = c.getCompany().getTradeName() + " " + c.getCompany().getDesignation() + " : dans l'état " + c.getState();
+        }
       }
+      contactList.put(c.getId(), output);
     }
 
     response.putPOJO("contacts", contactList);

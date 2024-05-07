@@ -87,6 +87,11 @@ const isProfessor = () => {
   return prof === 'Professeur';
 };
 
+const isAdmin = () => {
+  const authenticatedUser = getAuthenticatedUser();
+  const admin = authenticatedUser?.user?.role;
+  return admin === 'Administratif';
+};
 
 export {
   getAuthenticatedUser,
@@ -96,5 +101,6 @@ export {
   getRememberMe,
   setRememberMe,
   refreshAuthenticatedUser,
-    isProfessor,
+  isProfessor,
+  isAdmin,
 };
