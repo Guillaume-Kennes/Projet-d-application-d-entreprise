@@ -6,8 +6,6 @@ import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.UserUCC;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -21,7 +19,6 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Resource class for managing contacts.
@@ -30,7 +27,6 @@ import java.util.HashMap;
 @Path("/contacts")
 public class ContactResource {
 
-  private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private ContactUCC myContactUcc;
   @Inject
@@ -127,42 +123,18 @@ public class ContactResource {
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Etudiant"})
-  public ObjectNode getContactsByUserId(@PathParam("id") int id) throws SQLException {
+  public ArrayList<ContactDTO> getContactsByUserId(@PathParam("id") int id) throws SQLException {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
       throw new IllegalArgumentException("User not found");
     }
 
-    ObjectNode response = jsonMapper.createObjectNode();
     ArrayList<ContactDTO> contacts = myContactUcc.getContactsByUserId(user.getId());
     if (contacts.isEmpty()) {
       return null;
     }
-    HashMap<Integer, String> contactList = new HashMap<>();
 
-    for (ContactDTO c : contacts) {
-      String output = "";
-
-      if (c.getState().equals("refusé")) {
-        String reasonForRefusal = c.getReasonForRefusal();
-
-        if (c.getCompany().getDesignation() == null) {
-          output = c.getCompany().getTradeName() + " : dans l'état refusé. Raison : " + reasonForRefusal;
-        } else {
-          output = c.getCompany().getTradeName() + " " + c.getCompany().getDesignation() + " : dans l'état refusé. Raison : " + reasonForRefusal;
-        }
-      } else {
-        if (c.getCompany().getDesignation() == null) {
-          output = c.getCompany().getTradeName() + " : dans l'état " + c.getState();
-        } else {
-          output = c.getCompany().getTradeName() + " " + c.getCompany().getDesignation() + " : dans l'état " + c.getState();
-        }
-      }
-      contactList.put(c.getId(), output);
-    }
-
-    response.putPOJO("contacts", contactList);
-    return response;
+    return contacts;
   }
 
   /**
