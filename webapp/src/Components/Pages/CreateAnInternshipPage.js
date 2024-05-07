@@ -114,6 +114,12 @@ async function saveInternship(e) {
     const urlParams = new URLSearchParams(window.location.search);
     const contactId = urlParams.get('contactId');
 
+    if (!date || !responsable) {
+        // Afficher le pop-up si la date ou le responsable est null
+        alert("Le champ Date et le Responsable sont obligatoires !");
+        return; // Arrêter l'exécution de la fonction
+    }
+
     console.log("sujet : ", sujet);
     console.log("date : ", date);
     console.log("responsable : ", responsable);

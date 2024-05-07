@@ -40,12 +40,12 @@ public class InternshipSupervisorResource {
 
     InternshipSupervisorDTO supervisor;
 
-    String firstName = json.get("firstName").asText();
+    String firstName = json.get("firstname").asText();
     System.out.println("prénom" + firstName);
-    String lastName = json.get("lastName").asText();
+    String lastName = json.get("name").asText();
     System.out.println("nom" + lastName);
 
-    String phoneNumber = json.get("phoneNumber").asText();
+    String phoneNumber = json.get("phone").asText();
     System.out.println("numéro de téléphone" + phoneNumber);
 
     int company = json.get("company").asInt();
