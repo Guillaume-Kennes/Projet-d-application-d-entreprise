@@ -10,52 +10,96 @@ import Navigate from '../Router/Navigate';
 const ContactsPage = async () => {
   clearPage();
   Navbar();
-  try {
-    const contacts = await getValues();
-    renderContactsPage(contacts);
-  } catch (error) {
-    console.error('Error fetching user data:', error);
-  }
+  await allContacts();
 };
 
-function renderContactsPage(contact) {
+async function allContacts() {
   const main = document.querySelector('main');
+  const authenticatedUser = getAuthenticatedUser();
+  console.log("CONTACTS --> authenticatedUser : ", authenticatedUser);
+  const id = authenticatedUser?.user?.id;
+  console.log("CONTACTS --> authenticatedUserId : ", id);
 
-  main.innerHTML = `<div class="fw-bold mb-n1">Vos contacts</div><ul id="contact"></ul>`;
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: getAuthenticatedUser().token,
+    },
+  };
 
-  const contactList = document.getElementById("contact");
-  if (contact.contacts && Object.keys(contact.contacts).length > 0) {
-    Object.entries(contact.contacts).forEach(([id, description]) => {
-      const listItem = document.createElement("li");
-      const contactText = document.createElement("span");
+  const response = await fetch(`http://localhost:3000/contacts/${id}`, options);
+  if (!response.ok) {
+    throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+  }
 
-      const button = document.createElement("button");
-      const button2 = document.createElement("button");
-      const button3 = document.createElement("button");
-      const button4 = document.createElement("button");
-      button.className = 'btn btn-primary btn-block btn-light myButton';
-      button2.className = 'btn btn-primary btn-block btn-light myButton';
-      button3.className = 'btn btn-primary btn-block btn-light myButton';
+  try {
+    const contacts = await response.json();
 
-      contactText.textContent = `${description}`;
-      button.textContent = "Indiquer que le contact est pris";
-      button.addEventListener("click", () => Navigate(`/meetCompany?contactId=${id}`));
-      button2.textContent = "Indiquer que le contact est refusé";
-      button2.addEventListener("click", () => Navigate(`/companyRefused?contactId=${id}`));
-      button3.textContent = "Arrêter de suivre le contact";
-      button3.addEventListener("click", () => stopFollowing(id));
-      button4.textContent = "Créer un stage";
-      button4.addEventListener("click", () => Navigate(`/createInternship?contactId=${id}`));
+    const renderContacts = (contacts1) => {
+      const contactRows = contacts1.map(contact => `
+          <tr>
+            <td>${contact.company.tradeName}</td>
+            ${contact.company.designation ? `<td>${contact.company.designation}</td>` : `<td>Aucune désignation</td>`}
+            <td>${contact.state}</td>
+            ${contact.reasonForRefusal ? `<td>${contact.reasonForRefusal}</td>` : `<td>Contact non-refusé</td>`}
+            ${contact.meetingPlace ? `<td>${contact.meetingPlace}</td>` : `<td>Contact pas encore pris</td>`}
+            <td><button class="takenButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est pris</button></td>
+            <td><button class="refusedButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est refusé</button></td>
+            <td><button class="unfollowedButton" data-contact-id = "${contact.id}"}">Ne plus suivre le contact</button></td>
+            <td><button class="internshipButton" data-company-id="${contact.company.id}"}">Créer un stage</button></td>
+          </tr>
+        `);
 
-      listItem.appendChild(contactText);
-      listItem.appendChild(button);
-      listItem.appendChild(button2);
-      listItem.appendChild(button3);
-      listItem.appendChild(button4);
-      contactList.appendChild(listItem);
+      main.innerHTML = `
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Nom de l'entreprise</th>
+                <th scope="col">Désignation de l'entreprise</th>
+                <th scope="col">Etat</th>
+                <th scope="col">Raison du refus</th>
+                <th scope="col">Lieu de rencontre</th>
+                <th scope="col">Indiquer une rencontre</th>
+                <th scope="col">Indiquer un refus</th>
+                <th scope="col">Abandonner un contact</th>
+                <th scope="col">Accepter un stage</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${contactRows.join('')}
+            </tbody>
+          </table>
+        `;
+    };
+
+    renderContacts(contacts);
+
+    document.querySelectorAll('.takenButton').forEach(button => {
+      const contactId = button.getAttribute('data-contact-id');
+      button.addEventListener("click", () => Navigate(`/meetCompany?contactId=${contactId}`));
     });
-  } else {
-    contactList.innerHTML = "<li>Aucun contact</li>";
+
+    document.querySelectorAll('.refusedButton').forEach(button => {
+      const contactId = button.getAttribute('data-contact-id');
+      button.addEventListener("click", () => Navigate(`/companyRefused?contactId=${contactId}`));
+    });
+
+    document.querySelectorAll('.unfollowedButton').forEach(button => {
+      const contactId = button.getAttribute('data-contact-id');
+      button.addEventListener('click', () => stopFollowing(contactId));
+    });
+
+    document.querySelectorAll('.internshipButton').forEach(button => {
+      const companyId = button.getAttribute('data-company-id');
+      button.addEventListener('click', () => Navigate(`/createInternship?companyId=${companyId}`));
+    });
+
+  } catch (error) {
+    console.log("Erreur");
+    alert(
+        'Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
+    console.error('Une erreur est survenue : ', error);
   }
 }
 
@@ -79,33 +123,6 @@ async function stopFollowing(idContact) {
   }
 
   Navigate(`/contacts`);
-}
-
-async function getValues() {
-  const authenticatedUser = getAuthenticatedUser();
-  console.log("CONTACTS --> authenticatedUser : ", authenticatedUser);
-  const id = authenticatedUser?.user?.id;
-  console.log("CONTACTS --> authenticatedUserId : ", id);
-
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: getAuthenticatedUser().token,
-    },
-  };
-  let contacts;
-  const response = await fetch(`http://localhost:3000/contacts/${id}`, options);
-  if (!response.ok) {
-    throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
-  } else {
-    const responseData = await response.text();
-    if (responseData.trim() === '') {
-      return { contacts: [] }; // Return an empty array if response body is empty
-    }
-    contacts = JSON.parse(responseData);
-    return contacts;
-  }
 }
 
 export default ContactsPage;
