@@ -51,6 +51,13 @@ async function saveSupervisor(e) {
   console.log("email : ", email);
   console.log("contactId :", contactId);
 
+   // Vérifier si les champs obligatoires sont vides
+   if (!name || !firstname || !phone) {
+    // eslint-disable-next-line no-alert
+    alert("les champs  !");
+    return;
+}
+
   const options = {
     method: 'POST',
     body: JSON.stringify({

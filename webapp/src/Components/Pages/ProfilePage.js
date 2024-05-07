@@ -2,6 +2,7 @@ import {clearPage} from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
 import {getAuthenticatedUser} from "../../utils/auths";
 import {getToken} from "../../utils/user";
+import Navigate from '../Router/Navigate';
 
 const ProfilePage = async () => {
   clearPage();
@@ -73,10 +74,12 @@ function renderProfilePage(user) {
   const phoneNumberButton = document.getElementById('button_phone');
   phoneNumberButton.addEventListener("click", () => showFormPhone());
 
+  console.log('internship id : ');
+  console.log(user.internshipId);
+
   const modifyButton = document.getElementById('button_subject');
-  modifyButton.addEventListener("click", () => {
-    window.location.href = "/modifySubject";
-  });
+  modifyButton.addEventListener("click", () => 
+    Navigate(`/modifySubject?internshipId=${user.internshipId}`));
 }
 
 async function getValues() {

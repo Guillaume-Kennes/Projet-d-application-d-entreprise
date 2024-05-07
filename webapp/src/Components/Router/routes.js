@@ -13,8 +13,8 @@ import DashBoardPage from "../Pages/DashBoardPage";
 import ContactsDetailsPage from "../Pages/ContactsDetailsPage";
 import CreateAnIntershipPage from "../Pages/CreateAnInternshipPage"
 import viewAllSupervisors from '../Pages/AllSupervisorPage';
-import createSupervisor from '../Pages/CreateInternshipSupervisorPage'
-import modifySubject from '../Pages/AddOrModifyInternshipSubjectPage'
+import createSupervisor from '../Pages/CreateInternshipSupervisorPage';
+import modifySubject from '../Pages/AddOrModifyInternshipSubjectPage';
 
 
 

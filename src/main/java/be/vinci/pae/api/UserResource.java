@@ -76,6 +76,7 @@ public class UserResource {
       InternshipSupervisorDTO supervisor =
           mySupervisorUcc.getInternshipSupervisorById(internship.getSupervisor());
 
+      response.put("internshipId", internship.getId());
       response.put("internshipTitle", internship.getProject());
       response.put("internshipCompany", company.getTradeName()
           + " " + company.getDesignation());

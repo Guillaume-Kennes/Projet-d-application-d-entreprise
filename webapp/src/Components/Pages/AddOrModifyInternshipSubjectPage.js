@@ -27,7 +27,10 @@ function renderForm() {
 async function saveModification(e) {
     e.preventDefault();
     const sujet = document.getElementById('sujet').value;
+    const urlParams = new URLSearchParams(window.location.search);
+    const internshipId = urlParams.get('internshipId');
     console.log('sujet : ', sujet);
+    console.log('internshipId : ', internshipId);
 
     const options = {
         method: 'POST',
@@ -39,10 +42,14 @@ async function saveModification(e) {
         },
     };
 
-    const response = await fetch(`http://localhost:3000/internship/createOrModify`,
+    const response = await fetch(`http://localhost:3000/internship/createOrModify/${internshipId}`,
         options);
 
-if(!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    if(response.ok) {
+        window.location.href = "/users";
+    } else {
+        throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
 }
 
 

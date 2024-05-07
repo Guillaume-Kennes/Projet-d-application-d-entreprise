@@ -42,6 +42,7 @@ public class InternshipSupervisorResource {
 
     String firstName = json.get("firstname").asText();
     System.out.println("prénom" + firstName);
+
     String lastName = json.get("name").asText();
     System.out.println("nom" + lastName);
 
