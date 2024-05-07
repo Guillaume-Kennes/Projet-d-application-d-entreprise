@@ -18,6 +18,7 @@ import modifySubject from '../Pages/AddOrModifyInternshipSubjectPage'
 import modifyPhonePage from "../Pages/modifyPhonePage";
 import newPasswordPage from "../Pages/newPasswordPage";
 
+
 const routes = {
   '/': HomePage,
   '/login': LoginPage,

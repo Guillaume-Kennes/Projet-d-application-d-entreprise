@@ -98,7 +98,7 @@ public class InternshipResource {
       throw new IllegalArgumentException("Request body is missing or not a valid JSON");
     }
 
-    String subject = json.get("projet").asText();
+    String subject = json.get("sujet").asText();
 
     return myinternshipUCC.createOrModifyAnInternship(internship, subject);
   }

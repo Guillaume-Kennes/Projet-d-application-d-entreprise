@@ -34,6 +34,9 @@ async function renderForm() {
     const form = document.getElementById('internship-form');
 
     form.addEventListener('submit', saveInternship);
+
+    const button = document.getElementById('CreateSupervisor');
+    button.addEventListener("click", () => Navigate(`/createSupervisor`));
 }
 
 async function allSupervisors() {
@@ -114,13 +117,17 @@ async function saveInternship(e) {
     const urlParams = new URLSearchParams(window.location.search);
     const contactId = urlParams.get('contactId');
 
+    if (!date || !responsable) {
+        // Afficher le pop-up si la date ou le responsable est null
+        // eslint-disable-next-line no-alert
+        alert("Le champ Date et le Responsable sont obligatoires !");
+        return; // Arrêter l'exécution de la fonction
+    }
+
     console.log("sujet : ", sujet);
     console.log("date : ", date);
     console.log("responsable : ", responsable);
     console.log("contactId : ", contactId);
-    const button = document.getElementById('CreateSupervisor');
-    button.addEventListener("click", () => Navigate(`/createSupervisor?contactId=${contactId}`));
-    
 
     const options = {
         method: 'POST',
