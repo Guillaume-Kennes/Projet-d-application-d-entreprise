@@ -2,13 +2,12 @@
 import {
   setAuthenticatedUser,
 } from '../../utils/auths';
-import { clearPage, renderPageTitle } from '../../utils/render';
+import { clearPage } from '../../utils/render';
 import Navbar from '../Navbar/Navbar';
 import Navigate from '../Router/Navigate';
 
 const RegisterPage = () => {
   clearPage();
-  renderPageTitle('Register');
   renderRegisterForm();
 };
 

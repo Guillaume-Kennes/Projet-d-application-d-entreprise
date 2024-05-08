@@ -24,8 +24,7 @@ public class CompanyDAOImpl implements CompanyDAO {
   /**
    * Inserts a new item in the system.
    *
-   * @param companyDTO ItemDTO object containing the information of the item to be
-   *                           inserted.
+   * @param companyDTO ItemDTO object containing the information of the item to be inserted.
    * @return int of the object created
    */
   public CompanyDTO insert(CompanyDTO companyDTO) {
@@ -47,7 +46,11 @@ public class CompanyDAOImpl implements CompanyDAO {
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
 
         ps.setString(1, companyDTO.getTradeName());
-        ps.setString(2, companyDTO.getDesignation());
+        if (companyDTO.getDesignation() != null && !companyDTO.getDesignation().isEmpty()) {
+          ps.setString(2, companyDTO.getDesignation());
+        } else {
+          ps.setNull(2, java.sql.Types.VARCHAR);
+        }
         ps.setString(3, companyDTO.getAddress());
         ps.setString(4, companyDTO.getCity()); // city
         ps.setString(5, companyDTO.getMeansOfCommunication());
