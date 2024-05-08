@@ -47,7 +47,7 @@ async function allContacts() {
             <td><button class="btn btn-outline-dark takenButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est pris</button></td>
             <td><button class="btn btn-outline-dark refusedButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est refusé</button></td>
             <td><button class="btn btn-outline-dark unfollowedButton" data-contact-id = "${contact.id}"}">Ne plus suivre le contact</button></td>
-            <td><button class="btn btn-outline-dark internshipButton" data-company-id="${contact.company.id}"}">Créer un stage</button></td>
+            <td><button class="btn btn-outline-dark internshipButton" data-company-id="${contact.company.id}" data-contact-id = "${contact.id}"}">Créer un stage</button></td>
           </tr>
         `);
 
@@ -92,11 +92,12 @@ async function allContacts() {
 
     document.querySelectorAll('.internshipButton').forEach(button => {
       const companyId = button.getAttribute('data-company-id');
+      const contactId = button.getAttribute('data-contact-id');
 
       console.log("company id fnkhiozb : ", companyId);
+      console.log("contact id fieozhgfoze : ", contactId);
 
-
-      button.addEventListener('click', () => Navigate(`/createInternship?companyId=${companyId}`));
+      button.addEventListener('click', () => Navigate(`/createInternship?companyId=${companyId}&contactId=${contactId}`));
     });
 
     

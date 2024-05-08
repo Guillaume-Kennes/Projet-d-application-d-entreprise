@@ -32,10 +32,8 @@ async function saveModification(e) {
     console.log('sujet : ', sujet);
     console.log('internshipId : ', internshipId);
 
-    // Vérifiez si le stage existe
-    const checkResponse = await fetch(`http://localhost:3000/internship/${internshipId}`);
-    if (!checkResponse.ok) {
-        alert("Le stage n'existe pas !");
+    if(!internshipId) {
+        alert("Le stage n'existe pas");
         return;
     }
 
