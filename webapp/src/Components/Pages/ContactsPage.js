@@ -44,10 +44,10 @@ async function allContacts() {
             <td>${contact.state}</td>
             ${contact.reasonForRefusal ? `<td>${contact.reasonForRefusal}</td>` : `<td>Contact non-refusé</td>`}
             ${contact.meetingPlace ? `<td>${contact.meetingPlace}</td>` : `<td>Contact pas encore pris</td>`}
-            <td><button class="takenButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est pris</button></td>
-            <td><button class="refusedButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est refusé</button></td>
-            <td><button class="unfollowedButton" data-contact-id = "${contact.id}"}">Ne plus suivre le contact</button></td>
-            <td><button class="internshipButton" data-company-id="${contact.company.id}" data-contact-id = "${contact.id}"}">Créer un stage</button></td>
+            <td><button class="btn btn-outline-dark takenButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est pris</button></td>
+            <td><button class="btn btn-outline-dark refusedButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est refusé</button></td>
+            <td><button class="btn btn-outline-dark unfollowedButton" data-contact-id = "${contact.id}"}">Ne plus suivre le contact</button></td>
+            <td><button class="btn btn-outline-dark internshipButton" data-company-id="${contact.company.id}" data-contact-id = "${contact.id}"}">Créer un stage</button></td>
           </tr>
         `);
 

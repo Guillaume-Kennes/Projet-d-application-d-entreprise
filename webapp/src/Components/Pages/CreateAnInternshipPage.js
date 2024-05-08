@@ -35,8 +35,7 @@ async function renderForm() {
     </div>
     `;
 
-    const supervisorsTable = await allSupervisors();
-    main.innerHTML += supervisorsTable
+    await allSupervisors();
 
     const form = document.getElementById('internship-form');
 
