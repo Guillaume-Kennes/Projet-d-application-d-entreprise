@@ -112,26 +112,26 @@ public interface InternshipSupervisorDTO {
    *
    * @return the trade name of the supervisor's company
    */
-  public String getTradeName();
+  String getTradeName();
 
   /**
    * Sets the trade name of the supervisor's company.
    *
    * @param tradeName the trade name to set
    */
-  public void setTradeName(String tradeName);
+  void setTradeName(String tradeName);
 
   /**
    * Returns the designation of the supervisor.
    *
    * @return the designation of the supervisor
    */
-  public String getDesignation();
+  String getDesignation();
 
   /**
    * Sets the designation of the supervisor.
    *
    * @param designation the designation to set
    */
-  public void setDesignation(String designation);
+  void setDesignation(String designation);
 }
