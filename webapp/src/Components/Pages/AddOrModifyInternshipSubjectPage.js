@@ -49,7 +49,8 @@ async function saveModification(e) {
         },
     };
 
-    const response = await fetch(`http://localhost:3000/internship/createOrModify/${internshipId}`,
+    try {
+        const response = await fetch(`http://localhost:3000/internship/createOrModify/${internshipId}`,
         options);
 
     if(response.ok) {
@@ -57,7 +58,10 @@ async function saveModification(e) {
     } else {
         throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
-       
+    } catch (error) {
+        alert("Le stage n'existe pas !");
+        console.log(error);
+    }  
 }
 
 
