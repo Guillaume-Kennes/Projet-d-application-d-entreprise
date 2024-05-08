@@ -14,6 +14,9 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
   private int company;
   private int versionNumber;
 
+  private String tradeName;
+  private String designation;
+
   /**
    * Default constructor for InternshipSupervisorImpl.
    */
@@ -144,5 +147,21 @@ public class InternshipSupervisorImpl implements InternshipSupervisor {
    */
   public void setCompany(int company) {
     this.company = company;
+  }
+
+  public String getTradeName() {
+    return tradeName;
+  }
+
+  public void setTradeName(String tradeName) {
+    this.tradeName = tradeName;
+  }
+
+  public String getDesignation() {
+    return designation;
+  }
+
+  public void setDesignation(String designation) {
+    this.designation = designation;
   }
 }

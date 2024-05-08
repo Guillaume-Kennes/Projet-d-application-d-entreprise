@@ -49,7 +49,7 @@ public class InternshipSupervisorResource {
     String phoneNumber = json.get("phone").asText();
     System.out.println("numéro de téléphone" + phoneNumber);
 
-    int company = json.get("company").asInt();
+    int company = json.get("companyId").asInt();
     System.out.println("entreprise" + company);
 
     JsonNode emailNode = json.get("email");

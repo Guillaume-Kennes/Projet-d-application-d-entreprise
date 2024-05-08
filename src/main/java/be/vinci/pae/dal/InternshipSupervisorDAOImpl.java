@@ -128,7 +128,9 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
   public List<InternshipSupervisorDTO> getAllInternshipSupervisors() {
     List<InternshipSupervisorDTO> supervisorsList = new ArrayList<>();
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.internship_supervisors");
+        "SELECT internship_supervisors.*, enterprises.trade_name, enterprises.designation "
+            + "FROM pae.internship_supervisors JOIN pae.enterprises "
+            + "ON internship_supervisors.enterprise = enterprises.id_enterprise");
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
         InternshipSupervisorDTO supervisor = myDomainFactory.getInternshipSupervisor();
@@ -139,6 +141,9 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
         supervisor.setLastName(resultSet.getString("supervisor_last_name"));
         supervisor.setVersionNumber(resultSet.getInt("version_internship_surpervisors"));
         supervisor.setCompany(resultSet.getInt("enterprise"));
+
+        supervisor.setTradeName(resultSet.getString("trade_name"));
+        supervisor.setDesignation(resultSet.getString("designation"));
         supervisorsList.add(supervisor);
       }
     } catch (SQLException e) {
