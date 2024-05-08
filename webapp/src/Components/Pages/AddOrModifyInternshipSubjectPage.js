@@ -32,6 +32,13 @@ async function saveModification(e) {
     console.log('sujet : ', sujet);
     console.log('internshipId : ', internshipId);
 
+    // Vérifiez si le stage existe
+    const checkResponse = await fetch(`http://localhost:3000/internship/${internshipId}`);
+    if (!checkResponse.ok) {
+        alert("Le stage n'existe pas !");
+        return;
+    }
+
     const options = {
         method: 'POST',
         body: JSON.stringify({
@@ -50,14 +57,8 @@ async function saveModification(e) {
     } else {
         throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
+       
 }
-
-
-
-
-
-
-
 
 
 export default modifySubject;

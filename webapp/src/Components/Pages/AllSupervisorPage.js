@@ -30,7 +30,8 @@ async function allSupervisors() {
                 <td>${sup.lastName}</td>
                 <td>${sup.phoneNumber}</td>
                 <td>${sup.email}</td>
-                <td>${sup.company}</td>
+                <td>${sup.tradeName}</td>
+                <td>${sup.designation}</td>
             </tr>
             `);
 
