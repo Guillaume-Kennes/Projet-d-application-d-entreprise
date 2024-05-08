@@ -2,6 +2,7 @@ import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels';
 import {clearPage} from "../../utils/render";
 import {getToken} from "../../utils/user";
+import Navigate from '../Router/Navigate';
 
 let isRender = false;
 
@@ -141,7 +142,7 @@ async function allCompanies() {
               <th scope ="col">Appelation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
               <th scope="col">Numéro de téléphone <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
               <th scope="col">Nombre d'étudiants pris en stage <button class="sort-button" data-column="numberOfStudents" value="numberOfStudents">&#x25BC;</button><button class="sort-button" data-column="numberOfStudents" value="-numberOfStudents">&#x25B2;</button></th>
-              <th scope="col">Black listée <button class="sort-button" data-column="blackListed" value="blackListed">&#x25BC;</button><button class="sort-button" data-column="blackListed" value="-blackListed">&#x25B2;</button></th>
+              <th scope="col">Black listée <button class="sort-button" data-column="isBlackListed" value="isBlackListed">&#x25BC;</button><button class="sort-button" data-column="isBlackListed" value="-isBlackListed">&#x25B2;</button></th>
               <th scope="col"> </th>
               <th scope="col">Voir contacts passés</th>
             </tr>
@@ -158,15 +159,17 @@ async function allCompanies() {
 async function setCompanyRow(companies) {
   const body = document.querySelector('tbody');
   companies.forEach(company => {
+    console.log(company);
+    console.log(company.isBlackListed);
     body.innerHTML += `
       <tr>
         <td>${company.tradeName}</td>
         <td>${company.designation || '/'}</td>
         <td>${company.meansOfCommunication || ''}</td>
         <td>${'0' || '0'}</td>
-        <td>${company.blackListed ? 'Oui' : 'Non'}</td>
-        <td><button data-company-id="${company.id}" class="btn btn-primary btn-block btn-light myButton">Blacklister l'entreprise</button></td>
-        <td><button class="contactsButton" data-company-id="${company.id}">Contacts</button></td>
+        <td>${company.isBlackListed ? 'Oui' : 'Non'}</td>
+        <td>${company.isBlackListed ? '' : `<button data-company-id="${company.id}" class="btn btn-outline-dark myButton">Blacklister l'entreprise</button>`}</td>
+        <td><button class="btn btn-outline-dark contactsButton" data-company-id="${company.id}">Contacts</button></td>
       </tr>
     `;
   });
@@ -552,6 +555,7 @@ async function blacklistCompany(e, idCompany) {
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
+    Navigate('/dashboard');
   } catch (error) {
     console.error('Error setting refusal reason :', error);
   }

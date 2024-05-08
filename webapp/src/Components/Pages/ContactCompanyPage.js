@@ -151,7 +151,17 @@ function renderContactCompanyForm() {
     // Add the filtered companies to the companiesDiv
     filteredCompanies.forEach(company => {
       const p = document.createElement('p');
-      p.textContent = company.tradeName;
+      if (company.designation) {
+        // If it does, display both the trade name and the designation
+        p.textContent = `${company.tradeName} : ${company.designation}`;
+      } else {
+        // If it doesn't, just display the trade name
+        p.textContent = company.tradeName;
+      }
+      if (company.isBlackListed) {
+        // If it is, append a notification to the text content
+        p.textContent += ' (Cette entreprise est blacklistée)';
+      }
       companiesDiv.appendChild(p);
     });
   });
