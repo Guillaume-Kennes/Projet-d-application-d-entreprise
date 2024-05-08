@@ -1,5 +1,5 @@
-
 import { clearPage } from '../../utils/render';
+import Navigate from '../Router/Navigate';
 
 const createSupervisor = async () => {
   clearPage();
@@ -43,18 +43,20 @@ async function saveSupervisor(e) {
   const firstname = document.getElementById('firstname').value;
   const phone = document.getElementById('phone').value;
   const email = document.getElementById('email').value;
+
   const urlParams = new URLSearchParams(window.location.search);
-  const contactId = urlParams.get('contactId');
+  const companyId = urlParams.get('companyId');
+
   console.log("name : ", name);
   console.log("firstname : ", firstname);
   console.log("phone : ", phone);
   console.log("email : ", email);
-  console.log("contactId :", contactId);
+  console.log("companyId :", companyId);
 
    // Vérifier si les champs obligatoires sont vides
    if (!name || !firstname || !phone) {
     // eslint-disable-next-line no-alert
-    alert("les champs  !");
+    alert("Tous les champs obligatoires doivent être remplis !");
     return;
 }
 
@@ -65,17 +67,27 @@ async function saveSupervisor(e) {
       firstname,
       phone,
       email,
-      contactId,
+      companyId,
     }),
     headers: {
       'Content-Type': 'application/json',
     },
   };
 
-  const response = await fetch(`http://localhost:3000/internshipSupervisor/create`,
-    options);
+  try {
+    const response = await fetch(`http://localhost:3000/internshipSupervisor/create`, options);
 
-  if(!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    if(response.ok) {
+      // Redirection vers "/createInternship" après un envoi réussi
+      Navigate("/createInternship");
+    } else {
+      throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
+  } catch (error) {
+    // Affichage d'un message d'erreur dans un pop-up en cas d'échec
+    alert("Une erreur est survenue lors de la création du superviseur !");
+    console.error("Erreur :", error);
+  }
 }
 
 export default createSupervisor;
