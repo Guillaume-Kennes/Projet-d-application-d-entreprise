@@ -8,6 +8,11 @@ const internship = async () => {
 
 async function renderForm() {
     const main = document.querySelector('main');
+    const urlParam = new URLSearchParams(window.location.search);
+    const companyId = urlParam.get('companyId');
+
+    console.log('companyId : ', companyId);
+
     main.innerHTML += 
     `
     <div class="container">
@@ -24,6 +29,8 @@ async function renderForm() {
                 <label for="responsable">Responsable</label>
             </div>
             <button type="submit" class="btn btn-primary">Créer un stage</button>
+
+            <button type="submit" class="btn btn-primary" id="CreateSupervisor">Créer un maître de stage</button>
         </form>
     </div>
     `;
@@ -36,11 +43,12 @@ async function renderForm() {
     form.addEventListener('submit', saveInternship);
 
     const button = document.getElementById('CreateSupervisor');
-    button.addEventListener("click", () => Navigate(`/createSupervisor`));
+    button.addEventListener("click", () => Navigate(`/createSupervisor?companyId=${companyId}`));
 }
 
 async function allSupervisors() {
     const main = document.querySelector('main');
+    let supervisorsTableHTML = '';
 
     const options = {
         method: 'GET',
@@ -65,11 +73,12 @@ async function allSupervisors() {
                 <td>${sup.lastName}</td>
                 <td>${sup.phoneNumber}</td>
                 <td>${sup.email ? sup.email : '/'}</td>
-                <td>${sup.company}</td>
+                <td>${sup.tradeName}</td>
+                <td>${sup.designation}</td>
             </tr>
             `);
 
-            main.innerHTML += `
+            supervisorsTableHTML += `
             <table class="table table-bordered">
             <thead>
                 <tr>
@@ -78,20 +87,22 @@ async function allSupervisors() {
                     <th>Nom</th>
                     <th>Téléphone</th>
                     <th>Email</th>
-                    <th>Entreprise</th>
+                    <th>TradeName</th>
+                    <th>Designation</th>
                 </tr>
             </thead>
             <tbody>
                 ${supervisorRows.join('')}
             </tbody>
             </table>
-            <button type="submit" class="btn btn-primary" id="CreateSupervisor">Créer un maître de stage</button>
             <br>
             `;
 
         };
         // Appeler la fonction renderSupervisors avec les superviseurs obtenus
         renderSupervisors(supervisors);
+
+        main.innerHTML += supervisorsTableHTML;
     } catch (error) {
         console.log("Erreur");
         console.error('Une erreur est survenue : ', error);
@@ -116,6 +127,7 @@ async function saveInternship(e) {
     const responsable = selectedSupervisorId;
     const urlParams = new URLSearchParams(window.location.search);
     const contactId = urlParams.get('contactId');
+    
 
     if (!date || !responsable) {
         // Afficher le pop-up si la date ou le responsable est null

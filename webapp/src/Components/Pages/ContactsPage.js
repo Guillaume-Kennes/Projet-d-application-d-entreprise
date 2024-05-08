@@ -92,8 +92,14 @@ async function allContacts() {
 
     document.querySelectorAll('.internshipButton').forEach(button => {
       const companyId = button.getAttribute('data-company-id');
+
+      console.log("company id fnkhiozb : ", companyId);
+
+
       button.addEventListener('click', () => Navigate(`/createInternship?companyId=${companyId}`));
     });
+
+    
 
   } catch (error) {
     console.log("Erreur");
