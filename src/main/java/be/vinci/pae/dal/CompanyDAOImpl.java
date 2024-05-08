@@ -24,8 +24,7 @@ public class CompanyDAOImpl implements CompanyDAO {
   /**
    * Inserts a new item in the system.
    *
-   * @param companyDTO ItemDTO object containing the information of the item to be
-   *                           inserted.
+   * @param companyDTO ItemDTO object containing the information of the item to be inserted.
    * @return int of the object created
    */
   public CompanyDTO insert(CompanyDTO companyDTO) {
@@ -47,7 +46,11 @@ public class CompanyDAOImpl implements CompanyDAO {
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
 
         ps.setString(1, companyDTO.getTradeName());
-        ps.setString(2, companyDTO.getDesignation());
+        if (companyDTO.getDesignation() != null && !companyDTO.getDesignation().isEmpty()) {
+          ps.setString(2, companyDTO.getDesignation());
+        } else {
+          ps.setNull(2, java.sql.Types.VARCHAR);
+        }
         ps.setString(3, companyDTO.getAddress());
         ps.setString(4, companyDTO.getCity()); // city
         ps.setString(5, companyDTO.getMeansOfCommunication());
@@ -138,11 +141,26 @@ public class CompanyDAOImpl implements CompanyDAO {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.enterprises ORDER BY trade_name, designation");
+        "SELECT e.id_enterprise, e.trade_name, "
+            + "e.designation, e.address, e.city, "
+            + "e.means_of_communication, e.is_black_listed, "
+            + "e.motivation_black_list, e.version_enterprises, "
+            + "COUNT(DISTINCT i.id_internship) AS number_of_students_taken "
+            + "FROM pae.enterprises e LEFT JOIN "
+            + "pae.internship_supervisors s ON e.id_enterprise = s.enterprise "
+            + "LEFT JOIN pae.internships i ON s.id_supervisor = i.internship_supervisor "
+            + "LEFT JOIN pae.contacts c ON i.contact = c.id_contact "
+            + "LEFT JOIN pae.inscriptions_ue u ON c.inscription_ue = u.id_inscription_ue "
+            + "GROUP BY "
+            + "e.id_enterprise, e.trade_name, e.designation, "
+            + "e.address, e.city, e.means_of_communication, "
+            + "e.is_black_listed, e.motivation_black_list "
+            + "ORDER BY e.trade_name, e.designation;");
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       while (resultSet.next()) {
-
+        int numberOfStudents = resultSet.getInt("number_of_students_taken");
         CompanyDTO companyDTO = companyInfos(resultSet);
+        companyDTO.setNumberOfStudents(numberOfStudents);
         enterprisesList.add(companyDTO);
       }
     } catch (SQLException e) {

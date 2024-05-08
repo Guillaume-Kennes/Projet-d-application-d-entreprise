@@ -35,12 +35,12 @@ async function allUsers() {
             <td>${user.firstName}</td>
             <td>${user.phoneNumber}</td>
             <td>${user.role}</td>
-            ${user.role === "Etudiant" ? `<td><button class="profileButton" data-user-id="${user.id}">Voir profil</button></td>` : `<td></td>`}
+            ${user.role === "Etudiant" ? `<td><button class="btn btn-outline-dark profileButton" data-user-id="${user.id}">Voir profil</button></td>` : `<td></td>`}
           </tr>
         `);
 
       main.innerHTML = `
-          <button id="filterButton">Afficher uniquement les étudiants</button>
+          <button class="btn btn-outline-light" id="filterButton">Afficher uniquement les étudiants</button>
           <table class="table table-bordered">
             <thead>
               <tr>
