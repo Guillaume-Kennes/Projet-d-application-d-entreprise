@@ -106,4 +106,32 @@ public interface InternshipSupervisorDTO {
    * @param versionNumber the version number to set
    */
   void setVersionNumber(int versionNumber);
+
+  /**
+   * Returns the trade name of the supervisor's company.
+   *
+   * @return the trade name of the supervisor's company
+   */
+  String getTradeName();
+
+  /**
+   * Sets the trade name of the supervisor's company.
+   *
+   * @param tradeName the trade name to set
+   */
+  void setTradeName(String tradeName);
+
+  /**
+   * Returns the designation of the supervisor.
+   *
+   * @return the designation of the supervisor
+   */
+  String getDesignation();
+
+  /**
+   * Sets the designation of the supervisor.
+   *
+   * @param designation the designation to set
+   */
+  void setDesignation(String designation);
 }
