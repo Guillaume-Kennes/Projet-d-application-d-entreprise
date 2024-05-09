@@ -142,7 +142,7 @@ async function setCompanyRow(companies) {
   });
   document.querySelectorAll('.contactsButton').forEach(button => {
     const companyId = button.getAttribute('data-company-id');
-    button.addEventListener('click', (e) => showContacts(e, parseInt(companyId, 10)));
+    button.addEventListener('click', () => Navigate(`/contactsCompany?companyId=${companyId}`));
   });
 }
 
@@ -159,45 +159,6 @@ async function setCompanyRow(companies) {
 //   console.log("INTERNSHIPS MAP : ", internshipMap);
 //   return internshipMap;
 // }
-
-async function showContacts(e, id) {
-  e.preventDefault();
-  const token = getToken();
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token,
-    },
-  };
-  let contacts;
-  const response = await fetch(`http://localhost:3000/companies/${id}`, options);
-  if (!response.ok) {
-    throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
-  }else{
-    contacts = await response.json();
-    displayContacts(contacts);
-  }
-}
-
-function displayContacts(contacts) {
-  const main = document.querySelector('main');
-
-  main.innerHTML =
-      `<div class="fw-bold mb-n1">Contacts passés</div>
-            <ul id="contactsList"></ul>`;
-
-  const contactsList = document.getElementById("contactsList");
-  if (contacts && contacts.length > 0) {
-    contacts.forEach(contact => {
-      const listItem = document.createElement("li");
-      listItem.textContent = contact;
-      contactsList.appendChild(listItem);
-    });
-  } else {
-    contactsList.innerHTML = "<li>Aucun contact avec cette entreprise</li>";
-  }
-}
 
 async function fetchStudentsWithInternship(schoolYear) {
   const token = getToken();

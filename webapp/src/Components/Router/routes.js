@@ -11,13 +11,14 @@ import ViewCompanies from "../Pages/ViewCompanies";
 import ContactCompanyPage from "../Pages/ContactCompanyPage";
 import DashBoardPage from "../Pages/DashBoardPage";
 import ContactsDetailsPage from "../Pages/ContactsDetailsPage";
-import CreateAnIntershipPage from "../Pages/CreateAnInternshipPage"
+import CreateAnInternshipPage from "../Pages/CreateAnInternshipPage"
 import viewAllSupervisors from '../Pages/AllSupervisorPage';
 import createSupervisor from '../Pages/CreateInternshipSupervisorPage'
 import modifySubject from '../Pages/AddOrModifyInternshipSubjectPage'
 import modifyPhonePage from "../Pages/modifyPhonePage";
 import newPasswordPage from "../Pages/newPasswordPage";
 import StudentProfilePage from "../Pages/StudentProfilePage";
+import CompanyContactsPage from "../Pages/CompanyContactsPage";
 
 
 const routes = {
@@ -34,13 +35,14 @@ const routes = {
   '/contact': ContactCompanyPage,
   '/dashboard': DashBoardPage,
   '/contactsDetails': ContactsDetailsPage,
-  '/createInternship': CreateAnIntershipPage,
+  '/createInternship': CreateAnInternshipPage,
   '/allSupervisors': viewAllSupervisors,
   '/createSupervisor': createSupervisor,
   '/modifySubject': modifySubject,
   '/newPassword' : newPasswordPage,
   '/modifyPhone' : modifyPhonePage,
   '/studentProfile' : StudentProfilePage,
+  '/contactsCompany' : CompanyContactsPage,
 };
 
 export default routes;
