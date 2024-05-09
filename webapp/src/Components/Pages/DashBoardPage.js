@@ -122,6 +122,8 @@ async function setCompanyRow(companies) {
   const body = document.querySelector('table');
   const bodyTable = body.querySelector('tbody'); // Sélectionnez tbody dans la balise ajoutée à body
 
+  bodyTable.innerHTML = '';
+
   companies.forEach(company => {
     bodyTable.innerHTML += `
       <tr>
@@ -146,19 +148,6 @@ async function setCompanyRow(companies) {
   });
 }
 
-// async function createInternshipMap() {
-//   const companies = await fetchCompanies();
-//   const internshipMap = new Map();
-//
-//   await companies.reduce(async (previousPromise, company) => {
-//     await previousPromise;
-//     const numberOfStudents = await fetchNumberOfStudentsTakenByCompany(company.id);
-//     internshipMap.set(company.id, numberOfStudents);
-//   }, Promise.resolve());
-//
-//   console.log("INTERNSHIPS MAP : ", internshipMap);
-//   return internshipMap;
-// }
 
 async function showContacts(e, id) {
   e.preventDefault();
@@ -236,23 +225,6 @@ async function fetchStudentsWithoutInternship(schoolYear) {
 }
 
 
-async function fetchCompanies() {
-  const token = getToken();
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token
-    },
-  };
-  const url = "http://localhost:3000/companies/getEnterprises";
-  const response = await fetch(url, options);
-
-  if (!response.ok) throw new Error(
-      `fetch error : ${response.status} : ${response.statusText}`)
-
-  return response.json();
-}
 
 async function addListeners() {
   const main = document.querySelector("main");
@@ -281,6 +253,42 @@ function sortCompanies(companies, sortColumn, sortOrder) {
 }
 
 
+
+async function fetchCompanies() {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = "http://localhost:3000/companies/getEnterprises";
+  const response = await fetch(url, options);
+
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
+
+  return response.json();
+}
+
+async function fetchCompaniesBySchoolYear(schoolYear) {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = `http://localhost:3000/companies/getEnterprises/${schoolYear}`;
+  const response = await fetch(url, options);
+
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
+
+  return response.json();
+}
 
 
 async function fetchGetAllSchoolYears(){
@@ -313,8 +321,8 @@ async function createSchoolYearDropdown() {
 
   try {
     schoolYears = await fetchGetAllSchoolYears();
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error('Error fetching school years:', error);
     return;
   }
 
@@ -332,9 +340,24 @@ async function createSchoolYearDropdown() {
 
   dropdown.value = schoolYears[schoolYears.length - 1];
 
+  // dropdown.addEventListener('change', async (event) => {
+  //   const selectedOne = event.target.value;
+  //   await showPieChartBySchoolYear(selectedOne);
+  // });
+  // dashboard.appendChild(dropdown);
+
   dropdown.addEventListener('change', async (event) => {
-    const selectedOne = event.target.value;
-    await showPieChartBySchoolYear(selectedOne);
+    const selectedYear = event.target.value; // Récupérer l'année sélectionnée dans le menu déroulant
+    try {
+      // Appel à fetchCompaniesBySchoolYear avec l'année sélectionnée
+      const companies = await fetchCompaniesBySchoolYear(selectedYear);
+      await showPieChartBySchoolYear(selectedYear);
+      // Mettre à jour le tableau des entreprises avec les nouvelles données
+      await setCompanyRow(companies);
+
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+    }
   });
   dashboard.appendChild(dropdown);
 }
@@ -385,25 +408,5 @@ async function blacklistCompany(e, idCompany) {
     console.error('Error setting refusal reason :', error);
   }
 }
-
-// async function fetchNumberOfStudentsTakenByCompany(idCompany) {
-//   const token = getToken();
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: token
-//     },
-//   };
-//   const url = `http://localhost:3000/companies/numberOfStudentsTaken/${idCompany}`;
-//   const response = await fetch(url, options);
-//
-//   if (!response.ok) throw new Error(
-//       `fetch error : ${response.status} : ${response.statusText}`)
-//
-//   return response.json();
-// }
-
-
 
 export default viewDashBoard;
