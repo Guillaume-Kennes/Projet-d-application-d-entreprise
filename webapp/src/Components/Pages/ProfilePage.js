@@ -39,6 +39,7 @@ function renderProfilePage(user) {
             </p>
             <p id="phoneNumber">${user.phoneNumber}</p>
           </div>
+          
           <div class="col-md-5 bg-secondary rounded mt-3 ms-3">
             <div class="d-flex justify-content-between align-items-center">
               <h3 class="text-right mt-3">Données de stage</h3>
