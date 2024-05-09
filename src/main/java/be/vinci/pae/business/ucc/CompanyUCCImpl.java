@@ -129,6 +129,26 @@ public class CompanyUCCImpl implements CompanyUCC {
   }
 
   /**
+   * Retrieves a list of all companies for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the companies.
+   * @return A list of CompanyDTO objects representing all the companies for the given school year.
+   */
+  public List<CompanyDTO> getAllEnterprises(String schoolYear) {
+    dalServices.start();
+    try {
+      List<CompanyDTO> companiesList = companyDAO.getAllEnterprises(schoolYear);
+
+      dalServices.commit();
+      return companiesList;
+
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+  /**
    * Retrieves the number of students taken by a company.
    *
    * @param idCompany The ID of the company.
