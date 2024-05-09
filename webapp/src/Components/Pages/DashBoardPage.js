@@ -104,7 +104,11 @@ async function allCompanies() {
               <th scope ="col">Appelation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
               <th scope="col">Numéro de téléphone <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
               <th scope="col">Nombre d'étudiants pris en stage <button class="sort-button" data-column="numberOfStudents" value="numberOfStudents">&#x25BC;</button><button class="sort-button" data-column="numberOfStudents" value="-numberOfStudents">&#x25B2;</button></th>
-              <th scope="col">Black listée <button class="sort-button" data-column="isBlackListed" value="isBlackListed">&#x25BC;</button><button class="sort-button" data-column="isBlackListed" value="-isBlackListed">&#x25B2;</button></th>
+              <th scope="col">Black listée <select class="filter-select" id="blacklisted-filter">
+                    <option value="">Tous</option>
+                    <option value="true">Oui</option>
+                    <option value="false">Non</option>
+                  </select></th>
               <th scope="col"> </th>
               <th scope="col">Voir contacts passés</th>
             </tr>
@@ -177,10 +181,12 @@ function displayContacts(contacts) {
             <ul id="contactsList"></ul>`;
 
   const contactsList = document.getElementById("contactsList");
+  console.log("CONTACTS", contacts)
   if (contacts && contacts.length > 0) {
     contacts.forEach(contact => {
+      console.log("CONTACT", contact)
       const listItem = document.createElement("li");
-      listItem.textContent = contact;
+      listItem.textContent = `Nom: ${contact.name}, Email: ${contact.email}, Téléphone: ${contact.phone}`;
       contactsList.appendChild(listItem);
     });
   } else {
@@ -239,6 +245,17 @@ async function addListeners() {
       // Rendre les entreprises triées
       await setCompanyRow(companies);
     });
+  });
+
+  // Écouter le changement de sélection dans le menu déroulant "Black listée"
+  const blacklistedFilter = document.getElementById('blacklisted-filter');
+  blacklistedFilter.addEventListener('change', async () => {
+    const selectedOption = blacklistedFilter.value;
+    let companies = await fetchCompanies();
+    if (selectedOption !== '') {
+      companies = companies.filter(company => company.isBlackListed.toString() === selectedOption);
+    }
+    await setCompanyRow(companies);
   });
 }
 //
