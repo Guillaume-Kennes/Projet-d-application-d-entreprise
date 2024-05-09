@@ -54,7 +54,7 @@ function renderProfilePage(user) {
             <p class="fw-bold mb-n1">Sujet</p>
             <p id="internshipSubject">${user.internshipSubject ? user.internshipSubject : 'aucun'}</p>
           </div>
-          <div class="fw-bold mb-n1">Contacts pris</div>
+          <div class="fw-bold mb-n1">Contacts</div>
             <ul id="contactCompanies"></ul>
         </div>
       </div>`;
