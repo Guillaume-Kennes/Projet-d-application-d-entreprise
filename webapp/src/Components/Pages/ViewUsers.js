@@ -24,7 +24,7 @@ async function allUsers() {
   try {
     if (!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`)
 
-    const users = await response.json();
+    let users = await response.json();
 
     const renderUsers = (users1) => {
       const userRows = users1.map(user => `
@@ -62,16 +62,15 @@ async function allUsers() {
 
     renderUsers(users);
 
-    document.querySelectorAll('.profileButton').forEach(button => {
-      const userId = button.getAttribute('data-user-id');
-      button.addEventListener('click', () => Navigate(`/studentProfile?userId=${userId}`));
-    });
-
     const filterButton = document.getElementById('filterButton');
     filterButton.addEventListener('click', async () => {
       const studentUsers = users.filter(user => user.role === "Etudiant");
       renderUsers(studentUsers);
+      users = studentUsers;
+      attachProfileButtonListeners();
     });
+
+    attachProfileButtonListeners();
 
   } catch (error) {
     console.log("Erreur");
@@ -81,6 +80,11 @@ async function allUsers() {
   }
 }
 
-
+function attachProfileButtonListeners() {
+  document.querySelectorAll('.profileButton').forEach(button => {
+    const userId = button.getAttribute('data-user-id');
+    button.addEventListener('click', () => Navigate(`/studentProfile?userId=${userId}`));
+  });
+}
 
 export default viewAllUsersPage;
