@@ -86,7 +86,7 @@ public class UserResource {
     }
 
 
-    ArrayList<ContactDTO> contacts = myContactUcc.getContactsByUserId(id);
+    ArrayList<ContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
 
     if (!contacts.isEmpty()) {
       ArrayList<String> companies = new ArrayList<>();
