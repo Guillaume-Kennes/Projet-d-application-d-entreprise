@@ -44,10 +44,17 @@ async function allContacts() {
             <td>${contact.state}</td>
             ${contact.reasonForRefusal ? `<td>${contact.reasonForRefusal}</td>` : `<td>Contact non-refusé</td>`}
             ${contact.meetingPlace ? `<td>${contact.meetingPlace}</td>` : `<td>Contact pas encore pris</td>`}
-            <td><button class="btn btn-outline-dark takenButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est pris</button></td>
-            <td><button class="btn btn-outline-dark refusedButton" data-contact-id = "${contact.id}"}">Indiquer que le contact est refusé</button></td>
+            
+            ${contact.state === "intié" ? `<td><button class="btn btn-outline-dark takenButton" data-contact-id = "${contact.id}"}">
+              Indiquer que le contact est pris</button></td>` : `<td>Ce contact ne peut pas être pris</td>`}
+            
+            ${contact.state !== "refusé" ? `<td><button class="btn btn-outline-dark refusedButton" data-contact-id = "${contact.id}"}">
+              Indiquer que le contact est refusé</button></td>` : `<td>Contact déjà refusé</td>`}
+            
             <td><button class="btn btn-outline-dark unfollowedButton" data-contact-id = "${contact.id}"}">Ne plus suivre le contact</button></td>
-            <td><button class="btn btn-outline-dark internshipButton" data-company-id="${contact.company.id}" data-contact-id = "${contact.id}"}">Créer un stage</button></td>
+            
+            ${contact.state === "pris" ? `<td><button class="btn btn-outline-dark internshipButton" data-company-id="${contact.company.id}" data-contact-id = "${contact.id}"}">
+              Créer un stage</button></td>` : `<td>Impossible de créer un stage à partir de ce contact</td>`}
           </tr>
         `);
 
@@ -125,11 +132,10 @@ async function stopFollowing(idContact) {
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
+    Navigate(`/contacts`);
   } catch (error) {
     console.error('Error stopping following the contact :', error);
   }
-
-  Navigate(`/contacts`);
 }
 
 export default ContactsPage;

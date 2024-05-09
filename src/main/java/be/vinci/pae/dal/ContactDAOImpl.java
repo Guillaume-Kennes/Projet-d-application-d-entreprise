@@ -160,7 +160,8 @@ public class ContactDAOImpl implements ContactDAO {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
-            + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
+            + " AND i.student = u.id_user AND (c.state = 'pris' OR c.state = 'initié'"
+            + " OR c.state = 'accepté') AND u.id_user = ?");
     return getCorrespondingContacts(preparedStatement, id);
   }
 
