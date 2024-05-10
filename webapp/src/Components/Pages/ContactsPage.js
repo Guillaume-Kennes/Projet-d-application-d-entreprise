@@ -45,7 +45,7 @@ async function allContacts() {
             ${contact.reasonForRefusal ? `<td>${contact.reasonForRefusal}</td>` : `<td>Contact non-refusé</td>`}
             ${contact.meetingPlace ? `<td>${contact.meetingPlace}</td>` : `<td>Contact pas encore pris</td>`}
             
-            ${contact.state === "intié" ? `<td><button class="btn btn-outline-dark takenButton" data-contact-id = "${contact.id}"}">
+            ${contact.state === "initié" ? `<td><button class="btn btn-outline-dark takenButton" data-contact-id = "${contact.id}"}">
               Indiquer que le contact est pris</button></td>` : `<td>Ce contact ne peut pas être pris</td>`}
             
             ${contact.state !== "refusé" ? `<td><button class="btn btn-outline-dark refusedButton" data-contact-id = "${contact.id}"}">
@@ -129,10 +129,12 @@ async function stopFollowing(idContact) {
 
   try {
     const response = await fetch(`http://localhost:3000/contacts/stop/${idContact}`, options);
-    if (!response.ok) {
+
+    if (response.ok) {
+      window.location.reload();
+    } else {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
-    Navigate(`/contacts`);
   } catch (error) {
     console.error('Error stopping following the contact :', error);
   }
