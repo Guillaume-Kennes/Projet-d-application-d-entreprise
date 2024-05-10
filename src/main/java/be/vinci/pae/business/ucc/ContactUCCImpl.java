@@ -202,6 +202,8 @@ public class ContactUCCImpl implements ContactUCC {
     dalServices.start();
     try {
       System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
+      System.out.println("ContactUCCImpl ------> userId : " + contactDTO.getUserId());
+      System.out.println("ContactUCCImpl ------> enterprise : " + contactDTO.getEnterprise());
       ContactDTO contact = contactDAO.insert(contactDTO);
       dalServices.commit();
       return contact;

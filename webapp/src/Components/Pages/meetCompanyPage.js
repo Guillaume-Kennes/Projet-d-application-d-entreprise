@@ -29,7 +29,7 @@ function showForm(idContact) {
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="meetingLocation" id="distance" value="à distance">
+          <input class="form-check-input" type="radio" name="meetingLocation" id="distance" value="A distance">
           <label class="form-check-label" for="distance">
             Rencontre à distance
           </label>

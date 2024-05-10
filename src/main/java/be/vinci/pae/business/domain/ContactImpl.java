@@ -3,8 +3,8 @@ package be.vinci.pae.business.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
- * Implementation class for the Contact interface. This class provides implementations for
- * various contact-related methods.
+ * Implementation class for the Contact interface. This class provides implementations for various
+ * contact-related methods.
  */
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 class ContactImpl implements Contact {
@@ -17,6 +17,8 @@ class ContactImpl implements Contact {
   private boolean isFollowed;
   private String meetingPlace;
   private UserDTO user;
+  private int enterprise;
+  private int userId;
   private String tradeName;
   private int versionNumber;
 
@@ -213,6 +215,47 @@ class ContactImpl implements Contact {
     this.user = user;
   }
 
+
+  /**
+   * Retrieves the ID of the enterprise associated with the contact.
+   *
+   * @return The ID of the enterprise associated with the contact.
+   */
+  @Override
+  public int getEnterprise() {
+    return enterprise;
+  }
+
+  /**
+   * Sets the ID of the enterprise associated with the contact.
+   *
+   * @param enterprise The new ID of the enterprise associated with the contact.
+   */
+  @Override
+  public void setEnterprise(int enterprise) {
+    this.enterprise = enterprise;
+  }
+
+  /**
+   * Retrieves the ID of the user associated with the contact.
+   *
+   * @return The ID of the user associated with the contact.
+   */
+  @Override
+  public int getUserId() {
+    return userId;
+  }
+
+  /**
+   * Sets the ID of the user associated with the contact.
+   *
+   * @param userId The new ID of the user associated with the contact.
+   */
+  @Override
+  public void setUserId(int userId) {
+    this.userId = userId;
+  }
+
   /**
    * Returns the trade name associated with the contact.
    *
@@ -263,6 +306,15 @@ class ContactImpl implements Contact {
   }
 
   /**
+   * Set the value of the isFollowed boolean.
+   *
+   * @param followed The value to set.
+   */
+  public void setFollowed(boolean followed) {
+    isFollowed = followed;
+  }
+
+  /**
    * Checks if the contact is followed. This method checks if the given contact is followed.
    *
    * @param contact The contact to check.
@@ -270,14 +322,5 @@ class ContactImpl implements Contact {
    */
   public boolean isFollowed(ContactDTO contact) {
     return contact.isFollowed();
-  }
-
-  /**
-   * Set the value of the isFollowed boolean.
-   *
-   * @param followed The value to set.
-   */
-  public void setFollowed(boolean followed) {
-    isFollowed = followed;
   }
 }
