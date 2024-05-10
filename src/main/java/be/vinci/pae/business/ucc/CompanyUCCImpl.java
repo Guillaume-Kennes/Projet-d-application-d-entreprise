@@ -7,8 +7,6 @@ import be.vinci.pae.dal.DALServices;
 import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.NotFoundException;
 import jakarta.inject.Inject;
-import jakarta.ws.rs.WebApplicationException;
-import jakarta.ws.rs.core.Response.Status;
 import java.util.List;
 
 /**
