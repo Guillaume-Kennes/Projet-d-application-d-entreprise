@@ -46,12 +46,14 @@ async function saveSupervisor(e) {
 
   const urlParams = new URLSearchParams(window.location.search);
   const companyId = urlParams.get('companyId');
+  const contactId = urlParams.get('contactId');
 
   console.log("name : ", name);
   console.log("firstname : ", firstname);
   console.log("phone : ", phone);
   console.log("email : ", email);
   console.log("companyId :", companyId);
+  console.log("contactId :", contactId);
 
    // Vérifier si les champs obligatoires sont vides
    if (!name || !firstname || !phone) {
@@ -79,7 +81,7 @@ async function saveSupervisor(e) {
 
     if(response.ok) {
       // Redirection vers "/createInternship" après un envoi réussi
-      Navigate("/createInternship");
+      Navigate(`/createInternship?companyId=${companyId}&contactId=${contactId}`);
     } else {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
