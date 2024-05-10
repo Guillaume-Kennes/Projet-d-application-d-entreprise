@@ -44,7 +44,7 @@ public class InternshipResource {
     InternshipDTO internship;
 
     int contact = json.get("contactId").asInt();
-    System.out.println("contact : " + contact);
+    System.out.println("contactId : " + contact);
 
     int supervisor = json.get("responsable").asInt();
     System.out.println("supervisor : " + supervisor);

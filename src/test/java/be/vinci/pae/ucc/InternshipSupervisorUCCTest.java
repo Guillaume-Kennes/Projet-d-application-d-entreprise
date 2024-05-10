@@ -1,7 +1,9 @@
 package be.vinci.pae.ucc;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import be.vinci.pae.business.domain.DomainFactory;
@@ -10,6 +12,7 @@ import be.vinci.pae.business.ucc.InternshipSupervisorUCC;
 import be.vinci.pae.dal.InternshipSupervisorDAO;
 import be.vinci.pae.utils.AppBinderTest;
 import jakarta.ws.rs.WebApplicationException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
@@ -107,6 +110,9 @@ public class InternshipSupervisorUCCTest {
     });
   }
 
+  /**
+   * Test for creating an internship supervisor with missing information.
+   */
   @Test
   public void testGetAllInternshipSupervisors_success() {
     // Arrange
@@ -121,6 +127,9 @@ public class InternshipSupervisorUCCTest {
     assertEquals(expectedSupervisors, result);
   }
 
+  /**
+   * Test for creating an internship supervisor with missing information.
+   */
   @Test
   public void testGetAllInternshipSupervisors_failure() {
     // Arrange
@@ -131,5 +140,35 @@ public class InternshipSupervisorUCCTest {
         () -> internshipSupervisorUCC.getAllInternshipSupervisors());
   }
 
+  /**
+   * Test for creating an internship supervisor with missing information.
+   */
+  @Test
+  public void testGetInternshipSupervisorById_success() throws SQLException {
+    // Arrange
+    int supervisorId = 1;
+    InternshipSupervisorDTO expectedSupervisor = domainFactory.getInternshipSupervisor();
+    when(internshipSupervisorDAO.getSupervisorById(supervisorId)).thenReturn(expectedSupervisor);
 
+    // Act
+    InternshipSupervisorDTO result = internshipSupervisorUCC.getInternshipSupervisorById(supervisorId);
+
+    // Assert
+    assertAll(
+        () -> assertEquals(expectedSupervisor, result),
+        () -> verify(internshipSupervisorDAO).getSupervisorById(supervisorId)
+    );
+  }
+
+  /**
+   * Test for creating an internship supervisor with missing information.
+   */
+  @Test
+  public void testGetInternshipSupervisorById_failure() throws SQLException {
+    int supervisorId = 1;
+    when(internshipSupervisorDAO.getSupervisorById(supervisorId)).thenThrow(new SQLException());
+
+    assertThrows(WebApplicationException.class,
+        () -> internshipSupervisorUCC.getInternshipSupervisorById(supervisorId));
+  }
 }
