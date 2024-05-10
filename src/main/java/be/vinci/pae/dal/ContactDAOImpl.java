@@ -160,7 +160,8 @@ public class ContactDAOImpl implements ContactDAO {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
         "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_UE i, pae.users u"
             + " WHERE c.enterprise = e.id_enterprise AND c.inscription_UE = i.id_inscription_UE"
-            + " AND i.student = u.id_user AND c.state = 'pris' AND u.id_user = ?");
+            + " AND i.student = u.id_user AND (c.state = 'pris' OR c.state = 'initié'"
+            + " OR c.state = 'accepté') AND u.id_user = ?");
     return getCorrespondingContacts(preparedStatement, id);
   }
 
@@ -269,9 +270,12 @@ public class ContactDAOImpl implements ContactDAO {
    */
   public ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException {
     PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.contacts c, pae.enterprises e, pae.inscriptions_ue u, pae.users us "
-            + "WHERE c.enterprise = e.id_enterprise AND c.inscription_ue = u.id_inscription_ue "
-            + " AND u.student = us.id_user AND e.id_enterprise = ?");
+        "SELECT c.*, u.*, e.*, i.* FROM pae.contacts c "
+            + "JOIN pae.inscriptions_ue i ON c.inscription_ue = i.id_inscription_ue "
+            + "JOIN pae.users u ON i.student = u.id_user "
+            + "JOIN pae.enterprises e ON c.enterprise = e.id_enterprise "
+            + "WHERE c.enterprise = ?");
+
     try {
       preparedStatement.setInt(1, idCompany);
     } catch (SQLException e) {
@@ -281,11 +285,9 @@ public class ContactDAOImpl implements ContactDAO {
     ContactDTO contact;
     ArrayList<ContactDTO> contacts = new ArrayList<>();
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
-      if (resultSet.next()) {
+      while (resultSet.next()) {
         contact = contactInfos(resultSet);
         contacts.add(contact);
-      } else {
-        contact = null;
       }
     } catch (SQLException e) {
       throw new FatalException(e);
