@@ -48,6 +48,20 @@ public class CompanyResource {
   }
 
   /**
+   * Get all enterprises for a given school year.
+   *
+   * @param schoolYear the school year
+   * @return the list of all enterprises for the given school year
+   */
+  @GET
+  @Path("/getEnterprises/{schoolYear}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Professeur", "Etudiant", "Administratif"})
+  public List<CompanyDTO> getAllEnterprises(@PathParam("schoolYear") String schoolYear) {
+    return companyUCC.getAllEnterprises(schoolYear);
+  }
+
+  /**
    * Adds a new contact.
    *
    * @param newCompanyDTO The contact data to be added.
@@ -107,7 +121,7 @@ public class CompanyResource {
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize(value = {"Professeur"})
+  @Authorize(value = {"Professeur", "Administratif"})
   public ArrayList<ContactDTO> getContactsByCompanyId(@PathParam("id") int id) throws SQLException {
     ArrayList<ContactDTO> contacts = contactUCC.getAllContacts(id);
 

@@ -47,6 +47,16 @@ public interface CompanyDAO {
   List<CompanyDTO> getAllEnterprises();
 
   /**
+   * Retrieves the list of all companies available in the system for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the companies.
+   * @return A list containing CompanyDTO objects representing all companies for the given school year.
+   *     If no companies are found, the list will be empty.
+   */
+  List<CompanyDTO> getAllEnterprises(String schoolYear);
+
+
+  /**
    * Retrieves the number of students taken by a company.
    *
    * @param idCompany The identifier of the company.

@@ -41,6 +41,15 @@ public interface CompanyUCC {
   List<CompanyDTO> getAllEnterprises();
 
   /**
+   * Retrieves a list of all enterprises from the database for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the enterprises.
+   * @return A list of CompanyDTO objects representing all enterprises for the given school year.
+   */
+  List<CompanyDTO> getAllEnterprises(String schoolYear);
+
+
+  /**
    * Retrieves the number of students taken by a company.
    *
    * @param idCompany the id of the company
