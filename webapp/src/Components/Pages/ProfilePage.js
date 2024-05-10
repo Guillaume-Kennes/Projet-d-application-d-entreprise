@@ -49,6 +49,7 @@ function renderProfilePage(user) {
             <p id="internshipTitle">${user.internshipTitle ? user.internshipTitle : 'aucun'}</p>
             <p class="fw-bold mb-n1">Entreprise</p>
             <p id="internshipCompany">${user.internshipCompany ? user.internshipCompany : 'aucun'}</p>
+            <p id="internshipDesignation">${user.internshipDesignation ? user.internshipDesignation : ' '}</p>
             <p class="fw-bold mb-n1">Responsable</p>
             <p id="internshipSupervisor">${user.internshipSupervisor ? user.internshipSupervisor : 'aucun'}</p>
             <p class="fw-bold mb-n1">Sujet</p>
