@@ -109,6 +109,9 @@ public class InternshipUCCTest {
     assertNotNull(exception);
   }
 
+  /**
+   * Test for creating an internship. Success expected.
+   */
   @Test
   public void testCreateAnIntership_Success() {
     // Arrange
@@ -137,6 +140,9 @@ public class InternshipUCCTest {
     );
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testCreateAnIntership_nullContact_Failure() {
     // Arrange
@@ -156,6 +162,9 @@ public class InternshipUCCTest {
     assertNotNull(exception);
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testCreateAnIntership_nullSupervisor_Failure() {
     // Arrange
@@ -175,6 +184,9 @@ public class InternshipUCCTest {
     assertNotNull(exception);
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testCreateAnIntership_nullSignatureDate_Failure() {
     // Arrange
@@ -194,6 +206,9 @@ public class InternshipUCCTest {
     assertNotNull(exception);
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testCreateOrModifyAnIntership_Success() {
     // Arrange
@@ -214,6 +229,9 @@ public class InternshipUCCTest {
     );
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testCreateOrModifyAnInternship_nullInternship_Failure() {
     //Arrange
@@ -225,6 +243,9 @@ public class InternshipUCCTest {
     );
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testCreateOrModifyAnInternship_nullSubject_Failure() {
     //Arrange
@@ -236,6 +257,9 @@ public class InternshipUCCTest {
     );
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testGetInternshipById_success() {
     // Arrange
@@ -250,6 +274,9 @@ public class InternshipUCCTest {
     assertEquals(expectedInternship, result);
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testGetInternshipById_failure() {
     // Arrange
@@ -267,6 +294,9 @@ public class InternshipUCCTest {
   }
 
 
+  /**
+   * Test for creating an internship. Success expected.
+   */
   @Test
   public void testAllInternships_success() {
     // Arrange
@@ -280,6 +310,9 @@ public class InternshipUCCTest {
     assertEquals(expectedInternships, result);
   }
 
+  /**
+   * Test for creating an internship. Failure expected.
+   */
   @Test
   public void testAllInternships_failure() {
     // Arrange
@@ -295,4 +328,36 @@ public class InternshipUCCTest {
   }
 
 
+  /**
+   * Test for creating an internship. Success expected.
+   */
+  @Test
+  public void testSchoolYears_success() {
+    // Arrange
+    List<String> expectedSchoolYears = internshipDAO.getSchoolYears();
+    when(internshipDAO.getSchoolYears()).thenReturn(expectedSchoolYears);
+
+    // Act
+    List<String> result = internshipUCC.getSchoolYears();
+
+    // Assert
+    assertEquals(expectedSchoolYears, result);
+  }
+
+  /**
+   * Test for creating an internship. Failure expected.
+   */
+  @Test
+  public void testSchoolYears_failure() {
+    // Arrange
+    when(internshipDAO.getSchoolYears()).thenThrow(new RuntimeException("Test exception"));
+
+    // Act
+    Exception exception = assertThrows(RuntimeException.class, () -> {
+      internshipUCC.getSchoolYears();
+    });
+
+    // Assert
+    assertEquals("Test exception", exception.getMessage());
+  }
 }

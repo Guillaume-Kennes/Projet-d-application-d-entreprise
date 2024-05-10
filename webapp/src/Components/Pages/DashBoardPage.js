@@ -103,7 +103,11 @@ async function allCompanies() {
               <th scope ="col">Appelation <button class="sort-button" data-column="designation" value="designation">&#x25BC;</button><button class="sort-button" data-column="designation" value="-designation">&#x25B2;</button></th>
               <th scope="col">Numéro de téléphone <button class="sort-button" data-column="meansOfCommunication" value="communication">&#x25BC;</button><button class="sort-button" data-column="meansOfCommunication" value="-communication">&#x25B2;</button></th>
               <th scope="col">Nombre d'étudiants pris en stage <button class="sort-button" data-column="numberOfStudents" value="numberOfStudents">&#x25BC;</button><button class="sort-button" data-column="numberOfStudents" value="-numberOfStudents">&#x25B2;</button></th>
-              <th scope="col">Black listée <button class="sort-button" data-column="isBlackListed" value="isBlackListed">&#x25BC;</button><button class="sort-button" data-column="isBlackListed" value="-isBlackListed">&#x25B2;</button></th>
+              <th scope="col">Black listée <select class="filter-select" id="blacklisted-filter">
+                    <option value="">Tous</option>
+                    <option value="true">Oui</option>
+                    <option value="false">Non</option>
+                  </select></th>
               <th scope="col"> </th>
               <th scope="col">Voir contacts passés</th>
             </tr>
@@ -120,6 +124,8 @@ async function allCompanies() {
 async function setCompanyRow(companies) {
   const body = document.querySelector('table');
   const bodyTable = body.querySelector('tbody'); // Sélectionnez tbody dans la balise ajoutée à body
+
+  bodyTable.innerHTML = '';
 
   companies.forEach(company => {
     bodyTable.innerHTML += `
@@ -141,62 +147,51 @@ async function setCompanyRow(companies) {
   });
   document.querySelectorAll('.contactsButton').forEach(button => {
     const companyId = button.getAttribute('data-company-id');
-    button.addEventListener('click', (e) => showContacts(e, parseInt(companyId, 10)));
+    button.addEventListener('click', () => Navigate(`/contactsCompany?companyId=${companyId}`));
   });
 }
 
-// async function createInternshipMap() {
-//   const companies = await fetchCompanies();
-//   const internshipMap = new Map();
-//
-//   await companies.reduce(async (previousPromise, company) => {
-//     await previousPromise;
-//     const numberOfStudents = await fetchNumberOfStudentsTakenByCompany(company.id);
-//     internshipMap.set(company.id, numberOfStudents);
-//   }, Promise.resolve());
-//
-//   console.log("INTERNSHIPS MAP : ", internshipMap);
-//   return internshipMap;
+
+// async function showContacts(e, id) {
+//   e.preventDefault();
+//   const token = getToken();
+//   const options = {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: token,
+//     },
+//   };
+//   let contacts;
+//   const response = await fetch(`http://localhost:3000/companies/${id}`, options);
+//   if (!response.ok) {
+//     throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+//   }else{
+//     contacts = await response.json();
+//     displayContacts(contacts);
+//   }
 // }
 
-async function showContacts(e, id) {
-  e.preventDefault();
-  const token = getToken();
-  const options = {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: token,
-    },
-  };
-  let contacts;
-  const response = await fetch(`http://localhost:3000/companies/${id}`, options);
-  if (!response.ok) {
-    throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
-  }else{
-    contacts = await response.json();
-    displayContacts(contacts);
-  }
-}
-
-function displayContacts(contacts) {
-  const main = document.querySelector('main');
-
-  main.innerHTML =
-      `<div class="fw-bold mb-n1">Contacts passés</div>
-            <ul id="contactsList"></ul>`;
-
-  const contactsList = document.getElementById("contactsList");
-  if (contacts && contacts.length > 0) {
-    contacts.forEach(contact => {
-      const listItem = document.createElement("li");
-      listItem.textContent = contact;
-      contactsList.appendChild(listItem);
-    });
-  } else {
-    contactsList.innerHTML = "<li>Aucun contact avec cette entreprise</li>";
-  }
-}
+// function displayContacts(contacts) {
+//   const main = document.querySelector('main');
+//
+//   main.innerHTML =
+//       `<div class="fw-bold mb-n1">Contacts passés</div>
+//             <ul id="contactsList"></ul>`;
+//
+//   const contactsList = document.getElementById("contactsList");
+//   console.log("CONTACTS", contacts)
+//   if (contacts && contacts.length > 0) {
+//     contacts.forEach(contact => {
+//       console.log("CONTACT", contact)
+//       const listItem = document.createElement("li");
+//       listItem.textContent = `Nom: ${contact.name}, Email: ${contact.email}, Téléphone: ${contact.phone}`;
+//       contactsList.appendChild(listItem);
+//     });
+//   } else {
+//     contactsList.innerHTML = "<li>Aucun contact avec cette entreprise</li>";
+//   }
+// }
 
 async function fetchStudentsWithInternship(schoolYear) {
   const token = getToken();
@@ -235,6 +230,46 @@ async function fetchStudentsWithoutInternship(schoolYear) {
 }
 
 
+
+async function addListeners() {
+  const main = document.querySelector("main");
+  // Écoutez les événements de clic sur les boutons de tri
+  main.querySelectorAll('.sort-button').forEach(button => {
+    button.addEventListener('click', async () => {
+      const sortColumn = button.dataset.column;
+      const sortOrder = button.value.startsWith('-') ? 'desc' : 'asc';
+      let companies = await fetchCompanies();
+      // Trier les entreprises
+      companies = sortCompanies(companies, sortColumn, sortOrder);
+      // Rendre les entreprises triées
+      await setCompanyRow(companies);
+    });
+  });
+
+  // Écouter le changement de sélection dans le menu déroulant "Black listée"
+  const blacklistedFilter = document.getElementById('blacklisted-filter');
+  blacklistedFilter.addEventListener('change', async () => {
+    const selectedOption = blacklistedFilter.value;
+    let companies = await fetchCompanies();
+    if (selectedOption !== '') {
+      companies = companies.filter(company => company.isBlackListed.toString() === selectedOption);
+    }
+    await setCompanyRow(companies);
+  });
+}
+//
+function sortCompanies(companies, sortColumn, sortOrder) {
+  return companies.sort((a, b) => {
+    if (sortOrder === 'asc') {
+      return a[sortColumn] > b[sortColumn] ? 1 : -1;
+    }
+    return a[sortColumn] < b[sortColumn] ? 1 : -1;
+
+  });
+}
+
+
+
 async function fetchCompanies() {
   const token = getToken();
   const options = {
@@ -253,33 +288,23 @@ async function fetchCompanies() {
   return response.json();
 }
 
-async function addListeners() {
-  const main = document.querySelector("main");
-  // Écoutez les événements de clic sur les boutons de tri
-  main.querySelectorAll('.sort-button').forEach(button => {
-    button.addEventListener('click', async () => {
-      const sortColumn = button.dataset.column;
-      const sortOrder = button.value.startsWith('-') ? 'desc' : 'asc';
-      let companies = await fetchCompanies();
-      // Trier les entreprises
-      companies = sortCompanies(companies, sortColumn, sortOrder);
-      // Rendre les entreprises triées
-      await setCompanyRow(companies);
-    });
-  });
+async function fetchCompaniesBySchoolYear(schoolYear) {
+  const token = getToken();
+  const options = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: token
+    },
+  };
+  const url = `http://localhost:3000/companies/getEnterprises/${schoolYear}`;
+  const response = await fetch(url, options);
+
+  if (!response.ok) throw new Error(
+      `fetch error : ${response.status} : ${response.statusText}`)
+
+  return response.json();
 }
-//
-function sortCompanies(companies, sortColumn, sortOrder) {
-  return companies.sort((a, b) => {
-    if (sortOrder === 'asc') {
-      return a[sortColumn] > b[sortColumn] ? 1 : -1;
-    }
-    return a[sortColumn] < b[sortColumn] ? 1 : -1;
-
-  });
-}
-
-
 
 
 async function fetchGetAllSchoolYears(){
@@ -312,8 +337,8 @@ async function createSchoolYearDropdown() {
 
   try {
     schoolYears = await fetchGetAllSchoolYears();
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error('Error fetching school years:', error);
     return;
   }
 
@@ -331,9 +356,24 @@ async function createSchoolYearDropdown() {
 
   dropdown.value = schoolYears[schoolYears.length - 1];
 
+  // dropdown.addEventListener('change', async (event) => {
+  //   const selectedOne = event.target.value;
+  //   await showPieChartBySchoolYear(selectedOne);
+  // });
+  // dashboard.appendChild(dropdown);
+
   dropdown.addEventListener('change', async (event) => {
-    const selectedOne = event.target.value;
-    await showPieChartBySchoolYear(selectedOne);
+    const selectedYear = event.target.value; // Récupérer l'année sélectionnée dans le menu déroulant
+    try {
+      // Appel à fetchCompaniesBySchoolYear avec l'année sélectionnée
+      const companies = await fetchCompaniesBySchoolYear(selectedYear);
+      await showPieChartBySchoolYear(selectedYear);
+      // Mettre à jour le tableau des entreprises avec les nouvelles données
+      await setCompanyRow(companies);
+
+    } catch (error) {
+      console.error('Error fetching companies:', error);
+    }
   });
   dashboard.appendChild(dropdown);
 }
@@ -384,25 +424,5 @@ async function blacklistCompany(e, idCompany) {
     console.error('Error setting refusal reason :', error);
   }
 }
-
-// async function fetchNumberOfStudentsTakenByCompany(idCompany) {
-//   const token = getToken();
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: token
-//     },
-//   };
-//   const url = `http://localhost:3000/companies/numberOfStudentsTaken/${idCompany}`;
-//   const response = await fetch(url, options);
-//
-//   if (!response.ok) throw new Error(
-//       `fetch error : ${response.status} : ${response.statusText}`)
-//
-//   return response.json();
-// }
-
-
 
 export default viewDashBoard;

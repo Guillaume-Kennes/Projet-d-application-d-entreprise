@@ -10,6 +10,8 @@ async function renderForm() {
     const main = document.querySelector('main');
     const urlParam = new URLSearchParams(window.location.search);
     const companyId = urlParam.get('companyId');
+    const urlParams = new URLSearchParams(window.location.search);
+    const contactId = urlParams.get('contactId');
 
     console.log('companyId : ', companyId);
 
@@ -42,7 +44,7 @@ async function renderForm() {
     form.addEventListener('submit', saveInternship);
 
     const button = document.getElementById('CreateSupervisor');
-    button.addEventListener("click", () => Navigate(`/createSupervisor?companyId=${companyId}`));
+    button.addEventListener("click", () => Navigate(`/createSupervisor?companyId=${companyId}&contactId=${contactId}`));
 }
 
 async function allSupervisors() {
@@ -155,7 +157,11 @@ async function saveInternship(e) {
 
     const response = await fetch(`http://localhost:3000/internship/create`, options);
 
-    if(!response.ok) throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    if (response.ok) {
+        Navigate(`/contacts`);
+    } else {
+        throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+    }
 }
 
 

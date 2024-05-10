@@ -1,0 +1,23 @@
+.my-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.my-thead {
+  background-color: #04121f;
+}
+
+.my-tbody .my-cell {
+  border: 1px solid #dee2e6;
+  padding: 8px;
+}
+
+.my-cell:hover {
+  background-color: #f8f9fa;
+}
+
+#dashboard canvas {
+  max-width: 100%;
+  height: auto;
+  max-height: 330px;
+}

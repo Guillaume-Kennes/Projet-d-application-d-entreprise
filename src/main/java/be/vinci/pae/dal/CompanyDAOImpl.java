@@ -170,6 +170,46 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   /**
+   * Retrieves a list of all enterprises from the database for a given school year.
+   *
+   * @param schoolYear The school year for which to retrieve the enterprises.
+   * @return A list of CompanyDTO objects representing all enterprises for the given school year.
+   * @throws FatalException If an error occurs during database access or processing.
+   */
+  public List<CompanyDTO> getAllEnterprises(String schoolYear) {
+    List<CompanyDTO> enterprisesList = new ArrayList<>();
+
+    String query = "SELECT e.id_enterprise, e.trade_name, e.designation, "
+            + "e.address, e.city, e.means_of_communication, e.is_black_listed, "
+            + "e.motivation_black_list, e.version_enterprises, "
+            + "COUNT(DISTINCT i.id_internship) AS nombre_etudiants_stages "
+            + "FROM pae.enterprises e "
+            + "LEFT JOIN pae.contacts c ON e.id_enterprise = c.enterprise "
+            + "LEFT JOIN pae.internships i ON c.id_contact = i.contact "
+            + "LEFT JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue "
+            + "WHERE iu.school_year = ? "
+            + "GROUP BY e.id_enterprise, e.trade_name, e.designation, "
+            + "e.address, e.city, e.means_of_communication, "
+            + "e.is_black_listed, e.motivation_black_list "
+            + "ORDER BY e.trade_name, e.designation;";
+
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+      preparedStatement.setString(1, schoolYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
+          int numberOfStudents = resultSet.getInt("nombre_etudiants_stages");
+          CompanyDTO companyDTO = companyInfos(resultSet);
+          companyDTO.setNumberOfStudents(numberOfStudents);
+          enterprisesList.add(companyDTO);
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return enterprisesList;
+  }
+
+  /**
    * Retrieves the number of students taken by a company.
    *
    * @param idCompany The identifier of the company.

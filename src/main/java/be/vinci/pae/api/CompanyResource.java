@@ -6,8 +6,6 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
 import be.vinci.pae.business.ucc.ContactUCC;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.Consumes;
@@ -31,7 +29,6 @@ import java.util.List;
 @Path("/companies")
 public class CompanyResource {
 
-  private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private CompanyUCC companyUCC;
   @Inject
@@ -48,6 +45,20 @@ public class CompanyResource {
   @Authorize(value = {"Professeur", "Etudiant", "Administratif"})
   public List<CompanyDTO> getAllEnterprises() {
     return companyUCC.getAllEnterprises();
+  }
+
+  /**
+   * Get all enterprises for a given school year.
+   *
+   * @param schoolYear the school year
+   * @return the list of all enterprises for the given school year
+   */
+  @GET
+  @Path("/getEnterprises/{schoolYear}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Professeur", "Etudiant", "Administratif"})
+  public List<CompanyDTO> getAllEnterprises(@PathParam("schoolYear") String schoolYear) {
+    return companyUCC.getAllEnterprises(schoolYear);
   }
 
   /**
@@ -104,39 +115,24 @@ public class CompanyResource {
    * Retrieves contacts associated with a company by its ID.
    *
    * @param id The ID of the company.
-   * @return An ObjectNode containing the contacts associated with the company, formatted as JSON.
+   * @return An array containing the contacts associated with the company.
    * @throws SQLException if an SQL exception occurs during the retrieval process.
    */
   @GET
   @Path("/{id}")
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize(value = {"Professeur"})
-  public ObjectNode getContactsByCompanyId(@PathParam("id") int id) throws SQLException {
-    ObjectNode response = jsonMapper.createObjectNode();
+  @Authorize(value = {"Professeur", "Administratif"})
+  public ArrayList<ContactDTO> getContactsByCompanyId(@PathParam("id") int id) throws SQLException {
     ArrayList<ContactDTO> contacts = contactUCC.getAllContacts(id);
 
     if (contacts.isEmpty()) {
       return null;
     }
 
-    ArrayList<String> returnThing = new ArrayList<>();
-    for (ContactDTO c : contacts) {
-      if (c.getReasonForRefusal() != null) {
-        returnThing.add("Contact avec l'étudiant "
-            + c.getInscriptionUE().getStudent().getFirstName() + " "
-            + c.getInscriptionUE().getStudent().getLastName() + " en "
-            + c.getInscriptionUE().getSchoolYear() + "\n"
-            + "Contact refusé pour la raison suivante : "
-            + c.getReasonForRefusal());
-      } else {
-        returnThing.add("Contact avec l'étudiant "
-            + c.getInscriptionUE().getStudent().getFirstName() + " "
-            + c.getInscriptionUE().getStudent().getLastName() + " en "
-            + c.getInscriptionUE().getSchoolYear());
-      }
+    for(ContactDTO c : contacts) {
+      System.out.println(c.getInscriptionUE().getStudent().getLastName());
     }
-    response.putPOJO("contacts", returnThing);
-    return response;
+    return contacts;
   }
 
   /**

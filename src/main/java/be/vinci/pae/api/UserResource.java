@@ -78,15 +78,15 @@ public class UserResource {
 
       response.put("internshipId", internship.getId());
       response.put("internshipTitle", internship.getProject());
-      response.put("internshipCompany", company.getTradeName()
-          + " " + company.getDesignation());
+      response.put("internshipCompany", company.getTradeName());
+      response.put("internshipDesignation", company.getDesignation());
       response.put("internshipSupervisor", supervisor.getFirstName() + " "
           + supervisor.getLastName());
       response.put("internshipSubject", internship.getProject());
     }
 
 
-    ArrayList<ContactDTO> contacts = myContactUcc.getContactsByUserId(id);
+    ArrayList<ContactDTO> contacts = myContactUcc.getTakenContactsByUserId(id);
 
     if (!contacts.isEmpty()) {
       ArrayList<String> companies = new ArrayList<>();
@@ -164,7 +164,7 @@ public class UserResource {
   @Path("/editPassword/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize(value = {"Etudiant"})
+  @Authorize(value = {"Etudiant", "Professeur", "Administratif"})
   public UserDTO updatePassword(@PathParam("id") int id, JsonNode json) {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
@@ -192,7 +192,7 @@ public class UserResource {
   @Path("/editPhoneNumber/{id}")
   @Consumes(MediaType.APPLICATION_JSON)
   @Produces(MediaType.APPLICATION_JSON)
-  @Authorize(value = {"Etudiant"})
+  @Authorize(value = {"Etudiant", "Professeur", "Administratif"})
   public UserDTO updatePhoneNumber(@PathParam("id") int id, JsonNode json) {
     UserDTO user = myUserUcc.getUserById(id);
     if (user == null) {
