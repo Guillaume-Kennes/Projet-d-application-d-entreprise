@@ -78,8 +78,8 @@ public class UserResource {
 
       response.put("internshipId", internship.getId());
       response.put("internshipTitle", internship.getProject());
-      response.put("internshipCompany", company.getTradeName()
-          + " " + company.getDesignation());
+      response.put("internshipCompany", company.getTradeName());
+      response.put("internshipDesignation", company.getDesignation());
       response.put("internshipSupervisor", supervisor.getFirstName() + " "
           + supervisor.getLastName());
       response.put("internshipSubject", internship.getProject());
