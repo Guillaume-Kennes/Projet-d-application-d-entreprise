@@ -149,8 +149,9 @@ public class ContactResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Etudiant"})
   public ContactDTO addContact(ContactDTO newContactDTO) {
-    System.out.println(newContactDTO.getUser().getId());
-    int userId = newContactDTO.getUser().getId();
+    System.out.println(newContactDTO.getUserId());
+    System.out.println(newContactDTO.getEnterprise());
+    int userId = newContactDTO.getUserId();
     System.out.println("ContactResource -------> newContactDTO : " + newContactDTO);
     System.out.println("ContactResource -------> userId : " + userId);
     // Validate the new item
@@ -162,14 +163,13 @@ public class ContactResource {
       // Add the new item
       ContactDTO addedContactDTO = myContactUcc.addContact(newContactDTO);
       System.out.println(
-          "ContactRessource -------> addedContactDTO userId : " + addedContactDTO.getUser()
-              .getId());
+          "ContactRessource -------> addedContactDTO userId : " + addedContactDTO.getUserId());
       if (addedContactDTO == null) {
         throw new WebApplicationException("Contact could not be added",
             Status.INTERNAL_SERVER_ERROR);
       }
       System.out.println(
-          "ContactResource ---> addedContactDTO tradeName : " + addedContactDTO.getTradeName());
+          "ContactResource ---> addedContactDTO enterprise : " + addedContactDTO.getEnterprise());
       return addedContactDTO;
     } catch (Exception e) {
       System.out.println("ContactResource exception");

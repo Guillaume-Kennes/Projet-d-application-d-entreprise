@@ -213,6 +213,24 @@ public class ContactDAOImpl implements ContactDAO {
               is_followed,
               meeting_place,
               version_contacts)
+          VALUES ('initié', ?,
+          (SELECT DISTINCT i.id_inscription_ue
+           FROM pae.users u, pae.inscriptions_ue i
+           WHERE u.id_user = i.student
+           AND u.id_user =  ?),
+          null, true, null, 1)
+          RETURNING *;
+          """;
+      /*
+            String query = """
+              INSERT INTO pae.contacts (
+              state,
+              enterprise,
+              inscription_ue,
+              reason_for_refusal,
+              is_followed,
+              meeting_place,
+              version_contacts)
           VALUES ('initié',
           (SELECT e.id_enterprise
            FROM pae.enterprises e
@@ -224,22 +242,23 @@ public class ContactDAOImpl implements ContactDAO {
           null, true, null, 1)
           RETURNING *;
           """;
+       */
 
       // String tradeName = "N"; // Or any other search term
       // String wildcardTradeName = "%" + tradeName + "%";
       // changer le wildcard en id de l entreprise
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
-        ps.setString(1, contactDTO.getTradeName());
-        ps.setInt(2, contactDTO.getUser().getId());
+        ps.setInt(1, contactDTO.getEnterprise());
+        ps.setInt(2, contactDTO.getUserId());
         System.out.println("ContactDAOImpl ps : " + ps);
         ps.executeQuery(); // ou ps.execute() ?
         // ps.setInt(3, 1);
 
         System.out.println("ContactDAOImpl -------> Enterprise : "
-            + contactDTO.getTradeName());
+            + contactDTO.getEnterprise());
         System.out.println("ContactDAOImpl -------> UserId : "
-            + contactDTO.getUser().getId());
+            + contactDTO.getUserId());
         System.out.println("ContactDAOImpl -------> Version Number : "
             + contactDTO.getVersionNumber());
         System.out.println("ContactDAOImpl ----> ps : " + ps);
@@ -250,8 +269,8 @@ public class ContactDAOImpl implements ContactDAO {
     System.out.println(
         "ContactDAOImpl contactDTO : " + "\n"
             + "State : " + contactDTO.getState() + "\n"
-            + "Enterprise : " + contactDTO.getTradeName() + "\n"
-            + "UserId : " + contactDTO.getUser().getId() + "\n"
+            + "Enterprise : " + contactDTO.getEnterprise() + "\n"
+            + "UserId : " + contactDTO.getUserId() + "\n"
             + "ReasonForRefusal : " + contactDTO.getReasonForRefusal() + "\n"
             + "MeetingPlace : " + contactDTO.getMeetingPlace() + "\n"
             + "VersionContacts : " + contactDTO.getVersionNumber() + "\n"
@@ -263,8 +282,7 @@ public class ContactDAOImpl implements ContactDAO {
    * Method to retrieve all the contacts made to a company.
    *
    * @param idCompany The ID of the company.
-   * @return A ContactDTO list containing all the contacts
-   *    of the company, or null if not found.
+   * @return A ContactDTO list containing all the contacts of the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
   public ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException {
@@ -296,8 +314,7 @@ public class ContactDAOImpl implements ContactDAO {
   }
 
   /**
-   * Suspend the other contacts of a user
-   * once they got an internship.
+   * Suspend the other contacts of a user once they got an internship.
    *
    * @param contactDTO The contact DTO to update.
    * @throws FatalException if an SQL error occurs.
