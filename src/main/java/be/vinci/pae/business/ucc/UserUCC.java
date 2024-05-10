@@ -93,4 +93,6 @@ public interface UserUCC {
    * @param phoneNumber the new phone number
    */
   void updatePhoneNumber(UserDTO user, String phoneNumber);
+
+  List<UserDTO> getStudentsByAcademicYear(String academicYear);
 }

@@ -83,5 +83,7 @@ public interface UserDAO {
    * @param password The new password.
    */
   void updatePassword(UserDTO userDTO, String password);
+
+  List<UserDTO> getStudentsByAcademicYear(String academicYear);
 }
 

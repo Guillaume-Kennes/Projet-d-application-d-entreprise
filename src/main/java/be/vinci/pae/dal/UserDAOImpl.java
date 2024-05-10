@@ -314,4 +314,30 @@ public class UserDAOImpl implements UserDAO {
       throw new FatalException(e);
     }
   }
+
+  public List<UserDTO> getStudentsByAcademicYear(String academicYear) {
+    List<UserDTO> usersList = new ArrayList<>();
+    String query = "SELECT u.* "
+        + "FROM pae.users u "
+        + "JOIN pae.inscriptions_ue iu ON u.id_user = iu.student "
+        + "WHERE iu.school_year = ?;";
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+      preparedStatement.setString(1, academicYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
+          UserDTO userDTO = myDomainFactory.getUser();
+          userDTO.setEmail(resultSet.getString("email"));
+          userDTO.setLastName(resultSet.getString("last_name"));
+          userDTO.setFirstName(resultSet.getString("first_name"));
+          userDTO.setPhoneNumber(resultSet.getString("phone_number"));
+          userDTO.setRole(resultSet.getString("role"));
+          userDTO.setId(resultSet.getInt("id_user"));
+          usersList.add(userDTO);
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return usersList;
+  }
 }

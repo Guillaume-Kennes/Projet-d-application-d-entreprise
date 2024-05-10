@@ -210,4 +210,12 @@ public class UserResource {
     System.out.println(user.getPhoneNumber());
     return user;
   }
+
+  @GET
+  @Path("getStudentsByAcademicYear/{academicYear}")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Authorize(value = {"Professeur", "Administratif"})
+  public List<UserDTO> getStudentsByAcademicYear(@PathParam("academicYear") String academicYear) {
+    return myUserUcc.getStudentsByAcademicYear(academicYear);
+  }
 }

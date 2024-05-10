@@ -213,4 +213,18 @@ public class UserUCCImpl implements UserUCC {
       throw e;
     }
   }
+
+
+  @Override
+  public List<UserDTO> getStudentsByAcademicYear(String academicYear) {
+    dalServices.start();
+    try {
+      List<UserDTO> users = userDAO.getStudentsByAcademicYear(academicYear);
+      dalServices.commit();
+      return users;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
 }
