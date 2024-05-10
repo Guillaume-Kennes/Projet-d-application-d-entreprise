@@ -142,7 +142,7 @@ public class CompanyUCCTest {
    * Test for refusing a contact. Failure expected because the reason for refusal is null.
    */
   @Test
-  public void getAllCompaniesTest_Success() {
+  public void getAllEnterprisesTest_Success() {
     // Arrange
     List<CompanyDTO> expectedCompanies = companyDAO.getAllEnterprises();
     when(companyDAO.getAllEnterprises()).thenReturn(expectedCompanies);
@@ -158,7 +158,7 @@ public class CompanyUCCTest {
    * Test for refusing a contact. Failure expected because the reason for refusal is null.
    */
   @Test
-  public void getAllCompaniesTest_Failure() {
+  public void getAllEnterprisesTest_Failure() {
     // Arrange
     when(companyDAO.getAllEnterprises()).thenThrow(new RuntimeException());
 
@@ -217,6 +217,5 @@ public class CompanyUCCTest {
       companyUCC.numberOfStudentsTaken(id);
     });
   }
-
 
 }
