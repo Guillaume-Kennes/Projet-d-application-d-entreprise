@@ -89,9 +89,11 @@ public class ContactResource {
     myContactUcc.stopFollowing(contact);
 
     log = AppLogger.getLogger("Abandon d'un contact");
-    log.log(Level.FINE, "Abandon du contact entre " + contact.getInscriptionUE().getStudent().getFirstName()
-     + " " + contact.getInscriptionUE().getStudent().getLastName() + " et l'entreprise "
-     + contact.getCompany().getTradeName());
+    log.log(Level.FINE, "Abandon du contact entre "
+        + contact.getInscriptionUE().getStudent().getFirstName()
+        + " " + contact.getInscriptionUE().getStudent().getLastName()
+        + " et l'entreprise "
+        + contact.getCompany().getTradeName());
 
     return contact;
   }
@@ -170,8 +172,6 @@ public class ContactResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Etudiant"})
   public ContactDTO addContact(ContactDTO newContactDTO) {
-    int userId = newContactDTO.getUserId();
-
     try {
       if (newContactDTO == null) {
         throw new WebApplicationException("Invalid contact data", Status.BAD_REQUEST);
@@ -184,8 +184,10 @@ public class ContactResource {
       }
 
       log = AppLogger.getLogger("Ajout d'un contact");
-      log.log(Level.FINE, "Création d'un contact entre " + addedContactDTO.getCompany().getTradeName()
-       + " et " + addedContactDTO.getInscriptionUE().getStudent().getFirstName());
+      log.log(Level.FINE, "Création d'un contact entre "
+          + addedContactDTO.getCompany().getTradeName()
+          + " et "
+          + addedContactDTO.getInscriptionUE().getStudent().getFirstName());
 
       return addedContactDTO;
 

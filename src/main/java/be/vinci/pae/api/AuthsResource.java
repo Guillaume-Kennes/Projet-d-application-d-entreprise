@@ -73,7 +73,8 @@ public class AuthsResource {
     responseObject.putPOJO("user", publicUser);
 
     log = AppLogger.getLogger(publicUser.getLastName());
-    log.log(Level.FINE, "Connexion de " + publicUser.getFirstName() + " " + publicUser.getLastName());
+    log.log(Level.FINE, "Connexion de " + publicUser.getFirstName()
+        + " " + publicUser.getLastName());
 
     return responseObject;
   }
@@ -101,7 +102,8 @@ public class AuthsResource {
     }
 
     log = AppLogger.getLogger(userDTO.getLastName());
-    log.log(Level.FINE, "Création d'un compte pour " + userDTO.getFirstName() + " " + userDTO.getLastName());
+    log.log(Level.FINE, "Création d'un compte pour "
+        + userDTO.getFirstName() + " " + userDTO.getLastName());
 
     return myUserUCC.register(userDTO);
   }

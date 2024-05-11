@@ -77,10 +77,11 @@ public class InternshipResource {
     myContactUcc.acceptInternship(contactDTO);
 
     log = AppLogger.getLogger("Création d'un stage");
-    log.log(Level.FINE, "Création d'un stage dans l'entreprise " + contactDTO.getCompany().getTradeName()
-     + " pour l'étudiant " + contactDTO.getInscriptionUE().getStudent().getFirstName()
-     + " " + contactDTO.getInscriptionUE().getStudent().getLastName() + " avec le sujet suivant : "
-     + internship.getProject());
+    log.log(Level.FINE, "Création d'un stage dans l'entreprise "
+        + contactDTO.getCompany().getTradeName()
+        + " pour l'étudiant " + contactDTO.getInscriptionUE().getStudent().getFirstName()
+        + " " + contactDTO.getInscriptionUE().getStudent().getLastName()
+        + " avec le sujet suivant : " + internship.getProject());
 
     return internship;
   }

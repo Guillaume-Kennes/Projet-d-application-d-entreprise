@@ -133,7 +133,7 @@ public class CompanyResource {
       return null;
     }
 
-    for(ContactDTO c : contacts) {
+    for (ContactDTO c : contacts) {
       System.out.println(c.getInscriptionUE().getStudent().getLastName());
     }
 
