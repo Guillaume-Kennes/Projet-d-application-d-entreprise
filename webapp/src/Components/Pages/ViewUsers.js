@@ -71,6 +71,8 @@ function renderUsers(users) {
       `;
   attachProfileButtonListeners();
 
+  students = users;
+
   const filterButton = document.createElement('button');
   filterButton.className = 'btn btn-outline-light';
   filterButton.id = 'filterButton';
