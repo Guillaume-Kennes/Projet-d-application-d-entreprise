@@ -10,6 +10,7 @@ import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipSupervisorUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
 import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.utils.AppLogger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -27,6 +28,8 @@ import jakarta.ws.rs.core.MediaType;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Resource class for handling user-related endpoints. This class provides endpoints for retrieving
@@ -45,6 +48,7 @@ public class UserResource {
   private ContactUCC myContactUcc;
   @Inject
   private InternshipSupervisorUCC mySupervisorUcc;
+  private Logger log;
 
   /**
    * Retrieves user information by their ID.
@@ -100,6 +104,10 @@ public class UserResource {
       response.putPOJO("contactCompanies", companies);
     }
 
+    log = AppLogger.getLogger("Affichage du profil");
+    log.log(Level.FINE, "Affichage du profil de l'utilisateur "
+     + user.getFirstName() + " " + user.getLastName());
+
     return response;
   }
 
@@ -117,7 +125,11 @@ public class UserResource {
   @Authorize(value = {"Professeur", "Administratif"})
   public List<UserDTO> getAllUsers(@Context ContainerRequestContext requestContext) {
     UserDTO authentificatedUser = (UserDTO) requestContext.getProperty("user");
-    System.out.println(authentificatedUser); //juste pour Jenkins
+
+    log = AppLogger.getLogger("Affichage de tous les utilisateurs");
+    log.log(Level.FINE, "Demande d'affichage de tous les utilisateurs par "
+     + authentificatedUser.getFirstName() + " " + authentificatedUser.getLastName());
+
     return myUserUcc.getAllUsers();
   }
 
@@ -133,7 +145,10 @@ public class UserResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Professeur"})
   public int getStudentsWithInternship(@PathParam("school_year") String schoolYear) {
-    System.out.println("SCHOOL YEAR : " + schoolYear);
+    log = AppLogger.getLogger("Etudiants avec stage");
+    log.log(Level.FINE, "Etudiants ayant un stage pour l'année académique "
+     + schoolYear);
+
     return myUserUcc.getStudentsWithInternship(schoolYear);
   }
 
@@ -149,7 +164,9 @@ public class UserResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Professeur"})
   public int getStudentsWithoutInternship(@PathParam("school_year") String schoolYear) {
-    System.out.println("SCHOOL YEAR : " + schoolYear);
+    log = AppLogger.getLogger("Etudiants sans stage");
+    log.log(Level.FINE, "Etudiants sans stage pour l'année académique "
+        + schoolYear);
     return myUserUcc.getStudentsWithoutInternship(schoolYear);
   }
 
@@ -178,6 +195,11 @@ public class UserResource {
     String newPassword = json.get("password").asText();
 
     myUserUcc.updatePassword(user, newPassword);
+
+    log = AppLogger.getLogger("Changement de mot de passe");
+    log.log(Level.FINE, "Changement du mot de passe de "
+     + user.getFirstName() + " " + user.getLastName());
+
     return user;
   }
 
@@ -204,10 +226,12 @@ public class UserResource {
     }
 
     String newPhone = json.get("phone").asText();
-    System.out.println(newPhone);
-
     myUserUcc.updatePhoneNumber(user, newPhone);
-    System.out.println(user.getPhoneNumber());
+
+    log = AppLogger.getLogger("Changement de numéro de téléphone");
+    log.log(Level.FINE, "Changement du numéro de téléphone de "
+        + user.getFirstName() + " " + user.getLastName());
+
     return user;
   }
 }

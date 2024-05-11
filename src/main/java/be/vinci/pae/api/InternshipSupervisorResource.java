@@ -2,6 +2,7 @@ package be.vinci.pae.api;
 
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
 import be.vinci.pae.business.ucc.InternshipSupervisorUCC;
+import be.vinci.pae.utils.AppLogger;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -12,6 +13,8 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Resource class for handling internship supervisor-related endpoints.
@@ -24,6 +27,7 @@ public class InternshipSupervisorResource {
 
   @Inject
   private InternshipSupervisorUCC internshipSupervisorUCC;
+  private Logger log;
 
   /**
    * Creates a new internship supervisor with the provided information.
@@ -41,16 +45,9 @@ public class InternshipSupervisorResource {
     InternshipSupervisorDTO supervisor;
 
     String firstName = json.get("firstname").asText();
-    System.out.println("prénom" + firstName);
-
     String lastName = json.get("name").asText();
-    System.out.println("nom" + lastName);
-
     String phoneNumber = json.get("phone").asText();
-    System.out.println("numéro de téléphone" + phoneNumber);
-
     int company = json.get("companyId").asInt();
-    System.out.println("entreprise" + company);
 
     JsonNode emailNode = json.get("email");
     if (emailNode != null) {
@@ -63,6 +60,10 @@ public class InternshipSupervisorResource {
           internshipSupervisorUCC.createAnInternshipSupervisor(firstName,
               lastName, phoneNumber, null, company);
     }
+
+    log = AppLogger.getLogger("Création d'un superviseur de stage");
+    log.log(Level.FINE, "Création d'un nouveau superviseur de stage : "
+     + supervisor.getFirstName() + " " + supervisor.getLastName());
 
     return supervisor;
   }

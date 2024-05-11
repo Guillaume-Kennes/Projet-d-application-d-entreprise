@@ -5,6 +5,7 @@ import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.ucc.CompanyUCC;
 import be.vinci.pae.business.ucc.ContactUCC;
+import be.vinci.pae.utils.AppLogger;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -20,6 +21,8 @@ import jakarta.ws.rs.core.Response.Status;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -33,6 +36,7 @@ public class CompanyResource {
   private CompanyUCC companyUCC;
   @Inject
   private ContactUCC contactUCC;
+  private Logger log;
 
   /**
    * Get all enterprises.
@@ -62,10 +66,10 @@ public class CompanyResource {
   }
 
   /**
-   * Adds a new contact.
+   * Adds a new company.
    *
-   * @param newCompanyDTO The contact data to be added.
-   * @return The added contact data.
+   * @param newCompanyDTO The company data to be added.
+   * @return The added company data.
    */
   @POST
   @Path("/add")
@@ -79,29 +83,29 @@ public class CompanyResource {
       if (newCompanyDTO == null) {
         throw new WebApplicationException("Invalid company data", Status.BAD_REQUEST);
       }
-      System.out.println("rentre ici 1");
+
       CompanyDTO addedCompanyDTO = companyUCC.addCompany(newCompanyDTO);
-      System.out.println("CompanyResource ---> addedCompanyDTO : " + addedCompanyDTO);
+
       if (addedCompanyDTO == null) {
-        System.out.println("rentre ici 2");
         throw new WebApplicationException("Company could not be added",
             Status.INTERNAL_SERVER_ERROR);
       }
-      System.out.println(
-          "CompanyResource ---> addedCompanyDTO tradeName : " + addedCompanyDTO.getTradeName());
+      log = AppLogger.getLogger("Ajout d'une entreprise");
+      log.log(Level.FINE, "Ajout de l'entreprise " + addedCompanyDTO.getTradeName() + " "
+       + addedCompanyDTO.getDesignation());
+
       return addedCompanyDTO;
+
     } catch (Exception e) {
-      System.out.println("ici ?");
-      System.out.println("CompanyResource exception");
       throw new WebApplicationException("Failed to add contact", Status.INTERNAL_SERVER_ERROR);
     }
   }
 
   /**
-   * Get company by id.
+   * Get the number of students taken by a company.
    *
    * @param idCompany the id of the company
-   * @return the company by id
+   * @return the number of students
    */
   @GET
   @Path("/numberOfStudentsTaken/{idCompany}")
@@ -132,6 +136,11 @@ public class CompanyResource {
     for(ContactDTO c : contacts) {
       System.out.println(c.getInscriptionUE().getStudent().getLastName());
     }
+
+    log = AppLogger.getLogger("Demande de contacts pour une entreprise");
+    log.log(Level.FINE, "Demande de visualisation de tous les contacts"
+        + " de l'entreprise " + companyUCC.getCompanyById(id).getTradeName());
+
     return contacts;
   }
 
@@ -150,7 +159,6 @@ public class CompanyResource {
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Professeur"})
   public CompanyDTO blacklist(@PathParam("id_com") int idCompany, JsonNode json) {
-    System.out.println("CompanyResource ------> blacklist : " + idCompany + json);
     CompanyDTO companyDTO = companyUCC.getCompanyById(idCompany);
     if (companyDTO == null) {
       throw new IllegalArgumentException("Company not found");
@@ -160,10 +168,13 @@ public class CompanyResource {
       throw new IllegalArgumentException("Request body is missing or not a valid JSON");
     }
 
-    String reasonForRefusal = json.get("reasonBlackList").asText(); // reasonBlackList et non reason
-    System.out.println("reason_for_refusal : " + reasonForRefusal);
-
+    String reasonForRefusal = json.get("reasonBlackList").asText();
     companyUCC.blackList(companyDTO, reasonForRefusal);
+
+    log = AppLogger.getLogger("Blacklisting d'une entreprise");
+    log.log(Level.FINE, "Blacklisting de l'entreprise " + companyDTO.getTradeName()
+     + " pour la raison suivante : " + reasonForRefusal);
+
     return companyDTO;
   }
 }

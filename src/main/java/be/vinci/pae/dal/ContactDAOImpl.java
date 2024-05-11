@@ -6,12 +6,15 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UEInscription;
 import be.vinci.pae.business.domain.UEInscriptionDTO;
+import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the ContactDAO interface.
@@ -26,8 +29,7 @@ public class ContactDAOImpl implements ContactDAO {
   private CompanyDAO companyDAO;
   @Inject
   private UEInscriptionDAO inscriptionDAO;
-  @Inject
-  private UserDAO userdao;
+  private Logger log;
 
   /**
    * Retrieves a contact by its ID.
@@ -118,7 +120,6 @@ public class ContactDAOImpl implements ContactDAO {
         int correctVersion = 0; // faire executeQuery avec RETURNING
         if (rs.next()) {
           correctVersion = rs.getInt("version_contacts");
-          System.out.println("Version dans update : " + correctVersion);
         }
         if (correctVersion == 0) {
           if (getContactById(contactDTO.getId()) == null) {
@@ -222,32 +223,6 @@ public class ContactDAOImpl implements ContactDAO {
           null, true, null, 1)
           RETURNING *;
           """;
-      /*
-            String query = """
-              INSERT INTO pae.contacts (
-              state,
-              enterprise,
-              inscription_ue,
-              reason_for_refusal,
-              is_followed,
-              meeting_place,
-              version_contacts)
-          VALUES ('initié',
-          (SELECT e.id_enterprise
-           FROM pae.enterprises e
-           WHERE e.trade_name LIKE ?),
-          (SELECT DISTINCT i.id_inscription_ue
-           FROM pae.users u, pae.inscriptions_ue i
-           WHERE u.id_user = i.student
-           AND u.id_user =  ?),
-          null, true, null, 1)
-          RETURNING *;
-          """;
-       */
-
-      // String tradeName = "N"; // Or any other search term
-      // String wildcardTradeName = "%" + tradeName + "%";
-      // changer le wildcard en id de l entreprise
 
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setInt(1, contactDTO.getEnterprise());
@@ -255,27 +230,21 @@ public class ContactDAOImpl implements ContactDAO {
         System.out.println("ContactDAOImpl ps : " + ps);
         ps.executeQuery(); // ou ps.execute() ?
         // ps.setInt(3, 1);
-
-        System.out.println("ContactDAOImpl -------> Enterprise : "
-            + contactDTO.getEnterprise());
-        System.out.println("ContactDAOImpl -------> UserId : "
-            + contactDTO.getUserId());
-        System.out.println("ContactDAOImpl -------> Version Number : "
-            + contactDTO.getVersionNumber());
-        System.out.println("ContactDAOImpl ----> ps : " + ps);
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println(
-        "ContactDAOImpl contactDTO : " + "\n"
-            + "State : " + contactDTO.getState() + "\n"
-            + "Enterprise : " + contactDTO.getEnterprise() + "\n"
-            + "UserId : " + contactDTO.getUserId() + "\n"
-            + "ReasonForRefusal : " + contactDTO.getReasonForRefusal() + "\n"
-            + "MeetingPlace : " + contactDTO.getMeetingPlace() + "\n"
-            + "VersionContacts : " + contactDTO.getVersionNumber() + "\n"
-    );
+
+    log = AppLogger.getLogger("Création d'un contact");
+    log.log(Level.FINE, "Création d'un contact\n"
+     + "ContactDAOImpl contactDTO : " + "\n"
+        + "State : " + contactDTO.getState() + "\n"
+        + "Enterprise : " + contactDTO.getEnterprise() + "\n"
+        + "UserId : " + contactDTO.getUserId() + "\n"
+        + "ReasonForRefusal : " + contactDTO.getReasonForRefusal() + "\n"
+        + "MeetingPlace : " + contactDTO.getMeetingPlace() + "\n"
+        + "VersionContacts : " + contactDTO.getVersionNumber() + "\n");
+
     return contactDTO;
   }
 
