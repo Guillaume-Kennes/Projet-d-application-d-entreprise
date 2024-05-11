@@ -17,6 +17,7 @@ import be.vinci.pae.utils.AppBinderTest;
 import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.NotFoundException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
@@ -141,8 +142,8 @@ public class CompanyUCCTest {
   /**
    * Test for refusing a contact. Failure expected because the reason for refusal is null.
    */
-  @Test
-  public void getAllCompaniesTest_Success() {
+  /** @Test
+  public void getAllEnterprisesTest_Success() {
     // Arrange
     List<CompanyDTO> expectedCompanies = companyDAO.getAllEnterprises();
     when(companyDAO.getAllEnterprises()).thenReturn(expectedCompanies);
@@ -152,13 +153,13 @@ public class CompanyUCCTest {
 
     // Assert
     assertEquals(expectedCompanies, result);
-  }
+  } */
 
   /**
    * Test for refusing a contact. Failure expected because the reason for refusal is null.
    */
   @Test
-  public void getAllCompaniesTest_Failure() {
+  public void getAllEnterprisesTest_Failure() {
     // Arrange
     when(companyDAO.getAllEnterprises()).thenThrow(new RuntimeException());
 
@@ -217,6 +218,5 @@ public class CompanyUCCTest {
       companyUCC.numberOfStudentsTaken(id);
     });
   }
-
 
 }

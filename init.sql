@@ -2,64 +2,64 @@ DROP SCHEMA IF EXISTS pae CASCADE;
 CREATE SCHEMA pae;
 
 CREATE TABLE pae.users(
-                          id_user SERIAL PRIMARY KEY,
-                          email VARCHAR(50) NOT NULL,
-                          password VARCHAR(60) NOT NULL,
-                          last_name VARCHAR(20) NOT NULL,
-                          first_name VARCHAR(20) NOT NULL,
-                          phone_number CHAR(13),
-                          registration_date DATE NOT NULL,
-                          role VARCHAR(15) NOT NULL,
-                          version_users int NOT NULL
+    id_user SERIAL PRIMARY KEY,
+    email VARCHAR(50) NOT NULL,
+    password VARCHAR(60) NOT NULL,
+    last_name VARCHAR(20) NOT NULL,
+    first_name VARCHAR(20) NOT NULL,
+    phone_number CHAR(18),
+    registration_date DATE NOT NULL,
+    role VARCHAR(15) NOT NULL,
+    version_users int NOT NULL
 );
 
 CREATE TABLE pae.enterprises(
-                                id_enterprise SERIAL PRIMARY KEY,
-                                trade_name VARCHAR(30) NOT NULL,
-                                designation VARCHAR(60),
-                                address VARCHAR(50) NOT NULL,
-                                city VARCHAR(60) NOT NULL,
-                                means_of_communication VARCHAR(50) NOT NULL,
-                                is_black_listed boolean NOT NULL,
-                                motivation_black_list VARCHAR(200),
-                                version_enterprises int NOT NULL
+    id_enterprise SERIAL PRIMARY KEY,
+    trade_name VARCHAR(30) NOT NULL,
+    designation VARCHAR(60),
+    address VARCHAR(50) NOT NULL,
+    city VARCHAR(60) NOT NULL,
+    means_of_communication VARCHAR(50) NOT NULL,
+    is_black_listed boolean NOT NULL,
+    motivation_black_list VARCHAR(200),
+    version_enterprises int NOT NULL
 );
 
 CREATE TABLE pae.internship_supervisors(
-                                           id_supervisor SERIAL PRIMARY KEY,
-                                           enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
-                                           supervisor_last_name VARCHAR(20) NOT NULL,
-                                           supervisor_first_name VARCHAR(20) NOT NULL,
-                                           phone_number VARCHAR(13),
-                                           email CHAR(50),
-                                           version_internship_surpervisors int NOT NULL
+    id_supervisor SERIAL PRIMARY KEY,
+    enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
+    supervisor_last_name VARCHAR(20) NOT NULL,
+    supervisor_first_name VARCHAR(20) NOT NULL,
+    phone_number VARCHAR(18),
+    email CHAR(50),
+    version_internship_surpervisors int NOT NULL
 );
 
 CREATE TABLE pae.inscriptions_ue(
-                                    id_inscription_ue SERIAL PRIMARY KEY,
-                                    student INTEGER REFERENCES pae.users (id_user),
-                                    school_year VARCHAR(9) NOT NULL,
-                                    version_inscriptions_ue int NOT NULL
+    id_inscription_ue SERIAL PRIMARY KEY,
+    student INTEGER REFERENCES pae.users (id_user),
+    school_year VARCHAR(9) NOT NULL,
+    version_inscriptions_ue int NOT NULL
 );
 
 CREATE TABLE pae.contacts(
-                             id_contact SERIAL PRIMARY KEY,
-                             state VARCHAR(15) NOT NULL,
-                             enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
-                             inscription_ue INTEGER REFERENCES pae.inscriptions_ue (id_inscription_ue),
-                             reason_for_refusal  VARCHAR(200),
-                             is_followed BOOLEAN NOT NULL,
-                             meeting_place varchar(20),
-                             version_contacts int
+    id_contact SERIAL PRIMARY KEY,
+    state VARCHAR(15) NOT NULL,
+    enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
+    inscription_ue INTEGER REFERENCES pae.inscriptions_ue (id_inscription_ue),
+    reason_for_refusal  VARCHAR(200),
+    is_followed BOOLEAN NOT NULL,
+    meeting_place varchar(20),
+    version_contacts int
 );
 
 CREATE TABLE pae.internships(
-                                id_internship SERIAL PRIMARY KEY,
-                                contact INTEGER REFERENCES pae.contacts (id_contact),
-                                internship_supervisor INTEGER REFERENCES pae.internship_supervisors (id_supervisor),
-                                internship_project VARCHAR(50),
-                                signature_date DATE NOT NULL,
-                                version_internships int NOT NULL
+    id_internship SERIAL PRIMARY KEY,
+    contact INTEGER REFERENCES pae.contacts (id_contact),
+    internship_supervisor INTEGER REFERENCES pae.internship_supervisors (id_supervisor),
+    internship_project VARCHAR(50),
+    signature_date DATE NOT NULL,
+    version_internships int NOT NULL
 );
 
 
@@ -175,13 +175,13 @@ INSERT INTO pae.users (email, password, last_name, first_name, phone_number, reg
 VALUES ('elle.skile@student.vinci.be', '$2a$12$apxeP3MlY5R7IGkxYc/H4.WzjnPeJnPO45tWMt2dZ4mukoXt.xdwa', 'Skile', 'Elle', '0491 00 00 01', '21-09-21', 'Etudiant', 1);
 
 INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role, version_users)
-VALUES ('basile.Ilotie@student.vinci.be', '$2a$12$apxeP3MlY5R7IGkxYc/H4.WzjnPeJnPO45tWMt2dZ4mukoXt.xdwa', 'Ilotie', 'Basile', '0491 00 00 11', '21-09-21', 'Etudiant', 1);
+VALUES ('basile.ilotie@student.vinci.be', '$2a$12$apxeP3MlY5R7IGkxYc/H4.WzjnPeJnPO45tWMt2dZ4mukoXt.xdwa', 'Ilotie', 'Basile', '0491 00 00 11', '21-09-21', 'Etudiant', 1);
 
 INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role, version_users)
 VALUES ('basile.frilot@student.vinci.be', '$2a$12$apxeP3MlY5R7IGkxYc/H4.WzjnPeJnPO45tWMt2dZ4mukoXt.xdwa', 'Frilot', 'Basile', '0491 00 00 21', '21-09-21', 'Etudiant', 1);
 
 INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role, version_users)
-VALUES ('basile.Ilot@student.vinci.be', '$2a$12$apxeP3MlY5R7IGkxYc/H4.WzjnPeJnPO45tWMt2dZ4mukoXt.xdwa', 'Ilot', 'Basile', '0492 00 00 01', '21-09-21', 'Etudiant', 1);
+VALUES ('basile.ilot@student.vinci.be', '$2a$12$apxeP3MlY5R7IGkxYc/H4.WzjnPeJnPO45tWMt2dZ4mukoXt.xdwa', 'Ilot', 'Basile', '0492 00 00 01', '21-09-21', 'Etudiant', 1);
 
 INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role, version_users)
 VALUES ('arnaud.dito@student.vinci.be', '$2a$12$apxeP3MlY5R7IGkxYc/H4.WzjnPeJnPO45tWMt2dZ4mukoXt.xdwa', 'Dito', 'Arnaud', '0493 00 00 01', '21-09-21', 'Etudiant', 1);
@@ -555,7 +555,7 @@ VALUES (24, 3, 'CRM : Microsoft Dynamics 365 For Sales', '12-10-23', 1);
 - Comptage du nombre de stages par année académique.
 - Comptage du nombre de contacts par année académique.
 - Etats (en format lisible par le client) et comptage du nombre de contacts dans chacun des états
-*/
+ */
 
 SELECT COUNT(*) AS nombre_utilisateurs
 FROM pae.users;
@@ -567,14 +567,14 @@ FROM pae.enterprises;
 
 SELECT school_year, COUNT(*) AS nombre_stages
 FROM pae.inscriptions_ue i
-         JOIN pae.contacts c ON i.id_inscription_ue = c.inscription_ue
-         JOIN pae.internships s ON c.id_contact = s.contact
+JOIN pae.contacts c ON i.id_inscription_ue = c.inscription_ue
+JOIN pae.internships s ON c.id_contact = s.contact
 GROUP BY school_year;
 
 
 SELECT school_year, COUNT(*) AS nombre_contacts
 FROM pae.inscriptions_ue i
-         JOIN pae.contacts c ON i.id_inscription_ue = c.inscription_ue
+JOIN pae.contacts c ON i.id_inscription_ue = c.inscription_ue
 GROUP BY school_year;
 
 
@@ -587,7 +587,7 @@ SELECT
         WHEN state = 'suspendu' THEN 'Suspendu'
         WHEN state = 'non suivi' THEN 'Non suivi'
         ELSE 'Autre'
-        END AS etat_contact,
+    END AS etat_contact,
     COUNT(*) AS nombre_contacts
 FROM pae.contacts
 GROUP BY state;
@@ -597,6 +597,107 @@ GROUP BY state;
 
 
 
+/*NEW*/
+/*
+1. Comptage du nombre d’utilisateurs, par rôle et par année académique.
+2. Année académique et comptage du nombre de stages par année académique.
+3. Entreprise, année académique, et comptage du nombre de stages par entreprise et année
+académique.
+4. Année académique et comptage du nombre de contacts par année académique.
+5. Etats (en format lisible par le client) et comptage du nombre de contacts dans chacun des
+états.
+6. Année académique, états (en format lisible par le client) et comptage du nombre de contacts
+dans chacun des états par année académique.
+7. Entreprise, états (en format lisible par le client) et comptage du nombre de contacts dans
+chacun des états par entreprise.
+*/
+
+/*1*/
+SELECT role, EXTRACT(YEAR FROM registration_date) AS année_académique, COUNT(*) AS nombre_d_utilisateurs
+FROM pae.users
+GROUP BY role, EXTRACT(YEAR FROM registration_date)
+ORDER BY role, EXTRACT(YEAR FROM registration_date);
+
+
+/*2*/
+SELECT EXTRACT(YEAR FROM signature_date) AS année_académique, COUNT(*) AS nombre_de_stages
+FROM pae.internships
+GROUP BY EXTRACT(YEAR FROM signature_date)
+ORDER BY EXTRACT(YEAR FROM signature_date);
+
+
+/*3*/
+SELECT e.trade_name AS enterprise, EXTRACT(YEAR FROM i.signature_date) AS année_académique, COUNT(*) AS nombre_de_stages
+FROM pae.internships i
+JOIN pae.internship_supervisors s ON i.internship_supervisor = s.id_supervisor
+JOIN pae.enterprises e ON s.enterprise = e.id_enterprise
+GROUP BY e.trade_name, EXTRACT(YEAR FROM i.signature_date)
+ORDER BY e.trade_name, EXTRACT(YEAR FROM i.signature_date);
+
+
+/*4*/
+SELECT EXTRACT(YEAR FROM u.registration_date) AS année_académique, COUNT(*) AS nombre_de_contacts
+FROM pae.contacts c
+JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
+JOIN pae.users u ON iu.student = u.id_user
+GROUP BY EXTRACT(YEAR FROM u.registration_date)
+ORDER BY EXTRACT(YEAR FROM u.registration_date);
+
+
+/*5*/
+SELECT
+    CASE
+        WHEN state = 'initié' THEN 'Initié'
+        WHEN state = 'pris' THEN 'Pris'
+        WHEN state = 'accepté' THEN 'Accepté'
+        WHEN state = 'refusé' THEN 'Refusé'
+        WHEN state = 'suspendu' THEN 'Suspendu'
+        WHEN state = 'non suivi' THEN 'Non suivi'
+        ELSE state
+    END AS etat_contact,
+    COUNT(*) AS nombre_de_contacts
+FROM pae.contacts
+GROUP BY state
+ORDER BY state;
+
+
+/*6*/
+SELECT
+    EXTRACT(YEAR FROM u.registration_date) AS année_académique,
+    CASE
+        WHEN state = 'initié' THEN 'Initié'
+        WHEN state = 'pris' THEN 'Pris'
+        WHEN state = 'accepté' THEN 'Accepté'
+        WHEN state = 'refusé' THEN 'Refusé'
+        WHEN state = 'suspendu' THEN 'Suspendu'
+        WHEN state = 'non suivi' THEN 'Non suivi'
+        ELSE state
+    END AS state_description,
+    COUNT(*) AS nombre_de_contacts
+FROM pae.contacts c
+JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
+JOIN pae.users u ON iu.student = u.id_user
+GROUP BY EXTRACT(YEAR FROM u.registration_date), c.state
+ORDER BY EXTRACT(YEAR FROM u.registration_date), c.state;
+
+
+/*7*/
+SELECT
+    e.trade_name AS enterprise,
+    CASE
+        WHEN state = 'initié' THEN 'Initié'
+        WHEN state = 'pris' THEN 'Pris'
+        WHEN state = 'accepté' THEN 'Accepté'
+        WHEN state = 'refusé' THEN 'Refusé'
+        WHEN state = 'suspendu' THEN 'Suspendu'
+        WHEN state = 'non suivi' THEN 'Non suivi'
+        ELSE state
+    END AS state_description,
+    COUNT(*) AS contact_count
+FROM pae.contacts c
+JOIN pae.enterprises e ON c.enterprise = e.id_enterprise
+GROUP BY e.trade_name, c.state
+ORDER BY e.trade_name, c.state;
 
 
 
@@ -638,4 +739,40 @@ FROM pae.users u, pae.inscriptions_ue i
 WHERE u.id_user = i.student
 AND u.id_user = 10;
 
-*/
+
+ */
+
+
+
+/*
+INSERT INTO pae.enterprises (trade_name, designation, address, city, means_of_communication, is_black_listed, motivation_black_list, version_enterprises)
+VALUES ('Infrabel', 'I-ICT Ring station', 'Rue des deux gares 82', '1070 Bruxelles', '02.212.88.88', false, null, 1);
+
+
+INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
+VALUES (22, 9, 'initié', null, null, TRUE, 1);
+
+
+INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
+VALUES (2, 9, 'initié', null, null, TRUE, 1);
+
+
+INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
+VALUES (4, 9, 'initié', null, null, TRUE, 1);
+
+
+INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
+VALUES (3, 9, 'initié', null, null, TRUE, 1);
+
+INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
+VALUES (3, 3, 'initié', null, null, TRUE, 1);
+
+
+
+INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
+VALUES (15, 3, 'initié', null, null, TRUE, 1);
+
+
+
+ */
+
