@@ -79,7 +79,8 @@ function sortCompanies(companies, sortColumn, sortOrder) {
 function setCompanyRow(companies) {
   const body = document.querySelector("tbody");
   companies.forEach(company =>  {
-
+    const usersList = document.createElement('div');
+    usersList.id = 'usersList';
     body.innerHTML += `
       <tr>
             <td>${company.id}</td>

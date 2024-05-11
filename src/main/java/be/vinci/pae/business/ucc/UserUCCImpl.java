@@ -211,4 +211,25 @@ public class UserUCCImpl implements UserUCC {
       throw e;
     }
   }
+
+
+  /**
+   * Retrieves a list of students based on the specified academic year.
+   *
+   * @param academicYear The academic year for which to retrieve students.
+   * @return A list of UserDTO objects representing the
+   *     students for the specified academic year.
+   */
+  @Override
+  public List<UserDTO> getStudentsByAcademicYear(String academicYear) {
+    dalServices.start();
+    try {
+      List<UserDTO> users = userDAO.getStudentsByAcademicYear(academicYear);
+      dalServices.commit();
+      return users;
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
 }
