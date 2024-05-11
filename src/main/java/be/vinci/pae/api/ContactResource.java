@@ -64,7 +64,7 @@ public class ContactResource {
 
     log = AppLogger.getLogger("Indication d'une rencontre");
     log.log(Level.FINE, "Rencontre avec l'entreprise " + contact.getCompany().getTradeName()
-      + ", lieu de rencontre : " + meetLocation);
+        + ", lieu de rencontre : " + meetLocation);
 
     return contact;
   }
@@ -125,7 +125,7 @@ public class ContactResource {
 
     log = AppLogger.getLogger("Refus d'un contact");
     log.log(Level.FINE, "Refus d'un contact par l'entreprise " + contact.getCompany().getTradeName()
-      + " pour la raison suivante : " + reasonForRefusal);
+        + " pour la raison suivante : " + reasonForRefusal);
 
     return contact;
   }
@@ -155,7 +155,7 @@ public class ContactResource {
 
     log = AppLogger.getLogger("Récupération des contacts");
     log.log(Level.FINE, "Récupération des contacts de l'étudiant "
-      + user.getFirstName() + " " + user.getLastName());
+        + user.getFirstName() + " " + user.getLastName());
 
     return contacts;
   }

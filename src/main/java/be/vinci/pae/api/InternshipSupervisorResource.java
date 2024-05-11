@@ -63,7 +63,7 @@ public class InternshipSupervisorResource {
 
     log = AppLogger.getLogger("Création d'un superviseur de stage");
     log.log(Level.FINE, "Création d'un nouveau superviseur de stage : "
-      + supervisor.getFirstName() + " " + supervisor.getLastName());
+        + supervisor.getFirstName() + " " + supervisor.getLastName());
 
     return supervisor;
   }

@@ -127,7 +127,7 @@ public class InternshipDAOImpl implements InternshipDAO {
 
     log = AppLogger.getLogger("Création d'un stage");
     log.log(Level.FINE, "Cration d'un stage :"
-      + contact + " " + supervisor + " " + projet
+        + contact + " " + supervisor + " " + projet
         + " " + signatureDate);
 
     return myDomainFactory.getInternship();

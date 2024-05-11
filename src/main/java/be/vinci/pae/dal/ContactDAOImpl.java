@@ -237,7 +237,7 @@ public class ContactDAOImpl implements ContactDAO {
 
     log = AppLogger.getLogger("Création d'un contact");
     log.log(Level.FINE, "Création d'un contact\n"
-      + "ContactDAOImpl contactDTO : " + "\n"
+        + "ContactDAOImpl contactDTO : " + "\n"
         + "State : " + contactDTO.getState() + "\n"
         + "Enterprise : " + contactDTO.getEnterprise() + "\n"
         + "UserId : " + contactDTO.getUserId() + "\n"
