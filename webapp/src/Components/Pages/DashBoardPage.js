@@ -2,7 +2,7 @@ import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels';
 import {clearPage} from "../../utils/render";
 import {getToken} from "../../utils/user";
-import Navigate from '../Router/Navigate';
+import Navigate from "../Router/Navigate";
 
 
 const viewDashBoard = async () => {
@@ -420,7 +420,7 @@ async function blacklistCompany(e, idCompany) {
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
-    Navigate('/dashboard');
+    window.location.reload();
   } catch (error) {
     console.error('Error setting refusal reason :', error);
   }

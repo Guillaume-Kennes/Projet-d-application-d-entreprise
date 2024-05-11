@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
+import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.Date;
@@ -10,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the InternshipDAO interface. Provides methods for retrieving internship-related
@@ -22,10 +25,7 @@ public class InternshipDAOImpl implements InternshipDAO {
 
   @Inject
   private DALBackServices dalServices;
-  @Inject
-  private ContactDAO contactDAO;
-  @Inject
-  private InternshipSupervisorDAO supervisorDAO;
+  private Logger log;
 
   /**
    * Retrieves an internship by their user id from the database.
@@ -42,17 +42,16 @@ public class InternshipDAOImpl implements InternshipDAO {
             + "WHERE i.contact = c.id_contact AND c.inscription_ue = iu.id_inscription_ue "
             + "AND iu.student = u.id_user AND c.enterprise = e.id_enterprise AND "
             + "i.internship_supervisor = s.id_supervisor AND u.id_user = ?");
-    System.out.println("PrepareStatement" + preparedStatement);
+
     try {
       preparedStatement.setInt(1, id);
-      System.out.println("Id " + id);
     } catch (SQLException e) {
       e.printStackTrace();
       throw new FatalException(e);
     }
 
     InternshipDTO internship = myDomainFactory.getInternship();
-    System.out.println("BLABLA" + internship.getId());
+
     try (ResultSet resultSet = preparedStatement.executeQuery()) {
       if (resultSet.next()) {
         internship = internshipInfos(resultSet);
@@ -125,8 +124,12 @@ public class InternshipDAOImpl implements InternshipDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println("Internship insert : " + contact + " "
-        + supervisor + " " + projet + " " + signatureDate);
+
+    log = AppLogger.getLogger("Création d'un stage");
+    log.log(Level.FINE, "Cration d'un stage :"
+        + contact + " " + supervisor + " " + projet
+        + " " + signatureDate);
+
     return myDomainFactory.getInternship();
   }
 

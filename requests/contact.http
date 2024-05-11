@@ -18,3 +18,13 @@ Content-Type: application/json
     "versionNumber": 1
   }
 }
+
+### Insert a new Contact
+POST {{baseUrl}}/contacts/add
+Content-Type: application/json
+Authorization: {{carolineToken}}
+
+{
+  "enterprise": 1,
+  "userId": 1
+}

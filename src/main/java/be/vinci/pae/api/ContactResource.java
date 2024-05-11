@@ -5,6 +5,7 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.utils.AppLogger;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -19,6 +20,8 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response.Status;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Resource class for managing contacts.
@@ -31,6 +34,7 @@ public class ContactResource {
   private ContactUCC myContactUcc;
   @Inject
   private UserUCC myUserUcc;
+  private Logger log;
 
   /**
    * Endpoint for meeting a company.
@@ -58,6 +62,10 @@ public class ContactResource {
 
     myContactUcc.meetCompany(contact, meetLocation);
 
+    log = AppLogger.getLogger("Indication d'une rencontre");
+    log.log(Level.FINE, "Rencontre avec l'entreprise " + contact.getCompany().getTradeName()
+        + ", lieu de rencontre : " + meetLocation);
+
     return contact;
   }
 
@@ -79,6 +87,14 @@ public class ContactResource {
     }
 
     myContactUcc.stopFollowing(contact);
+
+    log = AppLogger.getLogger("Abandon d'un contact");
+    log.log(Level.FINE, "Abandon du contact entre "
+        + contact.getInscriptionUE().getStudent().getFirstName()
+        + " " + contact.getInscriptionUE().getStudent().getLastName()
+        + " et l'entreprise "
+        + contact.getCompany().getTradeName());
+
     return contact;
   }
 
@@ -105,9 +121,12 @@ public class ContactResource {
     }
 
     String reasonForRefusal = json.get("reasonRefusal").asText();
-    System.out.println("reason_for_refusal : " + reasonForRefusal);
-
     myContactUcc.companyRefusedInternship(contact, reasonForRefusal);
+
+    log = AppLogger.getLogger("Refus d'un contact");
+    log.log(Level.FINE, "Refus d'un contact par l'entreprise " + contact.getCompany().getTradeName()
+        + " pour la raison suivante : " + reasonForRefusal);
+
     return contact;
   }
 
@@ -134,6 +153,10 @@ public class ContactResource {
       return null;
     }
 
+    log = AppLogger.getLogger("Récupération des contacts");
+    log.log(Level.FINE, "Récupération des contacts de l'étudiant "
+        + user.getFirstName() + " " + user.getLastName());
+
     return contacts;
   }
 
@@ -149,30 +172,26 @@ public class ContactResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Etudiant"})
   public ContactDTO addContact(ContactDTO newContactDTO) {
-    System.out.println(newContactDTO.getUser().getId());
-    int userId = newContactDTO.getUser().getId();
-    System.out.println("ContactResource -------> newContactDTO : " + newContactDTO);
-    System.out.println("ContactResource -------> userId : " + userId);
-    // Validate the new item
     try {
       if (newContactDTO == null) {
         throw new WebApplicationException("Invalid contact data", Status.BAD_REQUEST);
       }
-      // newContactDTO.setUserId(userId);
-      // Add the new item
       ContactDTO addedContactDTO = myContactUcc.addContact(newContactDTO);
-      System.out.println(
-          "ContactRessource -------> addedContactDTO userId : " + addedContactDTO.getUser()
-              .getId());
+
       if (addedContactDTO == null) {
         throw new WebApplicationException("Contact could not be added",
             Status.INTERNAL_SERVER_ERROR);
       }
-      System.out.println(
-          "ContactResource ---> addedContactDTO tradeName : " + addedContactDTO.getTradeName());
+
+      log = AppLogger.getLogger("Ajout d'un contact");
+      log.log(Level.FINE, "Création d'un contact entre "
+          + addedContactDTO.getCompany().getTradeName()
+          + " et "
+          + addedContactDTO.getInscriptionUE().getStudent().getFirstName());
+
       return addedContactDTO;
+
     } catch (Exception e) {
-      System.out.println("ContactResource exception");
       throw new WebApplicationException("Failed to add contact", Status.INTERNAL_SERVER_ERROR);
     }
   }

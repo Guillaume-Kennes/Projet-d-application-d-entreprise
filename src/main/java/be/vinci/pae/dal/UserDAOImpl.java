@@ -185,7 +185,7 @@ public class UserDAOImpl implements UserDAO {
     String query = "SELECT COUNT (iu.student) FROM pae.inscriptions_ue iu, pae.contacts c "
         + "WHERE c.inscription_ue = iu.id_inscription_ue "
         + "AND c.state = 'accepté' AND iu.school_year = ? ;";
-    System.out.println("QUERY = " + query);
+
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
       try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -221,7 +221,7 @@ public class UserDAOImpl implements UserDAO {
         + "SELECT DISTINCT student "
         + "FROM pae.inscriptions_ue "
         + "WHERE school_year = ? )";
-    System.out.println("QUERY = " + query);
+
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
       preparedStatement.setString(2, schoolYear);

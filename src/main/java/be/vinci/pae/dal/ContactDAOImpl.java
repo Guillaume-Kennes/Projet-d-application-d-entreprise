@@ -6,12 +6,15 @@ import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.UEInscription;
 import be.vinci.pae.business.domain.UEInscriptionDTO;
+import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the ContactDAO interface.
@@ -26,8 +29,7 @@ public class ContactDAOImpl implements ContactDAO {
   private CompanyDAO companyDAO;
   @Inject
   private UEInscriptionDAO inscriptionDAO;
-  @Inject
-  private UserDAO userdao;
+  private Logger log;
 
   /**
    * Retrieves a contact by its ID.
@@ -118,7 +120,6 @@ public class ContactDAOImpl implements ContactDAO {
         int correctVersion = 0; // faire executeQuery avec RETURNING
         if (rs.next()) {
           correctVersion = rs.getInt("version_contacts");
-          System.out.println("Version dans update : " + correctVersion);
         }
         if (correctVersion == 0) {
           if (getContactById(contactDTO.getId()) == null) {
@@ -214,10 +215,7 @@ public class ContactDAOImpl implements ContactDAO {
               is_followed,
               meeting_place,
               version_contacts)
-          VALUES ('initié',
-          (SELECT e.id_enterprise
-           FROM pae.enterprises e
-           WHERE e.trade_name LIKE ?),
+          VALUES ('initié', ?,
           (SELECT DISTINCT i.id_inscription_ue
            FROM pae.users u, pae.inscriptions_ue i
            WHERE u.id_user = i.student
@@ -226,37 +224,27 @@ public class ContactDAOImpl implements ContactDAO {
           RETURNING *;
           """;
 
-      // String tradeName = "N"; // Or any other search term
-      // String wildcardTradeName = "%" + tradeName + "%";
-      // changer le wildcard en id de l entreprise
-
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
-        ps.setString(1, contactDTO.getTradeName());
-        ps.setInt(2, contactDTO.getUser().getId());
+        ps.setInt(1, contactDTO.getEnterprise());
+        ps.setInt(2, contactDTO.getUserId());
         System.out.println("ContactDAOImpl ps : " + ps);
         ps.executeQuery(); // ou ps.execute() ?
         // ps.setInt(3, 1);
-
-        System.out.println("ContactDAOImpl -------> Enterprise : "
-            + contactDTO.getTradeName());
-        System.out.println("ContactDAOImpl -------> UserId : "
-            + contactDTO.getUser().getId());
-        System.out.println("ContactDAOImpl -------> Version Number : "
-            + contactDTO.getVersionNumber());
-        System.out.println("ContactDAOImpl ----> ps : " + ps);
       }
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println(
-        "ContactDAOImpl contactDTO : " + "\n"
-            + "State : " + contactDTO.getState() + "\n"
-            + "Enterprise : " + contactDTO.getTradeName() + "\n"
-            + "UserId : " + contactDTO.getUser().getId() + "\n"
-            + "ReasonForRefusal : " + contactDTO.getReasonForRefusal() + "\n"
-            + "MeetingPlace : " + contactDTO.getMeetingPlace() + "\n"
-            + "VersionContacts : " + contactDTO.getVersionNumber() + "\n"
-    );
+
+    log = AppLogger.getLogger("Création d'un contact");
+    log.log(Level.FINE, "Création d'un contact\n"
+        + "ContactDAOImpl contactDTO : " + "\n"
+        + "State : " + contactDTO.getState() + "\n"
+        + "Enterprise : " + contactDTO.getEnterprise() + "\n"
+        + "UserId : " + contactDTO.getUserId() + "\n"
+        + "ReasonForRefusal : " + contactDTO.getReasonForRefusal() + "\n"
+        + "MeetingPlace : " + contactDTO.getMeetingPlace() + "\n"
+        + "VersionContacts : " + contactDTO.getVersionNumber() + "\n");
+
     return contactDTO;
   }
 
@@ -264,8 +252,7 @@ public class ContactDAOImpl implements ContactDAO {
    * Method to retrieve all the contacts made to a company.
    *
    * @param idCompany The ID of the company.
-   * @return A ContactDTO list containing all the contacts
-   *    of the company, or null if not found.
+   * @return A ContactDTO list containing all the contacts of the company, or null if not found.
    * @throws FatalException if the company is not found in the database.
    */
   public ArrayList<ContactDTO> getCompanyContacts(int idCompany) throws SQLException {
@@ -298,8 +285,7 @@ public class ContactDAOImpl implements ContactDAO {
   }
 
   /**
-   * Suspend the other contacts of a user
-   * once they got an internship.
+   * Suspend the other contacts of a user once they got an internship.
    *
    * @param contactDTO The contact DTO to update.
    * @throws FatalException if an SQL error occurs.

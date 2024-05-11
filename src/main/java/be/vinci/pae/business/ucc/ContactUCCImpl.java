@@ -86,7 +86,6 @@ public class ContactUCCImpl implements ContactUCC {
    * @return The updated contact after stopping the follow.
    */
   public ContactDTO stopFollowing(ContactDTO contact) {
-    System.out.println("Contact " + contact);
     dalServices.start();
     try {
       if (contact == null) {
@@ -164,7 +163,6 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       ArrayList<ContactDTO> contactDTOS = contactDAO.getTakenContactsByUserId(id);
 
-      System.out.println("ContactUCCImpl -----> COMMITT");
       dalServices.commit();
       return contactDTOS;
     } catch (Exception e) {
@@ -183,7 +181,6 @@ public class ContactUCCImpl implements ContactUCC {
     try {
       dalServices.start();
       ArrayList<ContactDTO> contactDTOS = contactDAO.getContactsByUserId(id);
-      System.out.println("ContactUCCImpl -----> COMMITT");
       dalServices.commit();
       return contactDTOS;
     } catch (Exception e) {
@@ -201,7 +198,6 @@ public class ContactUCCImpl implements ContactUCC {
   public ContactDTO addContact(ContactDTO contactDTO) {
     dalServices.start();
     try {
-      System.out.println("ContactUCCImpl ------> contactDTO : " + contactDTO);
       ContactDTO contact = contactDAO.insert(contactDTO);
       dalServices.commit();
       return contact;

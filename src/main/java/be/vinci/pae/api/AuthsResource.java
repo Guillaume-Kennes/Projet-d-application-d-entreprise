@@ -3,6 +3,7 @@ package be.vinci.pae.api;
 import be.vinci.pae.api.filters.Authorize;
 import be.vinci.pae.business.domain.UserDTO;
 import be.vinci.pae.business.ucc.UserUCC;
+import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.Config;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -24,6 +25,8 @@ import jakarta.ws.rs.core.Response.Status;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Resource class for handling authentication-related requests. This class provides endpoints for
@@ -37,6 +40,7 @@ public class AuthsResource {
   private final ObjectMapper jsonMapper = new ObjectMapper();
   @Inject
   private UserUCC myUserUCC;
+  private Logger log;
 
   /**
    * Endpoint for user login.
@@ -67,6 +71,11 @@ public class AuthsResource {
     ObjectNode responseObject = jsonMapper.createObjectNode();
     responseObject.put("token", token);
     responseObject.putPOJO("user", publicUser);
+
+    log = AppLogger.getLogger(publicUser.getLastName());
+    log.log(Level.FINE, "Connexion de " + publicUser.getFirstName()
+        + " " + publicUser.getLastName());
+
     return responseObject;
   }
 
@@ -91,6 +100,11 @@ public class AuthsResource {
         || userDTO.getRole() == null || userDTO.getRole().isBlank()) {
       throw new WebApplicationException("Missing information(s)");
     }
+
+    log = AppLogger.getLogger(userDTO.getLastName());
+    log.log(Level.FINE, "Création d'un compte pour "
+        + userDTO.getFirstName() + " " + userDTO.getLastName());
+
     return myUserUCC.register(userDTO);
   }
 
