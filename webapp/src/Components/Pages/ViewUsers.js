@@ -71,12 +71,14 @@ function renderUsers(users) {
       `;
   attachProfileButtonListeners();
 
+  students = users;
+
   const filterButton = document.createElement('button');
   filterButton.className = 'btn btn-outline-light';
   filterButton.id = 'filterButton';
   filterButton.textContent = 'Afficher uniquement les étudiants';
   filterButton.addEventListener('click', async () => {
-    const studentUsers = users.filter(user => user.role === "Etudiant");
+    const studentUsers = students.filter(user => user.role === "Etudiant");
     renderUsers(studentUsers);
   });
 
