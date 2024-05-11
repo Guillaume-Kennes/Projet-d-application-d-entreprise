@@ -1,15 +1,14 @@
 import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels';
-import {clearPage} from "../../utils/render";
-import {getToken} from "../../utils/user";
+import { clearPage } from "../../utils/render";
+import { getToken } from "../../utils/user";
 import Navigate from '../Router/Navigate';
-
 
 const viewDashBoard = async () => {
   clearPage();
   await showPieChart();
   await allCompanies();
-}
+};
 
 async function showPieChart() {
   const main = document.querySelector('main');
@@ -26,7 +25,6 @@ async function showPieChart() {
 
   const canvas = document.createElement('canvas');
   canvas.id = 'pie-chart';
-
 
   dashboard.appendChild(canvas);
 
@@ -48,7 +46,6 @@ async function showPieChartBySchoolYear(schoolYear) {
 
   const studentsFounded = await fetchStudentsWithInternship(schoolYear);
   const studentsNotFound = await fetchStudentsWithoutInternship(schoolYear);
-
 
   const data = {
     labels: ['Ont un stage', 'N\'ont pas de stage'],
@@ -152,7 +149,6 @@ async function setCompanyRow(companies) {
   });
 }
 
-
 async function fetchStudentsWithInternship(schoolYear) {
   const token = getToken();
   const options = {
@@ -188,8 +184,6 @@ async function fetchStudentsWithoutInternship(schoolYear) {
 
   return response.json();
 }
-
-
 
 async function addListeners() {
   const main = document.querySelector("main");
@@ -227,8 +221,6 @@ function sortCompanies(companies, sortColumn, sortOrder) {
 
   });
 }
-
-
 
 async function fetchCompanies() {
   const token = getToken();
@@ -285,8 +277,6 @@ async function fetchGetAllSchoolYears(){
   return response.json();
 }
 
-
-
 async function createSchoolYearDropdown() {
   const dashboard = document.getElementById('dashboard');
 
@@ -314,8 +304,15 @@ async function createSchoolYearDropdown() {
     dropdown.appendChild(option);
   });
 
-  dropdown.value = schoolYears[schoolYears.length - 1];
+  // Créez une option par défaut avec le texte "Choisir une année"
+  const defaultOption = document.createElement('option');
+  defaultOption.value = ''; // Valeur vide pour indiquer qu'aucune année n'est sélectionnée
+  defaultOption.text = 'Choisir une année';
+  defaultOption.disabled = true; // Rendre l'option non sélectionnable
+  defaultOption.selected = true;
+  dropdown.insertBefore(defaultOption, dropdown.firstChild);
 
+  // Supprimez les commentaires pour afficher le menu déroulant
   // dropdown.addEventListener('change', async (event) => {
   //   const selectedOne = event.target.value;
   //   await showPieChartBySchoolYear(selectedOne);
@@ -323,12 +320,11 @@ async function createSchoolYearDropdown() {
   // dashboard.appendChild(dropdown);
 
   dropdown.addEventListener('change', async (event) => {
-    const selectedYear = event.target.value; // Récupérer l'année sélectionnée dans le menu déroulant
+    const academicYear = event.target.value;
+    const selectedYear = academicYear.split('-')[0]; // Extrait la première partie de l'année académique
     try {
-      // Appel à fetchCompaniesBySchoolYear avec l'année sélectionnée
       const companies = await fetchCompaniesBySchoolYear(selectedYear);
-      await showPieChartBySchoolYear(selectedYear);
-      // Mettre à jour le tableau des entreprises avec les nouvelles données
+      await showPieChartBySchoolYear(academicYear);
       await setCompanyRow(companies);
 
     } catch (error) {
@@ -337,7 +333,6 @@ async function createSchoolYearDropdown() {
   });
   dashboard.appendChild(dropdown);
 }
-
 
 
 function showFormBlackList(idCompany) {
