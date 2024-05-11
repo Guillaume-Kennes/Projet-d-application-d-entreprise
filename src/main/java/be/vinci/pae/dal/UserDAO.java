@@ -84,6 +84,13 @@ public interface UserDAO {
    */
   void updatePassword(UserDTO userDTO, String password);
 
+  /**
+   * Retrieves a list of students based on the specified academic year.
+   *
+   * @param academicYear The academic year for which to retrieve students.
+   * @return A list of UserDTO objects representing the
+   *     students for the specified academic year.
+   */
   List<UserDTO> getStudentsByAcademicYear(String academicYear);
 }
 

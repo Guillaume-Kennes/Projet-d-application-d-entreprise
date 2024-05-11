@@ -235,6 +235,14 @@ public class UserResource {
     return user;
   }
 
+
+  /**
+   * Retrieves a list of students based on the specified academic year.
+   *
+   * @param schoolYear The academic year for which to retrieve students.
+   * @return A list of UserDTO objects representing the
+   *     students for the specified academic year.
+   */
   @GET
   @Path("getStudentsByAcademicYear/{schoolYear}")
   @Produces(MediaType.APPLICATION_JSON)
