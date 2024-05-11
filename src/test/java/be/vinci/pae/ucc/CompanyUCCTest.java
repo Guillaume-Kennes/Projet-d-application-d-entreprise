@@ -188,7 +188,6 @@ public class CompanyUCCTest {
     assertEquals(expectedCompany, result);
   }
 
-
   /**
    * Test for refusing a contact. Failure expected because the reason for refusal is null.
    */
