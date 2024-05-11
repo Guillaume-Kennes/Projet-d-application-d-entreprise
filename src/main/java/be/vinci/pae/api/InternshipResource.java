@@ -1,5 +1,6 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
@@ -62,7 +63,7 @@ public class InternshipResource {
 
     System.out.println("signatureDate : " + signatureDate);
 
-    // ContactDTO contactDTO = myContactUcc.getContactById(contact);
+    ContactDTO contactDTO = myContactUcc.getContactById(contact);
     JsonNode projetNode = json.get("sujet");
     if (projetNode != null) {
       String projet = projetNode.asText();
@@ -72,7 +73,7 @@ public class InternshipResource {
           myinternshipUCC.createAnInternship(contact, supervisor, null, signatureDate);
     }
 
-    // myContactUcc.acceptInternship(contactDTO);
+    myContactUcc.acceptInternship(contactDTO);
     return internship;
   }
 
