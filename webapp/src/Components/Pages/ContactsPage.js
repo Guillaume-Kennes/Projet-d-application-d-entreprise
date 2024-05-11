@@ -112,8 +112,9 @@ async function allContacts() {
 
   } catch (error) {
     console.log("Erreur");
-    alert(
-        'Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
+    main.innerHTML += `
+    <p>Pas de contacts disponible</p>
+    `
     console.error('Une erreur est survenue : ', error);
   }
 }
