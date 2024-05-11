@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -142,7 +143,7 @@ public class CompanyUCCTest {
   /**
    * Test for refusing a contact. Failure expected because the reason for refusal is null.
    */
-  /** @Test
+  @Test
   public void getAllEnterprisesTest_Success() {
     // Arrange
     List<CompanyDTO> expectedCompanies = companyDAO.getAllEnterprises();
@@ -153,7 +154,7 @@ public class CompanyUCCTest {
 
     // Assert
     assertEquals(expectedCompanies, result);
-  } */
+  }
 
   /**
    * Test for refusing a contact. Failure expected because the reason for refusal is null.
@@ -167,6 +168,7 @@ public class CompanyUCCTest {
     assertThrows(RuntimeException.class, () -> {
       companyUCC.getAllEnterprises();
     });
+    reset(companyDAO);
   }
 
   /**
@@ -216,6 +218,32 @@ public class CompanyUCCTest {
     // Act and Assert
     assertThrows(RuntimeException.class, () -> {
       companyUCC.numberOfStudentsTaken(id);
+    });
+  }
+
+  @Test
+  public void getAllEnterprisesTestWithParams_Success() {
+    // Arrange
+    String schoolYear = "2020-2021";
+    List<CompanyDTO> expectedCompanies = Arrays.asList(domainFactory.getCompany());
+    when(companyDAO.getAllEnterprises(schoolYear)).thenReturn(expectedCompanies);
+
+    // Act
+    List<CompanyDTO> result = companyUCC.getAllEnterprises(schoolYear);
+
+    // Assert
+    assertEquals(expectedCompanies, result);
+  }
+
+  @Test
+  public void getAllEnterprisesTestWithParams_Failure() {
+    // Arrange
+    String schoolYear = "2020-2021";
+    when(companyDAO.getAllEnterprises(schoolYear)).thenThrow(new RuntimeException());
+
+    // Act and Assert
+    assertThrows(RuntimeException.class, () -> {
+      companyUCC.getAllEnterprises(schoolYear);
     });
   }
 
