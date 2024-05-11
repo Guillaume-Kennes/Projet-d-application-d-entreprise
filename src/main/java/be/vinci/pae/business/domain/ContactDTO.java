@@ -134,6 +134,36 @@ public interface ContactDTO {
    */
   void setUser(UserDTO user);
 
+
+  /**
+   * Returns the ID of the enterprise associated with the contact.
+   *
+   * @return The ID of the enterprise associated with the contact.
+   */
+  int getEnterprise();
+
+  /**
+   * Sets the ID of the enterprise associated with the contact.
+   *
+   * @param enterprise the new ID of the enterprise associated with the contact.
+   */
+  void setEnterprise(int enterprise);
+
+
+  /**
+   * Returns the ID of the user associated with the contact.
+   *
+   * @return The ID of the user associated with the contact.
+   */
+  int getUserId();
+
+  /**
+   * Sets the ID of the user associated with the contact.
+   *
+   * @param userId the new ID of the user associated with the contact.
+   */
+  void setUserId(int userId);
+
   /**
    * Returns the trade name associated with the contact.
    *

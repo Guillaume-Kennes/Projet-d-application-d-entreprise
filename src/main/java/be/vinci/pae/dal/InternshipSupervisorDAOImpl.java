@@ -3,6 +3,7 @@ package be.vinci.pae.dal;
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.domain.InternshipSupervisorDTO;
+import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -10,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the InternshipSupervisorDAO interface. Provides methods for retrieving
@@ -21,6 +24,7 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
   private DomainFactory myDomainFactory;
   @Inject
   private DALBackServices dalServices;
+  private Logger log;
 
   /**
    * Method to retrieve supervisor information and map it to a InternshipSupervisorDTO object.
@@ -115,8 +119,12 @@ public class InternshipSupervisorDAOImpl implements InternshipSupervisorDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println("InternshipSUpervisor insert : " + firstName + " " + lastName
-        + " " + phoneNumber + " " + email + " " + company);
+
+    log = AppLogger.getLogger("Création d'un superviseur de stage");
+    log.log(Level.FINE, "Création d'un superviseur de stage : "
+        + firstName + " " + lastName + " " + phoneNumber + " "
+        + email + " " + company);
+
     return myDomainFactory.getInternshipSupervisor();
   }
 

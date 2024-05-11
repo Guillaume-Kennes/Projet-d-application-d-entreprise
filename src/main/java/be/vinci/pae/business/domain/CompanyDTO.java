@@ -101,7 +101,7 @@ public interface CompanyDTO {
   String getMotivationBlackList();
 
   /**
-   * Sets the means of communication of the company.
+   * Sets the motivation for blacklisting the company.
    *
    * @param motivationBlackList the motivation blackList.
    */
@@ -137,7 +137,17 @@ public interface CompanyDTO {
    */
   void setVersionNumber(int versionNumber);
 
+  /**
+   * Returns the number of students.
+   *
+   * @return the number of students
+   */
   int getNumberOfStudents();
 
+  /**
+   * Sets the number of students of the company.
+   *
+   * @param numberOfStudents the number of students.
+   */
   void setNumberOfStudents(int numberOfStudents);
 }

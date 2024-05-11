@@ -1,8 +1,10 @@
 package be.vinci.pae.api;
 
+import be.vinci.pae.business.domain.ContactDTO;
 import be.vinci.pae.business.domain.InternshipDTO;
 import be.vinci.pae.business.ucc.ContactUCC;
 import be.vinci.pae.business.ucc.InternshipUCC;
+import be.vinci.pae.utils.AppLogger;
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -16,6 +18,8 @@ import jakarta.ws.rs.core.MediaType;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Resource class for handling internship-related endpoints. This class provides endpoints for
@@ -29,6 +33,7 @@ public class InternshipResource {
   private InternshipUCC myinternshipUCC;
   @Inject
   private ContactUCC myContactUcc;
+  private Logger log;
 
   /**
    * Create an internship.
@@ -44,10 +49,7 @@ public class InternshipResource {
     InternshipDTO internship;
 
     int contact = json.get("contactId").asInt();
-    System.out.println("contactId : " + contact);
-
     int supervisor = json.get("responsable").asInt();
-    System.out.println("supervisor : " + supervisor);
 
     String signatureDateStr = json.get("date").asText();
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -57,13 +59,13 @@ public class InternshipResource {
       java.util.Date parsed = format.parse(signatureDateStr);
       signatureDate = new java.sql.Date(parsed.getTime());
     } catch (ParseException e) {
-      System.out.println("La date fournie ne correspond pas au format yyyy-MM-dd");
+      log = Logger.getLogger("Mauvais format de date");
+      log.log(Level.WARNING, "La date fournie ne correspond pas au format yyyy-MM-dd");
     }
 
-    System.out.println("signatureDate : " + signatureDate);
-
-    // ContactDTO contactDTO = myContactUcc.getContactById(contact);
+    ContactDTO contactDTO = myContactUcc.getContactById(contact);
     JsonNode projetNode = json.get("sujet");
+
     if (projetNode != null) {
       String projet = projetNode.asText();
       internship = myinternshipUCC.createAnInternship(contact, supervisor, projet, signatureDate);
@@ -72,7 +74,15 @@ public class InternshipResource {
           myinternshipUCC.createAnInternship(contact, supervisor, null, signatureDate);
     }
 
-    // myContactUcc.acceptInternship(contactDTO);
+    myContactUcc.acceptInternship(contactDTO);
+
+    log = AppLogger.getLogger("Création d'un stage");
+    log.log(Level.FINE, "Création d'un stage dans l'entreprise "
+        + contactDTO.getCompany().getTradeName()
+        + " pour l'étudiant " + contactDTO.getInscriptionUE().getStudent().getFirstName()
+        + " " + contactDTO.getInscriptionUE().getStudent().getLastName()
+        + " avec le sujet suivant : " + internship.getProject());
+
     return internship;
   }
 

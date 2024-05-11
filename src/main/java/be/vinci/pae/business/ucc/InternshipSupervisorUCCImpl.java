@@ -46,9 +46,6 @@ public class InternshipSupervisorUCCImpl implements InternshipSupervisorUCC {
           lastName, phoneNumber, email, company);
       dalServices.commit();
 
-      System.out.println("superviso "
-          + "r ucc : " + supervisor);
-
       return supervisor;
     } catch (Exception e) {
       dalServices.rollBack();
