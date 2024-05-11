@@ -205,6 +205,30 @@ public class UserUCCTest {
   }
 
   /**
+  @Test
+  public void registerTest_teacherRole_success() {
+    // Arrange
+    userDTO.setEmail("laurent.leleux@vinci.be");
+    userDTO.setPassword("$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa");
+
+    when(userDAO.getUserByEmail(userDTO.getEmail())).thenReturn(null);
+    when(userDAO.register(userDTO)).thenReturn(userDTO);
+
+    // Act
+    UserDTO result = userUCC.register(userDTO);
+
+    System.out.println("voici le role de l'utilisateur : ");
+    System.out.println(userDTO.getRole());
+
+    // Assert
+    assertAll(
+        () -> assertEquals(userDTO.getEmail(), result.getEmail()),
+        () -> assertEquals(userDTO.getPassword(), result.getPassword()),
+        () -> assertNull(result.getRole())
+    );
+  }*/
+
+  /**
    * Test for registering a new user. Failure expected because the email address is invalid.
    */
   @Test
@@ -371,16 +395,16 @@ public class UserUCCTest {
     UserDTO user = userDTO;
     String phoneNumber = "1234567890";
     doAnswer(invocation -> {
-      user.setPhoneNumber(phoneNumber); // Met à jour le mot de passe de userDTO
+      user.setPhoneNumber(phoneNumber);
       return null;
-    }).when(userDAO).updatePassword(user, phoneNumber);
+    }).when(userDAO).updatePhoneNumber(user, phoneNumber);
 
     // Act
-    userUCC.updatePassword(user, phoneNumber);
+    userUCC.updatePhoneNumber(user, phoneNumber);
 
     // Assert
     assertAll(
-        () -> verify(userDAO, times(1)).updatePassword(user, phoneNumber),
+        () -> verify(userDAO, times(1)).updatePhoneNumber(user, phoneNumber),
         () -> assertEquals(phoneNumber, user.getPhoneNumber())
     );
   }
@@ -451,7 +475,6 @@ public class UserUCCTest {
   }
 
 
-
   /**
    * Test for getting all students. Failure expected.
    */
@@ -466,6 +489,33 @@ public class UserUCCTest {
 
     // Assert
     assertEquals(false, result);
+  }
+
+  @Test
+  public void getStudentByAcademicYearTest_Success() {
+    // Arrange
+    String academicYear = "2023-2024";
+    List<UserDTO> expectedUsers = userDAO.getStudentsByAcademicYear(academicYear);
+    when(userDAO.getStudentsByAcademicYear(academicYear)).thenReturn(expectedUsers);
+
+    // Act
+    List<UserDTO> result = userUCC.getStudentsByAcademicYear(academicYear);
+
+    // Assert
+    assertEquals(expectedUsers, result);
+  }
+
+  @Test
+  public void getStudentByAcademicYearTest_Failure() {
+    // Arrange
+    String academicYear = "2023-2024";
+    when(userDAO.getStudentsByAcademicYear(academicYear)).thenThrow(new RuntimeException());
+
+    // Act
+    assertThrows(RuntimeException.class, () ->
+        userUCC.getStudentsByAcademicYear(academicYear));
+
+    reset(userDAO);
   }
 
 }
