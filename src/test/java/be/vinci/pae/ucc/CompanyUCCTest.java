@@ -145,7 +145,8 @@ public class CompanyUCCTest {
   public void getAllEnterprisesTest_Success() {
     // Arrange
     List<CompanyDTO> expectedCompanies = companyDAO.getAllEnterprises();
-    when(companyDAO.getAllEnterprises()).thenReturn(expectedCompanies);
+    List<CompanyDTO> realCompanies = spy(expectedCompanies);
+    when(companyDAO.getAllEnterprises()).thenReturn(realCompanies);
 
     // Act
     List<CompanyDTO> result = companyUCC.getAllEnterprises();
