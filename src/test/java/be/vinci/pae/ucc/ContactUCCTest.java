@@ -510,7 +510,7 @@ public class ContactUCCTest {
    * Test for successfully updating a contact.
    */
   @Test
-  public void testGetAllContacts_success() throws SQLException{
+  public void testGetAllContacts_success() throws SQLException {
     // Arrange
     int companyId = 1;
     ArrayList<ContactDTO> expectedContacts = contactDAO.getCompanyContacts(companyId);
@@ -527,7 +527,7 @@ public class ContactUCCTest {
    * Test for updating a contact. Failure expected.
    */
   @Test
-  public void testGetAllContacts_failure() throws SQLException{
+  public void testGetAllContacts_failure() throws SQLException {
     // Arrange
     int companyId = 1;
     when(contactDAO.getCompanyContacts(companyId)).thenThrow(new RuntimeException());

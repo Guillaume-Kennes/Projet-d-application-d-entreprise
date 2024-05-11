@@ -28,14 +28,10 @@ public class CompanyUCCImpl implements CompanyUCC {
   public CompanyDTO addCompany(CompanyDTO companyDTO) {
     dalServices.start();
     try {
-      System.out.println("CompanyUCCImpl ------> companyDTO : " + companyDTO);
       CompanyDTO company = companyDAO.insert(companyDTO);
-
       dalServices.commit();
-      System.out.println("CompanyUCCImpl ------> company : " + company);
       return company;
     } catch (Exception e) {
-      System.out.println("la ??????????");
       dalServices.rollBack();
       throw e;
     }
@@ -52,7 +48,6 @@ public class CompanyUCCImpl implements CompanyUCC {
    *                           blacklisted.
    */
   public CompanyDTO blackList(CompanyDTO companyDTO, String reason) {
-    System.out.println("Contact " + companyDTO);
     dalServices.start();
     try {
       if (companyDTO == null) {
@@ -67,7 +62,6 @@ public class CompanyUCCImpl implements CompanyUCC {
 
       Company companyBiz = (Company) companyDTO;
 
-      System.out.println("CompanyUCCImpl " + companyBiz.isBlackListed(companyDTO));
       if (companyBiz.isBlackListed(companyDTO)) {
         dalServices.rollBack();
         throw new BusinessException("Invalid company state");
@@ -77,9 +71,6 @@ public class CompanyUCCImpl implements CompanyUCC {
         companyDTO.setMotivationBlackList(reason);
 
         companyDAO.update(companyDTO);
-        System.out.println("CompanyUCCImpl " + companyBiz.isBlackListed(companyDTO));
-        System.out.println("CompanyUCCImpl " + companyDTO.getIsBlackListed());
-        System.out.println("CompanyUCCImpl " + companyDTO.getMotivationBlackList());
         dalServices.commit();
 
         return companyDTO;
