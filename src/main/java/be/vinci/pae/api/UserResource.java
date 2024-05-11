@@ -212,10 +212,10 @@ public class UserResource {
   }
 
   @GET
-  @Path("getStudentsByAcademicYear/{academicYear}")
+  @Path("getStudentsByAcademicYear/{schoolYear}")
   @Produces(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Professeur", "Administratif"})
-  public List<UserDTO> getStudentsByAcademicYear(@PathParam("academicYear") String academicYear) {
-    return myUserUcc.getStudentsByAcademicYear(academicYear);
+  public List<UserDTO> getStudentsByAcademicYear(@PathParam("schoolYear") String schoolYear) {
+    return myUserUcc.getStudentsByAcademicYear(schoolYear);
   }
 }
