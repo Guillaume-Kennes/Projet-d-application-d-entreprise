@@ -153,47 +153,6 @@ async function setCompanyRow(companies) {
 }
 
 
-// async function showContacts(e, id) {
-//   e.preventDefault();
-//   const token = getToken();
-//   const options = {
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: token,
-//     },
-//   };
-//   let contacts;
-//   const response = await fetch(`http://localhost:3000/companies/${id}`, options);
-//   if (!response.ok) {
-//     throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
-//   }else{
-//     contacts = await response.json();
-//     displayContacts(contacts);
-//   }
-// }
-
-// function displayContacts(contacts) {
-//   const main = document.querySelector('main');
-//
-//   main.innerHTML =
-//       `<div class="fw-bold mb-n1">Contacts passés</div>
-//             <ul id="contactsList"></ul>`;
-//
-//   const contactsList = document.getElementById("contactsList");
-//   console.log("CONTACTS", contacts)
-//   if (contacts && contacts.length > 0) {
-//     contacts.forEach(contact => {
-//       console.log("CONTACT", contact)
-//       const listItem = document.createElement("li");
-//       listItem.textContent = `Nom: ${contact.name}, Email: ${contact.email}, Téléphone: ${contact.phone}`;
-//       contactsList.appendChild(listItem);
-//     });
-//   } else {
-//     contactsList.innerHTML = "<li>Aucun contact avec cette entreprise</li>";
-//   }
-// }
-
 async function fetchStudentsWithInternship(schoolYear) {
   const token = getToken();
   const options = {
