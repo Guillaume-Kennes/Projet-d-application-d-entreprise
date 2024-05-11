@@ -151,7 +151,8 @@ public class InternshipSupervisorUCCTest {
     when(internshipSupervisorDAO.getSupervisorById(supervisorId)).thenReturn(expectedSupervisor);
 
     // Act
-    InternshipSupervisorDTO result = internshipSupervisorUCC.getInternshipSupervisorById(supervisorId);
+    InternshipSupervisorDTO result =
+        internshipSupervisorUCC.getInternshipSupervisorById(supervisorId);
 
     // Assert
     assertAll(

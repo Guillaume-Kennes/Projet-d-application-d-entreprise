@@ -2,6 +2,7 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.CompanyDTO;
 import be.vinci.pae.business.domain.DomainFactory;
+import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.PreparedStatement;
@@ -9,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Implementation of the ViewCompanyDAO interface. Provides methods for retrieving company-related
@@ -20,6 +23,7 @@ public class CompanyDAOImpl implements CompanyDAO {
   private DALBackServices dalServices;
   @Inject
   private DomainFactory myDomainFactory;
+  private Logger log;
 
   /**
    * Inserts a new item in the system.
@@ -60,15 +64,15 @@ public class CompanyDAOImpl implements CompanyDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-    System.out.println(
-        "CompanyDAOImpl companyDTO : " + "\n"
-            + "Trade name : " + companyDTO.getTradeName() + "\n"
-            + "Designation : " + companyDTO.getDesignation() + "\n"
-            + "Address : " + companyDTO.getAddress() + "\n"
-            + "City : " + companyDTO.getCity() + "\n"
-            + "MeansOfCommunication : " + companyDTO.getMeansOfCommunication() + "\n"
-    );
-    System.out.println("CompanyDAOImpl insert : " + companyDTO);
+
+    log = AppLogger.getLogger("Insertion d'une entreprise");
+    log.log(Level.FINE, "CompanyDAOImpl companyDTO : " + "\n"
+        + "Trade name : " + companyDTO.getTradeName() + "\n"
+        + "Designation : " + companyDTO.getDesignation() + "\n"
+        + "Address : " + companyDTO.getAddress() + "\n"
+        + "City : " + companyDTO.getCity() + "\n"
+        + "MeansOfCommunication : " + companyDTO.getMeansOfCommunication() + "\n");
+
     return companyDTO;
   }
 
@@ -229,7 +233,6 @@ public class CompanyDAOImpl implements CompanyDAO {
       ResultSet resultSet = preparedStatement.executeQuery();
       if (resultSet.next()) {
         numberOfStudents = resultSet.getInt("number_of_students_taken");
-        System.out.println("CompanyDAOImpl numberOfStudentsTaken : " + numberOfStudents);
       }
     } catch (SQLException e) {
       throw new FatalException(e);
@@ -258,21 +261,7 @@ public class CompanyDAOImpl implements CompanyDAO {
           WHERE id_enterprise = ? AND version_enterprises = ?
           RETURNING version_enterprises;
           """;
-/*
-      String query1 = """
-              UPDATE pae.contacts
-              SET state = ?,
-              enterprise = ?,
-              inscription_ue = ?,
-              reason_for_refusal = ?,
-              is_followed = ?,
-              meeting_place = ?,
-              version_contacts = version_contacts + 1
-              WHERE id_contact = ? AND version_contacts = ?
-              is_black_listed = true,
-              RETURNING version_contacts;
-          """;
-*/
+
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setString(1, companyDTO.getTradeName());
         ps.setString(2, companyDTO.getDesignation());
@@ -283,8 +272,6 @@ public class CompanyDAOImpl implements CompanyDAO {
         ps.setString(7, companyDTO.getMotivationBlackList());
         ps.setInt(8, companyDTO.getId());
         ps.setInt(9, companyDTO.getVersionNumber());
-
-        System.out.println("CompanyDAO ps " + ps);
 
         ResultSet rs = ps.executeQuery();
         int correctVersion = 0; // faire executeQuery avec RETURNING

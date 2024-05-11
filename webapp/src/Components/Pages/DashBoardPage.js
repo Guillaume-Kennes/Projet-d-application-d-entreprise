@@ -2,6 +2,7 @@ import Chart from 'chart.js/auto';
 import 'chartjs-plugin-datalabels';
 import {clearPage} from "../../utils/render";
 import {getToken} from "../../utils/user";
+import Navigate from "../Router/Navigate";
 
 
 const viewDashBoard = async () => {
