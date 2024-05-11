@@ -1,7 +1,7 @@
 import { clearPage } from "../../utils/render";
 import { getAuthenticatedUser } from "../../utils/auths";
-import { getToken } from "../../utils/user";
 import Navigate from "../Router/Navigate";
+import { getToken } from "../../utils/user";
 
 let students = []; // Variable globale pour stocker les étudiants récupérés
 
