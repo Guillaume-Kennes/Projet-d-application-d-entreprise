@@ -96,3 +96,16 @@ Authorization: {{carolineToken}}
 ### Get an user by it's id
 GET {{baseUrl}}/users/5
 Authorization: {{carolineToken}}
+
+
+### Get students by academic year 2023-2024
+GET {{baseUrl}}/users/getStudentsByAcademicYear/2023-2024
+Authorization: {{leleuxToken}}
+
+### Get students by academic year 2022-2023
+GET {{baseUrl}}/users/getStudentsByAcademicYear/2022-2023
+Authorization: {{leleuxToken}}
+
+### Get students by academic year 2021-2022
+GET {{baseUrl}}/users/getStudentsByAcademicYear/2021-2022
+Authorization: {{leleuxToken}}
