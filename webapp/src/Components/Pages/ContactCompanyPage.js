@@ -156,7 +156,7 @@ function renderContactCompanyForm() {
 
       if (company.designation) {
         // If it does, display both the trade name and the designation
-        a.textContent = `${company.tradeName} : ${company.designation}`;
+        a.textContent = `${company.tradeName} ${company.designation}`;
       } else {
         // If it doesn't, just display the trade name
         a.textContent = company.tradeName;
@@ -217,7 +217,15 @@ function renderContactCompanyForm() {
 
         // Create a success message element
         const successMessage = document.createElement('div');
-        successMessage.textContent = `Le contact avec "${enterpriseName}" a été ajouté correctement !`;
+
+        if (designation.value !== '') {
+          console.log(`designation -----> ${designation}`);
+          successMessage.textContent = `Le contact avec "${enterpriseName} ${designation.value}" a été ajouté correctement !`;
+        } else {
+          console.log(`trade name -----> ${tradeName}`);
+          successMessage.textContent = `Le contact avec "${enterpriseName}" a été ajouté correctement !`;
+        }
+
         successMessage.classList.add('success-message'); // Add a class for styling if needed
 
         // Append the success message to the centerDiv
@@ -234,6 +242,7 @@ function renderContactCompanyForm() {
       }
     } catch (error) {
       console.error('Error submitting enterprise:', error);
+      alert('Une erreur est survenue pendant la création du contact. Réessayez s\'il vous plaît.');
     }
   });
 
@@ -283,8 +292,7 @@ async function onAddCompany(e) {
       } else {
         successMessage.textContent = `L'entreprise "${tradeName}" a été ajoutée correctement !`;
       }
-      // successMessage.textContent = `L'entreprise "${tradeName}" a été ajoutée correctement !`;
-      successMessage.classList.add('success-message'); // Add a class for styling if needed
+      successMessage.classList.add('success-message');
 
       // Append the success message to the centerDiv
       centerDiv.appendChild(successMessage);
@@ -300,16 +308,15 @@ async function onAddCompany(e) {
       document.getElementById('unknownEnterpriseCity').value = '';
       document.getElementById('unknownEnterprisePhoneNumber').value = '';
 
-      // You might want to add additional logic here, such as reloading data or updating UI
     } else {
       // Handle error response
       console.error('Company submission failed:', response.statusText);
     }
   } catch (error) {
     console.error('Error submitting company:', error);
+    alert('Une erreur est survenue pendant la création de l\'entreprise. Réessayez s\'il vous plaît.');
   }
 
-  // You can include further logic here as needed
   Navbar();
 }
 
