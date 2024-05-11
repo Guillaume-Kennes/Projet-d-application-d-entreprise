@@ -183,19 +183,20 @@ public class CompanyDAOImpl implements CompanyDAO {
   public List<CompanyDTO> getAllEnterprises(String schoolYear) {
     List<CompanyDTO> enterprisesList = new ArrayList<>();
 
-    String query = "SELECT e.id_enterprise, e.trade_name, e.designation, "
-            + "e.address, e.city, e.means_of_communication, e.is_black_listed, "
-            + "e.motivation_black_list, e.version_enterprises, "
-            + "COUNT(DISTINCT i.id_internship) AS nombre_etudiants_stages "
-            + "FROM pae.enterprises e "
-            + "LEFT JOIN pae.contacts c ON e.id_enterprise = c.enterprise "
-            + "LEFT JOIN pae.internships i ON c.id_contact = i.contact "
-            + "LEFT JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue "
-            + "WHERE iu.school_year = ? "
-            + "GROUP BY e.id_enterprise, e.trade_name, e.designation, "
-            + "e.address, e.city, e.means_of_communication, "
-            + "e.is_black_listed, e.motivation_black_list "
-            + "ORDER BY e.trade_name, e.designation;";
+    String query = "SELECT e.id_enterprise, e.trade_name, "
+        + "       e.designation, e.address, e.city, "
+        + "       e.means_of_communication, e.is_black_listed, "
+        + "       e.motivation_black_list, e.version_enterprises, "
+        + "       COALESCE(nb_etudiants_stages, 0) AS nombre_etudiants_stages "
+        + "FROM pae.enterprises e "
+        + "LEFT JOIN ( "
+        + "    SELECT s.enterprise, COUNT(*) AS nb_etudiants_stages "
+        + "    FROM pae.internships i "
+        + "    JOIN pae.internship_supervisors s ON i.internship_supervisor = s.id_supervisor "
+        + "    WHERE EXTRACT(YEAR FROM i.signature_date)::VARCHAR = ? "
+        + "    GROUP BY s.enterprise "
+        + ") AS sub_query ON e.id_enterprise = sub_query.enterprise "
+        + "ORDER BY e.trade_name, e.designation;";
 
     try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
       preparedStatement.setString(1, schoolYear);
