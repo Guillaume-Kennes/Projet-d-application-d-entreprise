@@ -101,31 +101,6 @@ public class UserDAOImpl implements UserDAO {
     return null;
   }
 
-  /**
-   * Retrieves a list of all users from the database.
-   *
-   * @return A list of UserDTO objects representing all users.
-   */
-  public List<UserDTO> getAllUsers() {
-    List<UserDTO> usersList = new ArrayList<>();
-    PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-        "SELECT * FROM pae.users");
-    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-      while (resultSet.next()) {
-        UserDTO userDTO = myDomainFactory.getUser();
-        userDTO.setEmail(resultSet.getString("email"));
-        userDTO.setLastName(resultSet.getString("last_name"));
-        userDTO.setFirstName(resultSet.getString("first_name"));
-        userDTO.setPhoneNumber(resultSet.getString("phone_number"));
-        userDTO.setRole(resultSet.getString("role"));
-        userDTO.setId(resultSet.getInt("id_user"));
-        usersList.add(userDTO);
-      }
-    } catch (SQLException e) {
-      throw new FatalException(e);
-    }
-    return usersList;
-  }
 
   /**
    * Registers a new user in the database.
@@ -314,4 +289,71 @@ public class UserDAOImpl implements UserDAO {
       throw new FatalException(e);
     }
   }
+
+
+
+  /**
+   * Extracts a UserDTO object from the given ResultSet.
+   *
+   * @param resultSet The ResultSet containing user data.
+   * @return A UserDTO object populated with data from the ResultSet.
+   */
+  private UserDTO extractUserFromResultSet(ResultSet resultSet) throws SQLException {
+    UserDTO userDTO = myDomainFactory.getUser();
+    userDTO.setEmail(resultSet.getString("email"));
+    userDTO.setLastName(resultSet.getString("last_name"));
+    userDTO.setFirstName(resultSet.getString("first_name"));
+    userDTO.setPhoneNumber(resultSet.getString("phone_number"));
+    userDTO.setRole(resultSet.getString("role"));
+    userDTO.setId(resultSet.getInt("id_user"));
+    return userDTO;
+  }
+
+  /**
+   * Retrieves a list of all users from the database.
+   *
+   * @return A list of UserDTO objects representing all users.
+   */
+
+  public List<UserDTO> getAllUsers() {
+    List<UserDTO> usersList = new ArrayList<>();
+    String query = "SELECT * FROM pae.users";
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query);
+        ResultSet resultSet = preparedStatement.executeQuery()) {
+      while (resultSet.next()) {
+        usersList.add(extractUserFromResultSet(resultSet));
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return usersList;
+  }
+
+  /**
+   * Retrieves a list of students based on the specified academic year.
+   *
+   * @param academicYear The academic year for which to retrieve students.
+   * @return A list of UserDTO objects representing the
+   *     students for the specified academic year.
+   */
+  public List<UserDTO> getStudentsByAcademicYear(String academicYear) {
+    List<UserDTO> usersList = new ArrayList<>();
+    String query = "SELECT u.* "
+        + "FROM pae.users u "
+        + "JOIN pae.inscriptions_ue iu ON u.id_user = iu.student "
+        + "WHERE iu.school_year = ?;";
+    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
+      preparedStatement.setString(1, academicYear);
+      try (ResultSet resultSet = preparedStatement.executeQuery()) {
+        while (resultSet.next()) {
+          usersList.add(extractUserFromResultSet(resultSet));
+        }
+      }
+    } catch (SQLException e) {
+      throw new FatalException(e);
+    }
+    return usersList;
+  }
+
+
 }

@@ -12,3 +12,6 @@ GET {{baseUrl}}/companies/getEnterprises/2023-2024
 Authorization: {{leleuxToken}}
 
 
+### Get all companies for a specefic year
+GET {{baseUrl}}/companies/getEnterprises/2023
+Authorization: {{leleuxToken}}
