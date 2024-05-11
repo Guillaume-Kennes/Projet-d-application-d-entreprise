@@ -27,7 +27,7 @@ function renderForm() {
                 <label for="email">Email</label>
                 <input type="email" class="form-control" id="email" placeholder="Entrez l'email">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
         </form>
     </div>
     `;
