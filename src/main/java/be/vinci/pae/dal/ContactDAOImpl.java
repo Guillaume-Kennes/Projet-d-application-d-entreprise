@@ -125,7 +125,7 @@ public class ContactDAOImpl implements ContactDAO {
           if (getContactById(contactDTO.getId()) == null) {
             throw new FatalException("Contact not found");
           } else {
-            throw new IllegalArgumentException("Error not the same version");
+            throw new IllegalArgumentException("Erreur pour changer l'état des contacts");
           }
         }
       }
@@ -296,13 +296,12 @@ public class ContactDAOImpl implements ContactDAO {
           UPDATE pae.contacts
           SET state = 'suspendu',
           version_contacts = version_contacts + 1
-          WHERE inscription_ue = ? AND version_contacts = ?
+          WHERE inscription_ue = ? 
           AND state != 'accepté'
           RETURNING version_contacts;
           """;
       try (PreparedStatement ps = dalServices.getPreparedStatement(query)) {
         ps.setInt(1, contactDTO.getInscriptionUE().getId());
-        ps.setInt(2, contactDTO.getVersionNumber());
 
         ResultSet rs = ps.executeQuery();
         int correctVersion = 0; // faire executeQuery avec RETURNING
@@ -313,7 +312,7 @@ public class ContactDAOImpl implements ContactDAO {
           if (getContactById(contactDTO.getId()) == null) {
             throw new FatalException("Contact not found");
           } else {
-            throw new IllegalArgumentException("Error not the same version");
+            throw new IllegalArgumentException("Erreur pour suspendre les autres contacts");
           }
         }
       }
