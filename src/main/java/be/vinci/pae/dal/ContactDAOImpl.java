@@ -228,8 +228,7 @@ public class ContactDAOImpl implements ContactDAO {
         ps.setInt(1, contactDTO.getEnterprise());
         ps.setInt(2, contactDTO.getUserId());
         System.out.println("ContactDAOImpl ps : " + ps);
-        ps.executeQuery(); // ou ps.execute() ?
-        // ps.setInt(3, 1);
+        ps.executeQuery();
       }
     } catch (SQLException e) {
       throw new FatalException(e);

@@ -185,9 +185,9 @@ public class ContactResource {
 
       log = AppLogger.getLogger("Ajout d'un contact");
       log.log(Level.FINE, "Création d'un contact entre "
-          + addedContactDTO.getCompany().getTradeName()
+          + addedContactDTO.getEnterprise()
           + " et "
-          + addedContactDTO.getInscriptionUE().getStudent().getFirstName());
+          + addedContactDTO.getUserId());
 
       return addedContactDTO;
 
