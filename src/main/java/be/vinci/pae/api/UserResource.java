@@ -106,7 +106,7 @@ public class UserResource {
 
     log = AppLogger.getLogger("Affichage du profil");
     log.log(Level.FINE, "Affichage du profil de l'utilisateur "
-     + user.getFirstName() + " " + user.getLastName());
+      + user.getFirstName() + " " + user.getLastName());
 
     return response;
   }
@@ -128,7 +128,7 @@ public class UserResource {
 
     log = AppLogger.getLogger("Affichage de tous les utilisateurs");
     log.log(Level.FINE, "Demande d'affichage de tous les utilisateurs par "
-     + authentificatedUser.getFirstName() + " " + authentificatedUser.getLastName());
+      + authentificatedUser.getFirstName() + " " + authentificatedUser.getLastName());
 
     return myUserUcc.getAllUsers();
   }
@@ -147,7 +147,7 @@ public class UserResource {
   public int getStudentsWithInternship(@PathParam("school_year") String schoolYear) {
     log = AppLogger.getLogger("Etudiants avec stage");
     log.log(Level.FINE, "Etudiants ayant un stage pour l'année académique "
-     + schoolYear);
+      + schoolYear);
 
     return myUserUcc.getStudentsWithInternship(schoolYear);
   }
@@ -198,7 +198,7 @@ public class UserResource {
 
     log = AppLogger.getLogger("Changement de mot de passe");
     log.log(Level.FINE, "Changement du mot de passe de "
-     + user.getFirstName() + " " + user.getLastName());
+      + user.getFirstName() + " " + user.getLastName());
 
     return user;
   }

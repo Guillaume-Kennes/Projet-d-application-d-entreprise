@@ -92,7 +92,7 @@ public class CompanyResource {
       }
       log = AppLogger.getLogger("Ajout d'une entreprise");
       log.log(Level.FINE, "Ajout de l'entreprise " + addedCompanyDTO.getTradeName() + " "
-       + addedCompanyDTO.getDesignation());
+        + addedCompanyDTO.getDesignation());
 
       return addedCompanyDTO;
 
@@ -173,7 +173,7 @@ public class CompanyResource {
 
     log = AppLogger.getLogger("Blacklisting d'une entreprise");
     log.log(Level.FINE, "Blacklisting de l'entreprise " + companyDTO.getTradeName()
-     + " pour la raison suivante : " + reasonForRefusal);
+      + " pour la raison suivante : " + reasonForRefusal);
 
     return companyDTO;
   }
