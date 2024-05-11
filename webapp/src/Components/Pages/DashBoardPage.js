@@ -136,7 +136,7 @@ async function setCompanyRow(companies) {
         <td>${company.meansOfCommunication || ''}</td>
         <td>${company.numberOfStudents || '0'}</td>
         <td>${company.isBlackListed ? 'Oui' : 'Non'}</td>
-        <td>${company.isBlackListed ? '' : `<button data-company-id="${company.id}" class="btn btn-outline-dark myButton">Blacklister l'entreprise</button>`}</td>
+        <td>${company.isBlackListed ? `${company.motivationBlackList}` : `<button data-company-id="${company.id}" class="btn btn-outline-dark myButton">Blacklister l'entreprise</button>`}</td>
         <td><button class="btn btn-outline-dark contactsButton" data-company-id="${company.id}">Contacts</button></td>
       </tr>
     `;
