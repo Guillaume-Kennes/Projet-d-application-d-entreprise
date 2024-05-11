@@ -34,6 +34,7 @@ async function allContacts() {
   }
 
   try {
+
     const contacts = await response.json();
 
     const renderContacts = (contacts1) => {
@@ -54,7 +55,7 @@ async function allContacts() {
             <td><button class="btn btn-outline-dark unfollowedButton" data-contact-id = "${contact.id}"}">Ne plus suivre le contact</button></td>
             
             ${contact.state === "pris" ? `<td><button class="btn btn-outline-dark internshipButton" data-company-id="${contact.company.id}" data-contact-id = "${contact.id}"}">
-              Créer un stage</button></td>` : `<td>Impossible de créer un stage à partir de ce contact</td>`}
+              Accepter un stage</button></td>` : `<td>Impossible de créer un stage à partir de ce contact</td>`}
           </tr>
         `);
 
@@ -111,8 +112,9 @@ async function allContacts() {
 
   } catch (error) {
     console.log("Erreur");
-    alert(
-        'Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
+    main.innerHTML += `
+    <p>Pas de contacts disponible</p>
+    `
     console.error('Une erreur est survenue : ', error);
   }
 }

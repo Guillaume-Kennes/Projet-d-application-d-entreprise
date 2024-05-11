@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -18,6 +20,7 @@ import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.NotFoundException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -500,5 +503,150 @@ public class ContactUCCTest {
         contactUCC.getContactsByUserId(userId));
 
     assertNotNull(exception);
+  }
+
+
+  /**
+   * Test for successfully updating a contact.
+   */
+  @Test
+  public void testGetAllContacts_success() throws SQLException {
+    // Arrange
+    int companyId = 1;
+    ArrayList<ContactDTO> expectedContacts = contactDAO.getCompanyContacts(companyId);
+    when(contactDAO.getCompanyContacts(companyId)).thenReturn(expectedContacts);
+
+    // Act
+    ArrayList<ContactDTO> result = contactUCC.getAllContacts(companyId);
+
+    // Assert
+    assertEquals(expectedContacts, result);
+  }
+
+  /**
+   * Test for updating a contact. Failure expected.
+   */
+  @Test
+  public void testGetAllContacts_failure() throws SQLException {
+    // Arrange
+    int companyId = 1;
+    when(contactDAO.getCompanyContacts(companyId)).thenThrow(new RuntimeException());
+
+    // Act and Assert
+    assertThrows(RuntimeException.class, () -> {
+      contactUCC.getAllContacts(companyId);
+    });
+  }
+
+  /**
+   * Test for successfully updating a contact.
+   */
+  @Test
+  public void testAcceptInternship_stateTaken_success() {
+    // Arrange
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
+    when(contact.getState()).thenReturn("pris");
+
+    // Act
+    ContactDTO result = contactUCC.acceptInternship(contact);
+
+    // Assert
+    assertAll(
+        () -> assertEquals(contact, result),
+        () -> verify(contact).setState("accepté"),
+        () -> verify(contactDAO).update(contact)
+    );
+  }
+
+  /**
+   * Test for successfully updating a contact.
+   */
+  @Test
+  public void testAcceptInternship_nullContact_fail() {
+    // Act and Assert
+    assertThrows(NotFoundException.class, () -> {
+      contactUCC.acceptInternship(null);
+    });
+  }
+
+  /**
+   * Test for successfully updating a contact.
+   */
+  @Test
+  public void testAcceptInternship_stateAbandoned_fail() {
+    // Arrange
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
+    when(contact.getState()).thenReturn("abandonné");
+
+    // Act and Assert
+    assertThrows(BusinessException.class, () -> {
+      contactUCC.acceptInternship(contact);
+    });
+  }
+
+  /**
+   * Test for successfully updating a contact.
+   */
+  @Test
+  public void testAcceptInternship_stateInitiated_fail() {
+    // Arrange
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
+    when(contact.getState()).thenReturn("initié");
+
+    // Act and Assert
+    assertThrows(BusinessException.class, () -> {
+      contactUCC.acceptInternship(contact);
+    });
+  }
+
+  /**
+   * Test for successfully updating a contact.
+   */
+  @Test
+  public void testAcceptInternship_stateRefused_fail() {
+    // Arrange
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
+    when(contact.getState()).thenReturn("refusé");
+
+    // Act and Assert
+    assertThrows(BusinessException.class, () -> {
+      contactUCC.acceptInternship(contact);
+    });
+  }
+
+  /**
+   * Test for successfully updating a contact.
+   */
+  @Test
+  public void testAcceptInternship_stateAccepted_fail() {
+    // Arrange
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
+    when(contact.getState()).thenReturn("accepté");
+
+    // Act and Assert
+    assertThrows(BusinessException.class, () -> {
+      contactUCC.acceptInternship(contact);
+    });
+  }
+
+  /**
+   * Test for successfully updating a contact.
+   */
+  @Test
+  public void testAcceptInternship_stateSuspended_fail() {
+    // Arrange
+    ContactDTO realContact = domainFactory.getContact();
+    ContactDTO contact = spy(realContact);
+    when(contact.getState()).thenReturn("accepté");
+
+    // Act and Assert
+    assertThrows(BusinessException.class, () -> {
+      contactUCC.acceptInternship(contact);
+    });
   }
 }

@@ -62,11 +62,11 @@ function renderContactCompanyForm() {
 
 
 
-  const a = document.createElement('a');
-  a.textContent = "OU si l'entreprise n'est pas connue";
-  a.style.marginBottom = '10px';
-  a.style.display = 'block';
-  a.style.textAlign = 'center';
+  const text = document.createElement('a');
+  text.textContent = "OU si l'entreprise n'est pas connue";
+  text.style.marginBottom = '10px';
+  text.style.display = 'block';
+  text.style.textAlign = 'center';
 
   const unknownName = document.createElement('input');
   unknownName.type = 'text';
@@ -116,7 +116,7 @@ function renderContactCompanyForm() {
   form.appendChild(companiesDiv);
   textCenterDiv1.appendChild(submit1);
   form.appendChild(textCenterDiv1);
-  form.appendChild(a);
+  form.appendChild(text);
   form.appendChild(unknownName);
   form.appendChild(designation);
   form.appendChild(address);
@@ -128,7 +128,7 @@ function renderContactCompanyForm() {
   main.appendChild(form);
   form.addEventListener('submit', onAddCompany);
 
-
+  let selectedCompanyId = null;
 
   tradeName.addEventListener('input', async (event) => {
     console.log('Input changed:', event.target.value);
@@ -150,19 +150,37 @@ function renderContactCompanyForm() {
 
     // Add the filtered companies to the companiesDiv
     filteredCompanies.forEach(company => {
-      const p = document.createElement('p');
+      const a = document.createElement('a');
+      a.href = `#`; // Replace '#' with the URL you want to navigate to
+      a.style.display = 'block'; // Make the anchor tag behave like a block element
+
       if (company.designation) {
         // If it does, display both the trade name and the designation
-        p.textContent = `${company.tradeName} : ${company.designation}`;
+        a.textContent = `${company.tradeName} : ${company.designation}`;
       } else {
         // If it doesn't, just display the trade name
-        p.textContent = company.tradeName;
+        a.textContent = company.tradeName;
       }
+
       if (company.isBlackListed) {
         // If it is, append a notification to the text content
-        p.textContent += ' (Cette entreprise est blacklistée)';
+        a.textContent += ' (Cette entreprise est blacklistée)';
       }
-      companiesDiv.appendChild(p);
+
+      // Add a click event listener to the company
+      a.addEventListener('click', (clickEvent) => {
+        clickEvent.preventDefault(); // Prevent the default action
+        console.log(`Selected company ID: ${company.id}`); // Log the company ID
+        // Set the value of the input field to the company name
+        if (company.designation) {
+          tradeName.value = `${company.tradeName} ${company.designation}`;
+        } else {
+          tradeName.value = company.tradeName;
+        }
+        // Store the ID of the selected company
+        selectedCompanyId = company.id;
+      });
+      companiesDiv.appendChild(a);
     });
   });
 
@@ -182,9 +200,11 @@ function renderContactCompanyForm() {
           Authorization: token
         },
         body: JSON.stringify({
-          user: authenticatedUser?.user,
-          // userId: authenticatedUserId,
-          tradeName: enterpriseName // Send the input value as 'tradeName' field
+          // user: authenticatedUser?.user,
+          // tradeName: enterpriseName // Send the input value as 'tradeName' field
+          // instead of 'enterpriseName' field i want the id returned by the input
+          userId: authenticatedUserId,
+          enterprise: selectedCompanyId
         })
       });
 
@@ -258,7 +278,12 @@ async function onAddCompany(e) {
 
       // Create a success message element
       const successMessage = document.createElement('div');
-      successMessage.textContent = `L'entreprise "${tradeName}" a été ajoutée correctement !`;
+      if (designation) {
+        successMessage.textContent = `L'entreprise "${tradeName} ${designation}" a été ajoutée correctement !`;
+      } else {
+        successMessage.textContent = `L'entreprise "${tradeName}" a été ajoutée correctement !`;
+      }
+      // successMessage.textContent = `L'entreprise "${tradeName}" a été ajoutée correctement !`;
       successMessage.classList.add('success-message'); // Add a class for styling if needed
 
       // Append the success message to the centerDiv

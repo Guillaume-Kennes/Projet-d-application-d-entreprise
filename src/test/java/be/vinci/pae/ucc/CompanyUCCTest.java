@@ -16,6 +16,9 @@ import be.vinci.pae.dal.CompanyDAO;
 import be.vinci.pae.utils.AppBinderTest;
 import be.vinci.pae.utils.exception.BusinessException;
 import be.vinci.pae.utils.exception.NotFoundException;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.junit.jupiter.api.BeforeEach;
@@ -136,5 +139,84 @@ public class CompanyUCCTest {
         companyUCC.blackList(companyDTO, reason));
   }
 
+  /**
+   * Test for refusing a contact. Failure expected because the reason for refusal is null.
+   */
+  /** @Test
+  public void getAllEnterprisesTest_Success() {
+    // Arrange
+    List<CompanyDTO> expectedCompanies = companyDAO.getAllEnterprises();
+    when(companyDAO.getAllEnterprises()).thenReturn(expectedCompanies);
+
+    // Act
+    List<CompanyDTO> result = companyUCC.getAllEnterprises();
+
+    // Assert
+    assertEquals(expectedCompanies, result);
+  } */
+
+  /**
+   * Test for refusing a contact. Failure expected because the reason for refusal is null.
+   */
+  @Test
+  public void getAllEnterprisesTest_Failure() {
+    // Arrange
+    when(companyDAO.getAllEnterprises()).thenThrow(new RuntimeException());
+
+    // Act and Assert
+    assertThrows(RuntimeException.class, () -> {
+      companyUCC.getAllEnterprises();
+    });
+  }
+
+  /**
+   * Test for refusing a contact. Failure expected because the reason for refusal is null.
+   */
+  @Test
+  public void getCompanyByIdTest_Success() throws SQLException {
+    // Arrange
+    int id = 1;
+    CompanyDTO expectedCompany = companyDAO.getCompanyById(id);
+    when(companyDAO.getCompanyById(id)).thenReturn(expectedCompany);
+
+    // Act
+    CompanyDTO result = companyUCC.getCompanyById(id);
+
+    // Assert
+    assertEquals(expectedCompany, result);
+  }
+
+
+  /**
+   * Test for refusing a contact. Failure expected because the reason for refusal is null.
+   */
+  @Test
+  public void numberStudentsTakenByCompanyTest_Success() {
+    // Arrange
+    int id = 1;
+    int expectedNumber = 5;
+    when(companyDAO.numberOfStudentsTaken(id)).thenReturn(expectedNumber);
+
+    // Act
+    int result = companyUCC.numberOfStudentsTaken(id);
+
+    // Assert
+    assertEquals(expectedNumber, result);
+  }
+
+  /**
+   * Test for refusing a contact. Failure expected because the reason for refusal is null.
+   */
+  @Test
+  public void numberStudentsTakenByCompanyTest_Failure() {
+    // Arrange
+    int id = 1;
+    when(companyDAO.numberOfStudentsTaken(id)).thenThrow(new RuntimeException());
+
+    // Act and Assert
+    assertThrows(RuntimeException.class, () -> {
+      companyUCC.numberOfStudentsTaken(id);
+    });
+  }
 
 }

@@ -151,7 +151,6 @@ public class UserUCCImpl implements UserUCC {
     dalServices.start();
     try {
       int students = userDAO.getStudentsWithInternship(schoolYear);
-      System.out.println("STUDENTS WITH INTERNSHIP: " + students);
       dalServices.commit();
       return students;
     } catch (Exception e) {
@@ -170,7 +169,6 @@ public class UserUCCImpl implements UserUCC {
     dalServices.start();
     try {
       int students = userDAO.getStudentsWithoutInternship(schoolYear);
-      System.out.println("STUDENTS WITHOUT INTERNSHIP: " + students);
       dalServices.commit();
       return students;
     } catch (Exception e) {
@@ -208,6 +206,27 @@ public class UserUCCImpl implements UserUCC {
       user.setPhoneNumber(phoneNumber);
       userDAO.updatePhoneNumber(user, phoneNumber);
       dalServices.commit();
+    } catch (Exception e) {
+      dalServices.rollBack();
+      throw e;
+    }
+  }
+
+
+  /**
+   * Retrieves a list of students based on the specified academic year.
+   *
+   * @param academicYear The academic year for which to retrieve students.
+   * @return A list of UserDTO objects representing the
+   *     students for the specified academic year.
+   */
+  @Override
+  public List<UserDTO> getStudentsByAcademicYear(String academicYear) {
+    dalServices.start();
+    try {
+      List<UserDTO> users = userDAO.getStudentsByAcademicYear(academicYear);
+      dalServices.commit();
+      return users;
     } catch (Exception e) {
       dalServices.rollBack();
       throw e;
