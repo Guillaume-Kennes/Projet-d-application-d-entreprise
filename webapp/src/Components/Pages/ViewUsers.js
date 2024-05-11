@@ -130,6 +130,13 @@ async function createSchoolYearDropdown() {
     return;
   }
 
+  // Ajouter une option par défaut "Choisir une année"
+  const defaultOption = document.createElement('option');
+  defaultOption.value = ''; // Valeur vide pour l'option par défaut
+  defaultOption.text = 'Choisir une année';
+  dropdown.appendChild(defaultOption);
+
+  // Ajouter chaque année académique comme une option dans le menu déroulant
   schoolYears.forEach(schoolYear => {
     const option = document.createElement('option');
     option.value = schoolYear;
@@ -137,8 +144,10 @@ async function createSchoolYearDropdown() {
     dropdown.appendChild(option);
   });
 
-  dropdown.value = schoolYears[schoolYears.length - 1];
 
+  dropdown.value = ''; // Définir l'option par défaut comme sélectionnée
+
+  // Ajouter l'événement de changement
   dropdown.addEventListener('change', async (event) => {
     const selectedYear = event.target.value; // Récupérer l'année sélectionnée dans le menu déroulant
     try {
