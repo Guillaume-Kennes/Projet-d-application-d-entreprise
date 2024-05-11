@@ -34,6 +34,7 @@ async function allContacts() {
   }
 
   try {
+
     const contacts = await response.json();
 
     const renderContacts = (contacts1) => {
@@ -54,7 +55,7 @@ async function allContacts() {
             <td><button class="btn btn-outline-dark unfollowedButton" data-contact-id = "${contact.id}"}">Ne plus suivre le contact</button></td>
             
             ${contact.state === "pris" ? `<td><button class="btn btn-outline-dark internshipButton" data-company-id="${contact.company.id}" data-contact-id = "${contact.id}"}">
-              Créer un stage</button></td>` : `<td>Impossible de créer un stage à partir de ce contact</td>`}
+              Accepter un stage</button></td>` : `<td>Impossible de créer un stage à partir de ce contact</td>`}
           </tr>
         `);
 
