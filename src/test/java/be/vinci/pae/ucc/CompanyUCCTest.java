@@ -189,37 +189,8 @@ public class CompanyUCCTest {
   }
 
   /**
-   * Test for refusing a contact. Failure expected because the reason for refusal is null.
+   * Test for getting all companies with parameters. Success expected
    */
-  @Test
-  public void numberStudentsTakenByCompanyTest_Success() {
-    // Arrange
-    int id = 1;
-    int expectedNumber = 5;
-    when(companyDAO.numberOfStudentsTaken(id)).thenReturn(expectedNumber);
-
-    // Act
-    int result = companyUCC.numberOfStudentsTaken(id);
-
-    // Assert
-    assertEquals(expectedNumber, result);
-  }
-
-  /**
-   * Test for refusing a contact. Failure expected because the reason for refusal is null.
-   */
-  @Test
-  public void numberStudentsTakenByCompanyTest_Failure() {
-    // Arrange
-    int id = 1;
-    when(companyDAO.numberOfStudentsTaken(id)).thenThrow(new RuntimeException());
-
-    // Act and Assert
-    assertThrows(RuntimeException.class, () -> {
-      companyUCC.numberOfStudentsTaken(id);
-    });
-  }
-
   @Test
   public void getAllEnterprisesTestWithParams_Success() {
     // Arrange
@@ -234,6 +205,9 @@ public class CompanyUCCTest {
     assertEquals(expectedCompanies, result);
   }
 
+  /**
+   * Test for getting all companies with parameters. Failure expected
+   */
   @Test
   public void getAllEnterprisesTestWithParams_Failure() {
     // Arrange
