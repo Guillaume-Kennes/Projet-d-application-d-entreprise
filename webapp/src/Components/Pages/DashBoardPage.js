@@ -44,16 +44,19 @@ async function showPieChartBySchoolYear(schoolYear) {
   canvas.width = canvasContainer.offsetWidth;
   canvas.height = canvasContainer.offsetHeight;
 
-  const studentsFounded = await fetchStudentsWithInternship(schoolYear);
-  const studentsNotFound = await fetchStudentsWithoutInternship(schoolYear);
+  const academicYear = parseInt(schoolYear.split('-')[0], 10);
+
+  const studentsWithInternship = await fetchStudentsWithInternship(academicYear);
+
+  const studentsWithoutInternship = await fetchStudentsWithoutInternship(schoolYear);
 
   const data = {
     labels: ['Ont un stage', 'N\'ont pas de stage'],
     datasets: [
       {
-        label: `Ont un stage (${studentsFounded})`,
-        data: [studentsFounded, studentsNotFound],
-        backgroundColor: ['#135a81', '#62a2a4'],
+          data: [studentsWithInternship, studentsWithoutInternship],
+          backgroundColor: ['#0d4d72', '#62a2a4']
+
       },
     ],
   };
@@ -312,12 +315,6 @@ async function createSchoolYearDropdown() {
   defaultOption.selected = true;
   dropdown.insertBefore(defaultOption, dropdown.firstChild);
 
-  // Supprimez les commentaires pour afficher le menu déroulant
-  // dropdown.addEventListener('change', async (event) => {
-  //   const selectedOne = event.target.value;
-  //   await showPieChartBySchoolYear(selectedOne);
-  // });
-  // dashboard.appendChild(dropdown);
 
   dropdown.addEventListener('change', async (event) => {
     const academicYear = event.target.value;
