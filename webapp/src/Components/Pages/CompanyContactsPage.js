@@ -9,7 +9,6 @@ const companyContacts = async () => {
 
 async function showContacts(id) {
   const main = document.querySelector('main');
-  console.log(getAuthenticatedUser().token);
   const options = {
     method: 'GET',
     headers: {
@@ -56,10 +55,8 @@ async function showContacts(id) {
     renderContacts(contacts);
 
   } catch (error) {
-    console.log("Erreur");
     alert(
         'Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
-    console.error('Une erreur est survenue : ', error);
   }
 
 }

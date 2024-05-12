@@ -163,15 +163,12 @@ async function onRegister(e) {
 
   try{
     const response = await fetch(`http://localhost:3000/auths/register`, options);
-    console.log("RESPONSE", response);
 
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }
 
     const authenticatedUser = await response.json();
-
-    console.log('Newly registered & authenticated user : ', authenticatedUser);
 
     setAuthenticatedUser(authenticatedUser);
 

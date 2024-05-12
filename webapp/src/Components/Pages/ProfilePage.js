@@ -17,7 +17,6 @@ const ProfilePage = async () => {
 };
 
 function renderProfilePage(user) {
-  console.log(user);
   const main = document.querySelector('main');
 
   main.innerHTML =
@@ -75,9 +74,6 @@ function renderProfilePage(user) {
   const phoneNumberButton = document.getElementById('button_phone');
   phoneNumberButton.addEventListener("click", () => Navigate(`/modifyPhone`));
 
-  console.log('internship id : ');
-  console.log(user.internshipId);
-
   const modifyButton = document.getElementById('button_subject');
   modifyButton.addEventListener("click", () => 
     Navigate(`/modifySubject?internshipId=${user.internshipId}`));
@@ -86,7 +82,7 @@ function renderProfilePage(user) {
 async function getValues() {
   const authenticatedUser = getAuthenticatedUser();
   const id = authenticatedUser?.user?.id;
-  console.log(id);
+
   const options = {
     method: 'GET',
     headers: {

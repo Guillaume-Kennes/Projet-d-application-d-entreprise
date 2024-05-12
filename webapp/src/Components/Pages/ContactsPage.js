@@ -16,9 +16,7 @@ const ContactsPage = async () => {
 async function allContacts() {
   const main = document.querySelector('main');
   const authenticatedUser = getAuthenticatedUser();
-  console.log("CONTACTS --> authenticatedUser : ", authenticatedUser);
   const id = authenticatedUser?.user?.id;
-  console.log("CONTACTS --> authenticatedUserId : ", id);
 
   const options = {
     method: 'GET',
@@ -111,11 +109,9 @@ async function allContacts() {
     
 
   } catch (error) {
-    console.log("Erreur");
     main.innerHTML += `
     <p>Pas de contacts disponible</p>
     `
-    console.error('Une erreur est survenue : ', error);
   }
 }
 

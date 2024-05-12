@@ -2,7 +2,6 @@ package be.vinci.pae.dal;
 
 import be.vinci.pae.business.domain.DomainFactory;
 import be.vinci.pae.business.domain.InternshipDTO;
-import be.vinci.pae.utils.AppLogger;
 import be.vinci.pae.utils.exception.FatalException;
 import jakarta.inject.Inject;
 import java.sql.Date;
@@ -11,8 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  * Implementation of the InternshipDAO interface. Provides methods for retrieving internship-related
@@ -25,7 +23,7 @@ public class InternshipDAOImpl implements InternshipDAO {
 
   @Inject
   private DALBackServices dalServices;
-  private Logger log;
+  // private Logger log;
 
   /**
    * Retrieves an internship by their user id from the database.
@@ -124,11 +122,11 @@ public class InternshipDAOImpl implements InternshipDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-
+    /*
     log = AppLogger.getLogger("Création d'un stage");
     log.log(Level.FINE, "Cration d'un stage :"
         + contact + " " + supervisor + " " + projet
-        + " " + signatureDate);
+        + " " + signatureDate); */
 
     return myDomainFactory.getInternship();
   }

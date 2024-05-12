@@ -26,9 +26,7 @@ function renderContactCompanyForm() {
   form.className = 'col-lg-4 mx-auto'; // Set the form class to match the fixed HTML structure
   form.style.marginTop = '100px'; // Set the top margin using inline styles
 
-  console.log(`authenticatedUser -----> : ${authenticatedUser?.user}`)
   const authenticatedUserId = authenticatedUser?.user?.id;
-  console.log(`authenticatedUserId -----> : ${authenticatedUserId}`);
   const prof = authenticatedUser?.user?.role;
   console.log(`---------------> role : ${prof}`);
 
@@ -131,7 +129,6 @@ function renderContactCompanyForm() {
   let selectedCompanyId = null;
 
   tradeName.addEventListener('input', async (event) => {
-    console.log('Input changed:', event.target.value);
     const token = getToken();
     // Fetch the list of companies when the input changes
     const response = await fetch('http://localhost:3000/companies/getEnterprises', {
@@ -209,8 +206,6 @@ function renderContactCompanyForm() {
       });
 
       if (response.ok) {
-        console.log(`authenticatedUserId -----> ${authenticatedUserId}`);
-        console.log(`enterpriseName -------> ${enterpriseName}`);
         // Enterprise submission successful, handle response accordingly
         const centerDiv = document.createElement('div');
         centerDiv.classList.add('text-center');
@@ -219,10 +214,8 @@ function renderContactCompanyForm() {
         const successMessage = document.createElement('div');
 
         if (designation.value !== '') {
-          console.log(`designation -----> ${designation}`);
           successMessage.textContent = `Le contact avec "${enterpriseName} ${designation.value}" a été ajouté correctement !`;
         } else {
-          console.log(`trade name -----> ${tradeName}`);
           successMessage.textContent = `Le contact avec "${enterpriseName}" a été ajouté correctement !`;
         }
 

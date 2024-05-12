@@ -77,8 +77,6 @@ public class CompanyResource {
   @Consumes(MediaType.APPLICATION_JSON)
   @Authorize(value = {"Etudiant"})
   public CompanyDTO addCompany(CompanyDTO newCompanyDTO) {
-    System.out.println("CompanyResource -------> newCompanyDTO : " + newCompanyDTO);
-
     try {
       if (newCompanyDTO == null) {
         throw new WebApplicationException("Invalid company data", Status.BAD_REQUEST);
@@ -131,10 +129,6 @@ public class CompanyResource {
 
     if (contacts.isEmpty()) {
       return null;
-    }
-
-    for (ContactDTO c : contacts) {
-      System.out.println(c.getInscriptionUE().getStudent().getLastName());
     }
 
     log = AppLogger.getLogger("Demande de contacts pour une entreprise");

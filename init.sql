@@ -248,72 +248,31 @@ VALUES ('theophile.ile@student.vinci.be', '$2a$12$apxeP3MlY5R7IGkxYc/H4.WzjnPeJn
 
 
 
-/*Contacts & stage
-Année académique	Etudiant	                    Entreprise	    Etat contact / raison refus	                        Type de contact	    Sujet stage (si stage)	                    Date signature convention	Responsable stage
-2023-2024	        Carole.skile@student.vinci.be	LetsBuild	    accepté	                                            A distance	        Un ERP : Odoo	                            10-10-23	                Dossche
-2023-2024	        Ach.ile@student.vinci.be	    Sopra Steria	accepté	                                            Dans l'entreprise	sBMS project - a complex environment	    23-11-23	                ALVAREZ CORCHETE
-2023-2024   	    Ach.ile@student.vinci.be    	Niboo	        refusé (N'ont pas accepté d'avoir un entretien)	    A distance
-2023-2024   	    Basile.ile@student.vinci.be 	Assyst Europe	accepté	                                            Dans l'entreprise	CRM : Microsoft Dynamics 365 For Sales	    12-10-23	                Assal
-2023-2024   	    Basile.ile@student.vinci.be 	LetsBuild	    suspendu	                                        A distance
-2023-2024       	Basile.ile@student.vinci.be 	Sopra Steria	suspendu
-2023-2024       	Basile.ile@student.vinci.be 	Niboo	        refusé (ne prennent qu'un seul étudiant)	        Dans l'entreprise
-2023-2024       	Caroline.line@student.vinci.be	Niboo	        refusé (Pas d’affinité avec le l’ERP Odoo)	        A distance
-2023-2024       	Caroline.line@student.vinci.be	Sopra Steria	non suivi
-2023-2024          	Caroline.line@student.vinci.be	LetsBuild	    pris	                                            A distance
-2023-2024       	theophile.ile@student.vinci.be	Sopra Steria	initié
-2023-2024   	    theophile.ile@student.vinci.be	Niboo	        initié
-2023-2024          	theophile.ile@student.vinci.be	LetsBuild	    initié
-2023-2024	        Achille.skile@student.vinci.be	Sopra Steria	initié
-
-Année académique	Etudiant	                        Entreprise	            Etat contact / raison refus	                        Type de contact	    Sujet stage (si stage)	                    Date signature convention	Responsable stage
-2021-2022	        elle.skile@student.vinci.be	        La route du papier	    accepté	                                            A distance	        Conservation et restauration d’œuvres d’art	25-11-21	                Ile
-2021-2022       	Basile.Ilot@student.vinci.be	    Sopra Steria	        non suivi
-2021-2022	        Basile.frilot@student.vinci.be	    The Bayard Partnership	refusé (ne prennent pas de stage)	                A distance
-2021-2022	        Arnaud.dito@student.vinci.be	    Sopra Steria	        accepté	                                            Dans l'entreprise	L'analyste au centre du développement	    17-11-21	                ALVAREZ CORCHETE
-2021-2022	        Arnaud.dilo@student.vinci.be	    Sopra Steria	        accepté	                                            Dans l'entreprise	L'analyste au centre du développement	    17-11-21	                ALVAREZ CORCHETE
-2021-2022	        Cedric.dilot@student.vinci.be	    Assyst Europe	        accepté	                                            Dans l'entreprise	ERP : Microsoft Dynamics 366	            23-11-21	                Assal
-2021-2022	        Cedric.dilot@student.vinci.be	    Sopra Steria	        refusé (Choix autre étudiant)	                    Dans l'entreprise
-2021-2022	        Auristelle.linot@student.vinci.be	Infrabel	            accepté	                                            A distance	        Entretien des rails	                        22-11-21	                Hibo
-2021-2022	        Auristelle.linot@student.vinci.be	Sopra Steria	        suspendu
-2021-2022	        Auristelle.linot@student.vinci.be	Niboo	                refusé (Choix autre étudiant)	                    A distance
-
-Année académique	Etudiant	                        Entreprise	    Etat contact / raison refus	                        Type de contact	    Sujet stage (si stage)	                    Date signature convention	Responsable stage
-2022-2023	        Jeremy.demoulin@student.vinci.be	Assyst Europe	accepté	                                            A distance	        CRM : Microsoft Dynamics 365 For Sales	    23-11-22	                Assal
-2022-2023	        Arthur.moulin@student.vinci.be	    AXIS SRL	    accepté	                                            Dans l'entreprise	Un métier : chef de projet	                19-10-22	                Barn
-2022-2023	        Hugo.moulin@student.vinci.be	    AXIS SRL	    accepté	                                            Dans l'entreprise	Un métier : chef de projet	                19-10-22	                Barn
-2022-2023	        Aurèle.mile@student.vinci.be	    AXIS SRL	    accepté	                                            A distance	        Un métier : chef de projet	                19-10-22	                Barn
-2022-2023	        Frank.mile@student.vinci.be     	AXIS SRL	    accepté	                                            A distance	        Un métier : chef de projet	                19-10-22	                Barn
-2022-2023	        basile.dumoulin@student.vinci.be	AXIS SRL	    refusé (Entretien n'a pas eu lieu)	                Dans l'entreprise
-2022-2023	        basile.dumoulin@student.vinci.be	Niboo	        refusé (Entretien n'a pas eu lieu)	                Dans l'entreprise
-2022-2023	        basile.dumoulin@student.vinci.be	Sopra Steria	refusé (Entretien n'a pas eu lieu)	                A distance
-2022-2023	        Axel.dumoulin@student.vinci.be	    Sopra Steria	accepté	                                            A distance	        sBMS project - Java Development	            17-10-22	                ALVAREZ CORCHETE
-2022-2023	        Basile.frilot@student.vinci.be	    Sopra Steria	refusé (Choix autre étudiant)	                    A distance
-
-*/
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
 VALUES (5, '2021-2022', 1);                                             /* 1 Elle skile */
 
 INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
-VALUES (6, '2023-2024', 1);                                             /* 2 Basile Ilotie */
+VALUES (6, '2021-2022', 1);                                             /* 2 Basile Ilotie */
 
 INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
-VALUES (7, '2023-2024', 1);                                             /* 3 Basile Frilot */
+VALUES (7, '2021-2022', 1);                                             /* 3 Basile Frilot */
 
 INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
-VALUES (8, '2023-2024', 1);                                             /* 4 Ilot Basile */
+VALUES (8, '2021-2022', 1);                                             /* 4 Ilot Basile */
 
 INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
-VALUES (9, '2023-2024', 1);                                             /* 5 dito Arnaud */
+VALUES (9, '2021-2022', 1);                                             /* 5 dito Arnaud */
 
 INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
-VALUES (10, '2023-2024', 1);                                             /* 6 dilo Arnaud */
+VALUES (10, '2021-2022', 1);                                             /* 6 dilo Arnaud */
 
 INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
-VALUES (11, '2023-2024', 1);                                             /* 7 dilot Cedric */
+VALUES (11, '2021-2022', 1);                                             /* 7 dilot Cedric */
 
 INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
-VALUES (12, '2023-2024', 1);                                             /* 8 linot	Auristelle */
+VALUES (12, '2021-2022', 1);                                             /* 8 linot	Auristelle */
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -362,6 +321,49 @@ INSERT INTO pae.inscriptions_ue (student, school_year, version_inscriptions_ue)
 VALUES (26, '2023-2024', 1);                                            /* 22 Théophile Ile */
 
 
+
+/*Contacts & stage
+Année académique	Etudiant	                    Entreprise	    Etat contact / raison refus	                        Type de contact	    Sujet stage (si stage)	                    Date signature convention	Responsable stage
+2023-2024	        Carole.skile@student.vinci.be	LetsBuild	    accepté	                                            A distance	        Un ERP : Odoo	                            10-10-23	                Dossche
+2023-2024	        Ach.ile@student.vinci.be	    Sopra Steria	accepté	                                            Dans l'entreprise	sBMS project - a complex environment	    23-11-23	                ALVAREZ CORCHETE
+2023-2024   	    Ach.ile@student.vinci.be    	Niboo	        refusé (N'ont pas accepté d'avoir un entretien)	    A distance
+2023-2024   	    Basile.ile@student.vinci.be 	Assyst Europe	accepté	                                            Dans l'entreprise	CRM : Microsoft Dynamics 365 For Sales	    12-10-23	                Assal
+2023-2024   	    Basile.ile@student.vinci.be 	LetsBuild	    suspendu	                                        A distance
+2023-2024       	Basile.ile@student.vinci.be 	Sopra Steria	suspendu
+2023-2024       	Basile.ile@student.vinci.be 	Niboo	        refusé (ne prennent qu'un seul étudiant)	        Dans l'entreprise
+2023-2024       	Caroline.line@student.vinci.be	Niboo	        refusé (Pas d’affinité avec le l’ERP Odoo)	        A distance
+2023-2024       	Caroline.line@student.vinci.be	Sopra Steria	non suivi
+2023-2024          	Caroline.line@student.vinci.be	LetsBuild	    pris	                                            A distance
+2023-2024       	theophile.ile@student.vinci.be	Sopra Steria	initié
+2023-2024   	    theophile.ile@student.vinci.be	Niboo	        initié
+2023-2024          	theophile.ile@student.vinci.be	LetsBuild	    initié
+2023-2024	        Achille.skile@student.vinci.be	Sopra Steria	initié
+
+Année académique	Etudiant	                        Entreprise	            Etat contact / raison refus	                        Type de contact	    Sujet stage (si stage)	                    Date signature convention	Responsable stage
+2021-2022	        elle.skile@student.vinci.be	        La route du papier	    accepté	                                            A distance	        Conservation et restauration d’œuvres d’art	25-11-21	                Ile
+2021-2022       	Basile.Ilot@student.vinci.be	    Sopra Steria	        non suivi
+2021-2022	        Basile.frilot@student.vinci.be	    The Bayard Partnership	refusé (ne prennent pas de stage)	                A distance
+2021-2022	        Arnaud.dito@student.vinci.be	    Sopra Steria	        accepté	                                            Dans l'entreprise	L'analyste au centre du développement	    17-11-21	                ALVAREZ CORCHETE
+2021-2022	        Arnaud.dilo@student.vinci.be	    Sopra Steria	        accepté	                                            Dans l'entreprise	L'analyste au centre du développement	    17-11-21	                ALVAREZ CORCHETE
+2021-2022	        Cedric.dilot@student.vinci.be	    Assyst Europe	        accepté	                                            Dans l'entreprise	ERP : Microsoft Dynamics 366	            23-11-21	                Assal
+2021-2022	        Cedric.dilot@student.vinci.be	    Sopra Steria	        refusé (Choix autre étudiant)	                    Dans l'entreprise
+2021-2022	        Auristelle.linot@student.vinci.be	Infrabel	            accepté	                                            A distance	        Entretien des rails	                        22-11-21	                Hibo
+2021-2022	        Auristelle.linot@student.vinci.be	Sopra Steria	        suspendu
+2021-2022	        Auristelle.linot@student.vinci.be	Niboo	                refusé (Choix autre étudiant)	                    A distance
+
+Année académique	Etudiant	                        Entreprise	    Etat contact / raison refus	                        Type de contact	    Sujet stage (si stage)	                    Date signature convention	Responsable stage
+2022-2023	        Jeremy.demoulin@student.vinci.be	Assyst Europe	accepté	                                            A distance	        CRM : Microsoft Dynamics 365 For Sales	    23-11-22	                Assal
+2022-2023	        Arthur.moulin@student.vinci.be	    AXIS SRL	    accepté	                                            Dans l'entreprise	Un métier : chef de projet	                19-10-22	                Barn
+2022-2023	        Hugo.moulin@student.vinci.be	    AXIS SRL	    accepté	                                            Dans l'entreprise	Un métier : chef de projet	                19-10-22	                Barn
+2022-2023	        Aurèle.mile@student.vinci.be	    AXIS SRL	    accepté	                                            A distance	        Un métier : chef de projet	                19-10-22	                Barn
+2022-2023	        Frank.mile@student.vinci.be     	AXIS SRL	    accepté	                                            A distance	        Un métier : chef de projet	                19-10-22	                Barn
+2022-2023	        basile.dumoulin@student.vinci.be	AXIS SRL	    refusé (Entretien n'a pas eu lieu)	                Dans l'entreprise
+2022-2023	        basile.dumoulin@student.vinci.be	Niboo	        refusé (Entretien n'a pas eu lieu)	                Dans l'entreprise
+2022-2023	        basile.dumoulin@student.vinci.be	Sopra Steria	refusé (Entretien n'a pas eu lieu)	                A distance
+2022-2023	        Axel.dumoulin@student.vinci.be	    Sopra Steria	accepté	                                            A distance	        sBMS project - Java Development	            17-10-22	                ALVAREZ CORCHETE
+2022-2023	        Basile.frilot@student.vinci.be	    Sopra Steria	refusé (Choix autre étudiant)	                    A distance
+
+*/
 
 
 /* Entreprise
@@ -437,6 +439,8 @@ VALUES (16, 7, 'accepté', null, 'A distance', TRUE, 1);
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
 VALUES (3, 7, 'refusé', 'Choix autre étudiant', 'A distance', TRUE, 1);
 
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
@@ -506,7 +510,7 @@ INSERT INTO pae.internships (contact, internship_supervisor, internship_project,
 VALUES (5, 2, 'L''analyste au centre du développement', '17-11-21', 1);
 
 INSERT INTO pae.internships (contact, internship_supervisor, internship_project, signature_date, version_internships)
-VALUES (5, 3, 'ERP : Microsoft Dynamics 366', '23-11-21', 1);
+VALUES (6, 3, 'ERP : Microsoft Dynamics 366', '23-11-21', 1);
 
 INSERT INTO pae.internships (contact, internship_supervisor, internship_project, signature_date, version_internships)
 VALUES (8, 5, 'Entretien des rails', '22-11-21', 1);
@@ -567,14 +571,14 @@ FROM pae.enterprises;
 
 SELECT school_year, COUNT(*) AS nombre_stages
 FROM pae.inscriptions_ue i
-JOIN pae.contacts c ON i.id_inscription_ue = c.inscription_ue
-JOIN pae.internships s ON c.id_contact = s.contact
+         JOIN pae.contacts c ON i.id_inscription_ue = c.inscription_ue
+         JOIN pae.internships s ON c.id_contact = s.contact
 GROUP BY school_year;
 
 
 SELECT school_year, COUNT(*) AS nombre_contacts
 FROM pae.inscriptions_ue i
-JOIN pae.contacts c ON i.id_inscription_ue = c.inscription_ue
+         JOIN pae.contacts c ON i.id_inscription_ue = c.inscription_ue
 GROUP BY school_year;
 
 
@@ -587,7 +591,7 @@ SELECT
         WHEN state = 'suspendu' THEN 'Suspendu'
         WHEN state = 'non suivi' THEN 'Non suivi'
         ELSE 'Autre'
-    END AS etat_contact,
+        END AS etat_contact,
     COUNT(*) AS nombre_contacts
 FROM pae.contacts
 GROUP BY state;
@@ -629,8 +633,8 @@ ORDER BY EXTRACT(YEAR FROM signature_date);
 /*3*/
 SELECT e.trade_name AS enterprise, EXTRACT(YEAR FROM i.signature_date) AS année_académique, COUNT(*) AS nombre_de_stages
 FROM pae.internships i
-JOIN pae.internship_supervisors s ON i.internship_supervisor = s.id_supervisor
-JOIN pae.enterprises e ON s.enterprise = e.id_enterprise
+         JOIN pae.internship_supervisors s ON i.internship_supervisor = s.id_supervisor
+         JOIN pae.enterprises e ON s.enterprise = e.id_enterprise
 GROUP BY e.trade_name, EXTRACT(YEAR FROM i.signature_date)
 ORDER BY e.trade_name, EXTRACT(YEAR FROM i.signature_date);
 
@@ -638,8 +642,8 @@ ORDER BY e.trade_name, EXTRACT(YEAR FROM i.signature_date);
 /*4*/
 SELECT EXTRACT(YEAR FROM u.registration_date) AS année_académique, COUNT(*) AS nombre_de_contacts
 FROM pae.contacts c
-JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
-JOIN pae.users u ON iu.student = u.id_user
+         JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
+         JOIN pae.users u ON iu.student = u.id_user
 GROUP BY EXTRACT(YEAR FROM u.registration_date)
 ORDER BY EXTRACT(YEAR FROM u.registration_date);
 
@@ -654,7 +658,7 @@ SELECT
         WHEN state = 'suspendu' THEN 'Suspendu'
         WHEN state = 'non suivi' THEN 'Non suivi'
         ELSE state
-    END AS etat_contact,
+        END AS etat_contact,
     COUNT(*) AS nombre_de_contacts
 FROM pae.contacts
 GROUP BY state
@@ -672,11 +676,11 @@ SELECT
         WHEN state = 'suspendu' THEN 'Suspendu'
         WHEN state = 'non suivi' THEN 'Non suivi'
         ELSE state
-    END AS state_description,
+        END AS state_description,
     COUNT(*) AS nombre_de_contacts
 FROM pae.contacts c
-JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
-JOIN pae.users u ON iu.student = u.id_user
+         JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
+         JOIN pae.users u ON iu.student = u.id_user
 GROUP BY EXTRACT(YEAR FROM u.registration_date), c.state
 ORDER BY EXTRACT(YEAR FROM u.registration_date), c.state;
 
@@ -692,15 +696,12 @@ SELECT
         WHEN state = 'suspendu' THEN 'Suspendu'
         WHEN state = 'non suivi' THEN 'Non suivi'
         ELSE state
-    END AS state_description,
+        END AS state_description,
     COUNT(*) AS contact_count
 FROM pae.contacts c
-JOIN pae.enterprises e ON c.enterprise = e.id_enterprise
+         JOIN pae.enterprises e ON c.enterprise = e.id_enterprise
 GROUP BY e.trade_name, c.state
 ORDER BY e.trade_name, c.state;
-
-
-
 
 
 
@@ -776,3 +777,38 @@ VALUES (15, 3, 'initié', null, null, TRUE, 1);
 
  */
 
+SELECT COUNT(*), u.email FROM pae.users u WHERE u.role = 'Etudiant' AND u.id_user NOT IN (
+    SELECT DISTINCT iue.student
+    FROM pae.inscriptions_ue iue
+             JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue
+             JOIN pae.internships i ON c.id_contact = i.contact
+    WHERE iue.school_year = '2021-2022')
+                                            AND u.id_user IN (
+        SELECT DISTINCT student
+        FROM pae.inscriptions_ue
+        WHERE school_year = '2021-2022')
+group by u.email;
+
+SELECT COUNT(*), u.email FROM pae.users u WHERE u.role = 'Etudiant' AND u.id_user NOT IN (
+    SELECT DISTINCT iue.student
+    FROM pae.inscriptions_ue iue
+             JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue
+             JOIN pae.internships i ON c.id_contact = i.contact
+    WHERE iue.school_year = '2022-2023')
+                                            AND u.id_user IN (
+        SELECT DISTINCT student
+        FROM pae.inscriptions_ue
+        WHERE school_year = '2022-2023')
+group by u.email;
+
+SELECT COUNT(*), u.email FROM pae.users u WHERE u.role = 'Etudiant' AND u.id_user NOT IN (
+    SELECT DISTINCT iue.student
+    FROM pae.inscriptions_ue iue
+             JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue
+             JOIN pae.internships i ON c.id_contact = i.contact
+    WHERE iue.school_year = '2023-2024')
+                                            AND u.id_user IN (
+        SELECT DISTINCT student
+        FROM pae.inscriptions_ue
+        WHERE school_year = '2023-2024')
+group by u.email;

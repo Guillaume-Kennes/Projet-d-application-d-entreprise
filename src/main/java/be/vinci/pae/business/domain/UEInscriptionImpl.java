@@ -43,7 +43,6 @@ public class UEInscriptionImpl implements UEInscription {
    * @return The user of the UEInscription
    */
   public User getStudent() {
-    System.out.println("ViewDEMES2 ---> student : " + student);
     return student;
   }
 
