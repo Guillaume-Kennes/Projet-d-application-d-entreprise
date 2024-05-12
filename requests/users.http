@@ -109,3 +109,15 @@ Authorization: {{leleuxToken}}
 ### Get students by academic year 2021-2022
 GET {{baseUrl}}/users/getStudentsByAcademicYear/2021-2022
 Authorization: {{leleuxToken}}
+
+### Get all students with an internship for year 2023
+GET {{baseUrl}}/users/getStudentsWithInternship/2023
+Authorization: {{leleuxToken}}
+
+### Get all students with an internship for year 2022
+GET {{baseUrl}}/users/getStudentsWithInternship/2022
+Authorization: {{leleuxToken}}
+
+### Get all students with an internship for year 2021
+GET {{baseUrl}}/users/getStudentsWithInternship/2021
+Authorization: {{leleuxToken}}
