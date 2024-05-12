@@ -35,10 +35,12 @@ async function allUsers() {
   }
 }
 
+
 function renderUsers(users) {
   const main = document.querySelector('main');
   const usersList = document.createElement('div');
   usersList.id = 'usersList';
+
   const userRows = users.map(user => `
         <tr>
           <td>${user.id}</td>
@@ -52,23 +54,23 @@ function renderUsers(users) {
       `);
 
   main.innerHTML = `
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">Email</th>
-              <th scope="col">Nom</th>
-              <th scope="col">Prénom</th>
-              <th scope="col">Numéro de téléphone</th>
-              <th scope="col">Rôle</th>
-              <th scope="col">Profils</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${userRows.join('')}
-          </tbody>
-        </table>
-      `;
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Numéro de téléphone</th>
+            <th scope="col">Rôle</th>
+            <th scope="col">Profils</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${userRows.join('')}
+        </tbody>
+      </table>
+    `;
   attachProfileButtonListeners();
 
   students = users;
@@ -78,12 +80,40 @@ function renderUsers(users) {
   filterButton.id = 'filterButton';
   filterButton.textContent = 'Afficher uniquement les étudiants';
   filterButton.addEventListener('click', async () => {
-    const studentUsers = students.filter(user => user.role === "Etudiant");
-    renderUsers(studentUsers);
+  const studentUsers = students.filter(user => user.role === "Etudiant");
+  renderUsers(studentUsers);
+
+  // Récréer le menu déroulant des années académiques après avoir filtré les étudiants
+  await createSchoolYearDropdown();
   });
 
-  main.insertBefore(filterButton, main.firstChild); // Insère le bouton avant le tableau des utilisateurs
+
+    const searchInput = document.createElement('input');
+    searchInput.id = 'searchInput';
+    searchInput.placeholder = 'Rechercher par nom ou prénom';
+    searchInput.addEventListener('change', filterUsers);
+    
+    main.insertBefore(searchInput, main.firstChild); // Insère la barre de recherche avant le bouton de filtre
+    main.insertBefore(filterButton, main.firstChild); // Insère le bouton avant le tableau des utilisateurs
 }
+
+  // Ajoutez cette fonction à votre code
+  async function filterUsers(e) {
+    e.preventDefault();
+    const searchTerm = e.target.value.trim().toLowerCase();
+    const filteredUsers = students.filter(user => 
+      user.lastName.toLowerCase().includes(searchTerm) || 
+      user.firstName.toLowerCase().includes(searchTerm)
+    );
+
+    console.log("filtered students : ", filteredUsers)
+
+    renderUsers(filteredUsers);
+
+    // Récréer le menu déroulant des années académiques après avoir filtré les étudiants
+    await createSchoolYearDropdown();
+  }
+
 
 function attachProfileButtonListeners() {
   document.querySelectorAll('.profileButton').forEach(button => {
@@ -158,9 +188,12 @@ async function createSchoolYearDropdown() {
 
       // Mettre à jour la variable globale des étudiants avec les nouvelles données
       students = studentsByYear;
-
+      
       // Appeler renderUsers avec les nouveaux étudiants récupérés
       renderUsers(studentsByYear);
+
+      // Récréer le menu déroulant des années académiques après avoir mis à jour la liste des utilisateurs
+      await createSchoolYearDropdown();
     } catch (error) {
       console.error('Error fetching students by school year:', error);
     }

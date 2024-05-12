@@ -16,15 +16,15 @@ function showFormPassword() {
       <form id="password-form">
         <h3> Ancien mot de passe </h3>
         <div class="form-group">
-          <input type="text" class="form-control" id="ex_password" name="ex_password" placeholder="Entrez votre mot de passe actuel" required>
+          <input type="password" class="form-control" id="ex_password" name="ex_password" placeholder="Entrez votre mot de passe actuel" required>
         </div>
         <h3> Nouveau mot de passe </h3>
         <div class="form-group">
-          <input type="text" class="form-control" id="password" name="password" placeholder="Entrez le nouveau mot de passe" required>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Entrez le nouveau mot de passe" required>
         </div>
         <h3> Confirmation du nouveau mot de passe </h3>
         <div class="form-group">
-          <input type="text" class="form-control" id="password2" name="password2" placeholder="Confirmez le nouveau mot de passe" required>
+          <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirmez le nouveau mot de passe" required>
         </div>
         <button type="submit" class="btn btn-primary mt-3">Confirmer la modification</button>
       </form>
