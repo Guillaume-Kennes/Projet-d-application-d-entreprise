@@ -2,64 +2,64 @@ DROP SCHEMA IF EXISTS pae CASCADE;
 CREATE SCHEMA pae;
 
 CREATE TABLE pae.users(
-    id_user SERIAL PRIMARY KEY,
-    email VARCHAR(50) NOT NULL,
-    password VARCHAR(60) NOT NULL,
-    last_name VARCHAR(20) NOT NULL,
-    first_name VARCHAR(20) NOT NULL,
-    phone_number CHAR(18),
-    registration_date DATE NOT NULL,
-    role VARCHAR(15) NOT NULL,
-    version_users int NOT NULL
+                          id_user SERIAL PRIMARY KEY,
+                          email VARCHAR(50) NOT NULL,
+                          password VARCHAR(60) NOT NULL,
+                          last_name VARCHAR(20) NOT NULL,
+                          first_name VARCHAR(20) NOT NULL,
+                          phone_number CHAR(18),
+                          registration_date DATE NOT NULL,
+                          role VARCHAR(15) NOT NULL,
+                          version_users int NOT NULL
 );
 
 CREATE TABLE pae.enterprises(
-    id_enterprise SERIAL PRIMARY KEY,
-    trade_name VARCHAR(30) NOT NULL,
-    designation VARCHAR(60),
-    address VARCHAR(50) NOT NULL,
-    city VARCHAR(60) NOT NULL,
-    means_of_communication VARCHAR(50) NOT NULL,
-    is_black_listed boolean NOT NULL,
-    motivation_black_list VARCHAR(200),
-    version_enterprises int NOT NULL
+                                id_enterprise SERIAL PRIMARY KEY,
+                                trade_name VARCHAR(30) NOT NULL,
+                                designation VARCHAR(60),
+                                address VARCHAR(50) NOT NULL,
+                                city VARCHAR(60) NOT NULL,
+                                means_of_communication VARCHAR(50) NOT NULL,
+                                is_black_listed boolean NOT NULL,
+                                motivation_black_list VARCHAR(200),
+                                version_enterprises int NOT NULL
 );
 
 CREATE TABLE pae.internship_supervisors(
-    id_supervisor SERIAL PRIMARY KEY,
-    enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
-    supervisor_last_name VARCHAR(20) NOT NULL,
-    supervisor_first_name VARCHAR(20) NOT NULL,
-    phone_number VARCHAR(18),
-    email CHAR(50),
-    version_internship_surpervisors int NOT NULL
+                                           id_supervisor SERIAL PRIMARY KEY,
+                                           enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
+                                           supervisor_last_name VARCHAR(20) NOT NULL,
+                                           supervisor_first_name VARCHAR(20) NOT NULL,
+                                           phone_number VARCHAR(18),
+                                           email CHAR(50),
+                                           version_internship_surpervisors int NOT NULL
 );
 
 CREATE TABLE pae.inscriptions_ue(
-    id_inscription_ue SERIAL PRIMARY KEY,
-    student INTEGER REFERENCES pae.users (id_user),
-    school_year VARCHAR(9) NOT NULL,
-    version_inscriptions_ue int NOT NULL
+                                    id_inscription_ue SERIAL PRIMARY KEY,
+                                    student INTEGER REFERENCES pae.users (id_user),
+                                    school_year VARCHAR(9) NOT NULL,
+                                    version_inscriptions_ue int NOT NULL
 );
 
 CREATE TABLE pae.contacts(
-    id_contact SERIAL PRIMARY KEY,
-    state VARCHAR(15) NOT NULL,
-    enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
-    inscription_ue INTEGER REFERENCES pae.inscriptions_ue (id_inscription_ue),
-    reason_for_refusal  VARCHAR(200),
-    is_followed BOOLEAN NOT NULL,
-    meeting_place varchar(20),
-    version_contacts int
+                             id_contact SERIAL PRIMARY KEY,
+                             state VARCHAR(15) NOT NULL,
+                             enterprise INTEGER REFERENCES pae.enterprises (id_enterprise),
+                             inscription_ue INTEGER REFERENCES pae.inscriptions_ue (id_inscription_ue),
+                             reason_for_refusal  VARCHAR(200),
+                             is_followed BOOLEAN NOT NULL,
+                             meeting_place varchar(20),
+                             version_contacts int
 );
 
 CREATE TABLE pae.internships(
-    id_internship SERIAL PRIMARY KEY,
-    contact INTEGER REFERENCES pae.contacts (id_contact),
-    internship_supervisor INTEGER REFERENCES pae.internship_supervisors (id_supervisor),
-    internship_project VARCHAR(50),
-    signature_date DATE NOT NULL,
-    version_internships int NOT NULL
+                                id_internship SERIAL PRIMARY KEY,
+                                contact INTEGER REFERENCES pae.contacts (id_contact),
+                                internship_supervisor INTEGER REFERENCES pae.internship_supervisors (id_supervisor),
+                                internship_project VARCHAR(50),
+                                signature_date DATE NOT NULL,
+                                version_internships int NOT NULL
 );
 
 
@@ -617,35 +617,47 @@ chacun des états par entreprise.
 */
 
 /*1*/
-SELECT role, EXTRACT(YEAR FROM registration_date) AS année_académique, COUNT(*) AS nombre_d_utilisateurs
-FROM pae.users
-GROUP BY role, EXTRACT(YEAR FROM registration_date)
-ORDER BY role, EXTRACT(YEAR FROM registration_date);
+SELECT role,
+       iu.school_year AS année_académique,
+       COUNT(*) AS nombre_d_utilisateurs
+FROM pae.users u
+         JOIN pae.inscriptions_ue iu ON u.id_user = iu.student
+GROUP BY role, iu.school_year
+ORDER BY role, iu.school_year;
 
 
 /*2*/
-SELECT EXTRACT(YEAR FROM signature_date) AS année_académique, COUNT(*) AS nombre_de_stages
-FROM pae.internships
-GROUP BY EXTRACT(YEAR FROM signature_date)
-ORDER BY EXTRACT(YEAR FROM signature_date);
+SELECT iu.school_year AS année_académique,
+       COUNT(*) AS nombre_de_stages
+FROM pae.internships i
+         JOIN pae.contacts c ON i.contact = c.id_contact
+         JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
+GROUP BY iu.school_year
+ORDER BY iu.school_year;
 
 
 /*3*/
-SELECT e.trade_name AS enterprise, EXTRACT(YEAR FROM i.signature_date) AS année_académique, COUNT(*) AS nombre_de_stages
+SELECT e.trade_name AS enterprise,
+       iu.school_year AS année_académique,
+       COUNT(*) AS nombre_de_stages
 FROM pae.internships i
+         JOIN pae.contacts c ON i.contact = c.id_contact
+         JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
          JOIN pae.internship_supervisors s ON i.internship_supervisor = s.id_supervisor
          JOIN pae.enterprises e ON s.enterprise = e.id_enterprise
-GROUP BY e.trade_name, EXTRACT(YEAR FROM i.signature_date)
-ORDER BY e.trade_name, EXTRACT(YEAR FROM i.signature_date);
+GROUP BY e.trade_name, iu.school_year
+ORDER BY e.trade_name, iu.school_year;
+
 
 
 /*4*/
-SELECT EXTRACT(YEAR FROM u.registration_date) AS année_académique, COUNT(*) AS nombre_de_contacts
+SELECT iu.school_year AS année_académique,
+       COUNT(*) AS nombre_de_contacts
 FROM pae.contacts c
          JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
          JOIN pae.users u ON iu.student = u.id_user
-GROUP BY EXTRACT(YEAR FROM u.registration_date)
-ORDER BY EXTRACT(YEAR FROM u.registration_date);
+GROUP BY iu.school_year
+ORDER BY iu.school_year;
 
 
 /*5*/
@@ -667,22 +679,22 @@ ORDER BY state;
 
 /*6*/
 SELECT
-    EXTRACT(YEAR FROM u.registration_date) AS année_académique,
+    iu.school_year AS année_académique,
     CASE
-        WHEN state = 'initié' THEN 'Initié'
-        WHEN state = 'pris' THEN 'Pris'
-        WHEN state = 'accepté' THEN 'Accepté'
-        WHEN state = 'refusé' THEN 'Refusé'
-        WHEN state = 'suspendu' THEN 'Suspendu'
-        WHEN state = 'non suivi' THEN 'Non suivi'
-        ELSE state
+        WHEN c.state = 'initié' THEN 'Initié'
+        WHEN c.state = 'pris' THEN 'Pris'
+        WHEN c.state = 'accepté' THEN 'Accepté'
+        WHEN c.state = 'refusé' THEN 'Refusé'
+        WHEN c.state = 'suspendu' THEN 'Suspendu'
+        WHEN c.state = 'non suivi' THEN 'Non suivi'
+        ELSE c.state
         END AS state_description,
     COUNT(*) AS nombre_de_contacts
 FROM pae.contacts c
          JOIN pae.inscriptions_ue iu ON c.inscription_ue = iu.id_inscription_ue
          JOIN pae.users u ON iu.student = u.id_user
-GROUP BY EXTRACT(YEAR FROM u.registration_date), c.state
-ORDER BY EXTRACT(YEAR FROM u.registration_date), c.state;
+GROUP BY iu.school_year, c.state
+ORDER BY iu.school_year, c.state;
 
 
 /*7*/
@@ -702,113 +714,3 @@ FROM pae.contacts c
          JOIN pae.enterprises e ON c.enterprise = e.id_enterprise
 GROUP BY e.trade_name, c.state
 ORDER BY e.trade_name, c.state;
-
-
-
-
-
-/*
-initié -> pris ou suspendu
-
-pris -> refusé ou accepté ou suspendu
-*/
-
-/*
-INSERT INTO pae.users (email, password, last_name, first_name, phone_number, registration_date, role)
-VALUES ('chuqi.chups@student.vinci.be', '$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa', 'chuqi', 'chups', '04 666 666 66', CURRENT_DATE, 'Etudiant');
-
-INSERT INTO pae.inscriptions_ue (student, school_year)
-VALUES (10, '2023-2024');
-
-INSERT INTO pae.contacts (state, enterprise, inscription_ue, reason_for_refusal, is_followed, meeting_place)
-VALUES ('initié', 3, 6, null, true, null);
-
-
-
-SELECT DISTINCT c.inscription_ue
-FROM pae.users u, pae.contacts c, pae.inscriptions_ue i
-WHERE u.id_user = i.student
-AND i.id_inscription_ue = c.inscription_ue
-AND u.id_user = 10;
-
-SELECT e.id_enterprise
-FROM pae.enterprises e
-WHERE e.trade_name LIKE '%N%';
-
-SELECT i.id_inscription_ue
-FROM pae.users u, pae.inscriptions_ue i
-WHERE u.id_user = i.student
-AND u.id_user = 10;
-
-
- */
-
-
-
-/*
-INSERT INTO pae.enterprises (trade_name, designation, address, city, means_of_communication, is_black_listed, motivation_black_list, version_enterprises)
-VALUES ('Infrabel', 'I-ICT Ring station', 'Rue des deux gares 82', '1070 Bruxelles', '02.212.88.88', false, null, 1);
-
-
-INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
-VALUES (22, 9, 'initié', null, null, TRUE, 1);
-
-
-INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
-VALUES (2, 9, 'initié', null, null, TRUE, 1);
-
-
-INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
-VALUES (4, 9, 'initié', null, null, TRUE, 1);
-
-
-INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
-VALUES (3, 9, 'initié', null, null, TRUE, 1);
-
-INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
-VALUES (3, 3, 'initié', null, null, TRUE, 1);
-
-
-
-INSERT INTO pae.contacts (inscription_ue, enterprise, state, reason_for_refusal, meeting_place, is_followed, version_contacts)
-VALUES (15, 3, 'initié', null, null, TRUE, 1);
-
-
-
- */
-
-SELECT COUNT(*), u.email FROM pae.users u WHERE u.role = 'Etudiant' AND u.id_user NOT IN (
-    SELECT DISTINCT iue.student
-    FROM pae.inscriptions_ue iue
-             JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue
-             JOIN pae.internships i ON c.id_contact = i.contact
-    WHERE iue.school_year = '2021-2022')
-                                            AND u.id_user IN (
-        SELECT DISTINCT student
-        FROM pae.inscriptions_ue
-        WHERE school_year = '2021-2022')
-group by u.email;
-
-SELECT COUNT(*), u.email FROM pae.users u WHERE u.role = 'Etudiant' AND u.id_user NOT IN (
-    SELECT DISTINCT iue.student
-    FROM pae.inscriptions_ue iue
-             JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue
-             JOIN pae.internships i ON c.id_contact = i.contact
-    WHERE iue.school_year = '2022-2023')
-                                            AND u.id_user IN (
-        SELECT DISTINCT student
-        FROM pae.inscriptions_ue
-        WHERE school_year = '2022-2023')
-group by u.email;
-
-SELECT COUNT(*), u.email FROM pae.users u WHERE u.role = 'Etudiant' AND u.id_user NOT IN (
-    SELECT DISTINCT iue.student
-    FROM pae.inscriptions_ue iue
-             JOIN pae.contacts c ON iue.id_inscription_ue = c.inscription_ue
-             JOIN pae.internships i ON c.id_contact = i.contact
-    WHERE iue.school_year = '2023-2024')
-                                            AND u.id_user IN (
-        SELECT DISTINCT student
-        FROM pae.inscriptions_ue
-        WHERE school_year = '2023-2024')
-group by u.email;
