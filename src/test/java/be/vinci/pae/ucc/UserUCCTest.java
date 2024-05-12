@@ -177,7 +177,8 @@ public class UserUCCTest {
     when(userDAO.getUserByEmail(userDTO.getEmail())).thenReturn(null);
 
     // Act and Assert
-    BusinessException exception = assertThrows(BusinessException.class, () -> userUCC.register(userDTO));
+    BusinessException exception =
+        assertThrows(BusinessException.class, () -> userUCC.register(userDTO));
     assertEquals("HTTP 400 Bad Request", exception.getMessage());
   }
 
@@ -203,30 +204,6 @@ public class UserUCCTest {
         () -> assertEquals("Etudiant", result.getRole())
     );
   }
-
-  /**
-  @Test
-  public void registerTest_teacherRole_success() {
-    // Arrange
-    userDTO.setEmail("laurent.leleux@vinci.be");
-    userDTO.setPassword("$2a$10$EjatwHeWXjlLk/TfJEE.ieP6v54EMqeQyVeox4Xvax6nV9WJShcRa");
-
-    when(userDAO.getUserByEmail(userDTO.getEmail())).thenReturn(null);
-    when(userDAO.register(userDTO)).thenReturn(userDTO);
-
-    // Act
-    UserDTO result = userUCC.register(userDTO);
-
-    System.out.println("voici le role de l'utilisateur : ");
-    System.out.println(userDTO.getRole());
-
-    // Assert
-    assertAll(
-        () -> assertEquals(userDTO.getEmail(), result.getEmail()),
-        () -> assertEquals(userDTO.getPassword(), result.getPassword()),
-        () -> assertNull(result.getRole())
-    );
-  }*/
 
   /**
    * Test for registering a new user. Failure expected because the email address is invalid.

@@ -172,10 +172,11 @@ public class UserDAOImpl implements UserDAO {
 //      throw new FatalException(e);
 //    }
 //    return studentsWithInternships;
-//  }
+  //  }
   public int getStudentsWithInternship(String schoolYear) {
     int studentsWithInternships = 0;
-    String query = "SELECT COUNT(*) AS nombre_de_stages, EXTRACT(YEAR FROM signature_date) AS année_académique "
+    String query = "SELECT COUNT(*) AS nombre_de_stages, "
+        + "EXTRACT(YEAR FROM signature_date) AS année_académique "
         + "FROM pae.internships "
         + "WHERE EXTRACT(YEAR FROM signature_date)::VARCHAR = ? "
         + "GROUP BY EXTRACT(YEAR FROM signature_date) "
