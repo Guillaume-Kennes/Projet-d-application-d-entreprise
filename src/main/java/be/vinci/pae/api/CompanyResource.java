@@ -100,20 +100,6 @@ public class CompanyResource {
   }
 
   /**
-   * Get the number of students taken by a company.
-   *
-   * @param idCompany the id of the company
-   * @return the number of students
-   */
-  @GET
-  @Path("/numberOfStudentsTaken/{idCompany}")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Authorize(value = {"Professeur"})
-  public int numberOfStudentsTaken(@PathParam("idCompany") int idCompany) {
-    return companyUCC.numberOfStudentsTaken(idCompany);
-  }
-
-  /**
    * Retrieves contacts associated with a company by its ID.
    *
    * @param id The ID of the company.

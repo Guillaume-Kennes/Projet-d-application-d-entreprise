@@ -215,33 +215,6 @@ public class CompanyDAOImpl implements CompanyDAO {
   }
 
   /**
-   * Retrieves the number of students taken by a company.
-   *
-   * @param idCompany The identifier of the company.
-   * @return The number of students taken by the company.
-   * @throws FatalException If an error occurs during database access or processing.
-   */
-  public int numberOfStudentsTaken(int idCompany) {
-    int numberOfStudents = 0;
-    try {
-      PreparedStatement preparedStatement = dalServices.getPreparedStatement(
-          "SELECT COUNT(i.id_internship) AS number_of_students_taken "
-              + "FROM pae.internships i, pae.internship_supervisors isu "
-              + "WHERE isu.id_supervisor = i.internship_supervisor "
-              + "AND isu.enterprise = ? ;"
-      );
-      preparedStatement.setInt(1, idCompany);
-      ResultSet resultSet = preparedStatement.executeQuery();
-      if (resultSet.next()) {
-        numberOfStudents = resultSet.getInt("number_of_students_taken");
-      }
-    } catch (SQLException e) {
-      throw new FatalException(e);
-    }
-    return numberOfStudents;
-  }
-
-  /**
    * Updates a contact in the database.
    *
    * @param companyDTO The contact DTO to update.

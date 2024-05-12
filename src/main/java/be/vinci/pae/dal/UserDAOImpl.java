@@ -155,24 +155,6 @@ public class UserDAOImpl implements UserDAO {
    *                   internship.
    * @return The number of students with an internship for the specified school year.
    */
-//  public int getStudentsWithInternship(String schoolYear) {
-//    int studentsWithInternships = 0;
-//    String query = "SELECT COUNT (iu.student) FROM pae.inscriptions_ue iu, pae.contacts c "
-//        + "WHERE c.inscription_ue = iu.id_inscription_ue "
-//        + "AND c.state = 'accepté' AND iu.school_year = ? ;";
-//
-//    try (PreparedStatement preparedStatement = dalServices.getPreparedStatement(query)) {
-//      preparedStatement.setString(1, schoolYear);
-//      try (ResultSet resultSet = preparedStatement.executeQuery()) {
-//        if (resultSet.next()) {
-//          studentsWithInternships = resultSet.getInt(1);
-//        }
-//      }
-//    } catch (SQLException e) {
-//      throw new FatalException(e);
-//    }
-//    return studentsWithInternships;
-  //  }
   public int getStudentsWithInternship(String schoolYear) {
     int studentsWithInternships = 0;
     String query = "SELECT COUNT(*) AS nombre_de_stages, "

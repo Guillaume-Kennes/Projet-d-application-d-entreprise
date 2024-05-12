@@ -56,15 +56,6 @@ public interface CompanyDAO {
    */
   List<CompanyDTO> getAllEnterprises(String schoolYear);
 
-
-  /**
-   * Retrieves the number of students taken by a company.
-   *
-   * @param idCompany The identifier of the company.
-   * @return The number of students taken by the company.
-   */
-  int numberOfStudentsTaken(int idCompany);
-
   /**
    * Updates a company in the database.
    *
