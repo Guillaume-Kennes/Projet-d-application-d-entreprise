@@ -334,7 +334,6 @@ async function createSchoolYearDropdown() {
 
 function showFormBlackList(idCompany) {
   const main = document.querySelector('main');
-  console.log(`company id : ${idCompany}`);
   main.innerHTML = `
     <div class="container mt-5">
       <h1>Formulaire de blacklist d'une entreprise</h1>
@@ -355,7 +354,6 @@ function showFormBlackList(idCompany) {
 async function blacklistCompany(e, idCompany) {
   e.preventDefault();
   const reasonBlackList = document.querySelector('input[name="reason"]').value;
-  console.log(`reasonBlackList : ${reasonBlackList}`);
   const token = getToken();
   const options = {
     method: 'POST',

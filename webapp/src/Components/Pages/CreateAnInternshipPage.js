@@ -13,8 +13,6 @@ async function renderForm() {
     const urlParams = new URLSearchParams(window.location.search);
     const contactId = urlParams.get('contactId');
 
-    console.log('companyId : ', companyId);
-
     main.innerHTML += 
     `
     <div class="container">
@@ -105,7 +103,6 @@ async function allSupervisors() {
 
         main.innerHTML += supervisorsTableHTML;
     } catch (error) {
-        console.log("Erreur");
         console.error('Une erreur est survenue : ', error);
     }
 }
@@ -137,11 +134,6 @@ async function saveInternship(e) {
         return; // Arrêter l'exécution de la fonction
     }
 
-    console.log("sujet : ", sujet);
-    console.log("date : ", date);
-    console.log("responsable : ", responsable);
-    console.log("contactId : ", contactId);
-
     const options = {
         method: 'POST',
         body: JSON.stringify({
@@ -155,12 +147,16 @@ async function saveInternship(e) {
         },
     };
 
-    const response = await fetch(`http://localhost:3000/internship/create`, options);
+    try {
+        const response = await fetch(`http://localhost:3000/internship/create`, options);
 
-    if (response.ok) {
-        Navigate(`/contacts`);
-    } else {
-        throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+        if (response.ok) {
+            Navigate(`/contacts`);
+        } else {
+            throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
+        }
+    } catch (error) {
+        alert(`Une erreur est survenue pendant la création du stage. Réessayez s'il vous plaît.`);
     }
 }
 

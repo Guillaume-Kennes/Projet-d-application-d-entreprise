@@ -28,7 +28,6 @@ async function allUsers() {
     const users = await response.json();
     renderUsers(users);
   } catch (error) {
-    console.log("Erreur");
     alert(
         'Vous ne possédez pas les droits pour accéder à cette ressource. Seulement les professeurs ou administratifs peuvent y accéder');
     console.error('Une erreur est survenue : ', error);
@@ -105,8 +104,6 @@ function renderUsers(users) {
       user.lastName.toLowerCase().includes(searchTerm) || 
       user.firstName.toLowerCase().includes(searchTerm)
     );
-
-    console.log("filtered students : ", filteredUsers)
 
     renderUsers(filteredUsers);
 

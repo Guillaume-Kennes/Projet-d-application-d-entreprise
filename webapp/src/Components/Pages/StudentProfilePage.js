@@ -16,7 +16,7 @@ async function showStudentData(id) {
     },
   };
   let user;
-  console.log(id);
+
   const response = await fetch(`http://localhost:3000/users/${id}`, options);
   if (!response.ok) {
     throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
@@ -49,14 +49,12 @@ function showProfile(user) {
             <div class="d-flex justify-content-between align-items-center">
               <h3 class="text-right mt-3">Données de stage</h3>
             </div>
-            <p class="fw-bold mb-n1">Titre</p>
-            <p id="internshipTitle">${user.internshipTitle ? user.internshipTitle : 'aucun'}</p>
+            <p class="fw-bold mb-n1">Sujet</p>
+            <p id="internshipTitle">${user.internshipSubject ? user.internshipSubject : 'aucun'}</p>
             <p class="fw-bold mb-n1">Entreprise</p>
             <p id="internshipCompany">${user.internshipCompany ? user.internshipCompany : 'aucun'}</p>
             <p class="fw-bold mb-n1">Responsable</p>
             <p id="internshipSupervisor">${user.internshipSupervisor ? user.internshipSupervisor : 'aucun'}</p>
-            <p class="fw-bold mb-n1">Sujet</p>
-            <p id="internshipSubject">${user.internshipSubject ? user.internshipSubject : 'aucun'}</p>
           </div>
           <div class="fw-bold mb-n1">Contacts</div>
             <ul id="contactCompanies"></ul>

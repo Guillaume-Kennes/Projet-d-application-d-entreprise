@@ -5,7 +5,6 @@ const viewContactsDetails = async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const companyId = urlParams.get('company_id');
   clearPage();
-  console.log(companyId);
   const contacts = await fetchContactInfos(companyId);
   const student = await fetchStudentContactInfo(companyId);
   await displayAllContacts(contacts, student);

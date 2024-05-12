@@ -95,7 +95,6 @@ public class CompanyUCCImpl implements CompanyUCC {
       return companyDTO;
     } catch (Exception e) {
       dalServices.rollBack();
-      System.out.println("il veut pas du throw e " + e.getMessage());
     }
     return null;
   }

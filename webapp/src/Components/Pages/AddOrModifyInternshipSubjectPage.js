@@ -29,8 +29,6 @@ async function saveModification(e) {
     const sujet = document.getElementById('sujet').value;
     const urlParams = new URLSearchParams(window.location.search);
     const internshipId = urlParams.get('internshipId');
-    console.log('sujet : ', sujet);
-    console.log('internshipId : ', internshipId);
 
     if(!internshipId) {
         alert("Le stage n'existe pas");
@@ -58,7 +56,6 @@ async function saveModification(e) {
     }
     } catch (error) {
         alert("Le stage n'existe pas !");
-        console.log(error);
     }  
 }
 

@@ -48,13 +48,6 @@ async function saveSupervisor(e) {
   const companyId = urlParams.get('companyId');
   const contactId = urlParams.get('contactId');
 
-  console.log("name : ", name);
-  console.log("firstname : ", firstname);
-  console.log("phone : ", phone);
-  console.log("email : ", email);
-  console.log("companyId :", companyId);
-  console.log("contactId :", contactId);
-
    // Vérifier si les champs obligatoires sont vides
    if (!name || !firstname || !phone) {
     // eslint-disable-next-line no-alert
@@ -88,7 +81,6 @@ async function saveSupervisor(e) {
   } catch (error) {
     // Affichage d'un message d'erreur dans un pop-up en cas d'échec
     alert("Une erreur est survenue lors de la création du superviseur !");
-    console.error("Erreur :", error);
   }
 }
 

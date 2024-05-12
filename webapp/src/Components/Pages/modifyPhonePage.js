@@ -44,7 +44,6 @@ async function changePhoneNumber(e) {
   const id = authenticatedUser?.user?.id;
   try {
     const response = await fetch(`http://localhost:3000/users/editPhoneNumber/${id}`, options);
-    console.log(phone);
     if (!response.ok) {
       throw new Error(`fetch error : ${response.status} : ${response.statusText}`);
     }

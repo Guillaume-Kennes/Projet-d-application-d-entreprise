@@ -124,11 +124,11 @@ public class InternshipDAOImpl implements InternshipDAO {
     } catch (SQLException e) {
       throw new FatalException(e);
     }
-
+    /*
     log = AppLogger.getLogger("Création d'un stage");
     log.log(Level.FINE, "Cration d'un stage :"
         + contact + " " + supervisor + " " + projet
-        + " " + signatureDate);
+        + " " + signatureDate); */
 
     return myDomainFactory.getInternship();
   }
